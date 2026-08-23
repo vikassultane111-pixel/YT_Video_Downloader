@@ -448,13 +448,32 @@
             // loader.to API formats: audio is 'mp3', video is '360', '480', '720', '1080'
             let loaderFormat = (format === 'audio') ? 'mp3' : quality;
             
-            const videoUrl = encodeURIComponent(`https://www.youtube.com/watch?v=${currentVideoId}`);
+            const videoUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
+            const encodedUrl = encodeURIComponent(videoUrl);
+            
             // color parameter to match the brand theme (hex: 7c3aed without #)
-            const iframeUrl = `https://loader.to/api/button/?url=${videoUrl}&f=${loaderFormat}&color=7c3aed`;
+            const iframeUrl = `https://loader.to/api/button/?url=${encodedUrl}&f=${loaderFormat}&color=7c3aed`;
+            
+            // Fallback reliable ad-free downloader (Cobalt Tools)
+            const fallbackUrl = `https://cobalt.tools/?u=${encodedUrl}`;
             
             // Inject iframe after a tiny delay for smooth UI transition
             setTimeout(() => {
-                downloadWidgetContainer.innerHTML = `<iframe style="width:100%;height:100%;border:0;overflow:hidden;" scrolling="no" src="${iframeUrl}"></iframe>`;
+                // Adjust container for fallback text
+                downloadWidgetContainer.classList.remove('h-[65px]', 'items-center');
+                downloadWidgetContainer.classList.add('h-auto', 'flex-col', 'p-4');
+                
+                downloadWidgetContainer.innerHTML = `
+                    <div class="w-full h-[65px] relative">
+                        <iframe style="width:100%;height:100%;border:0;overflow:hidden;" scrolling="no" sandbox="allow-scripts allow-same-origin allow-downloads allow-forms allow-popups allow-top-navigation-by-user-activation" src="${iframeUrl}"></iframe>
+                    </div>
+                    <div class="w-full mt-4 pt-3 border-t border-gray-700 text-center">
+                        <p class="text-xs text-gray-400 mb-2"><i class="fa-solid fa-circle-info text-brand-400 mr-1"></i> Button stuck on loading or nothing happens?</p>
+                        <a href="${fallbackUrl}" target="_blank" class="inline-flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium py-2 px-6 rounded-xl transition-all shadow-md active:scale-95">
+                            <i class="fa-solid fa-external-link-alt"></i> Try Direct Download (100% Working)
+                        </a>
+                    </div>
+                `;
             }, 500);
         });
 
