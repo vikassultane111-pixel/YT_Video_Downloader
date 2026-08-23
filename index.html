@@ -265,44 +265,59 @@
             
             <!-- Desktop Sidebar Navigation (Hidden on Mobile) -->
             <div class="hidden md:flex w-20 lg:w-64 glass-panel border-r border-borderDark flex-col shrink-0 overflow-y-auto z-20">
-                <div class="p-5 hidden lg:block text-xs font-bold text-gray-500 uppercase tracking-widest mt-2">Tools</div>
                 
-                <nav class="flex flex-col gap-2 p-3 w-full">
+                <nav class="flex flex-col gap-1 p-3 w-full pb-20">
+                    
+                    <!-- Category 1: Edit -->
+                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest">Basic Edits</div>
                     <button onclick="switchTool('crop')" id="tab-crop" class="tab-btn active flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-crop-simple text-lg w-5 text-center"></i>
+                        <i class="fa-solid fa-crop-simple text-lg w-5 text-center text-blue-400"></i>
                         <span class="hidden lg:block font-medium text-sm">Crop & Rotate</span>
                     </button>
                     <button onclick="switchTool('adjust')" id="tab-adjust" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-sliders text-lg w-5 text-center"></i>
-                        <span class="hidden lg:block font-medium text-sm">Filters</span>
+                        <i class="fa-solid fa-sliders text-lg w-5 text-center text-purple-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">Color Filters</span>
                     </button>
-                    <button onclick="switchTool('censor')" id="tab-censor" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 relative">
-                        <i class="fa-solid fa-marker text-lg w-5 text-center text-pink-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Privacy Censor</span>
+                    <button onclick="switchTool('annotate')" id="tab-annotate" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fa-solid fa-pen-nib text-lg w-5 text-center text-yellow-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">Draw & Doodle</span>
                     </button>
+
+                    <!-- Category 2: Decorate -->
+                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-zinc-800 mt-2">Decorate</div>
                     <button onclick="switchTool('frame')" id="tab-frame" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-border-all text-lg w-5 text-center"></i>
-                        <span class="hidden lg:block font-medium text-sm">Frames & Borders</span>
+                        <i class="fa-solid fa-border-all text-lg w-5 text-center text-emerald-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">Frames</span>
                     </button>
                     <button onclick="switchTool('watermark')" id="tab-watermark" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-copyright text-lg w-5 text-center"></i>
+                        <i class="fa-solid fa-copyright text-lg w-5 text-center text-gray-300"></i>
                         <span class="hidden lg:block font-medium text-sm">Watermark</span>
                     </button>
                     <button onclick="switchTool('split')" id="tab-split" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
                         <i class="fa-solid fa-table-cells text-lg w-5 text-center text-indigo-400"></i>
                         <span class="hidden lg:block font-medium text-sm">Grid Split</span>
                     </button>
-                    <button onclick="switchTool('compress')" id="tab-compress" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-down-left-and-up-right-to-center text-lg w-5 text-center"></i>
-                        <span class="hidden lg:block font-medium text-sm">Resize & KB</span>
+
+                    <!-- Category 3: Privacy -->
+                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-zinc-800 mt-2">Privacy</div>
+                    <button onclick="switchTool('censor')" id="tab-censor" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 relative">
+                        <i class="fa-solid fa-marker text-lg w-5 text-center text-pink-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">Redact (Censor)</span>
                     </button>
                     <button onclick="switchTool('info')" id="tab-info" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
                         <i class="fa-solid fa-camera text-lg w-5 text-center text-teal-400"></i>
                         <span class="hidden lg:block font-medium text-sm">EXIF Info</span>
                     </button>
-                    <button onclick="switchTool('convert')" id="tab-convert" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
+
+                    <!-- Category 4: Export -->
+                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-zinc-800 mt-2">Output</div>
+                    <button onclick="switchTool('compress')" id="tab-compress" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fa-solid fa-down-left-and-up-right-to-center text-lg w-5 text-center text-orange-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">Resize & KB</span>
+                    </button>
+                    <button onclick="switchTool('convert')" id="tab-convert" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl bg-primary/10 text-indigo-300 hover:bg-primary/20 border border-primary/20">
                         <i class="fa-solid fa-file-export text-lg w-5 text-center"></i>
-                        <span class="hidden lg:block font-medium text-sm">Export Options</span>
+                        <span class="hidden lg:block font-bold text-sm">Export Options</span>
                     </button>
                 </nav>
             </div>
@@ -320,6 +335,13 @@
 
                     <!-- Main Canvas Wrapper -->
                     <div id="canvas-container" class="w-full h-full flex flex-col items-center justify-center relative">
+                        
+                        <!-- Compare Button -->
+                        <button id="btn-compare" class="absolute top-2 right-2 md:top-4 md:right-4 bg-zinc-900/80 border border-zinc-700 backdrop-blur-md text-gray-300 hover:text-white hover:bg-black p-2 md:px-4 md:py-2 rounded-full z-30 transition-all shadow-lg flex items-center gap-2" onmousedown="showOriginal(true)" onmouseup="showOriginal(false)" onmouseleave="showOriginal(false)" ontouchstart="showOriginal(true)" ontouchend="showOriginal(false)">
+                            <i class="fa-solid fa-eye"></i>
+                            <span class="hidden md:block text-xs font-bold uppercase tracking-wider">Hold to Compare</span>
+                        </button>
+
                         <div class="relative bg-checker rounded-lg md:rounded-2xl overflow-hidden shadow-2xl border border-borderDark flex items-center justify-center group" style="max-width: 100%; max-height: calc(100% - 30px);">
                             <canvas id="preview-canvas" class="max-w-full max-h-full object-contain touch-none"></canvas>
                             
@@ -371,7 +393,7 @@
 
                     <!-- Panel: Filters & Adjust -->
                     <div id="panel-adjust" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-sliders mr-2 text-primary"></i> Color Studio</h3>
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-sliders mr-2 text-purple-400"></i> Color Studio</h3>
                         
                         <div class="mb-6">
                             <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-3">1-Click Pro Filters</label>
@@ -415,6 +437,40 @@
                         </div>
                     </div>
 
+                    <!-- Panel: Annotate (Doodle) -->
+                    <div id="panel-annotate" class="tool-panel hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-white font-bold text-base md:text-lg flex items-center"><i class="fa-solid fa-pen-nib mr-2 text-yellow-400"></i> Doodle</h3>
+                        </div>
+                        
+                        <div class="bg-zinc-900 border border-zinc-800 text-gray-300 p-3 rounded-xl text-xs mb-5 leading-relaxed">
+                            Draw freely on your image. Great for highlighting areas or making fun edits!
+                        </div>
+
+                        <div class="space-y-5">
+                            <div>
+                                <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Pen Color</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="setAnnotateColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn"></button>
+                                    <button onclick="setAnnotateColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn"></button>
+                                    <button onclick="setAnnotateColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn"></button>
+                                    <button onclick="setAnnotateColor('#eab308')" class="w-8 h-8 rounded-full bg-yellow-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn border-white"></button>
+                                    <button onclick="setAnnotateColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 hover:scale-110 transition-transform annotate-color-btn"></button>
+                                    <button onclick="setAnnotateColor('#000000')" class="w-8 h-8 rounded-full bg-black border-2 border-gray-600 hover:scale-110 transition-transform annotate-color-btn"></button>
+                                </div>
+                                <input type="hidden" id="annotate-color" value="#eab308">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label class="text-xs font-medium text-gray-300">Pen Thickness</label>
+                                    <span id="annotate-size-val" class="text-[10px] text-gray-500 font-mono">10px</span>
+                                </div>
+                                <input type="range" id="annotate-size" min="2" max="50" value="10" class="w-full accent-yellow-400" oninput="document.getElementById('annotate-size-val').innerText = this.value + 'px'">
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Panel: Privacy Censor -->
                     <div id="panel-censor" class="tool-panel hidden">
                         <div class="flex justify-between items-center mb-4">
@@ -448,7 +504,7 @@
 
                     <!-- Panel: Frames & Borders -->
                     <div id="panel-frame" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-border-all mr-2 text-primary"></i> Frames</h3>
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-border-all mr-2 text-emerald-400"></i> Frames</h3>
                         
                         <div class="space-y-5">
                             <div>
@@ -482,7 +538,7 @@
 
                     <!-- Panel: Watermark -->
                     <div id="panel-watermark" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-copyright mr-2 text-primary"></i> Brand Watermark</h3>
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-copyright mr-2 text-gray-300"></i> Brand Watermark</h3>
                         
                         <!-- Toggle Text / Logo -->
                         <div class="flex bg-zinc-900 p-1 rounded-lg mb-4 border border-zinc-800">
@@ -585,7 +641,7 @@
 
                     <!-- Panel: Compress & Resize -->
                     <div id="panel-compress" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-down-left-and-up-right-to-center mr-2 text-primary"></i> Resize & Compress</h3>
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-down-left-and-up-right-to-center mr-2 text-orange-400"></i> Resize & Compress</h3>
                         
                         <div class="mb-5">
                             <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Dimensions (Pixels)</label>
@@ -688,41 +744,45 @@
         <!-- Appears only on mobile, replacing the left sidebar -->
         <div id="mobile-nav" class="md:hidden mobile-bottom-nav fixed bottom-0 left-0 right-0 glass-panel border-t border-borderDark z-50 hidden flex-row overflow-x-auto snap-x scrollbar-hide py-2 px-1">
             <button onclick="switchTool('crop')" id="mob-tab-crop" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-crop-simple text-lg mb-1"></i>
+                <i class="fa-solid fa-crop-simple text-lg mb-1 text-blue-400"></i>
                 <span class="text-[9px] font-medium">Crop</span>
             </button>
             <button onclick="switchTool('adjust')" id="mob-tab-adjust" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-sliders text-lg mb-1"></i>
+                <i class="fa-solid fa-sliders text-lg mb-1 text-purple-400"></i>
                 <span class="text-[9px] font-medium">Filters</span>
             </button>
+            <button onclick="switchTool('annotate')" id="mob-tab-annotate" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
+                <i class="fa-solid fa-pen-nib text-lg mb-1 text-yellow-400"></i>
+                <span class="text-[9px] font-medium">Draw</span>
+            </button>
             <button onclick="switchTool('frame')" id="mob-tab-frame" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-border-all text-lg mb-1"></i>
+                <i class="fa-solid fa-border-all text-lg mb-1 text-emerald-400"></i>
                 <span class="text-[9px] font-medium">Frames</span>
             </button>
-            <button onclick="switchTool('censor')" id="mob-tab-censor" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-pink-400 relative">
-                <i class="fa-solid fa-marker text-lg mb-1"></i>
+            <button onclick="switchTool('watermark')" id="mob-tab-watermark" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
+                <i class="fa-solid fa-copyright text-lg mb-1 text-gray-300"></i>
+                <span class="text-[9px] font-medium">Logo</span>
+            </button>
+            <button onclick="switchTool('split')" id="mob-tab-split" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
+                <i class="fa-solid fa-table-cells text-lg mb-1 text-indigo-400"></i>
+                <span class="text-[9px] font-medium">Grid</span>
+            </button>
+            <button onclick="switchTool('censor')" id="mob-tab-censor" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400 relative">
+                <i class="fa-solid fa-marker text-lg mb-1 text-pink-400"></i>
                 <span class="text-[9px] font-medium">Censor</span>
                 <span class="absolute top-1 right-2 w-1.5 h-1.5 rounded-full bg-pink-500"></span>
             </button>
-            <button onclick="switchTool('watermark')" id="mob-tab-watermark" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-copyright text-lg mb-1"></i>
-                <span class="text-[9px] font-medium">Logo</span>
-            </button>
-            <button onclick="switchTool('split')" id="mob-tab-split" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-indigo-400">
-                <i class="fa-solid fa-table-cells text-lg mb-1"></i>
-                <span class="text-[9px] font-medium">Grid</span>
-            </button>
             <button onclick="switchTool('compress')" id="mob-tab-compress" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-compress text-lg mb-1"></i>
+                <i class="fa-solid fa-compress text-lg mb-1 text-orange-400"></i>
                 <span class="text-[9px] font-medium">Size</span>
             </button>
-            <button onclick="switchTool('info')" id="mob-tab-info" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-teal-400">
-                <i class="fa-solid fa-camera text-lg mb-1"></i>
+            <button onclick="switchTool('info')" id="mob-tab-info" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
+                <i class="fa-solid fa-camera text-lg mb-1 text-teal-400"></i>
                 <span class="text-[9px] font-medium">EXIF</span>
             </button>
-            <button onclick="switchTool('convert')" id="mob-tab-convert" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
+            <button onclick="switchTool('convert')" id="mob-tab-convert" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-indigo-300 bg-primary/10 border border-primary/20">
                 <i class="fa-solid fa-file-export text-lg mb-1"></i>
-                <span class="text-[9px] font-medium">Export</span>
+                <span class="text-[9px] font-bold">Export</span>
             </button>
         </div>
     </main>
@@ -743,8 +803,6 @@
         
         /* Mobile Active Tab Styling */
         .mob-tab-btn.active { color: #fff; background: rgba(255,255,255,0.1); }
-        .mob-tab-btn.active i { color: #6366f1; }
-        #mob-tab-censor.active i { color: #ec4899; }
     </style>
 
     <script>
@@ -765,6 +823,7 @@
 
         // Tool States
         let cropper = null;
+        let isComparing = false;
         let filters = { brightness: 100, contrast: 100, saturation: 100, sepia: 0 };
         let wmState = { type: 'text', text: '', color: '#ffffff', size: 48, pos: 'bottom-right', logoObj: new Image(), logoScale: 50 };
         let frameState = { radius: 0, width: 0, color: '#ffffff' };
@@ -813,14 +872,20 @@
                 if(cropper) { cropper.destroy(); cropper = null; }
                 
                 if (tool === 'censor') {
-                    drawInstruction.classList.remove('hidden');
-                    canvas.style.cursor = 'crosshair';
-                    canvas.style.touchAction = 'none';
-                } else {
-                    drawInstruction.classList.add('hidden');
-                    canvas.style.cursor = 'default';
-                    canvas.style.touchAction = 'auto';
-                }
+                drawInstruction.innerHTML = '<i class="fa-solid fa-hand-pointer text-pink-400 animate-pulse"></i> Draw over text to hide it';
+                drawInstruction.classList.remove('hidden');
+                canvas.style.cursor = 'crosshair';
+                canvas.style.touchAction = 'none';
+            } else if (tool === 'annotate') {
+                drawInstruction.innerHTML = '<i class="fa-solid fa-pen text-yellow-400 animate-pulse"></i> Draw freely on image';
+                drawInstruction.classList.remove('hidden');
+                canvas.style.cursor = 'crosshair';
+                canvas.style.touchAction = 'none';
+            } else {
+                drawInstruction.classList.add('hidden');
+                canvas.style.cursor = 'default';
+                canvas.style.touchAction = 'auto';
+            }
                 renderCanvas();
             }
         }
@@ -1054,6 +1119,18 @@
         // --- Censor Logic ---
         let isDrawing = false, lastX = 0, lastY = 0;
 
+        function setAnnotateColor(color) {
+            document.querySelectorAll('.annotate-color-btn').forEach(b => {
+                b.classList.remove('border-white');
+                if(b.style.backgroundColor === 'rgb(255, 255, 255)') b.classList.add('border-gray-400');
+                else if(b.style.backgroundColor === 'rgb(0, 0, 0)') b.classList.add('border-gray-600');
+                else b.classList.add('border-transparent');
+            });
+            event.currentTarget.classList.remove('border-transparent', 'border-gray-400', 'border-gray-600');
+            event.currentTarget.classList.add('border-white');
+            document.getElementById('annotate-color').value = color;
+        }
+
         function setCensorStyle(style) {
             document.querySelectorAll('.censor-style-btn').forEach(b => {
                 b.classList.remove('border-primary');
@@ -1077,7 +1154,7 @@
         }
 
         function startDrawing(e) {
-            if(currentTool !== 'censor') return;
+            if(currentTool !== 'censor' && currentTool !== 'annotate') return;
             e.preventDefault();
             isDrawing = true;
             saveState();
@@ -1087,19 +1164,24 @@
         }
 
         function draw(e) {
-            if(!isDrawing || currentTool !== 'censor') return;
+            if(!isDrawing || (currentTool !== 'censor' && currentTool !== 'annotate')) return;
             e.preventDefault();
             const pos = getMousePos(e);
-            const size = parseInt(document.getElementById('censor-size').value);
-            const color = document.getElementById('censor-color').value;
+            
+            let size, color, blendMode = 'source-over';
+            
+            if(currentTool === 'censor') {
+                size = parseInt(document.getElementById('censor-size').value);
+                color = document.getElementById('censor-color').value;
+                if(color.startsWith('rgba')) blendMode = 'multiply';
+            } else {
+                size = parseInt(document.getElementById('annotate-size').value);
+                color = document.getElementById('annotate-color').value;
+            }
 
             ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = size;
-            
-            if(color.startsWith('rgba')) {
-                ctx.globalCompositeOperation = 'multiply'; ctx.strokeStyle = color;
-            } else {
-                ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = color;
-            }
+            ctx.globalCompositeOperation = blendMode; 
+            ctx.strokeStyle = color;
 
             ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
             ctx.globalCompositeOperation = 'source-over';
@@ -1107,7 +1189,7 @@
         }
 
         function stopDrawing(e) {
-            if(!isDrawing || currentTool !== 'censor') return;
+            if(!isDrawing || (currentTool !== 'censor' && currentTool !== 'annotate')) return;
             isDrawing = false;
             baseImageObj.src = canvas.toDataURL('image/png');
         }
@@ -1121,6 +1203,12 @@
         canvas.addEventListener('touchend', stopDrawing);
 
         // --- STREAMING_CHUNK: Master Canvas Rendering Pipeline ---
+        function showOriginal(show) {
+            if(!baseImageObj.src || currentTool === 'crop') return;
+            isComparing = show;
+            renderCanvas();
+        }
+
         function renderCanvas() {
             if(!baseImageObj.src || currentTool === 'crop') return;
 
@@ -1133,6 +1221,13 @@
             
             ctx.save();
             
+            // Handle Compare Mode (Show Original)
+            if (isComparing) {
+                ctx.drawImage(initialImageObj, 0, 0, targetW, targetH);
+                ctx.restore();
+                return; // Skip drawing filters, frames and watermarks
+            }
+
             // Apply Frames/Rounding Clip
             if(frameState.radius > 0 && ctx.roundRect) {
                 ctx.beginPath();
