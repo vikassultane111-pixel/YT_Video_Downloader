@@ -15,6 +15,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
+    <!-- EXIF Reader -->
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/lite.umd.js"></script>
+
     <!-- HEIC to Any -->
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
     
@@ -276,19 +279,30 @@
                     <button onclick="switchTool('censor')" id="tab-censor" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 relative">
                         <i class="fa-solid fa-marker text-lg w-5 text-center text-pink-400"></i>
                         <span class="hidden lg:block font-medium text-sm">Privacy Censor</span>
-                        <span class="hidden lg:block absolute right-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-pink-500 shadow-[0_0_5px_#ec4899]"></span>
+                    </button>
+                    <button onclick="switchTool('frame')" id="tab-frame" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fa-solid fa-border-all text-lg w-5 text-center"></i>
+                        <span class="hidden lg:block font-medium text-sm">Frames & Borders</span>
                     </button>
                     <button onclick="switchTool('watermark')" id="tab-watermark" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
                         <i class="fa-solid fa-copyright text-lg w-5 text-center"></i>
                         <span class="hidden lg:block font-medium text-sm">Watermark</span>
                     </button>
+                    <button onclick="switchTool('split')" id="tab-split" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fa-solid fa-table-cells text-lg w-5 text-center text-indigo-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">Grid Split</span>
+                    </button>
                     <button onclick="switchTool('compress')" id="tab-compress" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
                         <i class="fa-solid fa-down-left-and-up-right-to-center text-lg w-5 text-center"></i>
                         <span class="hidden lg:block font-medium text-sm">Resize & KB</span>
                     </button>
+                    <button onclick="switchTool('info')" id="tab-info" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fa-solid fa-camera text-lg w-5 text-center text-teal-400"></i>
+                        <span class="hidden lg:block font-medium text-sm">EXIF Info</span>
+                    </button>
                     <button onclick="switchTool('convert')" id="tab-convert" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
                         <i class="fa-solid fa-file-export text-lg w-5 text-center"></i>
-                        <span class="hidden lg:block font-medium text-sm">Format Convert</span>
+                        <span class="hidden lg:block font-medium text-sm">Export Options</span>
                     </button>
                 </nav>
             </div>
@@ -359,7 +373,6 @@
                     <div id="panel-adjust" class="tool-panel hidden">
                         <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-sliders mr-2 text-primary"></i> Color Studio</h3>
                         
-                        <!-- 1-Click Presets -->
                         <div class="mb-6">
                             <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-3">1-Click Pro Filters</label>
                             <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
@@ -402,11 +415,10 @@
                         </div>
                     </div>
 
-                    <!-- --- STREAMING_CHUNK: Panel: Privacy Censor --- -->
+                    <!-- Panel: Privacy Censor -->
                     <div id="panel-censor" class="tool-panel hidden">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-white font-bold text-base md:text-lg flex items-center"><i class="fa-solid fa-marker mr-2 text-pink-400"></i> Redact</h3>
-                            <span class="bg-pink-500/20 text-pink-300 text-[10px] font-bold px-2 py-1 rounded uppercase">New</span>
                         </div>
                         
                         <div class="bg-zinc-900 border border-zinc-800 text-gray-300 p-3 rounded-xl text-xs mb-5 leading-relaxed">
@@ -434,11 +446,52 @@
                         </div>
                     </div>
 
+                    <!-- Panel: Frames & Borders -->
+                    <div id="panel-frame" class="tool-panel hidden">
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-border-all mr-2 text-primary"></i> Frames</h3>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label class="text-xs font-medium text-gray-300">Rounded Corners</label>
+                                    <span id="val-radius" class="text-[10px] text-gray-500 font-mono">0px</span>
+                                </div>
+                                <input type="range" id="frame-radius" min="0" max="200" value="0" oninput="updateFrame()">
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <label class="text-xs font-medium text-gray-300">Border Width</label>
+                                    <span id="val-bwidth" class="text-[10px] text-gray-500 font-mono">0px</span>
+                                </div>
+                                <input type="range" id="frame-width" min="0" max="100" value="0" oninput="updateFrame()">
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-medium text-gray-300 mb-2 block">Border Color</label>
+                                <div class="flex gap-2 mb-2">
+                                    <button onclick="setFrameColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border border-gray-500"></button>
+                                    <button onclick="setFrameColor('#000000')" class="w-8 h-8 rounded-full bg-black border border-gray-500"></button>
+                                    <button onclick="setFrameColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border border-gray-500"></button>
+                                    <button onclick="setFrameColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border border-gray-500"></button>
+                                </div>
+                                <input type="color" id="frame-color" value="#ffffff" class="w-full h-8 rounded cursor-pointer bg-zinc-900 border border-zinc-700 mt-2" oninput="updateFrame()">
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Panel: Watermark -->
                     <div id="panel-watermark" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-copyright mr-2 text-primary"></i> Watermark</h3>
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-copyright mr-2 text-primary"></i> Brand Watermark</h3>
                         
-                        <div class="space-y-4">
+                        <!-- Toggle Text / Logo -->
+                        <div class="flex bg-zinc-900 p-1 rounded-lg mb-4 border border-zinc-800">
+                            <button onclick="setWmType('text')" id="wm-tab-text" class="flex-1 py-1.5 text-xs font-bold rounded bg-zinc-700 text-white">Text</button>
+                            <button onclick="setWmType('logo')" id="wm-tab-logo" class="flex-1 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white">Logo (Image)</button>
+                        </div>
+
+                        <!-- Text Watermark Options -->
+                        <div id="wm-text-options" class="space-y-4">
                             <div>
                                 <label class="text-xs font-medium text-gray-300 mb-1 block">Brand Text</label>
                                 <input type="text" id="wm-text" placeholder="e.g. © MyBrand" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" oninput="renderCanvas()">
@@ -450,22 +503,83 @@
                                     <input type="color" id="wm-color" value="#ffffff" class="w-full h-8 rounded cursor-pointer bg-zinc-900 border border-zinc-700" oninput="renderCanvas()">
                                 </div>
                                 <div class="w-2/3">
-                                    <label class="text-xs font-medium text-gray-300 mb-1 block">Size</label>
+                                    <label class="text-xs font-medium text-gray-300 mb-1 block">Text Size</label>
                                     <input type="range" id="wm-size" min="10" max="200" value="48" class="w-full mt-2" oninput="renderCanvas()">
                                 </div>
                             </div>
+                        </div>
 
+                        <!-- Logo Watermark Options -->
+                        <div id="wm-logo-options" class="space-y-4 hidden">
+                            <label class="block w-full border-2 border-dashed border-zinc-700 bg-zinc-900/50 hover:bg-zinc-800 rounded-xl p-4 text-center cursor-pointer transition-colors">
+                                <i class="fa-solid fa-image text-2xl text-gray-400 mb-2"></i>
+                                <span class="block text-sm text-white font-medium">Upload Logo (PNG)</span>
+                                <input type="file" id="wm-logo-input" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="handleLogoUpload(event)">
+                            </label>
+                            
                             <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Position</label>
-                                <div class="grid grid-cols-3 gap-1 bg-zinc-900 p-1 rounded-lg border border-zinc-800">
-                                    <button onclick="setWmPos('top-left')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up-left"></i></button>
-                                    <button onclick="setWmPos('top-center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up"></i></button>
-                                    <button onclick="setWmPos('top-right')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up-right"></i></button>
-                                    <button onclick="setWmPos('center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-crosshairs"></i></button>
-                                    <button onclick="setWmPos('bottom-center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-down"></i></button>
-                                    <button onclick="setWmPos('bottom-right')" class="wm-pos-btn bg-zinc-700 text-white shadow p-2 rounded text-xs"><i class="fa-solid fa-arrow-down-right"></i></button>
+                                <div class="flex justify-between mb-1">
+                                    <label class="text-xs font-medium text-gray-300">Logo Size</label>
+                                    <span id="wm-logo-size-val" class="text-[10px] text-gray-500 font-mono">50%</span>
                                 </div>
+                                <input type="range" id="wm-logo-size" min="5" max="100" value="50" oninput="renderCanvas()">
                             </div>
+                        </div>
+
+                        <!-- Common Position Controls -->
+                        <div class="mt-4">
+                            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Position</label>
+                            <div class="grid grid-cols-3 gap-1 bg-zinc-900 p-1 rounded-lg border border-zinc-800">
+                                <button onclick="setWmPos('top-left')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up-left"></i></button>
+                                <button onclick="setWmPos('top-center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up"></i></button>
+                                <button onclick="setWmPos('top-right')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up-right"></i></button>
+                                <button onclick="setWmPos('center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-crosshairs"></i></button>
+                                <button onclick="setWmPos('bottom-center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-down"></i></button>
+                                <button onclick="setWmPos('bottom-right')" class="wm-pos-btn bg-zinc-700 text-white shadow p-2 rounded text-xs"><i class="fa-solid fa-arrow-down-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Grid Split -->
+                    <div id="panel-split" class="tool-panel hidden">
+                        <h3 class="text-white font-bold text-base md:text-lg mb-2 flex items-center"><i class="fa-solid fa-table-cells mr-2 text-indigo-400"></i> Grid Maker</h3>
+                        <p class="text-xs text-gray-400 mb-5">Perfect for Instagram grid posts. Splits your image into equal squares.</p>
+                        
+                        <div class="space-y-3">
+                            <button onclick="downloadGrid(3, 1)" class="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white p-4 rounded-xl flex items-center justify-between transition-colors">
+                                <div class="flex items-center">
+                                    <div class="grid grid-cols-3 gap-0.5 mr-4">
+                                        <div class="w-3 h-3 bg-indigo-400 rounded-sm"></div>
+                                        <div class="w-3 h-3 bg-indigo-400 rounded-sm"></div>
+                                        <div class="w-3 h-3 bg-indigo-400 rounded-sm"></div>
+                                    </div>
+                                    <span class="font-bold text-sm">3 x 1 Grid (Row)</span>
+                                </div>
+                                <i class="fa-solid fa-download text-gray-500"></i>
+                            </button>
+                            
+                            <button onclick="downloadGrid(2, 3)" class="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white p-4 rounded-xl flex items-center justify-between transition-colors">
+                                <div class="flex items-center">
+                                    <div class="grid grid-cols-3 gap-0.5 mr-4">
+                                        <div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div>
+                                        <div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div>
+                                    </div>
+                                    <span class="font-bold text-sm">3 x 2 Grid</span>
+                                </div>
+                                <i class="fa-solid fa-download text-gray-500"></i>
+                            </button>
+
+                            <button onclick="downloadGrid(3, 3)" class="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white p-4 rounded-xl flex items-center justify-between transition-colors">
+                                <div class="flex items-center">
+                                    <div class="grid grid-cols-3 gap-0.5 mr-4">
+                                        <div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div>
+                                        <div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div>
+                                        <div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div>
+                                    </div>
+                                    <span class="font-bold text-sm">3 x 3 Grid (9 Posts)</span>
+                                </div>
+                                <i class="fa-solid fa-download text-gray-500"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -505,10 +619,33 @@
                         </div>
                     </div>
 
+                    <!-- Panel: EXIF Metadata Info -->
+                    <div id="panel-info" class="tool-panel hidden">
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-camera mr-2 text-teal-400"></i> Image Data</h3>
+                        
+                        <div class="bg-teal-500/10 border border-teal-500/30 p-3 rounded-xl mb-4">
+                            <p class="text-[10px] text-teal-300 leading-relaxed">Yeh original image ka hidden data (EXIF) hai. Jab aap yahan se image export/download karenge, toh privacy ke liye yeh saara data <strong>automatically delete</strong> ho jayega.</p>
+                        </div>
+
+                        <div id="exif-data-container" class="space-y-2 max-h-[300px] overflow-y-auto scrollbar-hide">
+                            <div class="flex items-center justify-center py-8 text-gray-500 text-sm">
+                                <i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Reading data...
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Panel: Format Converter -->
                     <div id="panel-convert" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-file-export mr-2 text-primary"></i> Save As</h3>
+                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-file-export mr-2 text-primary"></i> Save & Export</h3>
                         
+                        <div class="bg-indigo-500/10 border border-indigo-500/30 p-3 rounded-xl mb-5 flex items-start gap-3">
+                            <i class="fa-solid fa-shield-halved text-indigo-400 mt-0.5"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-indigo-300">Privacy First</h4>
+                                <p class="text-[10px] text-gray-400 mt-1">Exporting your image automatically strips hidden EXIF data (GPS location, camera details). Safe to share anywhere!</p>
+                            </div>
+                        </div>
+
                         <div class="space-y-3">
                             <label class="flex items-center p-3 border border-zinc-700 bg-zinc-900/50 rounded-xl cursor-pointer hover:bg-zinc-800 transition-all has-[:checked]:border-primary has-[:checked]:bg-indigo-900/20 shadow-sm relative overflow-hidden group">
                                 <input type="radio" name="format" value="jpeg" checked class="hidden">
@@ -558,6 +695,10 @@
                 <i class="fa-solid fa-sliders text-lg mb-1"></i>
                 <span class="text-[9px] font-medium">Filters</span>
             </button>
+            <button onclick="switchTool('frame')" id="mob-tab-frame" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
+                <i class="fa-solid fa-border-all text-lg mb-1"></i>
+                <span class="text-[9px] font-medium">Frames</span>
+            </button>
             <button onclick="switchTool('censor')" id="mob-tab-censor" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-pink-400 relative">
                 <i class="fa-solid fa-marker text-lg mb-1"></i>
                 <span class="text-[9px] font-medium">Censor</span>
@@ -565,11 +706,19 @@
             </button>
             <button onclick="switchTool('watermark')" id="mob-tab-watermark" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
                 <i class="fa-solid fa-copyright text-lg mb-1"></i>
-                <span class="text-[9px] font-medium">Label</span>
+                <span class="text-[9px] font-medium">Logo</span>
+            </button>
+            <button onclick="switchTool('split')" id="mob-tab-split" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-indigo-400">
+                <i class="fa-solid fa-table-cells text-lg mb-1"></i>
+                <span class="text-[9px] font-medium">Grid</span>
             </button>
             <button onclick="switchTool('compress')" id="mob-tab-compress" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
                 <i class="fa-solid fa-compress text-lg mb-1"></i>
                 <span class="text-[9px] font-medium">Size</span>
+            </button>
+            <button onclick="switchTool('info')" id="mob-tab-info" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-teal-400">
+                <i class="fa-solid fa-camera text-lg mb-1"></i>
+                <span class="text-[9px] font-medium">EXIF</span>
             </button>
             <button onclick="switchTool('convert')" id="mob-tab-convert" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
                 <i class="fa-solid fa-file-export text-lg mb-1"></i>
@@ -608,15 +757,17 @@
         let initialImageObj = new Image(); 
         let baseImageObj = new Image(); // The working base (contains crops and censors)
         let aspectRatio = 1;
+        let originalExifData = null;
 
-        // Undo History Stack (Stores data URLs of baseImageObj)
+        // Undo History Stack
         const MAX_HISTORY = 10;
         let historyStack = [];
 
         // Tool States
         let cropper = null;
         let filters = { brightness: 100, contrast: 100, saturation: 100, sepia: 0 };
-        let wmState = { text: '', color: '#ffffff', size: 48, pos: 'bottom-right' };
+        let wmState = { type: 'text', text: '', color: '#ffffff', size: 48, pos: 'bottom-right', logoObj: new Image(), logoScale: 50 };
+        let frameState = { radius: 0, width: 0, color: '#ffffff' };
 
         // UI Elements
         const dropzone = document.getElementById('dropzone');
@@ -664,7 +815,7 @@
                 if (tool === 'censor') {
                     drawInstruction.classList.remove('hidden');
                     canvas.style.cursor = 'crosshair';
-                    canvas.style.touchAction = 'none'; // Prevent scrolling while drawing
+                    canvas.style.touchAction = 'none';
                 } else {
                     drawInstruction.classList.add('hidden');
                     canvas.style.cursor = 'default';
@@ -677,7 +828,6 @@
         // --- STREAMING_CHUNK: History (Undo) System ---
         function saveState() {
             if(!baseImageObj.src) return;
-            // Push current base state to history
             historyStack.push(baseImageObj.src);
             if(historyStack.length > MAX_HISTORY) historyStack.shift();
             updateUndoBtn();
@@ -700,7 +850,6 @@
             btn.disabled = historyStack.length === 0;
         }
 
-        // Keyboard shortcut for Undo
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
                 e.preventDefault();
@@ -728,13 +877,30 @@
 
             originalFileObj = file;
             originalFileName = file.name.split('.')[0];
-            historyStack = []; // Reset history
+            historyStack = []; 
             updateUndoBtn();
+            originalExifData = null;
+            document.getElementById('exif-data-container').innerHTML = '<div class="flex items-center justify-center py-8 text-gray-500 text-sm"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Reading data...</div>';
             
             document.getElementById('upload-section').querySelector('.max-w-3xl').classList.add('hidden');
             document.getElementById('dropzone').classList.add('hidden');
             document.getElementById('upload-section').querySelector('.grid').classList.add('hidden');
             document.getElementById('loading-indicator').classList.remove('hidden');
+
+            // Extract EXIF data
+            try {
+                if (typeof exifr !== 'undefined') {
+                    exifr.parse(file).then(exif => {
+                        originalExifData = exif;
+                        renderExifData();
+                    }).catch(err => {
+                        console.log("No EXIF found", err);
+                        renderExifData(false);
+                    });
+                } else {
+                    renderExifData(false);
+                }
+            } catch(e) { console.log(e); renderExifData(false); }
 
             try {
                 let imageUrl = '';
@@ -748,7 +914,7 @@
                 }
 
                 initialImageObj.onload = () => {
-                    baseImageObj.src = initialImageObj.src; // Trigger baseImage load
+                    baseImageObj.src = initialImageObj.src;
                 };
                 
                 baseImageObj.onload = () => {
@@ -775,7 +941,7 @@
             }
         }
 
-        // --- STREAMING_CHUNK: Tools Logic (Crop, Adjust) ---
+        // --- STREAMING_CHUNK: Tools Logic ---
         function initCropper() {
             const imageElement = document.getElementById('cropper-image');
             imageElement.src = baseImageObj.src;
@@ -784,17 +950,11 @@
             cropper = new Cropper(imageElement, {
                 viewMode: 2, background: false, autoCropArea: 1, responsive: true, checkOrientation: false
             });
-            document.querySelectorAll('.crop-ratio-btn').forEach(b => {
-                b.classList.remove('border-primary', 'text-primary');
-                b.classList.add('border-transparent');
-            });
         }
 
         function setCropRatio(ratio) {
             if(!cropper) return;
             cropper.setAspectRatio(ratio);
-            
-            // UI Update
             document.querySelectorAll('.crop-ratio-btn').forEach(b => {
                 b.classList.remove('border-primary', 'text-primary');
                 b.classList.add('border-transparent');
@@ -808,20 +968,18 @@
             const croppedCanvas = cropper.getCroppedCanvas();
             if(!croppedCanvas) return;
             
-            saveState(); // Save before applying
+            saveState(); 
             
             baseImageObj.onload = () => {
                 aspectRatio = baseImageObj.width / baseImageObj.height;
                 widthInput.value = baseImageObj.width;
                 heightInput.value = baseImageObj.height;
                 showToast('Transform Applied');
-                // Auto switch to filters for better flow
                 switchTool('adjust'); 
             };
             baseImageObj.src = croppedCanvas.toDataURL('image/png');
         }
 
-        // Filters
         function updateFilters() {
             filters.brightness = document.getElementById('slider-brightness').value;
             filters.contrast = document.getElementById('slider-contrast').value;
@@ -838,7 +996,6 @@
 
         function setFilterPreset(type) {
             filters = { brightness: 100, contrast: 100, saturation: 100, sepia: 0 };
-            
             if(type === 'vintage') { filters.sepia = 40; filters.contrast = 110; filters.saturation = 80; }
             if(type === 'cyberpunk') { filters.contrast = 130; filters.saturation = 150; filters.brightness = 90; }
             if(type === 'bw') { filters.saturation = 0; filters.contrast = 120; }
@@ -850,7 +1007,41 @@
             updateFilters();
         }
 
-        // Watermark
+        // --- Frame Logic ---
+        function updateFrame() {
+            frameState.radius = parseInt(document.getElementById('frame-radius').value);
+            frameState.width = parseInt(document.getElementById('frame-width').value);
+            
+            document.getElementById('val-radius').innerText = `${frameState.radius}px`;
+            document.getElementById('val-bwidth').innerText = `${frameState.width}px`;
+            renderCanvas();
+        }
+
+        function setFrameColor(color) {
+            frameState.color = color;
+            document.getElementById('frame-color').value = color;
+            renderCanvas();
+        }
+
+        // --- Watermark Logic ---
+        function setWmType(type) {
+            wmState.type = type;
+            document.getElementById('wm-tab-text').className = type === 'text' ? 'flex-1 py-1.5 text-xs font-bold rounded bg-zinc-700 text-white' : 'flex-1 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white';
+            document.getElementById('wm-tab-logo').className = type === 'logo' ? 'flex-1 py-1.5 text-xs font-bold rounded bg-zinc-700 text-white' : 'flex-1 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white';
+            
+            document.getElementById('wm-text-options').classList.toggle('hidden', type !== 'text');
+            document.getElementById('wm-logo-options').classList.toggle('hidden', type !== 'logo');
+            renderCanvas();
+        }
+
+        function handleLogoUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                wmState.logoObj.onload = () => renderCanvas();
+                wmState.logoObj.src = URL.createObjectURL(file);
+            }
+        }
+
         function setWmPos(pos) {
             wmState.pos = pos;
             document.querySelectorAll('.wm-pos-btn').forEach(btn => {
@@ -860,9 +1051,8 @@
             renderCanvas();
         }
 
-        // --- STREAMING_CHUNK: The "Kuch Khaas" Censor Tool ---
-        let isDrawing = false;
-        let lastX = 0, lastY = 0;
+        // --- Censor Logic ---
+        let isDrawing = false, lastX = 0, lastY = 0;
 
         function setCensorStyle(style) {
             document.querySelectorAll('.censor-style-btn').forEach(b => {
@@ -874,28 +1064,23 @@
             
             if(style === 'black') document.getElementById('censor-color').value = '#000000';
             if(style === 'white') document.getElementById('censor-color').value = '#ffffff';
-            if(style === 'highlight') document.getElementById('censor-color').value = 'rgba(250, 204, 21, 0.4)'; // Yellow with opacity
+            if(style === 'highlight') document.getElementById('censor-color').value = 'rgba(250, 204, 21, 0.4)';
         }
 
         function getMousePos(e) {
             const rect = canvas.getBoundingClientRect();
-            // Handle both touch and mouse
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
-            return {
-                x: (clientX - rect.left) * scaleX,
-                y: (clientY - rect.top) * scaleY
-            };
+            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
         }
 
         function startDrawing(e) {
             if(currentTool !== 'censor') return;
             e.preventDefault();
             isDrawing = true;
-            saveState(); // Save state BEFORE drawing starts
+            saveState();
             const pos = getMousePos(e);
             lastX = pos.x; lastY = pos.y;
             draw(e);
@@ -908,43 +1093,29 @@
             const size = parseInt(document.getElementById('censor-size').value);
             const color = document.getElementById('censor-color').value;
 
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.lineWidth = size;
+            ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = size;
             
-            // Handle Highlight blending
             if(color.startsWith('rgba')) {
-                ctx.globalCompositeOperation = 'multiply';
-                ctx.strokeStyle = color;
+                ctx.globalCompositeOperation = 'multiply'; ctx.strokeStyle = color;
             } else {
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.strokeStyle = color;
+                ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = color;
             }
 
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            ctx.globalCompositeOperation = 'source-over'; // reset
-
+            ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
+            ctx.globalCompositeOperation = 'source-over';
             lastX = pos.x; lastY = pos.y;
         }
 
         function stopDrawing(e) {
             if(!isDrawing || currentTool !== 'censor') return;
             isDrawing = false;
-            // Bake the drawing into baseImageObj so filters apply correctly over it
             baseImageObj.src = canvas.toDataURL('image/png');
-            // We don't call renderCanvas() here because baseImageObj.src assignment is async 
-            // and we already see the drawing on canvas. Next renderCanvas (e.g. filter change) will pick it up.
         }
 
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDrawing);
         canvas.addEventListener('mouseout', stopDrawing);
-        
-        // Touch support for mobile drawing
         canvas.addEventListener('touchstart', startDrawing, {passive: false});
         canvas.addEventListener('touchmove', draw, {passive: false});
         canvas.addEventListener('touchend', stopDrawing);
@@ -956,47 +1127,89 @@
             let targetW = parseInt(widthInput.value) || baseImageObj.width;
             let targetH = parseInt(heightInput.value) || baseImageObj.height;
 
-            // Safe limits for browser memory
-            if(targetW > 4000) targetW = 4000;
-            if(targetH > 4000) targetH = 4000;
+            if(targetW > 4000) targetW = 4000; if(targetH > 4000) targetH = 4000;
 
-            canvas.width = targetW;
-            canvas.height = targetH;
+            canvas.width = targetW; canvas.height = targetH;
             
-            // 1. Draw Base Image (Includes crops & censors) with Filters
+            ctx.save();
+            
+            // Apply Frames/Rounding Clip
+            if(frameState.radius > 0 && ctx.roundRect) {
+                ctx.beginPath();
+                ctx.roundRect(0, 0, targetW, targetH, frameState.radius);
+                ctx.clip();
+            }
+            
+            // 1. Draw Base Image with Filters
             const filterStr = `brightness(${filters.brightness}%) contrast(${filters.contrast}%) saturate(${filters.saturation}%) sepia(${filters.sepia}%)`;
             ctx.filter = filterStr;
             ctx.drawImage(baseImageObj, 0, 0, targetW, targetH);
             ctx.filter = 'none';
 
-            // 2. Draw Watermark
-            wmState.text = document.getElementById('wm-text').value;
-            if(wmState.text.trim() !== '') {
-                wmState.color = document.getElementById('wm-color').value;
-                wmState.size = parseInt(document.getElementById('wm-size').value);
-                
-                const scaleFactor = Math.max(targetW, targetH) / 1000;
-                const actualFontSize = wmState.size * (scaleFactor < 0.5 ? 0.5 : scaleFactor);
-                
-                ctx.font = `bold ${actualFontSize}px Inter, sans-serif`;
-                ctx.fillStyle = wmState.color; // Solid color for watermark looks better
-                
-                const metrics = ctx.measureText(wmState.text);
-                const padding = 20 * scaleFactor;
-                let x = padding, y = padding + actualFontSize;
+            // 2. Draw Frame Border
+            if(frameState.width > 0 && ctx.roundRect) {
+                const bw = frameState.width;
+                ctx.beginPath();
+                // Draw inset stroke to not clip outside
+                ctx.roundRect(bw/2, bw/2, targetW - bw, targetH - bw, Math.max(0, frameState.radius - bw/2));
+                ctx.lineWidth = bw;
+                ctx.strokeStyle = frameState.color;
+                ctx.stroke();
+            }
 
-                if(wmState.pos.includes('right')) x = targetW - metrics.width - padding;
-                if(wmState.pos.includes('center') && !wmState.pos.includes('top') && !wmState.pos.includes('bottom')) {
-                    x = targetW/2 - metrics.width/2; y = targetH/2 + actualFontSize/2;
+            ctx.restore();
+
+            // 3. Draw Watermark
+            if(wmState.type === 'text') {
+                wmState.text = document.getElementById('wm-text').value;
+                if(wmState.text.trim() !== '') {
+                    wmState.color = document.getElementById('wm-color').value;
+                    wmState.size = parseInt(document.getElementById('wm-size').value);
+                    
+                    const scaleFactor = Math.max(targetW, targetH) / 1000;
+                    const actualFontSize = wmState.size * (scaleFactor < 0.5 ? 0.5 : scaleFactor);
+                    
+                    ctx.font = `bold ${actualFontSize}px Inter, sans-serif`;
+                    ctx.fillStyle = wmState.color;
+                    
+                    const metrics = ctx.measureText(wmState.text);
+                    const padding = 20 * scaleFactor;
+                    let x = padding, y = padding + actualFontSize;
+
+                    if(wmState.pos.includes('right')) x = targetW - metrics.width - padding;
+                    if(wmState.pos.includes('center') && !wmState.pos.includes('top') && !wmState.pos.includes('bottom')) {
+                        x = targetW/2 - metrics.width/2; y = targetH/2 + actualFontSize/2;
+                    }
+                    if(wmState.pos === 'top-center' || wmState.pos === 'bottom-center') x = targetW/2 - metrics.width/2;
+                    if(wmState.pos.includes('bottom')) y = targetH - padding;
+
+                    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 4;
+                    ctx.fillText(wmState.text, x, y);
+                    ctx.shadowBlur = 0;
                 }
-                if(wmState.pos === 'top-center' || wmState.pos === 'bottom-center') x = targetW/2 - metrics.width/2;
-                if(wmState.pos.includes('bottom')) y = targetH - padding;
+            } else if (wmState.type === 'logo' && wmState.logoObj.src) {
+                wmState.logoScale = parseInt(document.getElementById('wm-logo-size').value);
+                document.getElementById('wm-logo-size-val').innerText = `${wmState.logoScale}%`;
+                
+                const maxLogoW = targetW * 0.5; // Logo takes max 50% of image width
+                const baseLogoW = (wmState.logoObj.width / wmState.logoObj.height) * (targetH * 0.2); // Base size is 20% of height
+                
+                const actualLogoW = baseLogoW * (wmState.logoScale / 50);
+                const actualLogoH = actualLogoW / (wmState.logoObj.width / wmState.logoObj.height);
+                
+                const padding = targetW * 0.02;
+                let x = padding, y = padding;
 
-                // Add slight shadow for visibility
-                ctx.shadowColor = "rgba(0,0,0,0.5)";
-                ctx.shadowBlur = 4;
-                ctx.fillText(wmState.text, x, y);
-                ctx.shadowBlur = 0; // reset
+                if(wmState.pos.includes('right')) x = targetW - actualLogoW - padding;
+                if(wmState.pos.includes('center') && !wmState.pos.includes('top') && !wmState.pos.includes('bottom')) {
+                    x = targetW/2 - actualLogoW/2; y = targetH/2 - actualLogoH/2;
+                }
+                if(wmState.pos === 'top-center' || wmState.pos === 'bottom-center') x = targetW/2 - actualLogoW/2;
+                if(wmState.pos.includes('bottom')) y = targetH - actualLogoH - padding;
+
+                ctx.shadowColor = "rgba(0,0,0,0.3)"; ctx.shadowBlur = 10;
+                ctx.drawImage(wmState.logoObj, x, y, actualLogoW, actualLogoH);
+                ctx.shadowBlur = 0;
             }
 
             updateCompressEstimate();
@@ -1012,7 +1225,6 @@
             renderCanvas();
         });
         
-        // Custom Checkbox UI handling
         const ratioToggle = document.querySelector('label[for="maintain-ratio"]') || ratioCheckbox.parentElement;
         ratioToggle.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1039,43 +1251,104 @@
             document.getElementById('new-info').innerText = `Est. Output: ${formatBytes(sizeBytes)}`;
         }
 
-        // --- STREAMING_CHUNK: Download System ---
+        // --- STREAMING_CHUNK: Export & Grid Download System ---
         function downloadImage() {
-            if(currentTool === 'crop' && cropper) {
-                applyCrop(); 
-                setTimeout(proceedDownload, 100);
-                return;
-            }
+            if(currentTool === 'crop' && cropper) { applyCrop(); setTimeout(proceedDownload, 100); return; }
             proceedDownload();
         }
 
         function proceedDownload() {
-            // Get selected format
             let format = document.querySelector('input[name="format"]:checked')?.value || 'jpeg';
-            let mimeType = `image/${format}`;
-            let quality = 1.0;
+            let quality = (format === 'jpeg' || format === 'webp') ? qualitySlider.value / 100 : 1.0;
 
-            if (format === 'jpeg' || format === 'webp') {
-                quality = qualitySlider.value / 100;
-            }
-
-            const dataUrl = canvas.toDataURL(mimeType, quality);
             const link = document.createElement('a');
             link.download = `${originalFileName}_StudioPro.${format}`;
-            link.href = dataUrl;
-            document.body.appendChild(link);
+            link.href = canvas.toDataURL(`image/${format}`, quality);
             link.click();
-            document.body.removeChild(link);
-            
             showToast(`Saved securely to your device`);
+        }
+
+        function downloadGrid(rows, cols) {
+            renderCanvas(); // Ensure latest state
+            const sliceW = Math.floor(canvas.width / cols);
+            const sliceH = Math.floor(canvas.height / rows);
+            
+            let count = 1;
+            for(let r = 0; r < rows; r++) {
+                for(let c = 0; c < cols; c++) {
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = sliceW; tempCanvas.height = sliceH;
+                    tempCanvas.getContext('2d').drawImage(canvas, c * sliceW, r * sliceH, sliceW, sliceH, 0, 0, sliceW, sliceH);
+                    
+                    const link = document.createElement('a');
+                    link.download = `${originalFileName}_grid_${count}.jpeg`;
+                    link.href = tempCanvas.toDataURL('image/jpeg', 0.9);
+                    
+                    // Slight delay for multiple downloads to process cleanly in browser
+                    setTimeout(() => link.click(), count * 150); 
+                    count++;
+                }
+            }
+            showToast(`${rows * cols} Grid slices downloaded!`);
+        }
+
+        // --- STREAMING_CHUNK: EXIF Data Rendering ---
+        function renderExifData(success = true) {
+            const container = document.getElementById('exif-data-container');
+            if (!success || !originalExifData) {
+                container.innerHTML = `
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
+                        <i class="fa-solid fa-ghost text-3xl text-zinc-700 mb-3 block"></i>
+                        <p class="text-sm text-gray-400 font-medium">No Metadata Found</p>
+                        <p class="text-[10px] text-zinc-500 mt-1">This image doesn't contain hidden EXIF data like camera info or location.</p>
+                    </div>`;
+                return;
+            }
+
+            const e = originalExifData;
+            let html = '<div class="space-y-2">';
+            
+            // Helper to format rows
+            const addRow = (icon, label, value) => {
+                if(value) {
+                    html += `
+                    <div class="flex justify-between items-center bg-zinc-900/80 p-2.5 rounded-lg border border-zinc-800/50">
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <i class="fa-solid ${icon} w-4 text-center text-[10px]"></i>
+                            <span class="text-xs font-medium">${label}</span>
+                        </div>
+                        <span class="text-xs text-white font-mono text-right max-w-[120px] truncate" title="${value}">${value}</span>
+                    </div>`;
+                }
+            };
+
+            addRow('fa-camera', 'Make', e.Make);
+            addRow('fa-mobile-screen', 'Model', e.Model);
+            addRow('fa-calendar-days', 'Date', e.DateTimeOriginal ? new Date(e.DateTimeOriginal).toLocaleDateString() : null);
+            addRow('fa-stopwatch', 'Exposure', e.ExposureTime ? `1/${Math.round(1/e.ExposureTime)}s` : null);
+            addRow('fa-aperture', 'F-Stop', e.FNumber ? `f/${e.FNumber}` : null);
+            addRow('fa-film', 'ISO', e.ISO);
+            addRow('fa-arrows-left-right', 'Dimensions', (e.PixelXDimension && e.PixelYDimension) ? `${e.PixelXDimension}x${e.PixelYDimension}` : null);
+            
+            if (e.latitude && e.longitude) {
+                addRow('fa-location-dot', 'Location', `${e.latitude.toFixed(4)}, ${e.longitude.toFixed(4)}`);
+            } else if (e.GPSLatitude && e.GPSLongitude) {
+                 addRow('fa-location-dot', 'GPS', `Data Present`);
+            }
+
+            if(html === '<div class="space-y-2">') {
+                renderExifData(false); // No recognizable fields found
+                return;
+            }
+            html += '</div>';
+            container.innerHTML = html;
         }
 
         // --- Utility ---
         function resetApp() {
             if(cropper) { cropper.destroy(); cropper = null; }
-            initialImageObj = new Image();
-            baseImageObj = new Image();
-            fileInput.value = '';
+            initialImageObj = new Image(); baseImageObj = new Image();
+            wmState.logoObj = new Image(); fileInput.value = '';
             
             document.getElementById('workspace-section').classList.add('hidden');
             document.getElementById('workspace-section').classList.remove('flex');
@@ -1104,8 +1377,8 @@
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
-            
             const icon = t.querySelector('i');
+            
             if(type === 'error') {
                 icon.className = 'fa-solid fa-triangle-exclamation text-red-400 text-lg';
                 t.style.borderColor = '#ef4444';
