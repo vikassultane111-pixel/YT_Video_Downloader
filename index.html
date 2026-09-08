@@ -2,1492 +2,617 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ImageNinja PRO - Premium Image Utility Box</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Jel ✨</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Cropper.js for Premium Cropping -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-
-    <!-- EXIF Reader -->
-    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/lite.umd.js"></script>
-
-    <!-- HEIC to Any -->
-    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6366f1', // Indigo 500
-                        primaryHover: '#4f46e5', // Indigo 600
-                        accent: '#ec4899', // Pink 500
-                        darkBg: '#09090b', // Zinc 950
-                        panelBg: 'rgba(24, 24, 27, 0.7)', // Zinc 900 with opacity for glass
-                        borderDark: '#27272a', // Zinc 800
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'gradient-x': 'gradient-x 15s ease infinite',
-                    },
-                    keyframes: {
-                        'gradient-x': {
-                            '0%, 100%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'left center'
-                            },
-                            '50%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'right center'
-                            },
-                        },
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
         body {
-            background-color: #09090b;
-            color: #f8fafc;
+            margin: 0;
+            padding: 0;
             font-family: 'Inter', sans-serif;
-            overflow: hidden; /* Prevent body scroll, handle internally */
-            overscroll-behavior: none;
+            background: linear-gradient(135deg, #09090b 0%, #1c1917 50%, #271c19 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
         }
 
-        /* Glassmorphism */
+        h1, h2, h3, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Premium Glassmorphism */
         .glass-panel {
-            background: rgba(24, 24, 27, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(30, 25, 25, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
-
-        .drop-active {
-            border-color: #6366f1 !important;
-            background-color: rgba(99, 102, 241, 0.1) !important;
-            transform: scale(1.02);
+        /* Text Gradients */
+        .gold-text {
+            background: linear-gradient(to right, #F9D423 0%, #FF4E50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .rose-gold-text {
+            background: linear-gradient(to right, #e8b5a2, #f3d5c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(232, 181, 162, 0.3);
         }
 
-        /* Checkerboard background for transparent images */
-        .bg-checker {
-            background-color: #18181b;
-            background-image: 
-                linear-gradient(45deg, #27272a 25%, transparent 25%), 
-                linear-gradient(135deg, #27272a 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #27272a 75%),
-                linear-gradient(135deg, transparent 75%, #27272a 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 0, 10px -10px, 0px 10px;
+        .crimson-text {
+             background: linear-gradient(to right, #ff4b4b, #ff8f8f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Premium Range Slider */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            background: #6366f1;
-            cursor: pointer;
-            margin-top: -7px;
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
-            border: 2px solid #fff;
-            transition: transform 0.1s;
-        }
-        input[type=range]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #3f3f46;
-            border-radius: 2px;
-        }
-
-        /* Sidebar Tab Active State */
-        .tab-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-
-        /* Mobile specific bottom nav */
-        @media (max-width: 768px) {
-            .mobile-bottom-nav {
-                padding-bottom: env(safe-area-inset-bottom, 16px);
-            }
-            .tool-panel-container {
-                height: 35vh; /* Take bottom 35% of screen for controls */
-            }
-            .canvas-area-container {
-                height: calc(100vh - 64px - 35vh - 70px); /* Total - Header - Tools - BottomNav */
-            }
-        }
-        @media (min-width: 769px) {
-            .canvas-area-container {
-                height: calc(100vh - 64px);
-            }
-        }
-
-        /* Toast Message */
-        .toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
+        /* Smooth section transitions */
+        .section-container {
+            display: none;
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 9999;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px) scale(0.98);
         }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
+        
+        .section-container.active {
+            display: flex;
             opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
-        /* Animated Background for Upload Screen */
-        .mesh-bg {
-            background-color: #09090b;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+        /* Button styling */
+        .premium-btn {
+            background: linear-gradient(135deg, #c47166 0%, #a35d54 100%);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(196, 113, 102, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .premium-btn:hover::before {
+            left: 100%;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(196, 113, 102, 0.4);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        /* Hover Cards */
+        .reveal-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reveal-card:hover {
+            background: rgba(196, 113, 102, 0.1);
+            border-color: rgba(196, 113, 102, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .reveal-card .front {
+            transition: opacity 0.3s ease;
+        }
+        
+        .reveal-card .back {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
+            color: #f3d5c0;
+            font-style: italic;
+        }
+
+        .reveal-card:hover .front { opacity: 0; }
+        .reveal-card:hover .back { opacity: 1; transform: translateY(0); }
+
+        /* Quiz Options */
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(196, 113, 102, 0.5);
+            transform: translateX(5px);
+        }
+
+        /* Floating Stars Task */
+        .star {
+            position: absolute;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s;
+            animation: floatUp 5s linear forwards;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+            z-index: 20;
+        }
+        
+        .star:hover {
+            transform: scale(1.3) rotate(20deg);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Ambient floating particles */
+        .ambient-particle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+        
+        /* Heart Beat Animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+        .heart-icon {
+            display: inline-block;
+            animation: heartbeat 2s infinite;
         }
     </style>
 </head>
-<body class="flex flex-col h-screen w-screen relative">
+<body class="relative flex items-center justify-center min-h-screen p-4 sm:p-8">
 
-    <!-- Ambient Glow effects for background -->
-    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/20 blur-[120px] pointer-events-none -z-10"></div>
-    <div class="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-pink-900/10 blur-[120px] pointer-events-none -z-10"></div>
+    <div id="particles-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
-    <!-- Header -->
-    <header class="glass-panel border-b border-borderDark shrink-0 z-40 relative">
-        <div class="w-full px-4 sm:px-6 flex justify-between items-center h-16">
-            <div class="flex items-center cursor-pointer group" onclick="resetApp()">
-                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-2 rounded-xl mr-3 shadow-[0_0_15px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_25px_rgba(99,102,241,0.7)] transition-shadow">
-                    <i class="fa-solid fa-layer-group"></i>
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-bold text-xl tracking-tight text-white leading-tight">ImageNinja</span>
-                    <span class="text-[10px] font-black bg-gradient-to-r from-accent to-purple-500 bg-clip-text text-transparent uppercase tracking-widest leading-none">Studio Pro</span>
-                </div>
-            </div>
-            
-            <!-- Top Actions -->
-            <div id="header-actions" class="hidden flex items-center gap-2 md:gap-4">
-                <button onclick="undo()" id="btn-undo" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-borderDark transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title="Undo (Ctrl+Z)">
-                    <i class="fa-solid fa-rotate-left"></i>
-                </button>
-                <div class="w-px h-6 bg-borderDark hidden md:block"></div>
-                <button onclick="downloadImage('jpeg')" class="bg-white text-black hover:bg-gray-200 px-4 md:px-6 py-2 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] text-sm flex items-center gap-2 active:scale-95">
-                    <i class="fa-solid fa-download"></i> <span class="hidden md:inline">Save Final</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-grow w-full flex flex-col overflow-hidden relative z-10">
+    <main class="relative z-10 w-full max-w-3xl mx-auto">
         
-        <!-- --- STREAMING_CHUNK: Upload State Screen --- -->
-        <div id="upload-section" class="mesh-bg w-full h-full flex flex-col items-center justify-center p-6 overflow-y-auto">
-            
-            <div class="text-center mb-8 w-full max-w-3xl">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-6">
-                    <i class="fa-solid fa-shield-halved"></i> 100% Private • Zero Server Uploads
-                </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
-                    The Ultimate <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 animate-gradient-x">Image Toolkit</span>
+        <!-- SECTION 1: Landing Page -->
+        <section id="section-landing" class="section-container active flex-col items-center text-center justify-center min-h-[75vh]">
+            <div class="glass-panel rounded-3xl p-8 sm:p-14 w-full relative overflow-hidden">
+                <!-- Decorative glow -->
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#c47166] blur-[100px] opacity-20 pointer-events-none"></div>
+                
+                <p class="text-xs sm:text-sm tracking-[0.3em] text-[#a35d54] mb-6 uppercase font-semibold">Just for you</p>
+                <h1 class="text-5xl sm:text-7xl font-semibold mb-6 tracking-tight">
+                    Hi, <span class="rose-gold-text italic">Jel.</span>
                 </h1>
-                <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
-                    Resize, compress, convert, add filters, and <strong class="text-white">censor sensitive info</strong> right in your browser. Your photos never leave your device.
+                
+                <div class="text-lg sm:text-xl text-gray-300 font-light mb-10 leading-relaxed max-w-lg mx-auto space-y-4">
+                    <p>I thought a simple text message wouldn't be enough.</p>
+                    <p class="text-sm sm:text-base text-gray-400">So, I made this little digital space to tell you something...</p>
+                </div>
+                
+                <button onclick="goToSection('section-reveal')" class="premium-btn px-10 py-4 rounded-full text-base sm:text-lg tracking-wide flex items-center gap-3 mx-auto">
+                    <span>See what it is</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Interactive Reveals -->
+        <section id="section-reveal" class="section-container flex-col items-center justify-center min-h-[75vh]">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-2">Things I Notice</h2>
+                <p class="text-sm text-gray-400 mb-10 tracking-wider">HOVER OVER THE CARDS</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                    <div class="reveal-card">
+                        <span class="front text-lg font-medium text-gray-200">Your Energy</span>
+                        <span class="back text-base">It's contagious. You light up the room without even trying.</span>
+                    </div>
+                    <div class="reveal-card">
+                        <span class="front text-lg font-medium text-gray-200">Your Smile</span>
+                        <span class="back text-base">Honestly? It's one of my favorite things to see.</span>
+                    </div>
+                    <div class="reveal-card">
+                        <span class="front text-lg font-medium text-gray-200">Our Conversations</span>
+                        <span class="back text-base">I could talk to you for hours and never get bored.</span>
+                    </div>
+                    <div class="reveal-card">
+                        <span class="front text-lg font-medium text-gray-200">The Way You Are</span>
+                        <span class="back text-base">You're effortlessly amazing, Jel. Just you.</span>
+                    </div>
+                </div>
+
+                <button onclick="goToSection('section-quiz')" class="text-sm text-[#c47166] hover:text-[#f3d5c0] transition-colors flex items-center gap-2 mx-auto uppercase tracking-widest font-semibold">
+                    <span>Next</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: The Quiz -->
+        <section id="section-quiz" class="section-container flex-col items-center justify-center min-h-[75vh]">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center">
+                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-2">Let's be honest...</h2>
+                <p class="text-sm text-gray-400 mb-8 tracking-wider">A TINY QUESTIONNAIRE</p>
+                
+                <div id="quiz-container" class="min-h-[220px] flex flex-col justify-center">
+                    <h3 id="question-text" class="text-xl sm:text-2xl mb-8 font-medium text-white leading-relaxed"></h3>
+                    <div id="options-container" class="flex flex-col gap-3 max-w-md mx-auto w-full">
+                        <!-- Options injected via JS -->
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-center space-x-3" id="quiz-progress">
+                    <!-- Progress dots injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: The Mini Task -->
+        <section id="section-task" class="section-container flex-col items-center justify-center min-h-[75vh]">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative overflow-hidden" id="task-area">
+                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-4">One Last Thing</h2>
+                <p class="text-gray-300 mb-8 font-light text-lg">
+                    I have a final message for you, but you have to catch <span class="text-[#c47166] font-bold text-xl" id="stars-needed">5</span> glowing stars to unlock it.
                 </p>
-            </div>
-
-            <div id="dropzone" class="w-full max-w-2xl glass-panel border-2 border-dashed border-zinc-700 rounded-3xl p-10 md:p-16 text-center transition-all cursor-pointer hover:border-primary flex flex-col items-center justify-center group">
-                <div class="w-20 h-20 md:w-24 md:h-24 bg-zinc-800/50 rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-500">
-                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-indigo-400"></i>
-                </div>
-                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Drag & Drop Image Here</h3>
-                <p class="text-zinc-500 mb-8 text-sm md:text-base">Supports JPG, PNG, WEBP, and iPhone HEIC</p>
                 
-                <label class="bg-white text-black hover:bg-gray-200 px-8 py-3 md:py-4 rounded-xl font-bold cursor-pointer transition-all shadow-lg active:scale-95 text-sm md:text-base w-full sm:w-auto">
-                    Browse Files
-                    <input type="file" id="fileInput" class="hidden" accept="image/jpeg, image/png, image/webp, image/heic, .heic">
-                </label>
-            </div>
-
-            <!-- Features Highlights -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-3xl w-full px-4">
-                <div class="text-center p-4"><i class="fa-solid fa-compress text-2xl text-indigo-400 mb-2 block"></i><span class="text-xs text-gray-400 font-medium">Compress KB</span></div>
-                <div class="text-center p-4"><i class="fa-solid fa-marker text-2xl text-pink-400 mb-2 block"></i><span class="text-xs text-gray-400 font-medium">Censor Data</span></div>
-                <div class="text-center p-4"><i class="fa-solid fa-wand-magic-sparkles text-2xl text-purple-400 mb-2 block"></i><span class="text-xs text-gray-400 font-medium">Studio Filters</span></div>
-                <div class="text-center p-4"><i class="fa-solid fa-file-export text-2xl text-blue-400 mb-2 block"></i><span class="text-xs text-gray-400 font-medium">HEIC Convert</span></div>
-            </div>
-            
-            <div id="loading-indicator" class="hidden w-full text-center py-10 flex flex-col items-center">
-                <div class="relative w-16 h-16 mb-4">
-                    <div class="absolute inset-0 rounded-full border-4 border-indigo-500/20"></div>
-                    <div class="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
+                <div class="w-full max-w-md mx-auto bg-black/50 border border-white/10 rounded-full h-3 mb-8 p-1">
+                    <div class="bg-gradient-to-r from-[#a35d54] to-[#f3d5c0] h-full rounded-full transition-all duration-500 shadow-[0_0_10px_#c47166]" id="task-progress" style="width: 0%"></div>
                 </div>
-                <p class="text-gray-300 font-medium">Preparing secure workspace...</p>
-            </div>
-        </div>
 
-        <!-- --- STREAMING_CHUNK: Workspace State --- -->
-        <div id="workspace-section" class="hidden w-full h-full flex-col md:flex-row">
-            
-            <!-- Desktop Sidebar Navigation (Hidden on Mobile) -->
-            <div class="hidden md:flex w-20 lg:w-64 glass-panel border-r border-borderDark flex-col shrink-0 overflow-y-auto z-20">
+                <div id="star-catcher-zone" class="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl z-10">
+                    <!-- Stars will spawn here -->
+                </div>
+
+                <button id="start-task-btn" onclick="startStarTask()" class="premium-btn px-8 py-3 rounded-full relative z-20 text-lg">
+                    Start Catching ✨
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Final Message -->
+        <section id="section-message" class="section-container flex-col items-center justify-center min-h-[75vh]">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative">
+                <!-- Background heart accent -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] opacity-[0.02] pointer-events-none heart-icon">
+                    ❤️
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl font-semibold mb-8 relative z-10">
+                    <span class="rose-gold-text">Jel, you're pretty amazing.</span>
+                </h1>
                 
-                <nav class="flex flex-col gap-1 p-3 w-full pb-20">
-                    
-                    <!-- Category 1: Edit -->
-                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest">Basic Edits</div>
-                    <button onclick="switchTool('crop')" id="tab-crop" class="tab-btn active flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-crop-simple text-lg w-5 text-center text-blue-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Crop & Rotate</span>
-                    </button>
-                    <button onclick="switchTool('adjust')" id="tab-adjust" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-sliders text-lg w-5 text-center text-purple-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Color Filters</span>
-                    </button>
-                    <button onclick="switchTool('annotate')" id="tab-annotate" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-pen-nib text-lg w-5 text-center text-yellow-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Draw & Doodle</span>
-                    </button>
-
-                    <!-- Category 2: Decorate -->
-                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-zinc-800 mt-2">Decorate</div>
-                    <button onclick="switchTool('frame')" id="tab-frame" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-border-all text-lg w-5 text-center text-emerald-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Frames</span>
-                    </button>
-                    <button onclick="switchTool('watermark')" id="tab-watermark" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-copyright text-lg w-5 text-center text-gray-300"></i>
-                        <span class="hidden lg:block font-medium text-sm">Watermark</span>
-                    </button>
-                    <button onclick="switchTool('split')" id="tab-split" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-table-cells text-lg w-5 text-center text-indigo-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Grid Split</span>
-                    </button>
-
-                    <!-- Category 3: Privacy -->
-                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-zinc-800 mt-2">Privacy</div>
-                    <button onclick="switchTool('censor')" id="tab-censor" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 relative">
-                        <i class="fa-solid fa-marker text-lg w-5 text-center text-pink-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Redact (Censor)</span>
-                    </button>
-                    <button onclick="switchTool('info')" id="tab-info" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-camera text-lg w-5 text-center text-teal-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">EXIF Info</span>
-                    </button>
-
-                    <!-- Category 4: Export -->
-                    <div class="px-3 pt-4 pb-1 hidden lg:block text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-zinc-800 mt-2">Output</div>
-                    <button onclick="switchTool('compress')" id="tab-compress" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                        <i class="fa-solid fa-down-left-and-up-right-to-center text-lg w-5 text-center text-orange-400"></i>
-                        <span class="hidden lg:block font-medium text-sm">Resize & KB</span>
-                    </button>
-                    <button onclick="switchTool('convert')" id="tab-convert" class="tab-btn flex items-center justify-center lg:justify-start gap-3 w-full p-3 lg:px-4 rounded-xl bg-primary/10 text-indigo-300 hover:bg-primary/20 border border-primary/20">
-                        <i class="fa-solid fa-file-export text-lg w-5 text-center"></i>
-                        <span class="hidden lg:block font-bold text-sm">Export Options</span>
-                    </button>
-                </nav>
-            </div>
-
-            <!-- Main Content Column (Canvas + Tool Options on Mobile) -->
-            <div class="flex-grow flex flex-col w-full h-full relative">
+                <div class="text-left text-gray-200 font-light leading-relaxed space-y-5 max-w-lg mx-auto p-8 bg-black/20 backdrop-blur-md rounded-2xl border border-white/5 relative z-10 shadow-xl">
+                    <p>I know we're friends, but I just wanted to take a moment to be a little extra.</p>
+                    <p>You have this incredibly special vibe about you. Honestly, I find myself smiling just thinking about our conversations.</p>
+                    <p>I value our connection a lot, and maybe... I just wanted an excuse to do something nice for you. <span class="crimson-text font-medium">❤️</span></p>
+                </div>
                 
-                <!-- Center: Canvas Preview Area -->
-                <div class="canvas-area-container w-full bg-darkBg p-2 md:p-6 flex flex-col items-center justify-center overflow-hidden relative">
-                    
-                    <!-- Cropper Wrapper -->
-                    <div id="cropper-container" class="w-full h-full max-h-full flex items-center justify-center hidden p-2 md:p-0">
-                        <img id="cropper-image" src="" class="max-w-full max-h-full block">
-                    </div>
-
-                    <!-- Main Canvas Wrapper -->
-                    <div id="canvas-container" class="w-full h-full flex flex-col items-center justify-center relative">
-                        
-                        <!-- Compare Button -->
-                        <button id="btn-compare" class="absolute top-2 right-2 md:top-4 md:right-4 bg-zinc-900/80 border border-zinc-700 backdrop-blur-md text-gray-300 hover:text-white hover:bg-black p-2 md:px-4 md:py-2 rounded-full z-30 transition-all shadow-lg flex items-center gap-2" onmousedown="showOriginal(true)" onmouseup="showOriginal(false)" onmouseleave="showOriginal(false)" ontouchstart="showOriginal(true)" ontouchend="showOriginal(false)">
-                            <i class="fa-solid fa-eye"></i>
-                            <span class="hidden md:block text-xs font-bold uppercase tracking-wider">Hold to Compare</span>
-                        </button>
-
-                        <div class="relative bg-checker rounded-lg md:rounded-2xl overflow-hidden shadow-2xl border border-borderDark flex items-center justify-center group" style="max-width: 100%; max-height: calc(100% - 30px);">
-                            <canvas id="preview-canvas" class="max-w-full max-h-full object-contain touch-none"></canvas>
-                            
-                            <!-- Drawing Instruction Overlay -->
-                            <div id="draw-instruction" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-medium border border-gray-700 pointer-events-none shadow-xl flex items-center gap-2">
-                                <i class="fa-solid fa-hand-pointer text-pink-400 animate-pulse"></i> Draw over text to hide it
-                            </div>
-                        </div>
-                        
-                        <!-- Stats Bar -->
-                        <div class="absolute bottom-2 left-0 w-full flex justify-center text-[10px] md:text-xs font-medium text-gray-400 gap-2 md:gap-4 pointer-events-none">
-                            <span id="original-info" class="bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">Orig: -</span>
-                            <span id="new-info" class="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full border border-indigo-500/30">Output: -</span>
-                        </div>
-                    </div>
+                <div class="mt-10 relative z-10 flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="finalAction('smile')" class="px-6 py-3 rounded-full border border-[#c47166] text-[#f3d5c0] hover:bg-[#c47166]/20 transition-all text-sm font-medium">
+                        "Aww, thanks! *smiles*"
+                    </button>
+                    <button onclick="finalAction('date')" class="premium-btn px-6 py-3 rounded-full text-sm font-medium">
+                        "This deserves a coffee date."
+                    </button>
                 </div>
-
-                <!-- Right Sidebar / Bottom Panel for Tool Options -->
-                <div class="tool-panel-container md:w-80 md:h-full md:absolute md:right-0 md:top-0 glass-panel md:border-l border-t md:border-t-0 border-borderDark p-4 md:p-6 shrink-0 overflow-y-auto z-20 w-full bg-panelBg">
-                    
-                    <!-- Panel: Crop & Rotate -->
-                    <div id="panel-crop" class="tool-panel">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-crop-simple mr-2 text-primary"></i> Transform</h3>
-                        
-                        <div class="space-y-4 mb-6">
-                            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block">Aspect Ratio</label>
-                            <div class="grid grid-cols-4 gap-2">
-                                <button onclick="setCropRatio(NaN)" class="crop-ratio-btn bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded-lg text-xs font-medium transition-colors border border-transparent">Free</button>
-                                <button onclick="setCropRatio(1)" class="crop-ratio-btn bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded-lg text-xs font-medium transition-colors border border-transparent">1:1</button>
-                                <button onclick="setCropRatio(16/9)" class="crop-ratio-btn bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded-lg text-xs font-medium transition-colors border border-transparent">16:9</button>
-                                <button onclick="setCropRatio(4/3)" class="crop-ratio-btn bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded-lg text-xs font-medium transition-colors border border-transparent">4:3</button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4 mb-6">
-                            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block">Rotate & Flip</label>
-                            <div class="flex gap-2">
-                                <button onclick="cropper.rotate(-90)" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-lg text-sm transition-colors"><i class="fa-solid fa-rotate-left"></i></button>
-                                <button onclick="cropper.rotate(90)" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-lg text-sm transition-colors"><i class="fa-solid fa-rotate-right"></i></button>
-                                <button onclick="cropper.scaleX(cropper.getData().scaleX === -1 ? 1 : -1)" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-lg text-sm transition-colors"><i class="fa-solid fa-right-left"></i></button>
-                                <button onclick="cropper.scaleY(cropper.getData().scaleY === -1 ? 1 : -1)" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-lg text-sm transition-colors"><i class="fa-solid fa-up-down"></i></button>
-                            </div>
-                        </div>
-                        
-                        <button onclick="applyCrop()" class="w-full bg-white text-black hover:bg-gray-200 font-bold py-3 px-4 rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2 text-sm">
-                            <i class="fa-solid fa-check"></i> Apply Transform
-                        </button>
-                    </div>
-
-                    <!-- Panel: Filters & Adjust -->
-                    <div id="panel-adjust" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-sliders mr-2 text-purple-400"></i> Color Studio</h3>
-                        
-                        <div class="mb-6">
-                            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-3">1-Click Pro Filters</label>
-                            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                                <button onclick="setFilterPreset('normal')" class="shrink-0 bg-zinc-800 hover:bg-zinc-700 text-xs text-white py-2 px-4 rounded-lg font-medium border border-zinc-700">None</button>
-                                <button onclick="setFilterPreset('vintage')" class="shrink-0 bg-orange-900/40 hover:bg-orange-900/60 text-xs text-orange-200 py-2 px-4 rounded-lg font-medium border border-orange-700/50">Vintage</button>
-                                <button onclick="setFilterPreset('cyberpunk')" class="shrink-0 bg-pink-900/40 hover:bg-pink-900/60 text-xs text-pink-200 py-2 px-4 rounded-lg font-medium border border-pink-700/50">Cyberpunk</button>
-                                <button onclick="setFilterPreset('bw')" class="shrink-0 bg-zinc-800 hover:bg-zinc-700 text-xs text-gray-300 py-2 px-4 rounded-lg font-medium border border-zinc-500">B & W</button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-5">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Brightness</label>
-                                    <span id="val-brightness" class="text-[10px] text-gray-500 font-mono">100%</span>
-                                </div>
-                                <input type="range" id="slider-brightness" min="0" max="200" value="100" oninput="updateFilters()">
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Contrast</label>
-                                    <span id="val-contrast" class="text-[10px] text-gray-500 font-mono">100%</span>
-                                </div>
-                                <input type="range" id="slider-contrast" min="0" max="200" value="100" oninput="updateFilters()">
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Saturation</label>
-                                    <span id="val-saturation" class="text-[10px] text-gray-500 font-mono">100%</span>
-                                </div>
-                                <input type="range" id="slider-saturation" min="0" max="200" value="100" oninput="updateFilters()">
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Warmth</label>
-                                    <span id="val-sepia" class="text-[10px] text-gray-500 font-mono">0%</span>
-                                </div>
-                                <input type="range" id="slider-sepia" min="0" max="100" value="0" oninput="updateFilters()">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Annotate (Doodle) -->
-                    <div id="panel-annotate" class="tool-panel hidden">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-white font-bold text-base md:text-lg flex items-center"><i class="fa-solid fa-pen-nib mr-2 text-yellow-400"></i> Doodle</h3>
-                        </div>
-                        
-                        <div class="bg-zinc-900 border border-zinc-800 text-gray-300 p-3 rounded-xl text-xs mb-5 leading-relaxed">
-                            Draw freely on your image. Great for highlighting areas or making fun edits!
-                        </div>
-
-                        <div class="space-y-5">
-                            <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Pen Color</label>
-                                <div class="flex flex-wrap gap-2">
-                                    <button onclick="setAnnotateColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn"></button>
-                                    <button onclick="setAnnotateColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn"></button>
-                                    <button onclick="setAnnotateColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn"></button>
-                                    <button onclick="setAnnotateColor('#eab308')" class="w-8 h-8 rounded-full bg-yellow-500 border-2 border-transparent hover:scale-110 transition-transform annotate-color-btn border-white"></button>
-                                    <button onclick="setAnnotateColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-400 hover:scale-110 transition-transform annotate-color-btn"></button>
-                                    <button onclick="setAnnotateColor('#000000')" class="w-8 h-8 rounded-full bg-black border-2 border-gray-600 hover:scale-110 transition-transform annotate-color-btn"></button>
-                                </div>
-                                <input type="hidden" id="annotate-color" value="#eab308">
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Pen Thickness</label>
-                                    <span id="annotate-size-val" class="text-[10px] text-gray-500 font-mono">10px</span>
-                                </div>
-                                <input type="range" id="annotate-size" min="2" max="50" value="10" class="w-full accent-yellow-400" oninput="document.getElementById('annotate-size-val').innerText = this.value + 'px'">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Privacy Censor -->
-                    <div id="panel-censor" class="tool-panel hidden">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-white font-bold text-base md:text-lg flex items-center"><i class="fa-solid fa-marker mr-2 text-pink-400"></i> Redact</h3>
-                        </div>
-                        
-                        <div class="bg-zinc-900 border border-zinc-800 text-gray-300 p-3 rounded-xl text-xs mb-5 leading-relaxed">
-                            Drag your finger/mouse over text or faces to permanently hide them before sharing.
-                        </div>
-
-                        <div class="space-y-5">
-                            <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Style</label>
-                                <div class="flex gap-2">
-                                    <button onclick="setCensorStyle('black')" id="censor-btn-black" class="censor-style-btn flex-1 bg-black border-2 border-primary text-white py-2 rounded-lg text-xs font-medium shadow-[0_0_10px_rgba(99,102,241,0.3)]">Blackout</button>
-                                    <button onclick="setCensorStyle('white')" id="censor-btn-white" class="censor-style-btn flex-1 bg-white border-2 border-transparent text-black py-2 rounded-lg text-xs font-medium">Whiteout</button>
-                                    <button onclick="setCensorStyle('highlight')" id="censor-btn-highlight" class="censor-style-btn flex-1 bg-yellow-400 border-2 border-transparent text-black py-2 rounded-lg text-xs font-medium">Highlight</button>
-                                </div>
-                                <input type="hidden" id="censor-color" value="#000000">
-                            </div>
-
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Brush Size</label>
-                                    <span id="censor-size-val" class="text-[10px] text-gray-500 font-mono">20px</span>
-                                </div>
-                                <input type="range" id="censor-size" min="5" max="100" value="20" class="w-full accent-pink-500" oninput="document.getElementById('censor-size-val').innerText = this.value + 'px'">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Frames & Borders -->
-                    <div id="panel-frame" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-border-all mr-2 text-emerald-400"></i> Frames</h3>
-                        
-                        <div class="space-y-5">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Rounded Corners</label>
-                                    <span id="val-radius" class="text-[10px] text-gray-500 font-mono">0px</span>
-                                </div>
-                                <input type="range" id="frame-radius" min="0" max="200" value="0" oninput="updateFrame()">
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Border Width</label>
-                                    <span id="val-bwidth" class="text-[10px] text-gray-500 font-mono">0px</span>
-                                </div>
-                                <input type="range" id="frame-width" min="0" max="100" value="0" oninput="updateFrame()">
-                            </div>
-
-                            <div>
-                                <label class="text-xs font-medium text-gray-300 mb-2 block">Border Color</label>
-                                <div class="flex gap-2 mb-2">
-                                    <button onclick="setFrameColor('#ffffff')" class="w-8 h-8 rounded-full bg-white border border-gray-500"></button>
-                                    <button onclick="setFrameColor('#000000')" class="w-8 h-8 rounded-full bg-black border border-gray-500"></button>
-                                    <button onclick="setFrameColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border border-gray-500"></button>
-                                    <button onclick="setFrameColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border border-gray-500"></button>
-                                </div>
-                                <input type="color" id="frame-color" value="#ffffff" class="w-full h-8 rounded cursor-pointer bg-zinc-900 border border-zinc-700 mt-2" oninput="updateFrame()">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Watermark -->
-                    <div id="panel-watermark" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-copyright mr-2 text-gray-300"></i> Brand Watermark</h3>
-                        
-                        <!-- Toggle Text / Logo -->
-                        <div class="flex bg-zinc-900 p-1 rounded-lg mb-4 border border-zinc-800">
-                            <button onclick="setWmType('text')" id="wm-tab-text" class="flex-1 py-1.5 text-xs font-bold rounded bg-zinc-700 text-white">Text</button>
-                            <button onclick="setWmType('logo')" id="wm-tab-logo" class="flex-1 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white">Logo (Image)</button>
-                        </div>
-
-                        <!-- Text Watermark Options -->
-                        <div id="wm-text-options" class="space-y-4">
-                            <div>
-                                <label class="text-xs font-medium text-gray-300 mb-1 block">Brand Text</label>
-                                <input type="text" id="wm-text" placeholder="e.g. © MyBrand" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" oninput="renderCanvas()">
-                            </div>
-                            
-                            <div class="flex gap-3">
-                                <div class="w-1/3">
-                                    <label class="text-xs font-medium text-gray-300 mb-1 block">Color</label>
-                                    <input type="color" id="wm-color" value="#ffffff" class="w-full h-8 rounded cursor-pointer bg-zinc-900 border border-zinc-700" oninput="renderCanvas()">
-                                </div>
-                                <div class="w-2/3">
-                                    <label class="text-xs font-medium text-gray-300 mb-1 block">Text Size</label>
-                                    <input type="range" id="wm-size" min="10" max="200" value="48" class="w-full mt-2" oninput="renderCanvas()">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Logo Watermark Options -->
-                        <div id="wm-logo-options" class="space-y-4 hidden">
-                            <label class="block w-full border-2 border-dashed border-zinc-700 bg-zinc-900/50 hover:bg-zinc-800 rounded-xl p-4 text-center cursor-pointer transition-colors">
-                                <i class="fa-solid fa-image text-2xl text-gray-400 mb-2"></i>
-                                <span class="block text-sm text-white font-medium">Upload Logo (PNG)</span>
-                                <input type="file" id="wm-logo-input" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="handleLogoUpload(event)">
-                            </label>
-                            
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <label class="text-xs font-medium text-gray-300">Logo Size</label>
-                                    <span id="wm-logo-size-val" class="text-[10px] text-gray-500 font-mono">50%</span>
-                                </div>
-                                <input type="range" id="wm-logo-size" min="5" max="100" value="50" oninput="renderCanvas()">
-                            </div>
-                        </div>
-
-                        <!-- Common Position Controls -->
-                        <div class="mt-4">
-                            <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">Position</label>
-                            <div class="grid grid-cols-3 gap-1 bg-zinc-900 p-1 rounded-lg border border-zinc-800">
-                                <button onclick="setWmPos('top-left')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up-left"></i></button>
-                                <button onclick="setWmPos('top-center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up"></i></button>
-                                <button onclick="setWmPos('top-right')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-up-right"></i></button>
-                                <button onclick="setWmPos('center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-crosshairs"></i></button>
-                                <button onclick="setWmPos('bottom-center')" class="wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs"><i class="fa-solid fa-arrow-down"></i></button>
-                                <button onclick="setWmPos('bottom-right')" class="wm-pos-btn bg-zinc-700 text-white shadow p-2 rounded text-xs"><i class="fa-solid fa-arrow-down-right"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Grid Split -->
-                    <div id="panel-split" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-2 flex items-center"><i class="fa-solid fa-table-cells mr-2 text-indigo-400"></i> Grid Maker</h3>
-                        <p class="text-xs text-gray-400 mb-5">Perfect for Instagram grid posts. Splits your image into equal squares.</p>
-                        
-                        <div class="space-y-3">
-                            <button onclick="downloadGrid(3, 1)" class="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white p-4 rounded-xl flex items-center justify-between transition-colors">
-                                <div class="flex items-center">
-                                    <div class="grid grid-cols-3 gap-0.5 mr-4">
-                                        <div class="w-3 h-3 bg-indigo-400 rounded-sm"></div>
-                                        <div class="w-3 h-3 bg-indigo-400 rounded-sm"></div>
-                                        <div class="w-3 h-3 bg-indigo-400 rounded-sm"></div>
-                                    </div>
-                                    <span class="font-bold text-sm">3 x 1 Grid (Row)</span>
-                                </div>
-                                <i class="fa-solid fa-download text-gray-500"></i>
-                            </button>
-                            
-                            <button onclick="downloadGrid(2, 3)" class="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white p-4 rounded-xl flex items-center justify-between transition-colors">
-                                <div class="flex items-center">
-                                    <div class="grid grid-cols-3 gap-0.5 mr-4">
-                                        <div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div>
-                                        <div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div><div class="w-2.5 h-2.5 bg-pink-400 rounded-sm"></div>
-                                    </div>
-                                    <span class="font-bold text-sm">3 x 2 Grid</span>
-                                </div>
-                                <i class="fa-solid fa-download text-gray-500"></i>
-                            </button>
-
-                            <button onclick="downloadGrid(3, 3)" class="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white p-4 rounded-xl flex items-center justify-between transition-colors">
-                                <div class="flex items-center">
-                                    <div class="grid grid-cols-3 gap-0.5 mr-4">
-                                        <div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div>
-                                        <div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div>
-                                        <div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div><div class="w-2 h-2 bg-purple-400 rounded-sm"></div>
-                                    </div>
-                                    <span class="font-bold text-sm">3 x 3 Grid (9 Posts)</span>
-                                </div>
-                                <i class="fa-solid fa-download text-gray-500"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Compress & Resize -->
-                    <div id="panel-compress" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-down-left-and-up-right-to-center mr-2 text-orange-400"></i> Resize & Compress</h3>
-                        
-                        <div class="mb-5">
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Dimensions (Pixels)</label>
-                            <div class="flex items-center gap-2">
-                                <div class="relative w-full">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs">W</span>
-                                    <input type="number" id="input-width" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg pl-8 pr-2 py-2 text-sm text-white outline-none focus:border-primary font-mono">
-                                </div>
-                                <i class="fa-solid fa-xmark text-zinc-600 text-[10px]"></i>
-                                <div class="relative w-full">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs">H</span>
-                                    <input type="number" id="input-height" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg pl-8 pr-2 py-2 text-sm text-white outline-none focus:border-primary font-mono">
-                                </div>
-                            </div>
-                            <label class="flex items-center mt-3 cursor-pointer group">
-                                <input type="checkbox" id="maintain-ratio" checked class="hidden">
-                                <div class="w-4 h-4 rounded border border-zinc-600 flex items-center justify-center mr-2 group-hover:border-primary bg-zinc-900 transition-colors" id="ratio-checkbox-ui">
-                                    <i class="fa-solid fa-check text-[10px] text-primary"></i>
-                                </div>
-                                <span class="text-xs text-gray-400 group-hover:text-gray-300">Lock Aspect Ratio</span>
-                            </label>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 flex justify-between">
-                                <span>Export Quality</span>
-                                <span id="quality-val" class="text-indigo-400 font-mono">80%</span>
-                            </label>
-                            <input type="range" id="quality-slider" min="10" max="100" value="80" oninput="updateCompressEstimate()">
-                            <p class="text-[10px] text-zinc-500 mt-2 text-center">Lower quality = Smaller file size (KBs)</p>
-                        </div>
-                    </div>
-
-                    <!-- Panel: EXIF Metadata Info -->
-                    <div id="panel-info" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-camera mr-2 text-teal-400"></i> Image Data</h3>
-                        
-                        <div class="bg-teal-500/10 border border-teal-500/30 p-3 rounded-xl mb-4">
-                            <p class="text-[10px] text-teal-300 leading-relaxed">Yeh original image ka hidden data (EXIF) hai. Jab aap yahan se image export/download karenge, toh privacy ke liye yeh saara data <strong>automatically delete</strong> ho jayega.</p>
-                        </div>
-
-                        <div id="exif-data-container" class="space-y-2 max-h-[300px] overflow-y-auto scrollbar-hide">
-                            <div class="flex items-center justify-center py-8 text-gray-500 text-sm">
-                                <i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Reading data...
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Panel: Format Converter -->
-                    <div id="panel-convert" class="tool-panel hidden">
-                        <h3 class="text-white font-bold text-base md:text-lg mb-4 flex items-center"><i class="fa-solid fa-file-export mr-2 text-primary"></i> Save & Export</h3>
-                        
-                        <div class="bg-indigo-500/10 border border-indigo-500/30 p-3 rounded-xl mb-5 flex items-start gap-3">
-                            <i class="fa-solid fa-shield-halved text-indigo-400 mt-0.5"></i>
-                            <div>
-                                <h4 class="text-xs font-bold text-indigo-300">Privacy First</h4>
-                                <p class="text-[10px] text-gray-400 mt-1">Exporting your image automatically strips hidden EXIF data (GPS location, camera details). Safe to share anywhere!</p>
-                            </div>
-                        </div>
-
-                        <div class="space-y-3">
-                            <label class="flex items-center p-3 border border-zinc-700 bg-zinc-900/50 rounded-xl cursor-pointer hover:bg-zinc-800 transition-all has-[:checked]:border-primary has-[:checked]:bg-indigo-900/20 shadow-sm relative overflow-hidden group">
-                                <input type="radio" name="format" value="jpeg" checked class="hidden">
-                                <div class="w-4 h-4 rounded-full border border-zinc-600 flex items-center justify-center mr-3 group-hover:border-primary">
-                                    <div class="w-2 h-2 rounded-full bg-primary hidden radio-indicator"></div>
-                                </div>
-                                <div>
-                                    <span class="block font-bold text-white text-sm">JPG / JPEG</span>
-                                    <span class="block text-[10px] text-gray-400 mt-0.5">Best balance of size & quality</span>
-                                </div>
-                            </label>
-                            <label class="flex items-center p-3 border border-zinc-700 bg-zinc-900/50 rounded-xl cursor-pointer hover:bg-zinc-800 transition-all has-[:checked]:border-primary has-[:checked]:bg-indigo-900/20 shadow-sm group">
-                                <input type="radio" name="format" value="png" class="hidden">
-                                <div class="w-4 h-4 rounded-full border border-zinc-600 flex items-center justify-center mr-3 group-hover:border-primary">
-                                    <div class="w-2 h-2 rounded-full bg-primary hidden radio-indicator"></div>
-                                </div>
-                                <div>
-                                    <span class="block font-bold text-white text-sm">PNG</span>
-                                    <span class="block text-[10px] text-gray-400 mt-0.5">Highest quality, supports transparency</span>
-                                </div>
-                            </label>
-                            <label class="flex items-center p-3 border border-zinc-700 bg-zinc-900/50 rounded-xl cursor-pointer hover:bg-zinc-800 transition-all has-[:checked]:border-primary has-[:checked]:bg-indigo-900/20 shadow-sm group">
-                                <input type="radio" name="format" value="webp" class="hidden">
-                                <div class="w-4 h-4 rounded-full border border-zinc-600 flex items-center justify-center mr-3 group-hover:border-primary">
-                                    <div class="w-2 h-2 rounded-full bg-primary hidden radio-indicator"></div>
-                                </div>
-                                <div>
-                                    <span class="block font-bold text-white text-sm">WEBP</span>
-                                    <span class="block text-[10px] text-gray-400 mt-0.5">Next-gen format, extremely small size</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                </div>
+                
+                <p id="final-response" class="mt-6 text-sm italic text-[#f3d5c0] opacity-0 transition-opacity duration-500 h-6"></p>
             </div>
-        </div>
+        </section>
 
-        <!-- --- STREAMING_CHUNK: Mobile Bottom Navigation --- -->
-        <!-- Appears only on mobile, replacing the left sidebar -->
-        <div id="mobile-nav" class="md:hidden mobile-bottom-nav fixed bottom-0 left-0 right-0 glass-panel border-t border-borderDark z-50 hidden flex-row overflow-x-auto snap-x scrollbar-hide py-2 px-1">
-            <button onclick="switchTool('crop')" id="mob-tab-crop" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-crop-simple text-lg mb-1 text-blue-400"></i>
-                <span class="text-[9px] font-medium">Crop</span>
-            </button>
-            <button onclick="switchTool('adjust')" id="mob-tab-adjust" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-sliders text-lg mb-1 text-purple-400"></i>
-                <span class="text-[9px] font-medium">Filters</span>
-            </button>
-            <button onclick="switchTool('annotate')" id="mob-tab-annotate" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-pen-nib text-lg mb-1 text-yellow-400"></i>
-                <span class="text-[9px] font-medium">Draw</span>
-            </button>
-            <button onclick="switchTool('frame')" id="mob-tab-frame" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-border-all text-lg mb-1 text-emerald-400"></i>
-                <span class="text-[9px] font-medium">Frames</span>
-            </button>
-            <button onclick="switchTool('watermark')" id="mob-tab-watermark" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-copyright text-lg mb-1 text-gray-300"></i>
-                <span class="text-[9px] font-medium">Logo</span>
-            </button>
-            <button onclick="switchTool('split')" id="mob-tab-split" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-table-cells text-lg mb-1 text-indigo-400"></i>
-                <span class="text-[9px] font-medium">Grid</span>
-            </button>
-            <button onclick="switchTool('censor')" id="mob-tab-censor" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400 relative">
-                <i class="fa-solid fa-marker text-lg mb-1 text-pink-400"></i>
-                <span class="text-[9px] font-medium">Censor</span>
-                <span class="absolute top-1 right-2 w-1.5 h-1.5 rounded-full bg-pink-500"></span>
-            </button>
-            <button onclick="switchTool('compress')" id="mob-tab-compress" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-compress text-lg mb-1 text-orange-400"></i>
-                <span class="text-[9px] font-medium">Size</span>
-            </button>
-            <button onclick="switchTool('info')" id="mob-tab-info" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-gray-400">
-                <i class="fa-solid fa-camera text-lg mb-1 text-teal-400"></i>
-                <span class="text-[9px] font-medium">EXIF</span>
-            </button>
-            <button onclick="switchTool('convert')" id="mob-tab-convert" class="mob-tab-btn snap-start shrink-0 flex flex-col items-center justify-center w-16 h-12 rounded-lg text-indigo-300 bg-primary/10 border border-primary/20">
-                <i class="fa-solid fa-file-export text-lg mb-1"></i>
-                <span class="text-[9px] font-bold">Export</span>
-            </button>
-        </div>
     </main>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast glass-panel px-5 py-3 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-3 font-medium border border-zinc-700">
-        <i class="fa-solid fa-bell text-indigo-400 text-lg"></i>
-        <span id="toast-msg" class="text-sm">Success!</span>
-    </div>
-
-    <!-- Custom Style for hiding scrollbar specifically on bottom nav -->
-    <style>
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Custom Radio Button styling logic */
-        input[type="radio"]:checked ~ div .radio-indicator { display: block; }
-        
-        /* Mobile Active Tab Styling */
-        .mob-tab-btn.active { color: #fff; background: rgba(255,255,255,0.1); }
-    </style>
-
     <script>
-        // --- STREAMING_CHUNK: Core State & Undo Architecture ---
-        let currentTool = 'crop';
-        let originalFileName = 'image';
-        let originalFileObj = null;
-        
-        // Image Pipeline
-        let initialImageObj = new Image(); 
-        let baseImageObj = new Image(); // The working base (contains crops and censors)
-        let aspectRatio = 1;
-        let originalExifData = null;
-
-        // Undo History Stack
-        const MAX_HISTORY = 10;
-        let historyStack = [];
-
-        // Tool States
-        let cropper = null;
-        let isComparing = false;
-        let filters = { brightness: 100, contrast: 100, saturation: 100, sepia: 0 };
-        let wmState = { type: 'text', text: '', color: '#ffffff', size: 48, pos: 'bottom-right', logoObj: new Image(), logoScale: 50 };
-        let frameState = { radius: 0, width: 0, color: '#ffffff' };
-
-        // UI Elements
-        const dropzone = document.getElementById('dropzone');
-        const fileInput = document.getElementById('fileInput');
-        const canvas = document.getElementById('preview-canvas');
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        
-        const widthInput = document.getElementById('input-width');
-        const heightInput = document.getElementById('input-height');
-        const ratioCheckbox = document.getElementById('maintain-ratio');
-        const ratioCheckboxUI = document.getElementById('ratio-checkbox-ui').querySelector('i');
+        // --- Ambient Background Particles ---
+        function createAmbientParticles() {
+            const container = document.getElementById('particles-container');
+            const colors = ['rgba(243, 213, 192, 0.4)', 'rgba(196, 113, 102, 0.3)', 'rgba(255, 255, 255, 0.2)'];
+            
+            for(let i=0; i<40; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'ambient-particle';
+                let size = Math.random() * 4 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * -20) + 's'; // Start at different phases
+                
+                // Add a subtle glowing effect
+                particle.style.boxShadow = `0 0 ${Math.random() * 5 + 2}px ${particle.style.backgroundColor}`;
+                
+                container.appendChild(particle);
+            }
+        }
+        createAmbientParticles();
 
         // --- Navigation Logic ---
-        function switchTool(tool) {
-            currentTool = tool;
+        function goToSection(sectionId) {
+            document.querySelectorAll('.section-container').forEach(sec => {
+                sec.classList.remove('active');
+                setTimeout(() => { sec.style.display = 'none'; }, 1000); // Wait for fade out
+            });
+
+            setTimeout(() => {
+                const target = document.getElementById(sectionId);
+                target.style.display = 'flex';
+                // Trigger reflow
+                void target.offsetWidth; 
+                target.classList.add('active');
+
+                if(sectionId === 'section-quiz' && currentQuestionIndex === 0) {
+                    loadQuestion();
+                }
+            }, 1000);
+        }
+
+        // --- Quiz Logic ---
+        const questions = [
+            {
+                text: "If I'm being completely honest, what caught my attention first?",
+                options: [
+                    "Your amazing personality", 
+                    "That smile of yours", 
+                    "Your impeccable style", 
+                    "All of it, let's be real"
+                ]
+            },
+            {
+                text: "If we were to hang out right now, what's the ideal scenario?",
+                options: [
+                    "Late night drive, good music, deep talks", 
+                    "Coffee date so I can just look at you", 
+                    "Something competitive so I can win", 
+                    "Spontaneous adventure"
+                ]
+            },
+            {
+                text: "Are you ready to see what I made for you?",
+                options: [
+                    "Yes, show me!", 
+                    "I'm intrigued...", 
+                    "I love surprises", 
+                    "Stop teasing, let's go!"
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = q.text;
             
-            // Update Desktop Tabs
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            const dTab = document.getElementById(`tab-${tool}`);
-            if(dTab) dTab.classList.add('active');
-
-            // Update Mobile Tabs
-            document.querySelectorAll('.mob-tab-btn').forEach(btn => btn.classList.remove('active'));
-            const mTab = document.getElementById(`mob-tab-${tool}`);
-            if(mTab) mTab.classList.add('active');
-
-            // Hide all panels
-            document.querySelectorAll('.tool-panel').forEach(p => p.classList.add('hidden'));
-            document.getElementById(`panel-${tool}`).classList.remove('hidden');
-
-            // UI Mode Switching
-            const cropperContainer = document.getElementById('cropper-container');
-            const canvasContainer = document.getElementById('canvas-container');
-            const drawInstruction = document.getElementById('draw-instruction');
-
-            if (tool === 'crop') {
-                canvasContainer.classList.add('hidden');
-                cropperContainer.classList.remove('hidden');
-                initCropper();
-            } else {
-                cropperContainer.classList.add('hidden');
-                canvasContainer.classList.remove('hidden');
-                if(cropper) { cropper.destroy(); cropper = null; }
-                
-                if (tool === 'censor') {
-                drawInstruction.innerHTML = '<i class="fa-solid fa-hand-pointer text-pink-400 animate-pulse"></i> Draw over text to hide it';
-                drawInstruction.classList.remove('hidden');
-                canvas.style.cursor = 'crosshair';
-                canvas.style.touchAction = 'none';
-            } else if (tool === 'annotate') {
-                drawInstruction.innerHTML = '<i class="fa-solid fa-pen text-yellow-400 animate-pulse"></i> Draw freely on image';
-                drawInstruction.classList.remove('hidden');
-                canvas.style.cursor = 'crosshair';
-                canvas.style.touchAction = 'none';
-            } else {
-                drawInstruction.classList.add('hidden');
-                canvas.style.cursor = 'default';
-                canvas.style.touchAction = 'auto';
-            }
-                renderCanvas();
-            }
-        }
-
-        // --- STREAMING_CHUNK: History (Undo) System ---
-        function saveState() {
-            if(!baseImageObj.src) return;
-            historyStack.push(baseImageObj.src);
-            if(historyStack.length > MAX_HISTORY) historyStack.shift();
-            updateUndoBtn();
-        }
-
-        function undo() {
-            if(historyStack.length === 0) return;
-            const previousState = historyStack.pop();
-            baseImageObj.onload = () => {
-                if(currentTool === 'crop') initCropper();
-                else renderCanvas();
-                updateUndoBtn();
-            };
-            baseImageObj.src = previousState;
-            showToast('Undo successful', 'info');
-        }
-
-        function updateUndoBtn() {
-            const btn = document.getElementById('btn-undo');
-            btn.disabled = historyStack.length === 0;
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
-                e.preventDefault();
-                undo();
-            }
-        });
-
-        // --- STREAMING_CHUNK: File Upload & Initialization ---
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropzone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
-        });
-
-        ['dragenter', 'dragover'].forEach(eventName => dropzone.classList.add('drop-active'));
-        ['dragleave', 'drop'].forEach(eventName => dropzone.classList.remove('drop-active'));
-
-        dropzone.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
-        fileInput.addEventListener('change', function() { handleFile(this.files[0]); });
-
-        async function handleFile(file) {
-            if (!file) return;
-            if (!file.type.match('image.*') && !file.name.toLowerCase().endsWith('.heic')) {
-                showToast('Please upload a valid image file.', 'error'); return;
-            }
-
-            originalFileObj = file;
-            originalFileName = file.name.split('.')[0];
-            historyStack = []; 
-            updateUndoBtn();
-            originalExifData = null;
-            document.getElementById('exif-data-container').innerHTML = '<div class="flex items-center justify-center py-8 text-gray-500 text-sm"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Reading data...</div>';
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
             
-            document.getElementById('upload-section').querySelector('.max-w-3xl').classList.add('hidden');
-            document.getElementById('dropzone').classList.add('hidden');
-            document.getElementById('upload-section').querySelector('.grid').classList.add('hidden');
-            document.getElementById('loading-indicator').classList.remove('hidden');
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option text-left px-6 py-4 rounded-xl text-base font-light text-gray-200 flex items-center justify-between group';
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <span class="opacity-0 group-hover:opacity-100 transition-opacity text-[#c47166] text-xl">→</span>
+                `;
+                btn.onclick = () => handleAnswer(btn);
+                optionsContainer.appendChild(btn);
+            });
 
-            // Extract EXIF data
-            try {
-                if (typeof exifr !== 'undefined') {
-                    exifr.parse(file).then(exif => {
-                        originalExifData = exif;
-                        renderExifData();
-                    }).catch(err => {
-                        console.log("No EXIF found", err);
-                        renderExifData(false);
-                    });
+            updateQuizProgress();
+        }
+
+        function updateQuizProgress() {
+            const progressContainer = document.getElementById('quiz-progress');
+            progressContainer.innerHTML = '';
+            for(let i=0; i<questions.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full transition-all duration-500 ${i === currentQuestionIndex ? 'bg-[#c47166] w-8' : 'bg-white/20'}`;
+                progressContainer.appendChild(dot);
+            }
+        }
+
+        function handleAnswer(btnElement) {
+            // Visual feedback
+            btnElement.style.background = 'rgba(196, 113, 102, 0.2)';
+            btnElement.style.borderColor = '#c47166';
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if(currentQuestionIndex < questions.length) {
+                    // Fade out options briefly
+                    document.getElementById('quiz-container').style.opacity = '0';
+                    setTimeout(() => {
+                        loadQuestion();
+                        document.getElementById('quiz-container').style.opacity = '1';
+                        document.getElementById('quiz-container').style.transition = 'opacity 0.6s ease';
+                    }, 400);
                 } else {
-                    renderExifData(false);
+                    goToSection('section-task');
                 }
-            } catch(e) { console.log(e); renderExifData(false); }
-
-            try {
-                let imageUrl = '';
-                if (file.name.toLowerCase().endsWith('.heic') || file.type === 'image/heic') {
-                    const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.9 });
-                    imageUrl = URL.createObjectURL(Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob);
-                    document.getElementById('original-info').innerText = `Orig: ~${formatBytes(file.size)} (HEIC)`;
-                } else {
-                    imageUrl = URL.createObjectURL(file);
-                    document.getElementById('original-info').innerText = `Orig: ${formatBytes(file.size)}`;
-                }
-
-                initialImageObj.onload = () => {
-                    baseImageObj.src = initialImageObj.src;
-                };
-                
-                baseImageObj.onload = () => {
-                    aspectRatio = baseImageObj.width / baseImageObj.height;
-                    widthInput.value = baseImageObj.width;
-                    heightInput.value = baseImageObj.height;
-                    
-                    document.getElementById('upload-section').classList.add('hidden');
-                    document.getElementById('workspace-section').classList.remove('hidden');
-                    document.getElementById('workspace-section').classList.add('flex');
-                    document.getElementById('header-actions').classList.remove('hidden');
-                    document.getElementById('header-actions').classList.add('flex');
-                    document.getElementById('mobile-nav').classList.remove('hidden');
-                    document.getElementById('mobile-nav').classList.add('flex');
-                    
-                    switchTool('crop');
-                };
-
-                initialImageObj.src = imageUrl;
-            } catch (err) {
-                console.error(err);
-                showToast('Error loading image.', 'error');
-                resetApp();
-            }
+            }, 700);
         }
 
-        // --- STREAMING_CHUNK: Tools Logic ---
-        function initCropper() {
-            const imageElement = document.getElementById('cropper-image');
-            imageElement.src = baseImageObj.src;
-            if (cropper) cropper.destroy();
+        // --- Mini Task Logic ---
+        let starsCaught = 0;
+        const totalStarsNeeded = 5;
+        let taskInterval;
+
+        function startStarTask() {
+            document.getElementById('start-task-btn').style.display = 'none';
+            document.getElementById('star-catcher-zone').style.pointerEvents = 'auto';
+            starsCaught = 0;
+            updateTaskProgress();
             
-            cropper = new Cropper(imageElement, {
-                viewMode: 2, background: false, autoCropArea: 1, responsive: true, checkOrientation: false
-            });
+            // Spawn stars continuously
+            taskInterval = setInterval(spawnStar, 700);
         }
 
-        function setCropRatio(ratio) {
-            if(!cropper) return;
-            cropper.setAspectRatio(ratio);
-            document.querySelectorAll('.crop-ratio-btn').forEach(b => {
-                b.classList.remove('border-primary', 'text-primary');
-                b.classList.add('border-transparent');
-            });
-            event.currentTarget.classList.remove('border-transparent');
-            event.currentTarget.classList.add('border-primary', 'text-primary');
-        }
-
-        function applyCrop() {
-            if(!cropper) return;
-            const croppedCanvas = cropper.getCroppedCanvas();
-            if(!croppedCanvas) return;
+        function spawnStar() {
+            const zone = document.getElementById('star-catcher-zone');
+            const star = document.createElement('div');
+            // Using a glowing SVG star instead of emoji for a premium look
+            star.innerHTML = `<svg viewBox="0 0 24 24" fill="#f3d5c0" class="w-full h-full drop-shadow-[0_0_10px_rgba(243,213,192,0.8)]"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+            star.className = 'star';
             
-            saveState(); 
+            const randomX = Math.random() * 80 + 10; 
+            star.style.left = `${randomX}%`;
             
-            baseImageObj.onload = () => {
-                aspectRatio = baseImageObj.width / baseImageObj.height;
-                widthInput.value = baseImageObj.width;
-                heightInput.value = baseImageObj.height;
-                showToast('Transform Applied');
-                switchTool('adjust'); 
-            };
-            baseImageObj.src = croppedCanvas.toDataURL('image/png');
-        }
+            const size = Math.random() * 15 + 25; 
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
 
-        function updateFilters() {
-            filters.brightness = document.getElementById('slider-brightness').value;
-            filters.contrast = document.getElementById('slider-contrast').value;
-            filters.saturation = document.getElementById('slider-saturation').value;
-            filters.sepia = document.getElementById('slider-sepia').value;
-            
-            document.getElementById('val-brightness').innerText = `${filters.brightness}%`;
-            document.getElementById('val-contrast').innerText = `${filters.contrast}%`;
-            document.getElementById('val-saturation').innerText = `${filters.saturation}%`;
-            document.getElementById('val-sepia').innerText = `${filters.sepia}%`;
-            
-            renderCanvas();
-        }
-
-        function setFilterPreset(type) {
-            filters = { brightness: 100, contrast: 100, saturation: 100, sepia: 0 };
-            if(type === 'vintage') { filters.sepia = 40; filters.contrast = 110; filters.saturation = 80; }
-            if(type === 'cyberpunk') { filters.contrast = 130; filters.saturation = 150; filters.brightness = 90; }
-            if(type === 'bw') { filters.saturation = 0; filters.contrast = 120; }
-            
-            document.getElementById('slider-brightness').value = filters.brightness;
-            document.getElementById('slider-contrast').value = filters.contrast;
-            document.getElementById('slider-saturation').value = filters.saturation;
-            document.getElementById('slider-sepia').value = filters.sepia;
-            updateFilters();
-        }
-
-        // --- Frame Logic ---
-        function updateFrame() {
-            frameState.radius = parseInt(document.getElementById('frame-radius').value);
-            frameState.width = parseInt(document.getElementById('frame-width').value);
-            
-            document.getElementById('val-radius').innerText = `${frameState.radius}px`;
-            document.getElementById('val-bwidth').innerText = `${frameState.width}px`;
-            renderCanvas();
-        }
-
-        function setFrameColor(color) {
-            frameState.color = color;
-            document.getElementById('frame-color').value = color;
-            renderCanvas();
-        }
-
-        // --- Watermark Logic ---
-        function setWmType(type) {
-            wmState.type = type;
-            document.getElementById('wm-tab-text').className = type === 'text' ? 'flex-1 py-1.5 text-xs font-bold rounded bg-zinc-700 text-white' : 'flex-1 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white';
-            document.getElementById('wm-tab-logo').className = type === 'logo' ? 'flex-1 py-1.5 text-xs font-bold rounded bg-zinc-700 text-white' : 'flex-1 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white';
-            
-            document.getElementById('wm-text-options').classList.toggle('hidden', type !== 'text');
-            document.getElementById('wm-logo-options').classList.toggle('hidden', type !== 'logo');
-            renderCanvas();
-        }
-
-        function handleLogoUpload(e) {
-            const file = e.target.files[0];
-            if(file) {
-                wmState.logoObj.onload = () => renderCanvas();
-                wmState.logoObj.src = URL.createObjectURL(file);
-            }
-        }
-
-        function setWmPos(pos) {
-            wmState.pos = pos;
-            document.querySelectorAll('.wm-pos-btn').forEach(btn => {
-                btn.className = 'wm-pos-btn text-gray-500 hover:text-white p-2 rounded text-xs transition-colors';
-            });
-            event.currentTarget.className = 'wm-pos-btn bg-zinc-700 text-white shadow p-2 rounded text-xs';
-            renderCanvas();
-        }
-
-        // --- Censor Logic ---
-        let isDrawing = false, lastX = 0, lastY = 0;
-
-        function setAnnotateColor(color) {
-            document.querySelectorAll('.annotate-color-btn').forEach(b => {
-                b.classList.remove('border-white');
-                if(b.style.backgroundColor === 'rgb(255, 255, 255)') b.classList.add('border-gray-400');
-                else if(b.style.backgroundColor === 'rgb(0, 0, 0)') b.classList.add('border-gray-600');
-                else b.classList.add('border-transparent');
-            });
-            event.currentTarget.classList.remove('border-transparent', 'border-gray-400', 'border-gray-600');
-            event.currentTarget.classList.add('border-white');
-            document.getElementById('annotate-color').value = color;
-        }
-
-        function setCensorStyle(style) {
-            document.querySelectorAll('.censor-style-btn').forEach(b => {
-                b.classList.remove('border-primary');
-                b.classList.add('border-transparent');
-            });
-            event.currentTarget.classList.remove('border-transparent');
-            event.currentTarget.classList.add('border-primary');
-            
-            if(style === 'black') document.getElementById('censor-color').value = '#000000';
-            if(style === 'white') document.getElementById('censor-color').value = '#ffffff';
-            if(style === 'highlight') document.getElementById('censor-color').value = 'rgba(250, 204, 21, 0.4)';
-        }
-
-        function getMousePos(e) {
-            const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
-        }
-
-        function startDrawing(e) {
-            if(currentTool !== 'censor' && currentTool !== 'annotate') return;
-            e.preventDefault();
-            isDrawing = true;
-            saveState();
-            const pos = getMousePos(e);
-            lastX = pos.x; lastY = pos.y;
-            draw(e);
-        }
-
-        function draw(e) {
-            if(!isDrawing || (currentTool !== 'censor' && currentTool !== 'annotate')) return;
-            e.preventDefault();
-            const pos = getMousePos(e);
-            
-            let size, color, blendMode = 'source-over';
-            
-            if(currentTool === 'censor') {
-                size = parseInt(document.getElementById('censor-size').value);
-                color = document.getElementById('censor-color').value;
-                if(color.startsWith('rgba')) blendMode = 'multiply';
-            } else {
-                size = parseInt(document.getElementById('annotate-size').value);
-                color = document.getElementById('annotate-color').value;
-            }
-
-            ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = size;
-            ctx.globalCompositeOperation = blendMode; 
-            ctx.strokeStyle = color;
-
-            ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
-            ctx.globalCompositeOperation = 'source-over';
-            lastX = pos.x; lastY = pos.y;
-        }
-
-        function stopDrawing(e) {
-            if(!isDrawing || (currentTool !== 'censor' && currentTool !== 'annotate')) return;
-            isDrawing = false;
-            baseImageObj.src = canvas.toDataURL('image/png');
-        }
-
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseout', stopDrawing);
-        canvas.addEventListener('touchstart', startDrawing, {passive: false});
-        canvas.addEventListener('touchmove', draw, {passive: false});
-        canvas.addEventListener('touchend', stopDrawing);
-
-        // --- STREAMING_CHUNK: Master Canvas Rendering Pipeline ---
-        function showOriginal(show) {
-            if(!baseImageObj.src || currentTool === 'crop') return;
-            isComparing = show;
-            renderCanvas();
-        }
-
-        function renderCanvas() {
-            if(!baseImageObj.src || currentTool === 'crop') return;
-
-            let targetW = parseInt(widthInput.value) || baseImageObj.width;
-            let targetH = parseInt(heightInput.value) || baseImageObj.height;
-
-            if(targetW > 4000) targetW = 4000; if(targetH > 4000) targetH = 4000;
-
-            canvas.width = targetW; canvas.height = targetH;
-            
-            ctx.save();
-            
-            // Handle Compare Mode (Show Original)
-            if (isComparing) {
-                ctx.drawImage(initialImageObj, 0, 0, targetW, targetH);
-                ctx.restore();
-                return; // Skip drawing filters, frames and watermarks
-            }
-
-            // Apply Frames/Rounding Clip
-            if(frameState.radius > 0 && ctx.roundRect) {
-                ctx.beginPath();
-                ctx.roundRect(0, 0, targetW, targetH, frameState.radius);
-                ctx.clip();
-            }
-            
-            // 1. Draw Base Image with Filters
-            const filterStr = `brightness(${filters.brightness}%) contrast(${filters.contrast}%) saturate(${filters.saturation}%) sepia(${filters.sepia}%)`;
-            ctx.filter = filterStr;
-            ctx.drawImage(baseImageObj, 0, 0, targetW, targetH);
-            ctx.filter = 'none';
-
-            // 2. Draw Frame Border
-            if(frameState.width > 0 && ctx.roundRect) {
-                const bw = frameState.width;
-                ctx.beginPath();
-                // Draw inset stroke to not clip outside
-                ctx.roundRect(bw/2, bw/2, targetW - bw, targetH - bw, Math.max(0, frameState.radius - bw/2));
-                ctx.lineWidth = bw;
-                ctx.strokeStyle = frameState.color;
-                ctx.stroke();
-            }
-
-            ctx.restore();
-
-            // 3. Draw Watermark
-            if(wmState.type === 'text') {
-                wmState.text = document.getElementById('wm-text').value;
-                if(wmState.text.trim() !== '') {
-                    wmState.color = document.getElementById('wm-color').value;
-                    wmState.size = parseInt(document.getElementById('wm-size').value);
-                    
-                    const scaleFactor = Math.max(targetW, targetH) / 1000;
-                    const actualFontSize = wmState.size * (scaleFactor < 0.5 ? 0.5 : scaleFactor);
-                    
-                    ctx.font = `bold ${actualFontSize}px Inter, sans-serif`;
-                    ctx.fillStyle = wmState.color;
-                    
-                    const metrics = ctx.measureText(wmState.text);
-                    const padding = 20 * scaleFactor;
-                    let x = padding, y = padding + actualFontSize;
-
-                    if(wmState.pos.includes('right')) x = targetW - metrics.width - padding;
-                    if(wmState.pos.includes('center') && !wmState.pos.includes('top') && !wmState.pos.includes('bottom')) {
-                        x = targetW/2 - metrics.width/2; y = targetH/2 + actualFontSize/2;
-                    }
-                    if(wmState.pos === 'top-center' || wmState.pos === 'bottom-center') x = targetW/2 - metrics.width/2;
-                    if(wmState.pos.includes('bottom')) y = targetH - padding;
-
-                    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 4;
-                    ctx.fillText(wmState.text, x, y);
-                    ctx.shadowBlur = 0;
-                }
-            } else if (wmState.type === 'logo' && wmState.logoObj.src) {
-                wmState.logoScale = parseInt(document.getElementById('wm-logo-size').value);
-                document.getElementById('wm-logo-size-val').innerText = `${wmState.logoScale}%`;
-                
-                const maxLogoW = targetW * 0.5; // Logo takes max 50% of image width
-                const baseLogoW = (wmState.logoObj.width / wmState.logoObj.height) * (targetH * 0.2); // Base size is 20% of height
-                
-                const actualLogoW = baseLogoW * (wmState.logoScale / 50);
-                const actualLogoH = actualLogoW / (wmState.logoObj.width / wmState.logoObj.height);
-                
-                const padding = targetW * 0.02;
-                let x = padding, y = padding;
-
-                if(wmState.pos.includes('right')) x = targetW - actualLogoW - padding;
-                if(wmState.pos.includes('center') && !wmState.pos.includes('top') && !wmState.pos.includes('bottom')) {
-                    x = targetW/2 - actualLogoW/2; y = targetH/2 - actualLogoH/2;
-                }
-                if(wmState.pos === 'top-center' || wmState.pos === 'bottom-center') x = targetW/2 - actualLogoW/2;
-                if(wmState.pos.includes('bottom')) y = targetH - actualLogoH - padding;
-
-                ctx.shadowColor = "rgba(0,0,0,0.3)"; ctx.shadowBlur = 10;
-                ctx.drawImage(wmState.logoObj, x, y, actualLogoW, actualLogoH);
-                ctx.shadowBlur = 0;
-            }
-
-            updateCompressEstimate();
-        }
-
-        // --- Dimension Sync logic ---
-        widthInput.addEventListener('input', () => {
-            if (ratioCheckbox.checked && widthInput.value) heightInput.value = Math.round(widthInput.value / aspectRatio);
-            renderCanvas();
-        });
-        heightInput.addEventListener('input', () => {
-            if (ratioCheckbox.checked && heightInput.value) widthInput.value = Math.round(heightInput.value * aspectRatio);
-            renderCanvas();
-        });
-        
-        const ratioToggle = document.querySelector('label[for="maintain-ratio"]') || ratioCheckbox.parentElement;
-        ratioToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            ratioCheckbox.checked = !ratioCheckbox.checked;
-            ratioCheckboxUI.style.display = ratioCheckbox.checked ? 'block' : 'none';
-            if (ratioCheckbox.checked) {
-                heightInput.value = Math.round(widthInput.value / aspectRatio);
-                renderCanvas();
-            }
-        });
-
-        const qualitySlider = document.getElementById('quality-slider');
-        qualitySlider.addEventListener('input', () => {
-            document.getElementById('quality-val').innerText = `${qualitySlider.value}%`;
-            clearTimeout(window.previewTimeout);
-            window.previewTimeout = setTimeout(updateCompressEstimate, 200);
-        });
-
-        function updateCompressEstimate() {
-            if(!baseImageObj.src) return;
-            const quality = qualitySlider.value / 100;
-            const dataUrl = canvas.toDataURL('image/jpeg', quality);
-            const sizeBytes = Math.round((dataUrl.length * 3) / 4);
-            document.getElementById('new-info').innerText = `Est. Output: ${formatBytes(sizeBytes)}`;
-        }
-
-        // --- STREAMING_CHUNK: Export & Grid Download System ---
-        function downloadImage() {
-            if(currentTool === 'crop' && cropper) { applyCrop(); setTimeout(proceedDownload, 100); return; }
-            proceedDownload();
-        }
-
-        function proceedDownload() {
-            let format = document.querySelector('input[name="format"]:checked')?.value || 'jpeg';
-            let quality = (format === 'jpeg' || format === 'webp') ? qualitySlider.value / 100 : 1.0;
-
-            const link = document.createElement('a');
-            link.download = `${originalFileName}_StudioPro.${format}`;
-            link.href = canvas.toDataURL(`image/${format}`, quality);
-            link.click();
-            showToast(`Saved securely to your device`);
-        }
-
-        function downloadGrid(rows, cols) {
-            renderCanvas(); // Ensure latest state
-            const sliceW = Math.floor(canvas.width / cols);
-            const sliceH = Math.floor(canvas.height / rows);
-            
-            let count = 1;
-            for(let r = 0; r < rows; r++) {
-                for(let c = 0; c < cols; c++) {
-                    const tempCanvas = document.createElement('canvas');
-                    tempCanvas.width = sliceW; tempCanvas.height = sliceH;
-                    tempCanvas.getContext('2d').drawImage(canvas, c * sliceW, r * sliceH, sliceW, sliceH, 0, 0, sliceW, sliceH);
-                    
-                    const link = document.createElement('a');
-                    link.download = `${originalFileName}_grid_${count}.jpeg`;
-                    link.href = tempCanvas.toDataURL('image/jpeg', 0.9);
-                    
-                    // Slight delay for multiple downloads to process cleanly in browser
-                    setTimeout(() => link.click(), count * 150); 
-                    count++;
-                }
-            }
-            showToast(`${rows * cols} Grid slices downloaded!`);
-        }
-
-        // --- STREAMING_CHUNK: EXIF Data Rendering ---
-        function renderExifData(success = true) {
-            const container = document.getElementById('exif-data-container');
-            if (!success || !originalExifData) {
-                container.innerHTML = `
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 text-center">
-                        <i class="fa-solid fa-ghost text-3xl text-zinc-700 mb-3 block"></i>
-                        <p class="text-sm text-gray-400 font-medium">No Metadata Found</p>
-                        <p class="text-[10px] text-zinc-500 mt-1">This image doesn't contain hidden EXIF data like camera info or location.</p>
-                    </div>`;
-                return;
-            }
-
-            const e = originalExifData;
-            let html = '<div class="space-y-2">';
-            
-            // Helper to format rows
-            const addRow = (icon, label, value) => {
-                if(value) {
-                    html += `
-                    <div class="flex justify-between items-center bg-zinc-900/80 p-2.5 rounded-lg border border-zinc-800/50">
-                        <div class="flex items-center gap-2 text-gray-400">
-                            <i class="fa-solid ${icon} w-4 text-center text-[10px]"></i>
-                            <span class="text-xs font-medium">${label}</span>
-                        </div>
-                        <span class="text-xs text-white font-mono text-right max-w-[120px] truncate" title="${value}">${value}</span>
-                    </div>`;
-                }
+            star.onclick = (e) => {
+                e.stopPropagation();
+                catchStar(star);
             };
 
-            addRow('fa-camera', 'Make', e.Make);
-            addRow('fa-mobile-screen', 'Model', e.Model);
-            addRow('fa-calendar-days', 'Date', e.DateTimeOriginal ? new Date(e.DateTimeOriginal).toLocaleDateString() : null);
-            addRow('fa-stopwatch', 'Exposure', e.ExposureTime ? `1/${Math.round(1/e.ExposureTime)}s` : null);
-            addRow('fa-aperture', 'F-Stop', e.FNumber ? `f/${e.FNumber}` : null);
-            addRow('fa-film', 'ISO', e.ISO);
-            addRow('fa-arrows-left-right', 'Dimensions', (e.PixelXDimension && e.PixelYDimension) ? `${e.PixelXDimension}x${e.PixelYDimension}` : null);
-            
-            if (e.latitude && e.longitude) {
-                addRow('fa-location-dot', 'Location', `${e.latitude.toFixed(4)}, ${e.longitude.toFixed(4)}`);
-            } else if (e.GPSLatitude && e.GPSLongitude) {
-                 addRow('fa-location-dot', 'GPS', `Data Present`);
-            }
+            star.addEventListener('animationend', () => {
+                if(zone.contains(star)) zone.removeChild(star);
+            });
 
-            if(html === '<div class="space-y-2">') {
-                renderExifData(false); // No recognizable fields found
-                return;
-            }
-            html += '</div>';
-            container.innerHTML = html;
+            zone.appendChild(star);
         }
 
-        // --- Utility ---
-        function resetApp() {
-            if(cropper) { cropper.destroy(); cropper = null; }
-            initialImageObj = new Image(); baseImageObj = new Image();
-            wmState.logoObj = new Image(); fileInput.value = '';
+        function catchStar(starElement) {
+            starElement.style.transform = 'scale(2.5) rotate(45deg)';
+            starElement.style.opacity = '0';
+            starElement.style.pointerEvents = 'none';
             
-            document.getElementById('workspace-section').classList.add('hidden');
-            document.getElementById('workspace-section').classList.remove('flex');
-            document.getElementById('header-actions').classList.add('hidden');
-            document.getElementById('header-actions').classList.remove('flex');
-            document.getElementById('mobile-nav').classList.add('hidden');
-            document.getElementById('mobile-nav').classList.remove('flex');
+            // Sparkle effect
+            createSparkle(starElement.getBoundingClientRect());
             
-            document.getElementById('upload-section').querySelector('.max-w-3xl').classList.remove('hidden');
-            document.getElementById('dropzone').classList.remove('hidden');
-            document.getElementById('upload-section').querySelector('.grid').classList.remove('hidden');
-            document.getElementById('loading-indicator').classList.add('hidden');
+            starsCaught++;
+            updateTaskProgress();
             
-            setFilterPreset('normal');
-            document.getElementById('wm-text').value = '';
-        }
-
-        function formatBytes(bytes) {
-            if (!+bytes) return '0 B';
-            const k = 1024, dm = 1, sizes = ['B', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-        }
-
-        let toastTimer;
-        function showToast(msg, type = 'success') {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            const icon = t.querySelector('i');
-            
-            if(type === 'error') {
-                icon.className = 'fa-solid fa-triangle-exclamation text-red-400 text-lg';
-                t.style.borderColor = '#ef4444';
-            } else if (type === 'info') {
-                icon.className = 'fa-solid fa-info-circle text-blue-400 text-lg';
-                t.style.borderColor = '#3b82f6';
-            } else {
-                icon.className = 'fa-solid fa-circle-check text-green-400 text-lg';
-                t.style.borderColor = '#10b981';
+            if(starsCaught >= totalStarsNeeded) {
+                clearInterval(taskInterval);
+                setTimeout(() => {
+                    goToSection('section-message');
+                }, 1200);
             }
+        }
 
-            t.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        function updateTaskProgress() {
+            const remaining = totalStarsNeeded - starsCaught;
+            document.getElementById('stars-needed').innerText = Math.max(0, remaining);
+            const percentage = (starsCaught / totalStarsNeeded) * 100;
+            document.getElementById('task-progress').style.width = `${percentage}%`;
+        }
+
+        function createSparkle(rect) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = `${rect.left + rect.width/2}px`;
+            sparkle.style.top = `${rect.top}px`;
+            sparkle.style.fontSize = '24px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '50';
+            sparkle.style.transition = 'all 0.5s ease-out';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.style.transform = 'translateY(-30px) scale(1.5)';
+                sparkle.style.opacity = '0';
+            }, 10);
+            
+            setTimeout(() => {
+                if(document.body.contains(sparkle)) document.body.removeChild(sparkle);
+            }, 500);
+        }
+
+        // --- Final Action Handler ---
+        function finalAction(type) {
+            const responseEl = document.getElementById('final-response');
+            
+            if(type === 'smile') {
+                responseEl.innerText = "Mission accomplished. Seeing you smile was the goal. 😊";
+                createFloatingHearts();
+            } else if (type === 'date') {
+                responseEl.innerText = "I'll hold you to that. Let me know when you're free! ☕❤️";
+                createFloatingHearts();
+            }
+            
+            responseEl.style.opacity = '1';
+            
+            // Disable buttons to prevent spamming
+            const buttons = document.querySelectorAll('#section-message button');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+        }
+
+        function createFloatingHearts() {
+            for(let i=0; i<15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.style.position = 'fixed';
+                    heart.style.left = `${50 + (Math.random() * 20 - 10)}%`; // Centerish
+                    heart.style.bottom = '20%';
+                    heart.style.fontSize = `${Math.random() * 15 + 15}px`;
+                    heart.style.opacity = '0.7';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.zIndex = '100';
+                    heart.style.transition = 'all 2s ease-out';
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        const tx = Math.random() * 200 - 100;
+                        const ty = -(Math.random() * 300 + 100);
+                        heart.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random() * 45}deg) scale(1.5)`;
+                        heart.style.opacity = '0';
+                    }, 50);
+
+                    setTimeout(() => {
+                        if(document.body.contains(heart)) document.body.removeChild(heart);
+                    }, 2050);
+
+                }, i * 150); 
+            }
         }
     </script>
 </body>
