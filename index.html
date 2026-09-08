@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Jel ✨</title>
+    <title>For Gel ❤️</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #09090b 0%, #1c1917 50%, #271c19 100%);
+            /* Premium deep romantic gradient */
+            background: linear-gradient(135deg, #050505 0%, #1a080c 50%, #2a0a14 100%);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
@@ -33,29 +34,23 @@
 
         /* Premium Glassmorphism */
         .glass-panel {
-            background: rgba(30, 25, 25, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            background: rgba(20, 10, 12, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
         /* Text Gradients */
-        .gold-text {
-            background: linear-gradient(to right, #F9D423 0%, #FF4E50 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
         .rose-gold-text {
-            background: linear-gradient(to right, #e8b5a2, #f3d5c0);
+            background: linear-gradient(to right, #f3d5c0, #e8b5a2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(232, 181, 162, 0.3);
+            text-shadow: 0 0 30px rgba(232, 181, 162, 0.2);
         }
 
         .crimson-text {
-             background: linear-gradient(to right, #ff4b4b, #ff8f8f);
+             background: linear-gradient(to right, #ff3366, #ff8f8f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -64,8 +59,8 @@
         .section-container {
             display: none;
             opacity: 0;
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateY(30px) scale(0.98);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(40px) scale(0.97);
         }
         
         .section-container.active {
@@ -76,10 +71,10 @@
 
         /* Button styling */
         .premium-btn {
-            background: linear-gradient(135deg, #c47166 0%, #a35d54 100%);
+            background: linear-gradient(135deg, #d33f49 0%, #a3222e 100%);
             color: white;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(196, 113, 102, 0.2);
+            box-shadow: 0 8px 25px rgba(211, 63, 73, 0.3);
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
@@ -90,271 +85,259 @@
             position: absolute;
             top: 0; left: -100%;
             width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
             transition: left 0.7s;
         }
 
-        .premium-btn:hover::before {
-            left: 100%;
-        }
-
+        .premium-btn:hover::before { left: 100%; }
         .premium-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(196, 113, 102, 0.4);
-            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(211, 63, 73, 0.5);
+            border-color: rgba(255,255,255,0.4);
         }
 
-        /* Hover Cards */
+        /* Hover Cards for Confessions */
         .reveal-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: all 0.5s ease;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1.2rem;
+            padding: 2.5rem 1.5rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            height: 120px;
+            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .reveal-card:hover {
-            background: rgba(196, 113, 102, 0.1);
-            border-color: rgba(196, 113, 102, 0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(211, 63, 73, 0.15);
+            border-color: rgba(211, 63, 73, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 20px rgba(211,63,73,0.2);
         }
 
         .reveal-card .front {
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: translateY(0);
         }
         
         .reveal-card .back {
             position: absolute;
             opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: translateY(20px);
             color: #f3d5c0;
             font-style: italic;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            padding: 0 1rem;
         }
 
-        .reveal-card:hover .front { opacity: 0; }
+        .reveal-card:hover .front { opacity: 0; transform: translateY(-20px); }
         .reveal-card:hover .back { opacity: 1; transform: translateY(0); }
 
-        /* Quiz Options */
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quiz-option:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(196, 113, 102, 0.5);
-            transform: translateX(5px);
-        }
-
-        /* Floating Stars Task */
-        .star {
+        /* Floating Hearts Task */
+        .floating-heart {
             position: absolute;
             cursor: pointer;
             user-select: none;
             transition: transform 0.2s;
-            animation: floatUp 5s linear forwards;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+            animation: floatUp 6s ease-in forwards;
+            filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.8));
             z-index: 20;
         }
         
-        .star:hover {
-            transform: scale(1.3) rotate(20deg);
-        }
+        .floating-heart:hover { transform: scale(1.4) rotate(15deg); }
 
         @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(100vh) rotate(-15deg) scale(0.8); opacity: 0; }
             10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(15deg) scale(1.2); opacity: 0; }
         }
 
-        /* Ambient floating particles */
+        /* Ambient Background Particles */
         .ambient-particle {
             position: absolute;
             background: #fff;
             border-radius: 50%;
             pointer-events: none;
             animation: floatParticle infinite linear;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
         @keyframes floatParticle {
             0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.3; }
             100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
         }
         
         /* Heart Beat Animation */
         @keyframes heartbeat {
             0% { transform: scale(1); }
-            14% { transform: scale(1.1); }
+            14% { transform: scale(1.15); }
             28% { transform: scale(1); }
-            42% { transform: scale(1.1); }
+            42% { transform: scale(1.15); }
             70% { transform: scale(1); }
         }
         .heart-icon {
             display: inline-block;
-            animation: heartbeat 2s infinite;
+            animation: heartbeat 1.5s infinite;
         }
+
+        /* Dodging Button specific class */
+        .dodge-btn {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative; /* Will be changed to absolute via JS when hovered */
+            z-index: 50;
+        }
+        
+        /* Custom Scrollbar for dashboard */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); rounded: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
     </style>
 </head>
 <body class="relative flex items-center justify-center min-h-screen p-4 sm:p-8">
 
+    <!-- Romantic Ambient Background -->
     <div id="particles-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+    <div class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(211,63,73,0.05)_0%,_transparent_60%)]"></div>
 
     <main class="relative z-10 w-full max-w-3xl mx-auto">
         
         <!-- SECTION 1: Landing Page -->
-        <section id="section-landing" class="section-container active flex-col items-center text-center justify-center min-h-[75vh]">
-            <div class="glass-panel rounded-3xl p-8 sm:p-14 w-full relative overflow-hidden">
+        <section id="section-landing" class="section-container active flex-col items-center text-center justify-center min-h-[80vh]">
+            <div class="glass-panel rounded-[2rem] p-8 sm:p-16 w-full relative overflow-hidden">
                 <!-- Decorative glow -->
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#c47166] blur-[100px] opacity-20 pointer-events-none"></div>
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-40 bg-[#d33f49] blur-[120px] opacity-20 pointer-events-none"></div>
                 
-                <p class="text-xs sm:text-sm tracking-[0.3em] text-[#a35d54] mb-6 uppercase font-semibold">Just for you</p>
-                <h1 id="secret-trigger" class="text-5xl sm:text-7xl font-semibold mb-6 tracking-tight cursor-default select-none">
-                    Hi, <span class="rose-gold-text italic">Jel.</span>
+                <p class="text-xs sm:text-sm tracking-[0.4em] text-[#d33f49] mb-8 uppercase font-bold">A special message from Vikas</p>
+                <h1 id="secret-trigger" class="text-6xl sm:text-8xl font-bold mb-6 tracking-tight cursor-pointer select-none transition-opacity duration-100">
+                    Hi, <span class="rose-gold-text italic">Gel.</span>
                 </h1>
                 
-                <div class="text-lg sm:text-xl text-gray-300 font-light mb-10 leading-relaxed max-w-lg mx-auto space-y-4">
-                    <p>I thought a simple text message wouldn't be enough.</p>
-                    <p class="text-sm sm:text-base text-gray-400">So, I made this little digital space to tell you something...</p>
+                <div class="text-lg sm:text-xl text-gray-300 font-light mb-12 leading-relaxed max-w-lg mx-auto space-y-4">
+                    <p>I couldn't just say this over a normal text message.</p>
+                    <p class="text-sm sm:text-base text-gray-400">So I built this entire experience, just for you.</p>
                 </div>
                 
-                <button onclick="goToSection('section-reveal')" class="premium-btn px-10 py-4 rounded-full text-base sm:text-lg tracking-wide flex items-center gap-3 mx-auto">
-                    <span>See what it is</span>
+                <button onclick="goToSection('section-reveal')" class="premium-btn px-12 py-4 rounded-full text-base sm:text-lg tracking-wide flex items-center gap-3 mx-auto font-medium">
+                    <span>See why</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
             </div>
         </section>
 
-        <!-- SECTION 2: Interactive Reveals -->
-        <section id="section-reveal" class="section-container flex-col items-center justify-center min-h-[75vh]">
-            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center">
-                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-2">Things I Notice</h2>
-                <p class="text-sm text-gray-400 mb-10 tracking-wider">HOVER OVER THE CARDS</p>
+        <!-- SECTION 2: Confessions / Reveals -->
+        <section id="section-reveal" class="section-container flex-col items-center justify-center min-h-[80vh]">
+            <div class="glass-panel rounded-[2rem] p-8 sm:p-12 w-full text-center relative">
+                <div class="absolute -top-10 -right-10 text-8xl opacity-[0.03] pointer-events-none font-serif">"</div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                    <div class="reveal-card">
-                        <span class="front text-lg font-medium text-gray-200">Your Energy</span>
-                        <span class="back text-base">It's contagious. You light up the room without even trying.</span>
+                <h2 class="text-4xl sm:text-5xl font-semibold rose-gold-text mb-3">Why You?</h2>
+                <p class="text-sm text-[#d33f49] mb-12 tracking-widest font-medium uppercase">Hover to reveal the truth</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-12">
+                    <div class="reveal-card group">
+                        <span class="front text-xl font-medium text-gray-200 group-hover:text-white transition-colors">Your Smile</span>
+                        <span class="back">It literally stops me in my tracks. It's the most beautiful thing I've ever seen.</span>
                     </div>
-                    <div class="reveal-card">
-                        <span class="front text-lg font-medium text-gray-200">Your Smile</span>
-                        <span class="back text-base">Honestly? It's one of my favorite things to see.</span>
+                    <div class="reveal-card group">
+                        <span class="front text-xl font-medium text-gray-200 group-hover:text-white transition-colors">Your Vibe</span>
+                        <span class="back">You have this incredible energy. Being around you just feels... right.</span>
                     </div>
-                    <div class="reveal-card">
-                        <span class="front text-lg font-medium text-gray-200">Our Conversations</span>
-                        <span class="back text-base">I could talk to you for hours and never get bored.</span>
+                    <div class="reveal-card group">
+                        <span class="front text-xl font-medium text-gray-200 group-hover:text-white transition-colors">The Way We Talk</span>
+                        <span class="back">I could lose hours just listening to you and talking to you.</span>
                     </div>
-                    <div class="reveal-card">
-                        <span class="front text-lg font-medium text-gray-200">The Way You Are</span>
-                        <span class="back text-base">You're effortlessly amazing, Jel. Just you.</span>
+                    <div class="reveal-card group">
+                        <span class="front text-xl font-medium text-gray-200 group-hover:text-white transition-colors">Simply You</span>
+                        <span class="back">Everything about you, Gel. You are completely amazing to me.</span>
                     </div>
                 </div>
 
-                <button onclick="goToSection('section-quiz')" class="text-sm text-[#c47166] hover:text-[#f3d5c0] transition-colors flex items-center gap-2 mx-auto uppercase tracking-widest font-semibold">
-                    <span>Next</span>
+                <button onclick="goToSection('section-task')" class="text-sm text-gray-400 hover:text-white transition-all flex items-center gap-2 mx-auto uppercase tracking-widest font-semibold bg-white/5 hover:bg-white/10 px-6 py-3 rounded-full">
+                    <span>There's one more thing</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
             </div>
         </section>
 
-        <!-- SECTION 3: The Quiz -->
-        <section id="section-quiz" class="section-container flex-col items-center justify-center min-h-[75vh]">
-            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center">
-                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-2">Let's be honest...</h2>
-                <p class="text-sm text-gray-400 mb-8 tracking-wider">A TINY QUESTIONNAIRE</p>
-                
-                <div id="quiz-container" class="min-h-[220px] flex flex-col justify-center">
-                    <h3 id="question-text" class="text-xl sm:text-2xl mb-8 font-medium text-white leading-relaxed"></h3>
-                    <div id="options-container" class="flex flex-col gap-3 max-w-md mx-auto w-full">
-                        <!-- Options injected via JS -->
-                    </div>
-                </div>
-
-                <div class="mt-8 flex justify-center space-x-3" id="quiz-progress">
-                    <!-- Progress dots injected via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: The Mini Task -->
-        <section id="section-task" class="section-container flex-col items-center justify-center min-h-[75vh]">
-            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative overflow-hidden" id="task-area">
-                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-4">One Last Thing</h2>
+        <!-- SECTION 3: The Mini Task -->
+        <section id="section-task" class="section-container flex-col items-center justify-center min-h-[80vh]">
+            <div class="glass-panel rounded-[2rem] p-8 sm:p-12 w-full text-center relative overflow-hidden" id="task-area">
+                <h2 class="text-3xl sm:text-4xl font-semibold rose-gold-text mb-4">Unlock The Secret</h2>
                 <p class="text-gray-300 mb-8 font-light text-lg">
-                    I have a final message for you, but you have to catch <span class="text-[#c47166] font-bold text-xl" id="stars-needed">5</span> glowing stars to unlock it.
+                    Catch <span class="text-[#ff3366] font-bold text-2xl mx-1" id="hearts-needed">5</span> glowing hearts to reveal my final question.
                 </p>
                 
-                <div class="w-full max-w-md mx-auto bg-black/50 border border-white/10 rounded-full h-3 mb-8 p-1">
-                    <div class="bg-gradient-to-r from-[#a35d54] to-[#f3d5c0] h-full rounded-full transition-all duration-500 shadow-[0_0_10px_#c47166]" id="task-progress" style="width: 0%"></div>
+                <div class="w-full max-w-md mx-auto bg-black/60 border border-white/10 rounded-full h-4 mb-10 p-1">
+                    <div class="bg-gradient-to-r from-[#d33f49] to-[#ff8f8f] h-full rounded-full transition-all duration-500 shadow-[0_0_15px_rgba(211,63,73,0.6)]" id="task-progress" style="width: 0%"></div>
                 </div>
 
-                <div id="star-catcher-zone" class="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl z-10">
-                    <!-- Stars will spawn here -->
+                <div id="heart-catcher-zone" class="absolute inset-0 pointer-events-none overflow-hidden rounded-[2rem] z-10">
+                    <!-- Hearts will spawn here -->
                 </div>
 
-                <button id="start-task-btn" onclick="startStarTask()" class="premium-btn px-8 py-3 rounded-full relative z-20 text-lg">
-                    Start Catching ✨
+                <button id="start-task-btn" onclick="startHeartTask()" class="premium-btn px-10 py-4 rounded-full relative z-20 text-lg font-medium shadow-[0_0_20px_rgba(211,63,73,0.4)]">
+                    Start Catching ❤️
                 </button>
             </div>
         </section>
 
-        <!-- SECTION 5: Final Message -->
-        <section id="section-message" class="section-container flex-col items-center justify-center min-h-[75vh]">
-            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative">
-                <!-- Background heart accent -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] opacity-[0.02] pointer-events-none heart-icon">
-                    ❤️
-                </div>
-
-                <h1 class="text-4xl sm:text-5xl font-semibold mb-8 relative z-10">
-                    <span class="rose-gold-text">Jel, you're pretty amazing.</span>
+        <!-- SECTION 4: The Grand Proposal -->
+        <section id="section-proposal" class="section-container flex-col items-center justify-center min-h-[80vh]">
+            <div class="glass-panel rounded-[2rem] p-8 sm:p-14 w-full text-center relative">
+                
+                <div class="mb-8 heart-icon text-5xl">❤️</div>
+                
+                <h1 class="text-4xl sm:text-6xl font-semibold mb-8 relative z-10 serif-font leading-tight">
+                    <span class="rose-gold-text">Gel, I have completely<br>fallen for you.</span>
                 </h1>
                 
-                <div class="text-left text-gray-200 font-light leading-relaxed space-y-5 max-w-lg mx-auto p-8 bg-black/20 backdrop-blur-md rounded-2xl border border-white/5 relative z-10 shadow-xl">
-                    <p>I know we're friends, but I just wanted to take a moment to be a little extra.</p>
-                    <p>You have this incredibly special vibe about you. Honestly, I find myself smiling just thinking about our conversations.</p>
-                    <p>I value our connection a lot, and maybe... I just wanted an excuse to do something nice for you. <span class="crimson-text font-medium">❤️</span></p>
+                <p class="text-xl text-gray-200 font-light mb-12 max-w-md mx-auto leading-relaxed">
+                    Vikas here. No more hints. No more games. I just want you.
+                    <br><br>
+                    <span class="font-medium text-white text-2xl">Will you be my girlfriend?</span>
+                </p>
+                
+                <div class="relative z-10 flex flex-col sm:flex-row gap-6 justify-center items-center min-h-[60px]" id="proposal-buttons">
+                    <!-- Yes Button -->
+                    <button onclick="finalAction('yes')" class="premium-btn px-10 py-4 rounded-full text-lg font-bold w-48 shadow-[0_0_30px_rgba(211,63,73,0.5)]">
+                        YES! ❤️
+                    </button>
+                    
+                    <!-- No Button (The tricky one) -->
+                    <button id="btn-no" class="dodge-btn px-10 py-4 rounded-full border border-gray-600 text-gray-400 bg-black/30 w-48 text-lg font-medium hover:text-white hover:border-white">
+                        No
+                    </button>
                 </div>
                 
-                <div class="mt-10 relative z-10 flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="finalAction('smile')" class="px-6 py-3 rounded-full border border-[#c47166] text-[#f3d5c0] hover:bg-[#c47166]/20 transition-all text-sm font-medium">
-                        "Aww, thanks! *smiles*"
-                    </button>
-                    <button onclick="finalAction('date')" class="premium-btn px-6 py-3 rounded-full text-sm font-medium">
-                        "This deserves a coffee date."
-                    </button>
+                <div id="final-response" class="mt-8 text-2xl font-medium crimson-text opacity-0 transition-opacity duration-1000 h-10">
+                    <!-- Success message will appear here -->
                 </div>
-        <!-- SECTION 6: Secret Dashboard (Hidden by default) -->
-        <section id="section-dashboard" class="section-container flex-col items-center justify-center min-h-[75vh]">
-            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative max-w-2xl mx-auto">
+            </div>
+        </section>
+
+        <!-- SECTION 5: Secret Dashboard (Hidden) -->
+        <section id="section-dashboard" class="section-container flex-col items-center justify-center min-h-[80vh]">
+            <div class="glass-panel rounded-[2rem] p-8 w-full text-center relative max-w-2xl mx-auto border-[#d33f49]/30">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#d33f49] to-[#f3d5c0]"></div>
+                
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-3xl font-semibold rose-gold-text m-0">Secret Dashboard 🤫</h2>
-                    <button onclick="closeDashboard()" class="text-gray-400 hover:text-white transition-colors">
+                    <h2 class="text-3xl font-semibold rose-gold-text m-0">Vikas's Dashboard 🕶️</h2>
+                    <button onclick="closeDashboard()" class="text-gray-400 hover:text-white transition-colors bg-white/5 p-2 rounded-full">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
-                <p class="text-gray-400 text-sm mb-6 uppercase tracking-widest text-left border-b border-white/10 pb-2">Recent Activity (Last 5)</p>
+                <p class="text-gray-400 text-sm mb-6 uppercase tracking-widest text-left border-b border-white/10 pb-3">Live Responses (Gel's Activity)</p>
                 
-                <div id="dashboard-data" class="w-full min-h-[300px] max-h-[60vh] overflow-y-auto mb-6 p-2 text-left flex flex-col gap-3 custom-scrollbar">
-                    <p class="text-gray-500 text-sm text-center mt-10">Loading data...</p>
+                <div id="dashboard-data" class="w-full min-h-[300px] max-h-[50vh] overflow-y-auto mb-2 p-2 text-left flex flex-col gap-3 custom-scrollbar">
+                    <p class="text-gray-500 text-sm text-center mt-10">Waiting for database connection...</p>
                 </div>
-                
-                <button onclick="window.loadDashboard()" class="premium-btn px-6 py-2 rounded-full text-sm font-medium w-full">
-                    Refresh Data
-                </button>
             </div>
         </section>
 
@@ -364,23 +347,19 @@
         // --- Ambient Background Particles ---
         function createAmbientParticles() {
             const container = document.getElementById('particles-container');
-            const colors = ['rgba(243, 213, 192, 0.4)', 'rgba(196, 113, 102, 0.3)', 'rgba(255, 255, 255, 0.2)'];
+            const colors = ['rgba(243, 213, 192, 0.15)', 'rgba(211, 63, 73, 0.15)', 'rgba(255, 255, 255, 0.1)'];
             
-            for(let i=0; i<40; i++) {
+            for(let i=0; i<30; i++) {
                 let particle = document.createElement('div');
                 particle.className = 'ambient-particle';
-                let size = Math.random() * 4 + 1;
+                let size = Math.random() * 3 + 1;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 particle.style.left = Math.random() * 100 + 'vw';
                 particle.style.top = Math.random() * 100 + 'vh';
-                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-                particle.style.animationDelay = (Math.random() * -20) + 's'; // Start at different phases
-                
-                // Add a subtle glowing effect
-                particle.style.boxShadow = `0 0 ${Math.random() * 5 + 2}px ${particle.style.backgroundColor}`;
-                
+                particle.style.animationDuration = (Math.random() * 25 + 15) + 's';
+                particle.style.animationDelay = (Math.random() * -20) + 's';
                 container.appendChild(particle);
             }
         }
@@ -390,38 +369,38 @@
         function goToSection(sectionId) {
             document.querySelectorAll('.section-container').forEach(sec => {
                 sec.classList.remove('active');
-                setTimeout(() => { sec.style.display = 'none'; }, 1000); // Wait for fade out
+                setTimeout(() => { sec.style.display = 'none'; }, 1200); 
             });
 
             setTimeout(() => {
                 const target = document.getElementById(sectionId);
                 target.style.display = 'flex';
-                // Trigger reflow
-                void target.offsetWidth; 
+                void target.offsetWidth; // Trigger reflow
                 target.classList.add('active');
 
-                if(sectionId === 'section-quiz' && currentQuestionIndex === 0) {
-                    loadQuestion();
+                // Log progression
+                if(window.logEvent) {
+                    window.logEvent('Navigation', `Moved to ${sectionId.replace('section-', '')}`);
                 }
-            }, 1000);
+            }, 1200);
         }
 
-        // --- Secret Trigger Logic ---
+        // --- Secret Trigger Logic (5 Taps) ---
         let tapCount = 0;
         let tapTimer;
 
         document.getElementById('secret-trigger').addEventListener('click', (e) => {
             tapCount++;
             
-            // Visual feedback for you (so you know it's registering)
+            // Visual feedback - quick flash
             const title = e.currentTarget;
-            title.style.opacity = '0.5';
-            setTimeout(() => title.style.opacity = '1', 100);
+            title.style.opacity = '0.3';
+            setTimeout(() => title.style.opacity = '1', 150);
 
             clearTimeout(tapTimer);
             tapTimer = setTimeout(() => {
-                tapCount = 0; // Reset if they pause tapping
-            }, 1000); // Increased to 1 second window to tap again to make it easier
+                tapCount = 0; 
+            }, 1200); // 1.2 second window to keep tapping
 
             if (tapCount >= 5) {
                 tapCount = 0;
@@ -430,13 +409,11 @@
         });
 
         function openDashboard() {
-            // Instantly hide all sections
             document.querySelectorAll('.section-container').forEach(sec => {
                 sec.classList.remove('active');
                 sec.style.display = 'none';
             });
             
-            // Show dashboard
             const dash = document.getElementById('section-dashboard');
             dash.style.display = 'flex';
             setTimeout(() => dash.classList.add('active'), 50);
@@ -448,268 +425,213 @@
              document.getElementById('section-dashboard').classList.remove('active');
              setTimeout(() => {
                  document.getElementById('section-dashboard').style.display = 'none';
-                 // Return to landing
                  const landing = document.getElementById('section-landing');
                  landing.style.display = 'flex';
                  setTimeout(() => landing.classList.add('active'), 50);
-             }, 500);
+             }, 600);
         }
 
-
-        // --- Quiz Logic ---
-        const questions = [
-            {
-                text: "If I'm being completely honest, what caught my attention first?",
-                options: [
-                    "Your amazing personality", 
-                    "That smile of yours", 
-                    "Your impeccable style", 
-                    "All of it, let's be real"
-                ]
-            },
-            {
-                text: "If we were to hang out right now, what's the ideal scenario?",
-                options: [
-                    "Late night drive, good music, deep talks", 
-                    "Coffee date so I can just look at you", 
-                    "Something competitive so I can win", 
-                    "Spontaneous adventure"
-                ]
-            },
-            {
-                text: "Are you ready to see what I made for you?",
-                options: [
-                    "Yes, show me!", 
-                    "I'm intrigued...", 
-                    "I love surprises", 
-                    "Stop teasing, let's go!"
-                ]
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-
-        function loadQuestion() {
-            const q = questions[currentQuestionIndex];
-            document.getElementById('question-text').innerText = q.text;
-            
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-            
-            q.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option text-left px-6 py-4 rounded-xl text-base font-light text-gray-200 flex items-center justify-between group';
-                btn.innerHTML = `
-                    <span>${opt}</span>
-                    <span class="opacity-0 group-hover:opacity-100 transition-opacity text-[#c47166] text-xl">→</span>
-                `;
-                btn.onclick = () => handleAnswer(btn);
-                optionsContainer.appendChild(btn);
-            });
-
-            updateQuizProgress();
-        }
-
-        function updateQuizProgress() {
-            const progressContainer = document.getElementById('quiz-progress');
-            progressContainer.innerHTML = '';
-            for(let i=0; i<questions.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = `w-2 h-2 rounded-full transition-all duration-500 ${i === currentQuestionIndex ? 'bg-[#c47166] w-8' : 'bg-white/20'}`;
-                progressContainer.appendChild(dot);
-            }
-        }
-
-        function handleAnswer(btnElement) {
-            // Visual feedback
-            btnElement.style.background = 'rgba(196, 113, 102, 0.2)';
-            btnElement.style.borderColor = '#c47166';
-            
-            // Log the answer to the database
-            const selectedText = btnElement.querySelector('span').innerText;
-            const currentQuestionText = questions[currentQuestionIndex].text;
-            if (window.logEvent) {
-                window.logEvent('Quiz Answer', `Q: ${currentQuestionText} \nA: ${selectedText}`);
-            }
-            
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if(currentQuestionIndex < questions.length) {
-                    // Fade out options briefly
-                    document.getElementById('quiz-container').style.opacity = '0';
-                    setTimeout(() => {
-                        loadQuestion();
-                        document.getElementById('quiz-container').style.opacity = '1';
-                        document.getElementById('quiz-container').style.transition = 'opacity 0.6s ease';
-                    }, 400);
-                } else {
-                    goToSection('section-task');
-                }
-            }, 700);
-        }
-
-        // --- Mini Task Logic ---
-        let starsCaught = 0;
-        const totalStarsNeeded = 5;
+        // --- Heart Task Logic ---
+        let heartsCaught = 0;
+        const totalHeartsNeeded = 5;
         let taskInterval;
 
-        function startStarTask() {
+        function startHeartTask() {
             document.getElementById('start-task-btn').style.display = 'none';
-            document.getElementById('star-catcher-zone').style.pointerEvents = 'auto';
-            starsCaught = 0;
+            document.getElementById('heart-catcher-zone').style.pointerEvents = 'auto';
+            heartsCaught = 0;
             updateTaskProgress();
             
-            // Spawn stars continuously
-            taskInterval = setInterval(spawnStar, 700);
+            if(window.logEvent) window.logEvent('Game', 'Started heart catching task');
+            taskInterval = setInterval(spawnHeart, 600);
         }
 
-        function spawnStar() {
-            const zone = document.getElementById('star-catcher-zone');
-            const star = document.createElement('div');
-            // Using a glowing SVG star instead of emoji for a premium look
-            star.innerHTML = `<svg viewBox="0 0 24 24" fill="#f3d5c0" class="w-full h-full drop-shadow-[0_0_10px_rgba(243,213,192,0.8)]"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
-            star.className = 'star';
+        function spawnHeart() {
+            const zone = document.getElementById('heart-catcher-zone');
+            const heart = document.createElement('div');
+            // Premium SVG Heart
+            heart.innerHTML = `<svg viewBox="0 0 24 24" fill="#ff3366" class="w-full h-full drop-shadow-[0_0_12px_rgba(255,51,102,0.9)]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+            heart.className = 'floating-heart';
             
-            const randomX = Math.random() * 80 + 10; 
-            star.style.left = `${randomX}%`;
+            const randomX = Math.random() * 70 + 15; // Keep away from extreme edges
+            heart.style.left = `${randomX}%`;
             
-            const size = Math.random() * 15 + 25; 
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
+            const size = Math.random() * 20 + 30; // 30px to 50px
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
 
-            star.onclick = (e) => {
+            heart.onclick = (e) => {
                 e.stopPropagation();
-                catchStar(star);
+                catchHeart(heart);
             };
 
-            star.addEventListener('animationend', () => {
-                if(zone.contains(star)) zone.removeChild(star);
+            heart.addEventListener('animationend', () => {
+                if(zone.contains(heart)) zone.removeChild(heart);
             });
 
-            zone.appendChild(star);
+            zone.appendChild(heart);
         }
 
-        function catchStar(starElement) {
-            starElement.style.transform = 'scale(2.5) rotate(45deg)';
-            starElement.style.opacity = '0';
-            starElement.style.pointerEvents = 'none';
+        function catchHeart(heartElement) {
+            heartElement.style.transform = 'scale(2) rotate(0deg)';
+            heartElement.style.opacity = '0';
+            heartElement.style.pointerEvents = 'none';
             
-            // Sparkle effect
-            createSparkle(starElement.getBoundingClientRect());
+            // Explosion effect
+            createSparkle(heartElement.getBoundingClientRect());
             
-            starsCaught++;
+            heartsCaught++;
             updateTaskProgress();
             
-            if(starsCaught >= totalStarsNeeded) {
+            if(heartsCaught >= totalHeartsNeeded) {
                 clearInterval(taskInterval);
                 setTimeout(() => {
-                    goToSection('section-message');
-                }, 1200);
+                    goToSection('section-proposal');
+                    if(window.logEvent) window.logEvent('Game', 'Completed heart catching task');
+                }, 1000);
             }
         }
 
         function updateTaskProgress() {
-            const remaining = totalStarsNeeded - starsCaught;
-            document.getElementById('stars-needed').innerText = Math.max(0, remaining);
-            const percentage = (starsCaught / totalStarsNeeded) * 100;
+            const remaining = totalHeartsNeeded - heartsCaught;
+            document.getElementById('hearts-needed').innerText = Math.max(0, remaining);
+            const percentage = (heartsCaught / totalHeartsNeeded) * 100;
             document.getElementById('task-progress').style.width = `${percentage}%`;
         }
 
         function createSparkle(rect) {
             const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
+            sparkle.innerHTML = '❤️';
             sparkle.style.position = 'fixed';
-            sparkle.style.left = `${rect.left + rect.width/2}px`;
+            sparkle.style.left = `${rect.left + rect.width/2 - 10}px`;
             sparkle.style.top = `${rect.top}px`;
-            sparkle.style.fontSize = '24px';
+            sparkle.style.fontSize = '30px';
             sparkle.style.pointerEvents = 'none';
             sparkle.style.zIndex = '50';
-            sparkle.style.transition = 'all 0.5s ease-out';
+            sparkle.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
             
             document.body.appendChild(sparkle);
             
             setTimeout(() => {
-                sparkle.style.transform = 'translateY(-30px) scale(1.5)';
+                sparkle.style.transform = 'translateY(-60px) scale(2)';
                 sparkle.style.opacity = '0';
             }, 10);
             
             setTimeout(() => {
                 if(document.body.contains(sparkle)) document.body.removeChild(sparkle);
-            }, 500);
+            }, 600);
         }
 
-        // --- Final Action Handler ---
+        // --- The "Trick" No Button Logic ---
+        const noBtn = document.getElementById('btn-no');
+        const container = document.getElementById('proposal-buttons');
+        let isDodging = false;
+
+        noBtn.addEventListener('mouseover', function() {
+            // Log the attempt!
+            if(!isDodging && window.logEvent) {
+                window.logEvent('Proposal', 'She tried to click NO! 😱');
+                isDodging = true; // Only log the first attempt so we don't spam the DB
+            }
+            
+            // Switch to absolute positioning for free movement if not already
+            if (this.style.position !== 'absolute') {
+                this.style.position = 'absolute';
+            }
+
+            // Calculate safe boundaries within the container/section
+            const maxX = 150; 
+            const maxY = 100; 
+
+            // Generate random translation
+            const moveX = (Math.random() * maxX * 2) - maxX;
+            const moveY = (Math.random() * maxY * 2) - maxY;
+
+            this.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+        
+        // Touch support for mobile dodging
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Prevent actual click
+            
+            if(!isDodging && window.logEvent) {
+                window.logEvent('Proposal', 'She tried to tap NO! 😱');
+                isDodging = true;
+            }
+            
+            if (this.style.position !== 'absolute') {
+                this.style.position = 'absolute';
+            }
+            const moveX = (Math.random() * 200) - 100;
+            const moveY = (Math.random() * 200) - 100;
+            this.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+        // --- Final Yes Action ---
         function finalAction(type) {
             const responseEl = document.getElementById('final-response');
             
-            if(type === 'smile') {
-                responseEl.innerText = "Mission accomplished. Seeing you smile was the goal. 😊";
-                if (window.logEvent) window.logEvent('Final Choice', 'She clicked: "Aww, thanks! *smiles*"');
-                createFloatingHearts();
-            } else if (type === 'date') {
-                responseEl.innerText = "I'll hold you to that. Let me know when you're free! ☕❤️";
-                if (window.logEvent) window.logEvent('Final Choice', 'She clicked: "This deserves a coffee date."');
-                createFloatingHearts();
+            if(type === 'yes') {
+                responseEl.innerText = "I knew it. Best decision ever. I love you! ❤️";
+                if (window.logEvent) window.logEvent('Proposal', 'SHE SAID YES!!! 🎉❤️💍');
+                createMassiveHeartExplosion();
             }
             
             responseEl.style.opacity = '1';
             
-            // Disable buttons to prevent spamming
-            const buttons = document.querySelectorAll('#section-message button');
-            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            // Hide buttons
+            document.getElementById('proposal-buttons').style.display = 'none';
         }
 
-        function createFloatingHearts() {
-            for(let i=0; i<15; i++) {
+        function createMassiveHeartExplosion() {
+            for(let i=0; i<40; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.innerHTML = '❤️';
                     heart.style.position = 'fixed';
-                    heart.style.left = `${50 + (Math.random() * 20 - 10)}%`; // Centerish
-                    heart.style.bottom = '20%';
-                    heart.style.fontSize = `${Math.random() * 15 + 15}px`;
-                    heart.style.opacity = '0.7';
+                    heart.style.left = `50%`; 
+                    heart.style.bottom = '30%';
+                    heart.style.fontSize = `${Math.random() * 20 + 15}px`;
                     heart.style.pointerEvents = 'none';
                     heart.style.zIndex = '100';
-                    heart.style.transition = 'all 2s ease-out';
+                    heart.style.transition = 'all 2.5s cubic-bezier(0.1, 0.8, 0.3, 1)';
                     
                     document.body.appendChild(heart);
                     
                     setTimeout(() => {
-                        const tx = Math.random() * 200 - 100;
-                        const ty = -(Math.random() * 300 + 100);
-                        heart.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random() * 45}deg) scale(1.5)`;
+                        const tx = (Math.random() * window.innerWidth) - (window.innerWidth/2);
+                        const ty = -(Math.random() * window.innerHeight);
+                        const rot = Math.random() * 360;
+                        heart.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${Math.random() + 0.5})`;
                         heart.style.opacity = '0';
                     }, 50);
 
                     setTimeout(() => {
                         if(document.body.contains(heart)) document.body.removeChild(heart);
-                    }, 2050);
+                    }, 2500);
 
-                }, i * 150); 
+                }, i * 50); // Staggered explosion
             }
         }
     </script>
 
-    <!-- NEW: Cloud Storage Module for Tracking Data -->
+    <!-- Cloud Storage Module for Live Tracking -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Create temporary empty functions so the app doesn't break before database loads
-        window.logEvent = async function(type, details) { console.log("Event queued (DB not ready):", type, details); };
+        window.logEvent = async function(type, details) { console.log("Local Log (DB pending):", type, details); };
         window.loadDashboard = async function() {};
 
         async function setupBackend() {
-            // Setup configuration environment
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
             const container = document.getElementById('dashboard-data');
             
             if (!configStr) {
                 window.loadDashboard = async () => {
-                    container.innerHTML = '<p class="text-red-400 text-center mt-10">Database not configured in this environment. Cloud save disabled.</p>';
+                    container.innerHTML = '<p class="text-red-400 text-center mt-10">Database not configured. Run in Immersive environment.</p>';
                 };
                 return; 
             }
@@ -728,9 +650,10 @@
                 const currentUser = auth.currentUser;
                 if (!currentUser) return;
 
+                // Set up the logging function pointing to a fresh collection for this proposal
                 window.logEvent = async function(type, details) {
                     try {
-                        const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
+                        const ref = collection(db, 'artifacts', appId, 'public', 'data', 'gel_proposal_responses');
                         await addDoc(ref, { type, details, timestamp: new Date().toISOString() });
                     } catch (e) { 
                         console.error("Tracking error", e); 
@@ -739,44 +662,48 @@
 
                 let unsubscribe = null;
 
+                // Set up the real-time dashboard loader
                 window.loadDashboard = async function() {
-                    container.innerHTML = '<p class="text-gray-400 text-center mt-10">Listening for responses live... 👀</p>';
+                    container.innerHTML = '<p class="text-green-400 font-medium text-center mt-10 animate-pulse">Connection established. Listening live... 📡</p>';
                     
-                    // Unsubscribe from previous listener if refreshing
                     if (unsubscribe) unsubscribe();
 
-                    const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
+                    const ref = collection(db, 'artifacts', appId, 'public', 'data', 'gel_proposal_responses');
                     
-                    // Using real-time live updates instead of one-time fetch
                     unsubscribe = onSnapshot(ref, (snap) => {
                         const results = [];
                         snap.forEach(doc => results.push(doc.data()));
                         
-                        // Sort by newest first and take only the top 5
+                        // Sort by newest first
                         results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                        const latestFive = results.slice(0, 5);
+                        // Take top 8 for the dashboard
+                        const latest = results.slice(0, 8);
                         
-                        if(latestFive.length === 0) {
-                            container.innerHTML = '<div class="bg-black/40 p-6 rounded-xl border border-white/5 text-center"><p class="text-gray-400">No responses recorded yet.<br>Wait for her to play!</p></div>';
+                        if(latest.length === 0) {
+                            container.innerHTML = '<div class="bg-black/40 p-6 rounded-xl border border-white/5 text-center"><p class="text-gray-400">No activity yet. Send her the link!</p></div>';
                             return;
                         }
 
                         container.innerHTML = '';
-                        latestFive.forEach((res) => {
+                        latest.forEach((res) => {
                             const div = document.createElement('div');
-                            div.className = 'bg-black/40 p-4 rounded-xl border border-white/10 hover:border-[#c47166]/50 transition-colors relative overflow-hidden';
+                            div.className = 'bg-black/40 p-4 rounded-xl border border-white/10 hover:border-[#d33f49]/50 transition-colors relative overflow-hidden';
                             
-                            const accentColor = res.type === 'Final Choice' ? 'bg-[#ff4b4b]' : 'bg-[#c47166]';
-                            
+                            // Color coding events
+                            let accentColor = 'bg-gray-500';
+                            if(res.type === 'Proposal' && res.details.includes('YES')) accentColor = 'bg-[#10b981]'; // Green for success
+                            else if(res.type === 'Proposal' && res.details.includes('NO')) accentColor = 'bg-[#ff3366]'; // Red for dodged NO
+                            else if(res.type === 'Navigation') accentColor = 'bg-[#3b82f6]'; // Blue for nav
+                            else if(res.type === 'Game') accentColor = 'bg-[#f59e0b]'; // Yellow/Orange for game
+
                             div.innerHTML = `
-                                <div class="absolute left-0 top-0 bottom-0 w-1 ${accentColor} opacity-50"></div>
-                                <div class="pl-2">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 ${accentColor} opacity-70 shadow-[0_0_10px_currentColor]"></div>
+                                <div class="pl-3">
                                     <div class="flex justify-between items-center mb-1">
-                                        <div class="text-[#c47166] font-semibold text-sm tracking-wider uppercase">${res.type}</div>
-                                        <div class="text-xs text-gray-500 font-mono">${new Date(res.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                        <div class="text-white font-semibold text-sm tracking-wide">${res.type}</div>
+                                        <div class="text-xs text-gray-500 font-mono bg-black/50 px-2 py-1 rounded">${new Date(res.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}</div>
                                     </div>
-                                    <div class="text-gray-200 text-sm whitespace-pre-wrap font-light leading-relaxed">${res.details}</div>
-                                    <div class="text-[10px] text-gray-600 mt-2">${new Date(res.timestamp).toLocaleDateString()}</div>
+                                    <div class="text-gray-300 text-sm whitespace-pre-wrap font-light leading-relaxed">${res.details}</div>
                                 </div>
                             `;
                             container.appendChild(div);
@@ -795,7 +722,6 @@
             }
         }
 
-        // Initialize the database connection
         setupBackend();
     </script>
 </body>
