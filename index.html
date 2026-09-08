@@ -342,6 +342,22 @@
             </div>
         </section>
 
+        <!-- SECTION 6: Secret Dashboard (Only visible to you via ?admin=true) -->
+        <section id="section-dashboard" class="section-container flex-col items-center justify-center min-h-[75vh]">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative max-w-2xl mx-auto">
+                <h2 class="text-3xl font-semibold rose-gold-text mb-2">Secret Dashboard 🤫</h2>
+                <p class="text-gray-400 text-sm mb-6 uppercase tracking-widest">Jel's Responses</p>
+                
+                <div id="dashboard-data" class="w-full h-80 overflow-y-auto mb-6 p-4 bg-black/30 rounded-xl border border-white/10 text-left flex flex-col gap-3 custom-scrollbar">
+                    <p class="text-gray-500 text-sm text-center mt-10">Loading data...</p>
+                </div>
+                
+                <button onclick="window.loadDashboard()" class="px-6 py-2 rounded-full border border-[#c47166] text-[#f3d5c0] hover:bg-[#c47166]/20 transition-all text-sm font-medium">
+                    Refresh Data
+                </button>
+            </div>
+        </section>
+
     </main>
 
     <script>
@@ -459,6 +475,13 @@
             btnElement.style.background = 'rgba(196, 113, 102, 0.2)';
             btnElement.style.borderColor = '#c47166';
             
+            // Log the answer to the database
+            const selectedText = btnElement.querySelector('span').innerText;
+            const currentQuestionText = questions[currentQuestionIndex].text;
+            if (window.logEvent) {
+                window.logEvent('Quiz Answer', `Q: ${currentQuestionText} \nA: ${selectedText}`);
+            }
+            
             setTimeout(() => {
                 currentQuestionIndex++;
                 if(currentQuestionIndex < questions.length) {
@@ -571,9 +594,11 @@
             
             if(type === 'smile') {
                 responseEl.innerText = "Mission accomplished. Seeing you smile was the goal. 😊";
+                if (window.logEvent) window.logEvent('Final Choice', 'She clicked: "Aww, thanks! *smiles*"');
                 createFloatingHearts();
             } else if (type === 'date') {
                 responseEl.innerText = "I'll hold you to that. Let me know when you're free! ☕❤️";
+                if (window.logEvent) window.logEvent('Final Choice', 'She clicked: "This deserves a coffee date."');
                 createFloatingHearts();
             }
             
@@ -614,6 +639,106 @@
                 }, i * 150); 
             }
         }
+    </script>
+
+    <!-- NEW: Cloud Storage Module for Tracking Data -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Create temporary empty functions so the app doesn't break before database loads
+        window.logEvent = async function() {};
+        window.loadDashboard = async function() {};
+
+        async function setupBackend() {
+            // Setup configuration environment
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'jel-app';
+            const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+            
+            if (!configStr) return; // Exit if no backend is provided by the environment
+            
+            const app = initializeApp(JSON.parse(configStr));
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            try {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                const currentUser = auth.currentUser;
+                if (!currentUser) return;
+
+                window.logEvent = async function(type, details) {
+                    try {
+                        const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
+                        await addDoc(ref, { type, details, timestamp: new Date().toISOString() });
+                    } catch (e) { 
+                        console.error("Tracking error", e); 
+                    }
+                };
+
+                window.loadDashboard = async function() {
+                    const container = document.getElementById('dashboard-data');
+                    container.innerHTML = '<p class="text-gray-400 text-center mt-10">Fetching data...</p>';
+                    try {
+                        const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
+                        const snap = await getDocs(ref);
+                        const results = [];
+                        
+                        snap.forEach(doc => results.push(doc.data()));
+                        
+                        // Sort by newest first
+                        results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        
+                        container.innerHTML = '';
+                        if(results.length === 0) {
+                            container.innerHTML = '<p class="text-gray-400 text-center mt-10">No responses recorded yet.<br>Wait for her to play!</p>';
+                            return;
+                        }
+
+                        results.forEach(res => {
+                            const div = document.createElement('div');
+                            div.className = 'bg-white/5 p-4 rounded-lg border border-white/10 hover:border-[#c47166]/50 transition-colors';
+                            div.innerHTML = `
+                                <div class="text-[#c47166] font-semibold text-sm mb-1">${res.type}</div>
+                                <div class="text-gray-200 text-sm whitespace-pre-wrap">${res.details}</div>
+                                <div class="text-xs text-gray-500 mt-2">${new Date(res.timestamp).toLocaleString()}</div>
+                            `;
+                            container.appendChild(div);
+                        });
+                    } catch (e) {
+                        container.innerHTML = '<p class="text-red-400 text-center mt-10">Error loading data.</p>';
+                    }
+                };
+
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('admin') === 'true') {
+                    // Hide all other sections
+                    document.querySelectorAll('.section-container').forEach(s => {
+                        s.classList.remove('active');
+                        s.style.display = 'none';
+                    });
+                    
+                    // Show secret dashboard
+                    const dash = document.getElementById('section-dashboard');
+                    dash.style.display = 'flex';
+                    setTimeout(() => dash.classList.add('active'), 50);
+                    
+                    // Load the data
+                    window.loadDashboard();
+                }
+
+            } catch (e) {
+                console.error("Backend setup failed", e);
+            }
+        }
+
+        // Initialize the database connection
+        setupBackend();
     </script>
 </body>
 </html>
