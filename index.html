@@ -410,13 +410,18 @@
         let tapCount = 0;
         let tapTimer;
 
-        document.getElementById('secret-trigger').addEventListener('click', () => {
+        document.getElementById('secret-trigger').addEventListener('click', (e) => {
             tapCount++;
             
+            // Visual feedback for you (so you know it's registering)
+            const title = e.currentTarget;
+            title.style.opacity = '0.5';
+            setTimeout(() => title.style.opacity = '1', 100);
+
             clearTimeout(tapTimer);
             tapTimer = setTimeout(() => {
                 tapCount = 0; // Reset if they pause tapping
-            }, 800); // 800ms window to tap again
+            }, 1000); // Increased to 1 second window to tap again to make it easier
 
             if (tapCount >= 5) {
                 tapCount = 0;
@@ -690,25 +695,31 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Create temporary empty functions so the app doesn't break before database loads
-        window.logEvent = async function() {};
+        window.logEvent = async function(type, details) { console.log("Event queued (DB not ready):", type, details); };
         window.loadDashboard = async function() {};
 
         async function setupBackend() {
             // Setup configuration environment
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'jel-app';
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+            const container = document.getElementById('dashboard-data');
             
-            if (!configStr) return; // Exit if no backend is provided by the environment
+            if (!configStr) {
+                window.loadDashboard = async () => {
+                    container.innerHTML = '<p class="text-red-400 text-center mt-10">Database not configured in this environment. Cloud save disabled.</p>';
+                };
+                return; 
+            }
             
-            const app = initializeApp(JSON.parse(configStr));
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-
             try {
-                if (typeof __initial_auth_token !== 'undefined') {
+                const app = initializeApp(JSON.parse(configStr));
+                const auth = getAuth(app);
+                const db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
@@ -726,34 +737,35 @@
                     }
                 };
 
+                let unsubscribe = null;
+
                 window.loadDashboard = async function() {
-                    const container = document.getElementById('dashboard-data');
-                    container.innerHTML = '<p class="text-gray-400 text-center mt-10">Fetching data...</p>';
-                    try {
-                        const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
-                        
-                        // Note: As per strict system instructions, we avoid complex Firestore queries (orderBy/limit) 
-                        // and fetch all, then sort in memory to prevent index errors in this sandbox environment.
-                        const snap = await getDocs(ref);
+                    container.innerHTML = '<p class="text-gray-400 text-center mt-10">Listening for responses live... 👀</p>';
+                    
+                    // Unsubscribe from previous listener if refreshing
+                    if (unsubscribe) unsubscribe();
+
+                    const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
+                    
+                    // Using real-time live updates instead of one-time fetch
+                    unsubscribe = onSnapshot(ref, (snap) => {
                         const results = [];
-                        
                         snap.forEach(doc => results.push(doc.data()));
                         
                         // Sort by newest first and take only the top 5
                         results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                         const latestFive = results.slice(0, 5);
                         
-                        container.innerHTML = '';
                         if(latestFive.length === 0) {
                             container.innerHTML = '<div class="bg-black/40 p-6 rounded-xl border border-white/5 text-center"><p class="text-gray-400">No responses recorded yet.<br>Wait for her to play!</p></div>';
                             return;
                         }
 
-                        latestFive.forEach((res, index) => {
+                        container.innerHTML = '';
+                        latestFive.forEach((res) => {
                             const div = document.createElement('div');
                             div.className = 'bg-black/40 p-4 rounded-xl border border-white/10 hover:border-[#c47166]/50 transition-colors relative overflow-hidden';
                             
-                            // Add a subtle accent color line based on event type
                             const accentColor = res.type === 'Final Choice' ? 'bg-[#ff4b4b]' : 'bg-[#c47166]';
                             
                             div.innerHTML = `
@@ -769,16 +781,17 @@
                             `;
                             container.appendChild(div);
                         });
-                    } catch (e) {
-                        console.error(e);
-                        container.innerHTML = '<div class="bg-red-900/20 p-4 rounded-xl border border-red-500/30 text-center"><p class="text-red-400 text-sm">Error loading data. Check console.</p></div>';
-                    }
+                    }, (error) => {
+                        console.error("Snapshot error:", error);
+                        container.innerHTML = `<p class="text-red-400 text-sm text-center mt-10">Error loading data: ${error.message}</p>`;
+                    });
                 };
-
-                // Removed the ?admin=true URL parameter check as we are using the secret tap trigger now.
 
             } catch (e) {
                 console.error("Backend setup failed", e);
+                window.loadDashboard = async () => {
+                    container.innerHTML = `<p class="text-red-400 text-sm text-center mt-10">Connection error: ${e.message}</p>`;
+                };
             }
         }
 
