@@ -222,7 +222,7 @@
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#c47166] blur-[100px] opacity-20 pointer-events-none"></div>
                 
                 <p class="text-xs sm:text-sm tracking-[0.3em] text-[#a35d54] mb-6 uppercase font-semibold">Just for you</p>
-                <h1 class="text-5xl sm:text-7xl font-semibold mb-6 tracking-tight">
+                <h1 id="secret-trigger" class="text-5xl sm:text-7xl font-semibold mb-6 tracking-tight cursor-default select-none">
                     Hi, <span class="rose-gold-text italic">Jel.</span>
                 </h1>
                 
@@ -337,22 +337,22 @@
                         "This deserves a coffee date."
                     </button>
                 </div>
-                
-                <p id="final-response" class="mt-6 text-sm italic text-[#f3d5c0] opacity-0 transition-opacity duration-500 h-6"></p>
-            </div>
-        </section>
-
-        <!-- SECTION 6: Secret Dashboard (Only visible to you via ?admin=true) -->
+        <!-- SECTION 6: Secret Dashboard (Hidden by default) -->
         <section id="section-dashboard" class="section-container flex-col items-center justify-center min-h-[75vh]">
             <div class="glass-panel rounded-3xl p-8 sm:p-12 w-full text-center relative max-w-2xl mx-auto">
-                <h2 class="text-3xl font-semibold rose-gold-text mb-2">Secret Dashboard 🤫</h2>
-                <p class="text-gray-400 text-sm mb-6 uppercase tracking-widest">Jel's Responses</p>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-semibold rose-gold-text m-0">Secret Dashboard 🤫</h2>
+                    <button onclick="closeDashboard()" class="text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <p class="text-gray-400 text-sm mb-6 uppercase tracking-widest text-left border-b border-white/10 pb-2">Recent Activity (Last 5)</p>
                 
-                <div id="dashboard-data" class="w-full h-80 overflow-y-auto mb-6 p-4 bg-black/30 rounded-xl border border-white/10 text-left flex flex-col gap-3 custom-scrollbar">
+                <div id="dashboard-data" class="w-full min-h-[300px] max-h-[60vh] overflow-y-auto mb-6 p-2 text-left flex flex-col gap-3 custom-scrollbar">
                     <p class="text-gray-500 text-sm text-center mt-10">Loading data...</p>
                 </div>
                 
-                <button onclick="window.loadDashboard()" class="px-6 py-2 rounded-full border border-[#c47166] text-[#f3d5c0] hover:bg-[#c47166]/20 transition-all text-sm font-medium">
+                <button onclick="window.loadDashboard()" class="premium-btn px-6 py-2 rounded-full text-sm font-medium w-full">
                     Refresh Data
                 </button>
             </div>
@@ -405,6 +405,51 @@
                 }
             }, 1000);
         }
+
+        // --- Secret Trigger Logic ---
+        let tapCount = 0;
+        let tapTimer;
+
+        document.getElementById('secret-trigger').addEventListener('click', () => {
+            tapCount++;
+            
+            clearTimeout(tapTimer);
+            tapTimer = setTimeout(() => {
+                tapCount = 0; // Reset if they pause tapping
+            }, 800); // 800ms window to tap again
+
+            if (tapCount >= 5) {
+                tapCount = 0;
+                openDashboard();
+            }
+        });
+
+        function openDashboard() {
+            // Instantly hide all sections
+            document.querySelectorAll('.section-container').forEach(sec => {
+                sec.classList.remove('active');
+                sec.style.display = 'none';
+            });
+            
+            // Show dashboard
+            const dash = document.getElementById('section-dashboard');
+            dash.style.display = 'flex';
+            setTimeout(() => dash.classList.add('active'), 50);
+            
+            if(window.loadDashboard) window.loadDashboard();
+        }
+        
+        function closeDashboard() {
+             document.getElementById('section-dashboard').classList.remove('active');
+             setTimeout(() => {
+                 document.getElementById('section-dashboard').style.display = 'none';
+                 // Return to landing
+                 const landing = document.getElementById('section-landing');
+                 landing.style.display = 'flex';
+                 setTimeout(() => landing.classList.add('active'), 50);
+             }, 500);
+        }
+
 
         // --- Quiz Logic ---
         const questions = [
@@ -645,7 +690,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Create temporary empty functions so the app doesn't break before database loads
         window.logEvent = async function() {};
@@ -686,51 +731,51 @@
                     container.innerHTML = '<p class="text-gray-400 text-center mt-10">Fetching data...</p>';
                     try {
                         const ref = collection(db, 'artifacts', appId, 'public', 'data', 'jel_responses');
+                        
+                        // Note: As per strict system instructions, we avoid complex Firestore queries (orderBy/limit) 
+                        // and fetch all, then sort in memory to prevent index errors in this sandbox environment.
                         const snap = await getDocs(ref);
                         const results = [];
                         
                         snap.forEach(doc => results.push(doc.data()));
                         
-                        // Sort by newest first
+                        // Sort by newest first and take only the top 5
                         results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        const latestFive = results.slice(0, 5);
                         
                         container.innerHTML = '';
-                        if(results.length === 0) {
-                            container.innerHTML = '<p class="text-gray-400 text-center mt-10">No responses recorded yet.<br>Wait for her to play!</p>';
+                        if(latestFive.length === 0) {
+                            container.innerHTML = '<div class="bg-black/40 p-6 rounded-xl border border-white/5 text-center"><p class="text-gray-400">No responses recorded yet.<br>Wait for her to play!</p></div>';
                             return;
                         }
 
-                        results.forEach(res => {
+                        latestFive.forEach((res, index) => {
                             const div = document.createElement('div');
-                            div.className = 'bg-white/5 p-4 rounded-lg border border-white/10 hover:border-[#c47166]/50 transition-colors';
+                            div.className = 'bg-black/40 p-4 rounded-xl border border-white/10 hover:border-[#c47166]/50 transition-colors relative overflow-hidden';
+                            
+                            // Add a subtle accent color line based on event type
+                            const accentColor = res.type === 'Final Choice' ? 'bg-[#ff4b4b]' : 'bg-[#c47166]';
+                            
                             div.innerHTML = `
-                                <div class="text-[#c47166] font-semibold text-sm mb-1">${res.type}</div>
-                                <div class="text-gray-200 text-sm whitespace-pre-wrap">${res.details}</div>
-                                <div class="text-xs text-gray-500 mt-2">${new Date(res.timestamp).toLocaleString()}</div>
+                                <div class="absolute left-0 top-0 bottom-0 w-1 ${accentColor} opacity-50"></div>
+                                <div class="pl-2">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <div class="text-[#c47166] font-semibold text-sm tracking-wider uppercase">${res.type}</div>
+                                        <div class="text-xs text-gray-500 font-mono">${new Date(res.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                    </div>
+                                    <div class="text-gray-200 text-sm whitespace-pre-wrap font-light leading-relaxed">${res.details}</div>
+                                    <div class="text-[10px] text-gray-600 mt-2">${new Date(res.timestamp).toLocaleDateString()}</div>
+                                </div>
                             `;
                             container.appendChild(div);
                         });
                     } catch (e) {
-                        container.innerHTML = '<p class="text-red-400 text-center mt-10">Error loading data.</p>';
+                        console.error(e);
+                        container.innerHTML = '<div class="bg-red-900/20 p-4 rounded-xl border border-red-500/30 text-center"><p class="text-red-400 text-sm">Error loading data. Check console.</p></div>';
                     }
                 };
 
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('admin') === 'true') {
-                    // Hide all other sections
-                    document.querySelectorAll('.section-container').forEach(s => {
-                        s.classList.remove('active');
-                        s.style.display = 'none';
-                    });
-                    
-                    // Show secret dashboard
-                    const dash = document.getElementById('section-dashboard');
-                    dash.style.display = 'flex';
-                    setTimeout(() => dash.classList.add('active'), 50);
-                    
-                    // Load the data
-                    window.loadDashboard();
-                }
+                // Removed the ?admin=true URL parameter check as we are using the secret tap trigger now.
 
             } catch (e) {
                 console.error("Backend setup failed", e);
