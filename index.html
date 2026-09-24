@@ -793,32 +793,32 @@
                     </div>
 
                     {/* MAIN EDITOR GRID - FLEX-1 AND MIN-H-0 CRITICAL FOR FLUID SPLIT VIEW */}
-                    <div className={`flex-grow flex min-h-0 items-stretch animate-slide-up ${isSplitView ? 'flex-col gap-1' : 'flex-col lg:flex-row gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
+                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up flex-col md:flex-row ${isSplitView ? 'gap-1.5' : 'gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
                         
                         {/* INPUT PANEL */}
-                        <div className={`flex-1 flex flex-col min-h-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
+                        <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
                             <PanelHeader title="Input Payload" stats={inStats} isOutput={false} copyVal={input} />
                             <HighlightedInput value={input} onChange={e => setInput(e.target.value)} isDark={isDark} placeholder={algo === 'epoch' ? "Enter Unix Timestamp (e.g. 1729000000)" : "Enter payload or drag file here..."} isSplitView={isSplitView} />
                             <PanelFooter stats={inStats} />
                         </div>
 
                         {/* PROFESSIONAL UNIFIED TOOLBAR */}
-                        <div className={`flex items-center justify-center gap-3 relative z-10 flex-shrink-0 ${isSplitView ? 'flex-row py-0.5' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-2'}`}>
-                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-row p-0.5' : 'flex-row lg:flex-col p-1 sm:p-1.5'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        <div className={`flex items-center justify-center gap-3 relative z-10 flex-shrink-0 flex-row md:flex-col py-1 md:py-0 md:px-1`}>
+                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border flex-row md:flex-col p-1 ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
                                 
                                 <button onClick={() => applyJsonFormat('beautify')} className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
                                     <Icons.AlignLeft size={isSplitView ? 12 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
 
-                                <div className={`mx-0.5 sm:mx-1 my-0.5 sm:my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'} ${isSplitView ? 'w-px h-3' : 'w-px h-6 lg:w-6 lg:h-px'}`}></div>
+                                <div className={`mx-0.5 md:mx-0 my-0 md:my-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-200'} w-px h-3 md:w-3 md:h-px`}></div>
 
                                 <button onClick={swap} disabled={isLockMode} className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-7 w-7 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
                                     <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
-                                        <Icons.ArrowRightLeft size={isSplitView ? 12 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-90' : 'rotate-0 lg:rotate-0'} />
+                                        <Icons.ArrowRightLeft size={isSplitView ? 12 : 16} strokeWidth={2.5} className="rotate-90 md:rotate-0" />
                                     </div>
                                 </button>
 
-                                <div className={`mx-0.5 sm:mx-1 my-0.5 sm:my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'} ${isSplitView ? 'w-px h-3' : 'w-px h-6 lg:w-6 lg:h-px'}`}></div>
+                                <div className={`mx-0.5 md:mx-0 my-0 md:my-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-200'} w-px h-3 md:w-3 md:h-px`}></div>
 
                                 <button onClick={() => applyJsonFormat('minify')} className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
                                     <Icons.FileCode size={isSplitView ? 12 : 16} className="transition-transform group-hover:scale-110" />
@@ -827,7 +827,7 @@
                         </div>
 
                         {/* OUTPUT PANEL */}
-                        <div className={`flex-1 flex flex-col min-h-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
+                        <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
                             <PanelHeader title="Processed Output" stats={outStats} isOutput={true} copyVal={output} />
                                 <div className={`relative flex-grow flex flex-col min-h-[50px] ${!isSplitView ? 'h-[300px] md:h-[400px] lg:h-[450px]' : 'flex-1'}`}>
                                     {isJsonOutput ? (
