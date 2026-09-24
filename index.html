@@ -343,10 +343,10 @@
             }
             const handleScroll = (e) => { if (preRef.current) { preRef.current.scrollTop = e.target.scrollTop; preRef.current.scrollLeft = e.target.scrollLeft; } };
             return (
-                <div className={`relative flex-grow flex flex-col w-full bg-transparent overflow-hidden group ${isSplitView ? 'min-h-[50px] flex-1' : 'min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]'}`}>
-                    {isJson && <div className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-md z-0 transition-colors ${isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-400' : 'bg-emerald-500/30 group-focus-within:bg-emerald-500'}`}></div>}
-                    <pre ref={preRef} className={`absolute inset-0 p-4 sm:p-5 font-mono text-[12px] sm:text-[13px] custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-7' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
-                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-4 sm:p-5 bg-transparent resize-none outline-none font-mono text-[12px] sm:text-[13px] custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-7' : ''}`} spellCheck="false" />
+                <div className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden group ${isSplitView ? '' : 'min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]'}`}>
+                    {isJson && <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md z-0 transition-colors ${isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-400' : 'bg-emerald-500/30 group-focus-within:bg-emerald-500'}`}></div>}
+                    <pre ref={preRef} className={`absolute inset-0 p-2 sm:p-4 font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-5' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
+                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-5' : ''}`} spellCheck="false" />
                 </div>
             );
         };
@@ -685,31 +685,31 @@
             const getEntropyColor = (e) => parseFloat(e) < 3.0 ? 'text-slate-500' : parseFloat(e) < 4.5 ? 'text-emerald-500' : parseFloat(e) < 6.5 ? 'text-amber-500' : 'text-red-500 animate-pulse';
 
             const PanelHeader = ({ title, stats, isOutput, copyVal }) => (
-                <div className={`flex flex-col sm:flex-row sm:items-center justify-between border-b z-20 relative ${isSplitView ? 'px-3 py-1.5' : 'px-5 py-3'} ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
-                    <div className="flex items-center gap-2 mb-1 sm:mb-0">
+                <div className={`flex flex-row items-center justify-between border-b z-20 relative ${isSplitView ? 'px-2 py-1' : 'px-5 py-3'} ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
                         <div className={`rounded-full ${isSplitView ? 'w-1.5 h-1.5' : 'w-2.5 h-2.5'} ${isOutput ? (errorMsg ? 'bg-red-500 shadow-neon-red' : (isDark ? 'bg-blue-500 shadow-neon-blue' : 'bg-blue-500')) : (isDark ? 'bg-emerald-500 shadow-neon-emerald' : 'bg-emerald-500')}`}></div>
-                        <span className={`font-bold uppercase tracking-widest flex items-center gap-2 ${isSplitView ? 'text-[9px]' : 'text-xs'} ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                        <span className={`font-bold uppercase tracking-widest flex items-center gap-2 ${isSplitView ? 'text-[8px] sm:text-[9px]' : 'text-xs'} ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
                             {title}
                         </span>
                         {isOutput && !isSplitView && <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono font-bold border ${errorMsg ? 'bg-red-500/20 text-red-500 border-red-500/30' : (isDark ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200')}`}>{errorMsg ? 'ERROR' : currAlgo?.name}</span>}
                     </div>
-                    <div className="flex items-center gap-1.5 self-end sm:self-auto">
+                    <div className="flex items-center gap-1">
                         {isOutput && (
                             <>
-                                <button onClick={toggleQR} disabled={!!errorMsg || !output} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={isSplitView ? 12 : 14}/></button>
-                                <button onClick={downloadFile} disabled={!!errorMsg || !output} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={isSplitView ? 12 : 14}/></button>
-                                <div className={`w-px mx-0.5 ${isSplitView ? 'h-3' : 'h-4'} ${isDark ? 'bg-white/10' : 'bg-black/10'}`}></div>
+                                <button onClick={toggleQR} disabled={!!errorMsg || !output} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={isSplitView ? 10 : 14}/></button>
+                                <button onClick={downloadFile} disabled={!!errorMsg || !output} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={isSplitView ? 10 : 14}/></button>
+                                <div className={`w-px ${isSplitView ? 'h-3 mx-0.5' : 'h-4 mx-1'} ${isDark ? 'bg-white/10' : 'bg-black/10'}`}></div>
                             </>
                         )}
-                        <button onClick={()=> copyToClipboard(isOutput ? output : input, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${(!copyVal && !input) || (isOutput && errorMsg) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={isSplitView ? 12 : 14}/></button>
+                        <button onClick={()=> copyToClipboard(isOutput ? output : input, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${(!copyVal && !input) || (isOutput && errorMsg) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={isSplitView ? 10 : 14}/></button>
                     </div>
                 </div>
             );
 
             const PanelFooter = ({ stats }) => (
-                <div className={`flex justify-between items-center font-mono border-t z-20 relative ${isSplitView ? 'px-3 py-1 text-[8px]' : 'px-5 py-2.5 text-[10px]'} ${isDark ? 'border-white/5 bg-black/20 text-slate-500' : 'border-black/5 bg-slate-50 text-slate-500'}`}>
-                    <div className="flex gap-3 sm:gap-4"><span>Ln: {stats.lines}</span><span>Wd: {stats.words}</span><span>Ch: {stats.chars}</span></div>
-                    <div className="flex gap-3 sm:gap-4"><span title="Shannon Entropy">Ent: <span className={`font-bold ${getEntropyColor(stats.entropy)}`}>{stats.entropy}</span></span><span>{stats.bytes} B</span></div>
+                <div className={`flex justify-between items-center font-mono border-t z-20 relative ${isSplitView ? 'px-2 py-1 text-[8px]' : 'px-5 py-2.5 text-[10px]'} ${isDark ? 'border-white/5 bg-black/20 text-slate-500' : 'border-black/5 bg-slate-50 text-slate-500'}`}>
+                    <div className="flex gap-2 sm:gap-4"><span>Ln: {stats.lines}</span><span>Wd: {stats.words}</span><span>Ch: {stats.chars}</span></div>
+                    <div className="flex gap-2 sm:gap-4"><span title="Shannon Entropy">Ent: <span className={`font-bold ${getEntropyColor(stats.entropy)}`}>{stats.entropy}</span></span><span>{stats.bytes} B</span></div>
                 </div>
             );
 
@@ -722,35 +722,35 @@
             }
 
             return (
-                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1.5' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
+                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
                     {/* TOP CONTROL BAR (SAAS STYLE) */}
-                    <div className={`glass-panel rounded-2xl border shadow-lg flex flex-col xl:flex-row items-start xl:items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1.5 gap-1.5' : 'p-3 sm:p-4 gap-3'}`}>
+                    <div className={`glass-panel rounded-2xl border shadow-lg flex flex-wrap items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1 gap-1 flex-row' : 'p-3 sm:p-4 gap-3 flex-col xl:flex-row'}`}>
                         
-                        <div className={`w-full xl:w-auto ${isSplitView ? 'flex flex-row gap-1.5' : 'grid grid-cols-2 xl:flex gap-2 sm:gap-3'}`}>
-                            <div className={`relative w-full ${isSplitView ? 'flex-1' : 'col-span-1 xl:w-48'}`}>
-                                <select value={category} onChange={handleCategoryChange} className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-8 pl-8 pr-4 text-[10px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
+                        <div className={`flex ${isSplitView ? 'flex-row gap-1 w-auto flex-1 min-w-[150px]' : 'w-full xl:w-auto grid grid-cols-2 xl:flex gap-2 sm:gap-3'}`}>
+                            <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-48'}`}>
+                                <select value={category} onChange={handleCategoryChange} className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
                                     {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
-                                <div className={`absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
+                                <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
                                 {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
                             
-                            <div className={`relative w-full ${isSplitView ? 'flex-1' : 'col-span-1 xl:w-60'}`}>
+                            <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-60'}`}>
                                 <select value={algo} onChange={e => { 
                                         const val = e.target.value; setAlgo(val); 
                                         if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode'); 
                                         else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(val)) setMode('decode'); 
-                                    }} className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-8 pl-8 pr-4 text-[10px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
+                                    }} className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
                                     {algorithms.filter(a => a.category === category).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
-                                <div className={`absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
+                                <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
                                 {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
                         </div>
 
-                        <div className={`flex flex-wrap sm:flex-nowrap items-center w-full xl:w-auto animate-fade-in ${isSplitView ? 'gap-1.5' : 'gap-2 sm:gap-3'}`}>
+                        <div className={`flex flex-wrap sm:flex-nowrap items-center animate-fade-in ${isSplitView ? 'gap-1 w-auto' : 'w-full xl:w-auto gap-2 sm:gap-3'}`}>
                             {!['uuid'].includes(algo) && (
-                                <div className={`flex p-1 rounded-xl w-full sm:w-auto transition-opacity ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                <div className={`flex rounded-xl transition-opacity ${isSplitView ? 'p-0.5' : 'p-1'} ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['encode', 'decode'].map(m => (
                                         <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold capitalize transition-all duration-300 ${isSplitView ? 'px-2 py-1 text-[9px]' : 'px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs'} ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
                                     ))}
@@ -758,22 +758,22 @@
                             )}
 
                             {algo === 'caesar' && (
-                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start gap-2 px-3 rounded-xl ${isSplitView ? 'h-8 py-1' : 'h-10 py-1.5'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
-                                    <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />
-                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className="w-full sm:w-20" />
-                                    <span className={`font-mono font-bold w-5 text-center text-[10px] sm:text-[11px] ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
+                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start rounded-xl ${isSplitView ? 'h-7 px-2 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                    {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className={`w-full ${isSplitView ? 'sm:w-12' : 'sm:w-20'}`} />
+                                    <span className={`font-mono font-bold w-5 text-center ${isSplitView ? 'text-[9px]' : 'text-[11px]'} ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
                                 </div>
                             )}
                             {algo === 'vigenere' && (
-                                <div className={`flex flex-1 sm:flex-none items-center gap-2 px-3 rounded-xl ${isSplitView ? 'h-8 py-1' : 'h-10 py-1.5'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
-                                    <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />
-                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" className={`w-full sm:w-20 bg-transparent outline-none font-mono font-bold text-center text-[10px] sm:text-[11px] uppercase tracking-widest ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
+                                <div className={`flex flex-1 sm:flex-none items-center rounded-xl ${isSplitView ? 'h-7 px-2 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                    {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
+                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-12 text-[9px]' : 'sm:w-20 text-[11px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
                                 </div>
                             )}
                             {algo === 'string_utils' && (
-                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto gap-1 p-1 rounded-xl ${isSplitView ? 'h-8' : 'h-10'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto rounded-xl ${isSplitView ? 'h-7 p-0.5 gap-0.5' : 'h-10 p-1 gap-1'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['upper', 'lower', 'title'].map(m => (
-                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none rounded-lg text-[10px] font-bold transition-all ${isSplitView ? 'px-2 py-0.5' : 'px-2.5 py-1'} ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
+                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold transition-all ${isSplitView ? 'text-[9px] px-1.5 py-0.5' : 'text-[10px] px-2.5 py-1'} ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
                                             {m === 'upper' ? 'UPPER' : m === 'lower' ? 'lower' : 'Title'}
                                         </button>
                                     ))}
@@ -781,19 +781,19 @@
                             )}
                         </div>
 
-                        <div className={`flex items-center w-full xl:w-auto xl:ml-auto ${isSplitView ? 'gap-1.5' : 'gap-2 sm:gap-3'}`}>
+                        <div className={`flex items-center ${isSplitView ? 'gap-1 w-auto ml-auto' : 'w-full xl:w-auto xl:ml-auto gap-2 sm:gap-3'}`}>
                             <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin" />
-                            <button onClick={() => fileInputRef.current.click()} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-8 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
-                                <Icons.Upload size={isSplitView ? 12 : 14} /> LOAD
+                            <button onClick={() => fileInputRef.current.click()} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+                                <Icons.Upload size={isSplitView ? 10 : 14} /> {!isSplitView && 'LOAD'}
                             </button>
-                            <button onClick={() => {setInput(''); setOutput(''); setErrorMsg(null); setShowQR(false);}} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-8 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
-                                <Icons.Trash2 size={isSplitView ? 12 : 14} /> CLEAR
+                            <button onClick={() => {setInput(''); setOutput(''); setErrorMsg(null); setShowQR(false);}} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
+                                <Icons.Trash2 size={isSplitView ? 10 : 14} /> {!isSplitView && 'CLEAR'}
                             </button>
                         </div>
                     </div>
 
                     {/* MAIN EDITOR GRID - FLEX-1 AND MIN-H-0 CRITICAL FOR FLUID SPLIT VIEW */}
-                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up flex-col md:flex-row ${isSplitView ? 'gap-1.5' : 'gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
+                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up flex-row ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-6 flex-col lg:flex-row'}`} style={{animationDelay: '0.1s'}}>
                         
                         {/* INPUT PANEL */}
                         <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
@@ -803,22 +803,22 @@
                         </div>
 
                         {/* PROFESSIONAL UNIFIED TOOLBAR */}
-                        <div className={`flex items-center justify-center gap-3 relative z-10 flex-shrink-0 flex-row md:flex-col py-1 md:py-0 md:px-1`}>
-                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border flex-row md:flex-col p-1 ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        <div className={`flex items-center justify-center relative z-10 flex-shrink-0 ${isSplitView ? 'flex-col px-0.5' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-1'}`}>
+                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-col p-0.5' : 'flex-row lg:flex-col p-1'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
                                 
                                 <button onClick={() => applyJsonFormat('beautify')} className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
                                     <Icons.AlignLeft size={isSplitView ? 12 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
 
-                                <div className={`mx-0.5 md:mx-0 my-0 md:my-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-200'} w-px h-3 md:w-3 md:h-px`}></div>
+                                <div className={`my-0.5 ${isSplitView ? 'w-3 h-px' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
                                 <button onClick={swap} disabled={isLockMode} className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-7 w-7 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
                                     <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
-                                        <Icons.ArrowRightLeft size={isSplitView ? 12 : 16} strokeWidth={2.5} className="rotate-90 md:rotate-0" />
+                                        <Icons.ArrowRightLeft size={isSplitView ? 12 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-0' : 'rotate-90 lg:rotate-0'} />
                                     </div>
                                 </button>
 
-                                <div className={`mx-0.5 md:mx-0 my-0 md:my-0.5 ${isDark ? 'bg-white/10' : 'bg-slate-200'} w-px h-3 md:w-3 md:h-px`}></div>
+                                <div className={`my-0.5 ${isSplitView ? 'w-3 h-px' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
                                 <button onClick={() => applyJsonFormat('minify')} className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
                                     <Icons.FileCode size={isSplitView ? 12 : 16} className="transition-transform group-hover:scale-110" />
@@ -829,21 +829,21 @@
                         {/* OUTPUT PANEL */}
                         <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
                             <PanelHeader title="Processed Output" stats={outStats} isOutput={true} copyVal={output} />
-                                <div className={`relative flex-grow flex flex-col min-h-[50px] ${!isSplitView ? 'h-[300px] md:h-[400px] lg:h-[450px]' : 'flex-1'}`}>
+                                <div className={`relative flex-1 min-h-0 w-full flex flex-col ${isSplitView ? '' : 'min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]'}`}>
                                     {isJsonOutput ? (
-                                        <div className={`w-full h-full p-4 sm:p-5 overflow-auto font-mono text-[12px] sm:text-[13px] custom-scrollbar relative ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
-                                            <div className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-md transition-colors ${isDark ? 'bg-cyan-500/50 group-focus-within:bg-cyan-400' : 'bg-cyan-500/30 group-focus-within:bg-cyan-500'}`}></div>
+                                        <div className={`absolute inset-0 p-2 sm:p-4 overflow-auto font-mono text-[10px] sm:text-[12px] custom-scrollbar z-0 ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
+                                            <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md transition-colors ${isDark ? 'bg-cyan-500/50 group-focus-within:bg-cyan-400' : 'bg-cyan-500/30 group-focus-within:bg-cyan-500'}`}></div>
                                             <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className="whitespace-pre-wrap pl-3 m-0 editor-pre leading-relaxed"></pre>
                                         </div>
                                     ) : (
-                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} className={`w-full h-full p-4 sm:p-5 bg-transparent resize-none outline-none font-mono text-[12px] sm:text-[13px] custom-scrollbar overflow-auto leading-relaxed ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
+                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
                                     )}
                                     
                                     {showQR && (
-                                        <div className="absolute inset-0 z-10 flex items-center justify-center p-6 animate-bounce-in bg-black/40 backdrop-blur-md">
-                                            <div className={`p-5 rounded-3xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
+                                        <div className="absolute inset-0 z-20 flex items-center justify-center p-6 animate-bounce-in bg-black/40 backdrop-blur-md">
+                                            <div className={`p-3 sm:p-5 rounded-3xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
                                                 <button onClick={()=>setShowQR(false)} className="absolute -top-3 -right-3 p-1.5 rounded-full shadow-lg bg-red-500 text-white hover:bg-red-600 transition-colors"><Icons.X size={14} /></button>
-                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-32 h-32 sm:w-48 sm:h-48 rounded-xl opacity-90" />
+                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-24 h-24 sm:w-48 sm:h-48 rounded-xl opacity-90" />
                                             </div>
                                         </div>
                                     )}
