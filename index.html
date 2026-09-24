@@ -136,6 +136,12 @@
             background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
         }
 
+        /* Prevent body scroll when using split view */
+        body.split-view-active {
+            overflow: hidden;
+            height: 100vh;
+        }
+
         textarea:focus { outline: none; }
         input[type="file"] { display: none; }
 
@@ -716,59 +722,58 @@
             }
 
             return (
-                <div className="flex flex-col gap-4 sm:gap-6 animate-fade-in w-full max-w-[100rem] mx-auto">
-                    {}
+                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-3' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
                     {/* TOP CONTROL BAR (SAAS STYLE) */}
-                    <div className="glass-panel p-3 sm:p-4 rounded-2xl border shadow-lg flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 z-30 relative animate-slide-up">
+                    <div className={`glass-panel rounded-2xl border shadow-lg flex flex-col xl:flex-row items-start xl:items-center justify-between gap-3 z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-2 sm:p-3' : 'p-3 sm:p-4'}`}>
                         
-                        <div className="grid grid-cols-2 xl:flex gap-3 w-full xl:w-auto">
-                            <div className="relative w-full xl:w-48 col-span-1">
-                                <select value={category} onChange={handleCategoryChange} className={`w-full h-11 appearance-none pl-10 pr-8 rounded-xl font-bold text-[12px] sm:text-[13px] outline-none transition-all cursor-pointer ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
+                        <div className="grid grid-cols-2 xl:flex gap-2 sm:gap-3 w-full xl:w-auto">
+                            <div className={`relative w-full col-span-1 ${isSplitView ? 'xl:w-40' : 'xl:w-48'}`}>
+                                <select value={category} onChange={handleCategoryChange} className={`w-full h-10 appearance-none pl-9 pr-8 rounded-xl font-bold text-[11px] sm:text-[12px] outline-none transition-all cursor-pointer ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
                                     {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
-                                <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{toolCategories.find(c=>c.id===category)?.icon}</div>
-                                <Icons.ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />
+                                <div className={`absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: 14 })}</div>
+                                <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />
                             </div>
                             
-                            <div className="relative w-full xl:w-60 col-span-1">
+                            <div className={`relative w-full col-span-1 ${isSplitView ? 'xl:w-48' : 'xl:w-60'}`}>
                                 <select value={algo} onChange={e => { 
                                         const val = e.target.value; setAlgo(val); 
                                         if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode'); 
                                         else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(val)) setMode('decode'); 
-                                    }} className={`w-full h-11 appearance-none pl-10 pr-8 rounded-xl font-semibold text-[12px] sm:text-[13px] outline-none transition-all cursor-pointer ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
+                                    }} className={`w-full h-10 appearance-none pl-9 pr-8 rounded-xl font-semibold text-[11px] sm:text-[12px] outline-none transition-all cursor-pointer ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
                                     {algorithms.filter(a => a.category === category).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
-                                <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{algorithms.find(a=>a.id===algo)?.icon}</div>
-                                <Icons.ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />
+                                <div className={`absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: 14 })}</div>
+                                <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full xl:w-auto animate-fade-in">
+                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full xl:w-auto animate-fade-in">
                             {!['uuid'].includes(algo) && (
                                 <div className={`flex p-1 rounded-xl w-full sm:w-auto transition-opacity ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['encode', 'decode'].map(m => (
-                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-lg text-[13px] sm:text-sm font-bold capitalize transition-all duration-300 ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
+                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold capitalize transition-all duration-300 ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
                                     ))}
                                 </div>
                             )}
 
                             {algo === 'caesar' && (
-                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start gap-2 px-4 py-2 rounded-xl h-11 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start gap-2 px-3 py-1.5 rounded-xl h-10 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
                                     <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />
-                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className="w-full sm:w-28" />
-                                    <span className={`font-mono font-bold w-5 text-center text-[11px] sm:text-xs ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className="w-full sm:w-20" />
+                                    <span className={`font-mono font-bold w-5 text-center text-[10px] sm:text-[11px] ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
                                 </div>
                             )}
                             {algo === 'vigenere' && (
-                                <div className={`flex flex-1 sm:flex-none items-center gap-2 px-4 py-2 rounded-xl h-11 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center gap-2 px-3 py-1.5 rounded-xl h-10 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
                                     <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />
-                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" className={`w-full sm:w-28 bg-transparent outline-none font-mono font-bold text-center text-[11px] sm:text-xs uppercase tracking-widest ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
+                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" className={`w-full sm:w-20 bg-transparent outline-none font-mono font-bold text-center text-[10px] sm:text-[11px] uppercase tracking-widest ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
                                 </div>
                             )}
                             {algo === 'string_utils' && (
-                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto gap-1 p-1 rounded-xl h-11 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto gap-1 p-1 rounded-xl h-10 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['upper', 'lower', 'title'].map(m => (
-                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
+                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
                                             {m === 'upper' ? 'UPPER' : m === 'lower' ? 'lower' : 'Title'}
                                         </button>
                                     ))}
@@ -776,55 +781,55 @@
                             )}
                         </div>
 
-                        <div className="flex items-center gap-3 w-full xl:w-auto xl:ml-auto">
+                        <div className="flex items-center gap-2 sm:gap-3 w-full xl:w-auto xl:ml-auto">
                             <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin" />
-                            <button onClick={() => fileInputRef.current.click()} className={`flex-1 xl:flex-none flex items-center justify-center gap-2 h-11 px-4 sm:px-5 text-[11px] sm:text-xs font-bold tracking-widest rounded-xl transition-all shadow-sm ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+                            <button onClick={() => fileInputRef.current.click()} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 h-10 px-3 sm:px-4 text-[10px] sm:text-[11px] font-bold tracking-widest rounded-xl transition-all shadow-sm ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
                                 <Icons.Upload size={14} /> LOAD
                             </button>
-                            <button onClick={() => {setInput(''); setOutput(''); setErrorMsg(null); setShowQR(false);}} className={`flex-1 xl:flex-none flex items-center justify-center gap-2 h-11 px-4 sm:px-5 text-[11px] sm:text-xs font-bold tracking-widest rounded-xl transition-all shadow-sm ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
+                            <button onClick={() => {setInput(''); setOutput(''); setErrorMsg(null); setShowQR(false);}} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 h-10 px-3 sm:px-4 text-[10px] sm:text-[11px] font-bold tracking-widest rounded-xl transition-all shadow-sm ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
                                 <Icons.Trash2 size={14} /> CLEAR
                             </button>
                         </div>
                     </div>
 
-                    {/* MAIN EDITOR GRID */}
-                    <div className={`flex-grow grid gap-4 sm:gap-6 items-stretch animate-slide-up ${isSplitView ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-[1fr_auto_1fr]'}`} style={{animationDelay: '0.1s'}}>
+                    {/* MAIN EDITOR GRID - FLEX-1 AND MIN-H-0 CRITICAL FOR FLUID SPLIT VIEW */}
+                    <div className={`flex-grow flex min-h-0 items-stretch animate-slide-up ${isSplitView ? 'flex-col gap-2' : 'flex-col lg:flex-row gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
                         
                         {/* INPUT PANEL */}
-                        <div className={`flex flex-col rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
+                        <div className={`flex-1 flex flex-col min-h-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
                             <PanelHeader title="Input Payload" stats={inStats} isOutput={false} copyVal={input} />
                             <HighlightedInput value={input} onChange={e => setInput(e.target.value)} isDark={isDark} placeholder={algo === 'epoch' ? "Enter Unix Timestamp (e.g. 1729000000)" : "Enter payload or drag file here..."} />
                             <PanelFooter stats={inStats} />
                         </div>
 
                         {/* PROFESSIONAL UNIFIED TOOLBAR */}
-                        <div className={`flex items-center justify-center gap-3 relative z-10 ${isSplitView ? 'flex-row py-2' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-2'}`}>
-                            <div className={`flex items-center p-1.5 rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-row' : 'flex-row lg:flex-col'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        <div className={`flex items-center justify-center gap-3 relative z-10 flex-shrink-0 ${isSplitView ? 'flex-row py-1' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-2'}`}>
+                            <div className={`flex items-center p-1 sm:p-1.5 rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-row' : 'flex-row lg:flex-col'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
                                 
-                                <button onClick={() => applyJsonFormat('beautify')} className={`h-10 w-10 flex items-center justify-center rounded-full transition-all group relative z-10 ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
-                                    <Icons.AlignLeft size={16} className="transition-transform group-hover:scale-110" />
+                                <button onClick={() => applyJsonFormat('beautify')} className={`h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center rounded-full transition-all group relative z-10 ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
+                                    <Icons.AlignLeft size={isSplitView ? 14 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
 
-                                <div className={`mx-1 my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'} ${isSplitView ? 'w-px h-6' : 'w-px h-6 lg:w-6 lg:h-px'}`}></div>
+                                <div className={`mx-1 my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'} ${isSplitView ? 'w-px h-5' : 'w-px h-6 lg:w-6 lg:h-px'}`}></div>
 
-                                <button onClick={swap} disabled={isLockMode} className={`h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-2 border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-2 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
+                                <button onClick={swap} disabled={isLockMode} className={`h-9 w-9 sm:h-12 sm:w-12 flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-2 border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-2 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
                                     <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
-                                        <Icons.ArrowRightLeft size={16} strokeWidth={2.5} className={`sm:w-[18px] sm:h-[18px] ${isSplitView ? 'rotate-90' : 'rotate-0 lg:rotate-0'}`} />
+                                        <Icons.ArrowRightLeft size={isSplitView ? 14 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-90' : 'rotate-0 lg:rotate-0'} />
                                     </div>
                                 </button>
 
-                                <div className={`mx-1 my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'} ${isSplitView ? 'w-px h-6' : 'w-px h-6 lg:w-6 lg:h-px'}`}></div>
+                                <div className={`mx-1 my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'} ${isSplitView ? 'w-px h-5' : 'w-px h-6 lg:w-6 lg:h-px'}`}></div>
 
-                                <button onClick={() => applyJsonFormat('minify')} className={`h-10 w-10 flex items-center justify-center rounded-full transition-all group relative z-10 ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
-                                    <Icons.FileCode size={16} className="transition-transform group-hover:scale-110" />
+                                <button onClick={() => applyJsonFormat('minify')} className={`h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center rounded-full transition-all group relative z-10 ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
+                                    <Icons.FileCode size={isSplitView ? 14 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
                             </div>
                         </div>
 
                         {/* OUTPUT PANEL */}
-                        <div className={`flex flex-col rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
+                        <div className={`flex-1 flex flex-col min-h-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
                             <PanelHeader title="Processed Output" stats={outStats} isOutput={true} copyVal={output} />
-                                <div className="relative flex-grow flex flex-col min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]">
+                                <div className="relative flex-grow flex flex-col min-h-0">
                                     {isJsonOutput ? (
                                         <div className={`w-full h-full p-4 sm:p-5 overflow-auto font-mono text-[12px] sm:text-[13px] custom-scrollbar relative ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
                                             <div className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-md transition-colors ${isDark ? 'bg-cyan-500/50 group-focus-within:bg-cyan-400' : 'bg-cyan-500/30 group-focus-within:bg-cyan-500'}`}></div>
@@ -838,7 +843,7 @@
                                         <div className="absolute inset-0 z-10 flex items-center justify-center p-6 animate-bounce-in bg-black/40 backdrop-blur-md">
                                             <div className={`p-5 rounded-3xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
                                                 <button onClick={()=>setShowQR(false)} className="absolute -top-3 -right-3 p-1.5 rounded-full shadow-lg bg-red-500 text-white hover:bg-red-600 transition-colors"><Icons.X size={14} /></button>
-                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-48 h-48 rounded-xl opacity-90" />
+                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-32 h-32 sm:w-48 sm:h-48 rounded-xl opacity-90" />
                                             </div>
                                         </div>
                                     )}
@@ -846,7 +851,6 @@
                                 <PanelFooter stats={outStats} />
                             </div>
                         </div>
-                    )}
                 </div>
             );
         });
@@ -940,6 +944,15 @@
                 else document.documentElement.classList.remove('dark');
             }, [theme]);
 
+            // Add or remove body class based on split view to prevent external scrolling
+            useEffect(() => {
+                if (isSplitView && workspaces.length > 1 && activeTab === 'decoderx') {
+                    document.body.classList.add('split-view-active');
+                } else {
+                    document.body.classList.remove('split-view-active');
+                }
+            }, [isSplitView, workspaces.length, activeTab]);
+
             const isDark = theme === 'dark';
             
             // Algorithms logic object
@@ -999,7 +1012,7 @@
             };
 
             return (
-                <div className="min-h-screen flex flex-col relative font-sans">
+                <div className={`flex flex-col relative font-sans ${isSplitView && activeTab === 'decoderx' ? 'h-screen overflow-hidden' : 'min-h-screen'}`}>
                     <div className="fixed inset-0 pointer-events-none z-0">
                         <div className={`absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full blur-[180px] opacity-30 mix-blend-screen transition-colors duration-1000 ${isDark ? 'bg-blue-600' : 'bg-blue-200'}`}></div>
                         <div className={`absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full blur-[180px] opacity-30 mix-blend-screen transition-colors duration-1000 ${isDark ? 'bg-emerald-600' : 'bg-emerald-200'}`}></div>
@@ -1007,46 +1020,46 @@
                         {isDark && <div className="scanline opacity-30"></div>}
                     </div>
 
-                    <main className="flex-grow w-full max-w-[100rem] mx-auto p-3 sm:p-5 lg:p-6 relative z-10 flex flex-col gap-4 overflow-x-hidden">
+                    <main className={`flex-grow w-full max-w-[120rem] mx-auto p-2 sm:p-3 lg:p-4 relative z-10 flex flex-col overflow-x-hidden ${isSplitView && activeTab === 'decoderx' ? 'h-full gap-2' : 'gap-4'}`}>
                         
                         {/* COMPACT FULL HEADER - LOGO & TABS RESTORED */}
-                        <header className={`glass-panel border rounded-2xl p-3 md:px-5 md:py-3 flex flex-col lg:flex-row items-center justify-between gap-4 shadow-sm transition-all duration-500 animate-slide-up ${isDark ? 'bg-brand-bg/60 border-white/5' : 'bg-white/80 border-slate-200'}`}>
+                        <header className={`glass-panel border rounded-2xl p-2 md:px-4 md:py-2 flex flex-col lg:flex-row items-center justify-between gap-3 shadow-sm transition-all duration-500 animate-slide-up flex-shrink-0 ${isDark ? 'bg-brand-bg/60 border-white/5' : 'bg-white/80 border-slate-200'}`}>
                             
                             {/* LOGO SECTION */}
                             <div className="flex items-center gap-3 w-full lg:w-1/3">
                                 <div className="relative">
                                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 blur-[8px] opacity-40 rounded-xl"></div>
-                                    <div className={`relative p-2 rounded-xl border shadow-sm flex items-center justify-center ${isDark ? 'bg-brand-panel border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}`}>
-                                        <Icons.Shield size={20} strokeWidth={2.5} className="text-emerald-500" />
+                                    <div className={`relative p-1.5 rounded-xl border shadow-sm flex items-center justify-center ${isDark ? 'bg-brand-panel border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}`}>
+                                        <Icons.Shield size={18} strokeWidth={2.5} className="text-emerald-500" />
                                     </div>
                                 </div>
                                 <div>
-                                    <h1 className="text-xl md:text-2xl font-display font-bold tracking-tight text-gradient-primary leading-none">DecoderX</h1>
-                                    <p className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Pro Suite</p>
+                                    <h1 className="text-lg md:text-xl font-display font-bold tracking-tight text-gradient-primary leading-none">DecoderX</h1>
+                                    <p className={`text-[9px] font-bold tracking-[0.2em] uppercase mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Pro Suite</p>
                                 </div>
                             </div>
 
                             {/* MAIN TABS TOGGLE */}
-                            <div className={`flex p-1.5 rounded-xl w-full lg:w-auto shadow-inner border flex-shrink-0 ${isDark ? 'bg-black/60 border-white/5' : 'bg-slate-100 border-slate-200/50'}`}>
-                                <button onClick={() => setActiveTab('decoderx')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeTab === 'decoderx' ? (isDark ? 'bg-brand-panel text-emerald-400 shadow-md border border-white/5' : 'bg-white text-emerald-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
-                                    <Icons.Terminal size={15}/> Essential Tools
+                            <div className={`flex p-1 rounded-xl w-full lg:w-auto shadow-inner border flex-shrink-0 ${isDark ? 'bg-black/60 border-white/5' : 'bg-slate-100 border-slate-200/50'}`}>
+                                <button onClick={() => setActiveTab('decoderx')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${activeTab === 'decoderx' ? (isDark ? 'bg-brand-panel text-emerald-400 shadow-md border border-white/5' : 'bg-white text-emerald-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
+                                    <Icons.Terminal size={14}/> Essential Tools
                                 </button>
-                                <button onClick={() => setActiveTab('curl')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeTab === 'curl' ? (isDark ? 'bg-brand-panel text-blue-400 shadow-md border border-white/5' : 'bg-white text-blue-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
-                                    <Icons.Layers size={15}/> Deep cURL Parse
+                                <button onClick={() => setActiveTab('curl')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${activeTab === 'curl' ? (isDark ? 'bg-brand-panel text-blue-400 shadow-md border border-white/5' : 'bg-white text-blue-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
+                                    <Icons.Layers size={14}/> Deep cURL Parse
                                 </button>
                             </div>
 
                             {/* THEME TOGGLE */}
                             <div className="flex justify-end w-full lg:w-1/3">
-                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} className={`h-10 w-10 flex items-center justify-center rounded-xl border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
-                                    {isDark ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
+                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} className={`h-8 w-8 flex items-center justify-center rounded-xl border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
+                                    {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
                                 </button>
                             </div>
                         </header>
 
                         {/* WORKSPACE TAB MANAGER (Only visible in 'decoderx' tab) */}
                         {activeTab === 'decoderx' && (
-                            <div className={`flex items-center justify-between py-2 px-3 animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
+                            <div className={`flex items-center justify-between py-1.5 px-2 animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 flex-shrink-0 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
                                 <div className="flex items-center gap-2 overflow-x-auto tab-scroll-container">
                                     {workspaces.map(ws => (
                                         <WorkspaceTab
@@ -1061,56 +1074,60 @@
                                         />
                                     ))}
                                     
-                                    <div className={`w-px h-6 flex-shrink-0 mx-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                    <div className={`w-px h-5 flex-shrink-0 mx-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                    <button onClick={addWorkspace} className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all border border-dashed flex-shrink-0 group ${isDark ? 'border-white/20 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/40' : 'border-slate-300 text-slate-500 hover:bg-slate-100 hover:text-slate-800 hover:border-slate-400'}`}>
+                                    <button onClick={addWorkspace} className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border border-dashed flex-shrink-0 group ${isDark ? 'border-white/20 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/40' : 'border-slate-300 text-slate-500 hover:bg-slate-100 hover:text-slate-800 hover:border-slate-400'}`}>
                                         <Icons.Plus size={14} className="transition-transform group-hover:scale-110" /> New Tab
                                     </button>
                                 </div>
                                 
-                                <div className="flex items-center gap-3 pl-2 flex-shrink-0">
-                                    <div className={`hidden lg:flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase px-2 opacity-50 select-none ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                                        <Icons.Wand size={12} /> Double-Click Tab to Rename
+                                <div className="flex items-center gap-2 pl-2 flex-shrink-0">
+                                    <div className={`hidden lg:flex items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase px-2 opacity-50 select-none ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                        <Icons.Wand size={10} /> Double-Click Tab to Rename
                                     </div>
-                                    <div className={`w-px h-6 hidden lg:block ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                    <div className={`w-px h-5 hidden lg:block ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
                                     
                                     {/* SPLIT VIEW TOGGLE */}
                                     <button 
                                         onClick={() => workspaces.length > 1 && setIsSplitView(!isSplitView)}
                                         disabled={workspaces.length <= 1}
-                                        className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all border shadow-sm flex-shrink-0 ${workspaces.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''} ${isSplitView ? (isDark ? 'bg-emerald-500 text-white shadow-neon-emerald border-emerald-400' : 'bg-emerald-500 text-white shadow-md border-emerald-600') : (isDark ? 'bg-brand-panel border-white/10 text-emerald-400 hover:bg-white/10 hover:border-emerald-500/50' : 'bg-white border-slate-200 text-emerald-600 hover:bg-emerald-50')}`}
+                                        className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all border shadow-sm flex-shrink-0 ${workspaces.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''} ${isSplitView ? (isDark ? 'bg-emerald-500 text-white shadow-neon-emerald border-emerald-400' : 'bg-emerald-500 text-white shadow-md border-emerald-600') : (isDark ? 'bg-brand-panel border-white/10 text-emerald-400 hover:bg-white/10 hover:border-emerald-500/50' : 'bg-white border-slate-200 text-emerald-600 hover:bg-emerald-50')}`}
                                         title={workspaces.length <= 1 ? "Open another tab to use Split View" : "Toggle Grid Split View"}
                                     >
-                                        {isSplitView ? <><Icons.Maximize size={14} className="animate-pulse" /> SINGLE VIEW</> : <><Icons.Columns size={14} /> SPLIT VIEW</>}
+                                        {isSplitView ? <><Icons.Maximize size={12} className="animate-pulse" /> SINGLE VIEW</> : <><Icons.Columns size={12} /> SPLIT VIEW</>}
                                     </button>
                                 </div>
                             </div>
                         )}
 
                         {/* WORKSPACE CONTENT AREA */}
-                        <div className="flex-grow flex flex-col w-full relative">
+                        <div className={`flex flex-col w-full relative overflow-hidden ${isSplitView && activeTab === 'decoderx' ? 'flex-1 min-h-0' : 'flex-grow'}`}>
                             {activeTab === 'decoderx' ? (
-                                <div className={`w-full grid gap-4 transition-all duration-500 ${isSplitView ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' : 'grid-cols-1'}`}>
+                                <div className={`w-full h-full transition-all duration-500 ${isSplitView ? 'grid gap-3 grid-cols-1 md:grid-cols-2 overflow-y-auto custom-scrollbar lg:overflow-hidden' : 'flex flex-col'}`}>
                                     {/* WORKSPACE CONTENTS RENDERED */}
                                     {workspaces.map(ws => (
-                                        <div key={ws.id} className={isSplitView || activeWorkspaceId === ws.id ? 'block animate-fade-in h-full' : 'hidden'}>
+                                        <div key={ws.id} className={`${isSplitView ? 'block h-[80vh] lg:h-full' : (activeWorkspaceId === ws.id ? 'block flex-grow' : 'hidden')} animate-fade-in`}>
                                             <StandardDecoderTab isDark={isDark} setToast={setToast} AlgorithmsLib={algosLib} workspaceId={ws.id} isSplitView={isSplitView} />
                                         </div>
                                     ))}
                                 </div>
                             ) : (
-                                <CurlDecoderTab isDark={isDark} setToast={setToast} />
+                                <div className="overflow-y-auto h-full custom-scrollbar pb-6">
+                                    <CurlDecoderTab isDark={isDark} setToast={setToast} />
+                                </div>
                             )}
                         </div>
 
-                        <footer className="mt-auto pt-2 pb-2 animate-fade-in text-center">
-                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border glass-panel shadow-sm ${isDark ? 'border-white/5' : 'border-black/5'}`}>
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-glow shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                                <span className={`text-[10px] font-bold tracking-widest uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                                    Engineered by <span className="text-gradient-primary">Mr Shiva</span>
-                                </span>
-                            </div>
-                        </footer>
+                        {!isSplitView && (
+                            <footer className="mt-auto pt-1 pb-1 animate-fade-in text-center flex-shrink-0">
+                                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border glass-panel shadow-sm ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-glow shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                                    <span className={`text-[9px] font-bold tracking-widest uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                        Engineered by <span className="text-gradient-primary">Mr Shiva</span>
+                                    </span>
+                                </div>
+                            </footer>
+                        )}
                     </main>
 
                     {toast && (
