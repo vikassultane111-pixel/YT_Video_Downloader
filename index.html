@@ -6,10 +6,10 @@
     <meta name="description" content="DecoderX Pro Suite - Advanced decoder, encoder, hashing and cURL parsing toolkit.">
     <title>DecoderX Pro Suite - Advanced Security Tools</title>
 
-    <!-- Krysha's Custom Favicon (Emerald Shield) -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>" type="image/svg+xml">
 
-    <!-- React & ReactDOM (Production Minified) -->
+    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
@@ -77,7 +77,6 @@
         .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
         .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 
-        /* Explicit custom-scrollbar utility */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
@@ -111,7 +110,6 @@
             background-image: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
         }
 
-        /* Enhanced Syntax Highlighting */
         .json-key { color: #0ea5e9; font-weight: 500; }
         .dark .json-key { color: #38bdf8; }
         .json-string { color: #10b981; }
@@ -173,7 +171,6 @@
     <script type="text/babel" data-presets="react" data-type="module">
         const { useState, useEffect, useRef, useMemo, useCallback, memo } = React;
 
-        // --- GLOBAL HELPERS ---
         const htmlParser = new DOMParser();
 
         const b64EncodeUtf8 = (str) => {
@@ -205,12 +202,9 @@
             return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
         };
 
-        // --- ICONS ---
         const Icons = {
             Shield: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> ),
             ArrowRightLeft: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg> ),
-            ArrowRight: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg> ),
-            ArrowDown: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg> ),
             Copy: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> ),
             Check: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg> ),
             Trash2: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> ),
@@ -237,20 +231,16 @@
             Wifi: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg> ),
             Settings: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> ),
             Cpu: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg> ),
-            Unlock: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> ),
             X: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ),
-            Fingerprint: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10"></path><path d="M5 12c0-3.87 3.13-7 7-7s7 3.13 7 7"></path><path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4"></path><path d="M12 12c0 0 0 0 0 0"></path><path d="M12 15v.01"></path><path d="M12 18v.01"></path><path d="M12 21v.01"></path><path d="M8 18v.01"></path><path d="M8 21v.01"></path><path d="M16 18v.01"></path><path d="M16 21v.01"></path></svg> ),
             Wand: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 4V2"></path><path d="M15 16v-2"></path><path d="M8 9h2"></path><path d="M20 9h2"></path><path d="M17.8 11.8 19 13"></path><path d="M15 9h0"></path><path d="M17.8 6.2 19 5"></path><path d="m3 21 9-9"></path><path d="M12.2 6.2 11 5"></path></svg> ),
             Link: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> ),
             Layers: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> ),
             Plus: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> ),
             Folder: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> ),
-            LayoutGrid: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg> ),
             Columns: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg> ),
             Maximize: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> ),
         };
 
-        // --- ALGORITHMS & CATEGORIES ---
         const algorithms = [
             { id: 'defang', category: 'network', name: 'Defang IP / URL', icon: <Icons.Wifi size={16} /> },
             { id: 'base64', category: 'encoders', name: 'Base64', icon: <Icons.Code size={16} /> },
@@ -292,7 +282,6 @@
             { id: 'utilities', name: 'Utilities', icon: <Icons.Settings size={16} /> },
         ];
 
-        // --- HELPER FUNCTIONS ---
         const getEntropy = (str) => {
             if (!str) return '0.00';
             const len = str.length;
@@ -384,9 +373,6 @@
             return { original: inputStr, final: current, steps, b64Count, urlCount, isJson, isEncoded: steps.length > 0 };
         }
 
-        // ==========================================
-        // COMPONENT: MAGIC HIGHLIGHTED INPUT BOX
-        // ==========================================
         const HighlightedInput = ({ value, onChange, isDark, placeholder, isSplitView }) => {
             const preRef = useRef(null);
             let isJson = false;
@@ -396,17 +382,14 @@
             }
             const handleScroll = (e) => { if (preRef.current) { preRef.current.scrollTop = e.target.scrollTop; preRef.current.scrollLeft = e.target.scrollLeft; } };
             return (
-                <div className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden group ${isSplitView ? 'h-full' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
+                <div className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden group ${isSplitView ? 'h-full min-h-[120px]' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
                     {isJson && <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md z-0 transition-colors ${isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-400' : 'bg-emerald-500/30 group-focus-within:bg-emerald-500'}`}></div>}
-                    <pre ref={preRef} className={`absolute inset-0 p-2 sm:p-4 font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-5' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
-                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-5' : ''}`} spellCheck="false" aria-label="Input payload" />
+                    <pre ref={preRef} className={`absolute inset-0 p-2 sm:p-4 font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-5' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
+                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-5' : ''}`} spellCheck="false" aria-label="Input payload" />
                 </div>
             );
         };
 
-        // ==========================================
-        // COMPONENT: CURL DECODER TAB
-        // ==========================================
         function CurlDecoderTab({ isDark, setToast }) {
             const [curlInput, setCurlInput] = useState('');
             const [parsedResults, setParsedResults] = useState(null);
@@ -605,9 +588,6 @@
             );
         }
 
-        // ==========================================
-        // COMPONENT: STANDARD DECODER TAB
-        // ==========================================
         const StandardDecoderTab = memo(({ isDark, setToast, AlgorithmsLib, workspaceId, isSplitView }) => {
             const { defang, refang, toHex, fromHex, toBin, fromBin, toOctal, fromOctal, htmlEncode, htmlDecode, rev, atbash, rot47, caesarCipher, vigenereCipher, toMorse, fromMorse, formatJSON, parseJWT, b32Encode, b32Decode, extractIPs, extractURLs, hexdump, epochConvert, urlEncodeAll, stringUtils } = AlgorithmsLib;
 
@@ -781,16 +761,16 @@
             }
 
             return (
-                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-2' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
+                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
                     {/* TOP CONTROL BAR */}
-                    <div className={`glass-panel rounded-2xl border shadow-lg flex flex-wrap items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1.5 gap-1.5 flex-row' : 'p-3 sm:p-4 gap-3 flex-col xl:flex-row'}`}>
+                    <div className={`glass-panel rounded-2xl border shadow-lg flex flex-wrap items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1 gap-1 flex-row' : 'p-3 sm:p-4 gap-3 flex-col xl:flex-row'}`}>
 
                         <div className={`flex ${isSplitView ? 'flex-row gap-1 w-auto flex-1 min-w-[150px]' : 'w-full xl:w-auto grid grid-cols-2 xl:flex gap-2 sm:gap-3'}`}>
                             <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-48'}`}>
-                                <select value={category} onChange={handleCategoryChange} aria-label="Select category" className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
+                                <select value={category} onChange={handleCategoryChange} aria-label="Select category" className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-6 pl-5 pr-3 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
                                     {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
-                                <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
+                                <div className={`absolute ${isSplitView ? 'left-1' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: isSplitView ? 10 : 14 })}</div>
                                 {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
 
@@ -799,10 +779,10 @@
                                         const val = e.target.value; setAlgo(val);
                                         if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode');
                                         else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(val)) setMode('decode');
-                                    }} aria-label="Select algorithm" className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
+                                    }} aria-label="Select algorithm" className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-6 pl-5 pr-3 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
                                     {algorithms.filter(a => a.category === category).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
-                                <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
+                                <div className={`absolute ${isSplitView ? 'left-1' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: isSplitView ? 10 : 14 })}</div>
                                 {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
                         </div>
@@ -811,28 +791,28 @@
                             {!['uuid'].includes(algo) && (
                                 <div className={`flex rounded-xl transition-opacity ${isSplitView ? 'p-0.5' : 'p-1'} ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['encode', 'decode'].map(m => (
-                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold capitalize transition-all duration-300 ${isSplitView ? 'px-2 py-1 text-[9px]' : 'px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs'} ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
+                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold capitalize transition-all duration-300 ${isSplitView ? 'px-1.5 py-0.5 text-[9px]' : 'px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs'} ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
                                     ))}
                                 </div>
                             )}
 
                             {algo === 'caesar' && (
-                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start rounded-xl ${isSplitView ? 'h-7 px-2 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start rounded-xl ${isSplitView ? 'h-6 px-1.5 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
                                     {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
-                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} aria-label="Caesar shift" className={`w-full ${isSplitView ? 'sm:w-12' : 'sm:w-20'}`} />
-                                    <span className={`font-mono font-bold w-5 text-center ${isSplitView ? 'text-[9px]' : 'text-[11px]'} ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} aria-label="Caesar shift" className={`w-full ${isSplitView ? 'sm:w-10' : 'sm:w-20'}`} />
+                                    <span className={`font-mono font-bold w-4 text-center ${isSplitView ? 'text-[9px]' : 'text-[11px]'} ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
                                 </div>
                             )}
                             {algo === 'vigenere' && (
-                                <div className={`flex flex-1 sm:flex-none items-center rounded-xl ${isSplitView ? 'h-7 px-2 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center rounded-xl ${isSplitView ? 'h-6 px-1.5 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
                                     {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
-                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" aria-label="Vigenere key" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-12 text-[9px]' : 'sm:w-20 text-[11px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
+                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" aria-label="Vigenere key" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-10 text-[9px]' : 'sm:w-20 text-[11px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
                                 </div>
                             )}
                             {algo === 'string_utils' && (
-                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto rounded-xl ${isSplitView ? 'h-7 p-0.5 gap-0.5' : 'h-10 p-1 gap-1'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto rounded-xl ${isSplitView ? 'h-6 p-0.5 gap-0.5' : 'h-10 p-1 gap-1'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['upper', 'lower', 'title'].map(m => (
-                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold transition-all ${isSplitView ? 'text-[9px] px-1.5 py-0.5' : 'text-[10px] px-2.5 py-1'} ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
+                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold transition-all ${isSplitView ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2.5 py-1'} ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
                                             {m === 'upper' ? 'UPPER' : m === 'lower' ? 'lower' : 'Title'}
                                         </button>
                                     ))}
@@ -842,17 +822,17 @@
 
                         <div className={`flex items-center ${isSplitView ? 'gap-1 w-auto ml-auto' : 'w-full xl:w-auto xl:ml-auto gap-2 sm:gap-3'}`}>
                             <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin" aria-label="Load file" />
-                            <button onClick={() => fileInputRef.current.click()} aria-label="Load file" className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+                            <button onClick={() => fileInputRef.current.click()} aria-label="Load file" className={`flex-1 xl:flex-none flex items-center justify-center gap-1 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-6 px-1.5 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
                                 <Icons.Upload size={isSplitView ? 10 : 14} /> {!isSplitView && 'LOAD'}
                             </button>
-                            <button onClick={() => {setInput(''); setOutput(algo === 'uuid' ? genUUID() : ''); setErrorMsg(null); setShowQR(false);}} aria-label="Clear input and output" className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
+                            <button onClick={() => {setInput(''); setOutput(algo === 'uuid' ? genUUID() : ''); setErrorMsg(null); setShowQR(false);}} aria-label="Clear input and output" className={`flex-1 xl:flex-none flex items-center justify-center gap-1 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-6 px-1.5 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
                                 <Icons.Trash2 size={isSplitView ? 10 : 14} /> {!isSplitView && 'CLEAR'}
                             </button>
                         </div>
                     </div>
 
                     {/* MAIN EDITOR GRID */}
-                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up ${isSplitView ? 'flex-col gap-2' : 'flex-col lg:flex-row gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
+                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up ${isSplitView ? 'flex-col gap-1' : 'flex-col lg:flex-row gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
 
                         {/* INPUT PANEL */}
                         <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
@@ -861,25 +841,25 @@
                             <PanelFooter stats={inStats} />
                         </div>
 
-                        {/* UNIFIED TOOLBAR */}
-                        <div className={`flex items-center justify-center relative z-10 flex-shrink-0 ${isSplitView ? 'flex-row w-full py-1' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-1'}`}>
-                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-row px-2 py-1' : 'flex-row lg:flex-col p-1'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        {/* UNIFIED TOOLBAR (Compact in Split View) */}
+                        <div className={`flex items-center justify-center relative z-10 flex-shrink-0 ${isSplitView ? 'flex-row w-full py-0.5' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-1'}`}>
+                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-row px-1.5 py-0.5' : 'flex-row lg:flex-col p-1'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
 
-                                <button onClick={() => applyJsonFormat('beautify')} aria-label="Beautify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-8 w-8' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
+                                <button onClick={() => applyJsonFormat('beautify')} aria-label="Beautify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-7 w-7' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
                                     <Icons.AlignLeft size={isSplitView ? 14 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
 
-                                <div className={`my-0.5 ${isSplitView ? 'w-px h-3 mx-1' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                <div className={`my-0.5 ${isSplitView ? 'w-px h-3 mx-0.5' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                <button onClick={swap} disabled={isLockMode} aria-label="Swap input and output" className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-10 w-10 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
+                                <button onClick={swap} disabled={isLockMode} aria-label="Swap input and output" className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-8 w-8 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
                                     <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
-                                        <Icons.ArrowRightLeft size={isSplitView ? 16 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-90' : 'rotate-90 lg:rotate-0'} />
+                                        <Icons.ArrowRightLeft size={isSplitView ? 14 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-90' : 'rotate-90 lg:rotate-0'} />
                                     </div>
                                 </button>
 
-                                <div className={`my-0.5 ${isSplitView ? 'w-px h-3 mx-1' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                <div className={`my-0.5 ${isSplitView ? 'w-px h-3 mx-0.5' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                <button onClick={() => applyJsonFormat('minify')} aria-label="Minify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-8 w-8' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
+                                <button onClick={() => applyJsonFormat('minify')} aria-label="Minify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-7 w-7' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
                                     <Icons.FileCode size={isSplitView ? 14 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
                             </div>
@@ -888,14 +868,14 @@
                         {/* OUTPUT PANEL */}
                         <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
                             <PanelHeader title="Processed Output" stats={outStats} isOutput={true} />
-                                <div className={`relative flex-1 min-h-0 w-full flex flex-col ${isSplitView ? 'h-full' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
+                                <div className={`relative flex-1 min-h-0 w-full flex flex-col ${isSplitView ? 'h-full min-h-[120px]' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
                                     {isJsonOutput ? (
-                                        <div className={`absolute inset-0 p-2 sm:p-4 overflow-auto font-mono text-[10px] sm:text-[12px] custom-scrollbar z-0 ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
+                                        <div className={`absolute inset-0 p-2 sm:p-4 overflow-auto font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar z-0 ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
                                             <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md transition-colors ${isDark ? 'bg-cyan-500/50 group-focus-within:bg-cyan-400' : 'bg-cyan-500/30 group-focus-within:bg-cyan-500'}`}></div>
                                             <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className="whitespace-pre-wrap pl-3 m-0 editor-pre leading-relaxed"></pre>
                                         </div>
                                     ) : (
-                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} aria-label="Processed output" className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
+                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} aria-label="Processed output" className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
                                     )}
 
                                     {showQR && (
@@ -914,9 +894,6 @@
             );
         });
 
-        // ==========================================
-        // COMPONENT: WORKSPACE TAB
-        // ==========================================
         const WorkspaceTab = ({ ws, isActive, onSelect, onClose, onRename, isDark, isOnlyTab }) => {
             const [isEditing, setIsEditing] = useState(false);
             const [editName, setEditName] = useState(ws.name);
@@ -949,7 +926,7 @@
                     onDoubleClick={() => setIsEditing(true)}
                     role="tab"
                     aria-selected={isActive}
-                    className={`group flex items-center gap-2 px-3.5 py-2 min-w-[140px] max-w-[220px] cursor-pointer rounded-xl transition-all duration-300 border shadow-sm flex-shrink-0 relative ${
+                    className={`group flex items-center gap-2 px-3 py-1.5 min-w-[120px] max-w-[200px] cursor-pointer rounded-xl transition-all duration-300 border shadow-sm flex-shrink-0 relative ${
                         isActive
                             ? (isDark ? 'bg-brand-panel border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-emerald-50/80 border-emerald-300 text-emerald-700 shadow-[0_0_15px_rgba(16,185,129,0.1)]')
                             : (isDark ? 'bg-black/20 border-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200' : 'bg-white border-slate-200/60 text-slate-500 hover:bg-slate-50 hover:text-slate-800')
@@ -976,7 +953,7 @@
                         <button
                             onClick={(e) => { e.stopPropagation(); onClose(ws.id); }}
                             aria-label="Close workspace"
-                            className={`p-1 rounded-md opacity-50 hover:opacity-100 transition-all flex-shrink-0 ml-1 ${isDark ? 'hover:bg-red-500/20 hover:text-red-400 text-slate-400' : 'hover:bg-red-100 hover:text-red-600 text-slate-500'}`}
+                            className={`p-0.5 rounded-md opacity-50 hover:opacity-100 transition-all flex-shrink-0 ml-1 ${isDark ? 'hover:bg-red-500/20 hover:text-red-400 text-slate-400' : 'hover:bg-red-100 hover:text-red-600 text-slate-500'}`}
                             title="Close Workspace"
                         >
                             <Icons.X size={12} />
@@ -986,9 +963,6 @@
             );
         };
 
-        // ==========================================
-        // MAIN APP SHELL
-        // ==========================================
         function App() {
             const [theme, setTheme] = useState('light');
             const [activeTab, setActiveTab] = useState('decoderx');
@@ -1123,7 +1097,7 @@
                         </header>
 
                         {activeTab === 'decoderx' && (
-                            <div className={`flex items-center justify-between py-1.5 px-2 animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 flex-shrink-0 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
+                            <div className={`flex items-center justify-between py-1 px-2 animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 flex-shrink-0 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
                                 <div className="flex items-center gap-2 overflow-x-auto tab-scroll-container">
                                     {workspaces.map(ws => (
                                         <WorkspaceTab
@@ -1166,14 +1140,14 @@
 
                         <div className={`flex flex-col w-full relative overflow-hidden ${isSplitView && activeTab === 'decoderx' ? 'flex-1 min-h-0' : 'flex-grow'}`}>
                             {activeTab === 'decoderx' ? (
-                                <div className={`w-full h-full transition-all duration-500 ${isSplitView ? `grid gap-3 grid-cols-1 md:grid-cols-2 ${workspaces.length > 2 ? 'grid-rows-2' : 'grid-rows-1'} min-h-0 p-2` : 'flex flex-col min-h-0'}`}>
+                                <div className={`w-full h-full transition-all duration-500 ${isSplitView ? `grid gap-2 grid-cols-1 lg:grid-cols-2 ${workspaces.length > 2 ? 'grid-rows-2' : 'grid-rows-1'} min-h-0 p-1` : 'flex flex-col min-h-0'}`}>
                                     {workspaces.map(ws => (
-                                        <div key={ws.id} className={`${isSplitView ? 'flex flex-col h-full min-h-0 rounded-2xl border overflow-hidden shadow-lg transition-all duration-300 ' + (isDark ? 'bg-brand-panel/40 border-white/10' : 'bg-white/60 border-slate-200') : (activeWorkspaceId === ws.id ? 'block flex-grow min-h-0' : 'hidden')} animate-fade-in`}>
+                                        <div key={ws.id} className={`${isSplitView ? 'flex flex-col h-full min-h-0 rounded-2xl border overflow-hidden shadow-md transition-all duration-300 ' + (isDark ? 'bg-brand-panel/40 border-white/10' : 'bg-white/60 border-slate-200') : (activeWorkspaceId === ws.id ? 'block flex-grow min-h-0' : 'hidden')} animate-fade-in`}>
                                             {isSplitView && (
-                                                <div className={`px-4 py-2 border-b flex items-center justify-between ${isDark ? 'bg-white/[0.02] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
+                                                <div className={`px-3 py-1.5 border-b flex items-center justify-between ${isDark ? 'bg-white/[0.02] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
                                                     <div className="flex items-center gap-2">
-                                                        <Icons.Folder size={14} className="text-emerald-500" />
-                                                        <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{ws.name}</span>
+                                                        <Icons.Folder size={12} className="text-emerald-500" />
+                                                        <span className={`text-[11px] font-bold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{ws.name}</span>
                                                     </div>
                                                     <button onClick={() => removeWorkspace(ws.id)} className={`p-1 rounded-md transition-colors ${isDark ? 'hover:bg-red-500/20 text-slate-500 hover:text-red-400' : 'hover:bg-red-100 text-slate-400 hover:text-red-600'}`} title="Close Workspace">
                                                         <Icons.X size={12} />
