@@ -44,13 +44,11 @@
                         'fade-in': 'fadeIn 0.2s ease-out forwards',
                         'slide-up': 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'scale-in': 'scaleIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'shimmer': 'shimmer 2s linear infinite',
                     },
                     keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
                         slideUp: { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
                         scaleIn: { '0%': { opacity: '0', transform: 'scale(0.96)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
-                        shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
                     }
                 }
             }
@@ -58,12 +56,8 @@
     </script>
 
     <style>
-        :root {
-            --ring: 16 185 129;
-        }
         html.dark { color-scheme: dark; background: #0a0a0b; }
         html { color-scheme: light; background: #fafafa; }
-
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -122,6 +116,7 @@
         .dark .json-boolean { color: #fb7185; }
         .dark .json-bracket { color: #a1a1aa; }
 
+        /* Input overlay - transparent textarea over highlighted pre */
         .editor-textarea, .editor-pre {
             white-space: pre-wrap !important;
             word-break: break-all !important;
@@ -137,6 +132,15 @@
         }
         .editor-textarea::selection { background: rgba(16,185,129,0.18); color: transparent; }
         .dark .editor-textarea::selection { background: rgba(52,211,153,0.22); color: transparent; }
+
+        /* Plain output - VISIBLE text */
+        .output-pre {
+            color: inherit;
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            line-height: 1.65;
+        }
 
         .bg-dots {
             background-image: radial-gradient(rgba(0,0,0,0.045) 1px, transparent 1px);
@@ -158,20 +162,15 @@
             box-shadow: 0 1px 0 rgba(0,0,0,0.04);
         }
         .dark .kbd { background: rgba(255,255,255,0.06); color: #a1a1aa; border-color: rgba(255,255,255,0.08); box-shadow: 0 1px 0 rgba(0,0,0,0.4); }
-
-        .resizer-v {
-            width: 6px; cursor: col-resize; transition: background 0.15s;
-        }
-        .resizer-v:hover { background: rgba(16,185,129,0.15); }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden min-h-screen bg-ink-50 dark:bg-ink-950 text-ink-800 dark:text-ink-200 font-sans">
+<body class="antialiased overflow-hidden min-h-screen bg-ink-50 dark:bg-ink-950 text-ink-800 dark:text-ink-200 font-sans">
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react">
         const { useState, useEffect, useRef, useMemo, useCallback, memo } = React;
 
-        // ---------- GLOBAL HELPERS ----------
+        // ---------- HELPERS ----------
         const htmlParser = new DOMParser();
 
         const b64EncodeUtf8 = (str) => {
@@ -203,7 +202,7 @@
             return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
         };
 
-        // ---------- ICONS (extended) ----------
+        // ---------- ICONS ----------
         const I = ({ children, size = 16, className = '' }) => (
             <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"
@@ -212,7 +211,6 @@
         const Icons = {
             Shield: (p) => <I {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></I>,
             Swap: (p) => <I {...p}><path d="M7 16l-4-4 4-4"/><path d="M17 8l4 4-4 4"/><path d="M3 12h18"/></I>,
-            SwapV: (p) => <I {...p}><path d="M7 4l-4 4 4 4"/><path d="M17 20l4-4-4-4"/><path d="M3 8h18"/><path d="M3 16h18"/></I>,
             Copy: (p) => <I {...p}><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></I>,
             Check: (p) => <I {...p}><polyline points="20 6 9 17 4 12"/></I>,
             Trash: (p) => <I {...p}><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></I>,
@@ -223,7 +221,6 @@
             Globe: (p) => <I {...p}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></I>,
             Hash: (p) => <I {...p}><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></I>,
             Bin: (p) => <I {...p}><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4M14 10h4M6 14h2v6M14 4h2v6"/></I>,
-            File: (p) => <I {...p}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></I>,
             FileCode: (p) => <I {...p}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m10 13-2 2 2 2"/><path d="m14 17 2-2-2-2"/></I>,
             Terminal: (p) => <I {...p}><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></I>,
             AlignL: (p) => <I {...p}><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></I>,
@@ -248,10 +245,9 @@
             Folder: (p) => <I {...p}><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></I>,
             Columns: (p) => <I {...p}><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></I>,
             Maximize: (p) => <I {...p}><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></I>,
-            Command: (p) => <I {...p}><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></I>,
-            Zap: (p) => <I {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></I>,
-            CornerDownLeft: (p) => <I {...p}><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></I>,
             AlertCircle: (p) => <I {...p}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></I>,
+            Zap: (p) => <I {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></I>,
+            Sparkles: (p) => <I {...p}><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></I>,
         };
 
         // ---------- ALGORITHMS ----------
@@ -296,14 +292,12 @@
             { id: 'utilities', name: 'Utilities', icon: 'Settings' },
         ];
 
-        // ---------- HELPERS ----------
         const getEntropy = (str) => {
             if (!str) return '0.00';
             const len = str.length;
             const freq = Array.from(str).reduce((f, c) => (f[c] = (f[c] || 0) + 1, f), {});
             return Object.values(freq).reduce((sum, f) => sum - f / len * Math.log2(f / len), 0).toFixed(2);
         };
-
         const getStats = (text) => {
             if (!text) return { chars: 0, words: 0, lines: 0, bytes: 0, entropy: '0.00' };
             return {
@@ -399,25 +393,6 @@
             </div>
         );
 
-        // ---------- EMPTY STATE ----------
-        const EmptyState = ({ icon: Icon, title, hint, kbdHint, isDark }) => (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 select-none pointer-events-none">
-                <div className={`p-3 rounded-2xl ${isDark ? 'bg-white/[0.03] border border-white/[0.05]' : 'bg-ink-100/50 border border-ink-200/50'}`}>
-                    <Icon size={20} className="text-ink-400 dark:text-ink-500" />
-                </div>
-                <div className="text-center">
-                    <p className="text-[13px] font-semibold text-ink-500 dark:text-ink-400">{title}</p>
-                    <p className="text-[11px] text-ink-400 dark:text-ink-500 mt-0.5">{hint}</p>
-                </div>
-                {kbdHint && (
-                    <div className="flex items-center gap-1.5 text-[10px] text-ink-400 dark:text-ink-500 mt-1">
-                        <span className="kbd">{kbdHint.k}</span>
-                        <span>{kbdHint.label}</span>
-                    </div>
-                )}
-            </div>
-        );
-
         // ---------- HIGHLIGHTED INPUT ----------
         const HighlightedInput = ({ value, onChange, isDark, placeholder, isSplitView, onDrop }) => {
             const preRef = useRef(null);
@@ -427,48 +402,49 @@
                 try { JSON.parse(value); isJson = true; displayHtml = syntaxHighlight(value); } catch {}
             }
             const handleScroll = (e) => { if (preRef.current) { preRef.current.scrollTop = e.target.scrollTop; preRef.current.scrollLeft = e.target.scrollLeft; } };
-            const handleDrop = (e) => {
-                e.preventDefault();
-                const f = e.dataTransfer.files[0];
-                if (f && onDrop) onDrop(f);
-            };
+            const handleDrop = (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f && onDrop) onDrop(f); };
             return (
-                <div
-                    onDrop={handleDrop}
-                    onDragOver={(e) => e.preventDefault()}
-                    className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden ${isSplitView ? 'h-full' : 'h-[48vh] min-h-[320px]'}`}
-                >
+                <div onDrop={handleDrop} onDragOver={e => e.preventDefault()}
+                    className="relative flex-1 min-h-0 w-full bg-transparent overflow-hidden">
                     {isJson && <div className={`absolute left-0 top-3 bottom-3 w-[2px] rounded-r ${isDark ? 'bg-emerald-500/60' : 'bg-emerald-500/40'}`}></div>}
                     <pre ref={preRef}
                         className={`absolute inset-0 px-4 py-3 font-mono text-[12px] custom-scrollbar overflow-auto pointer-events-none editor-pre ${isJson ? 'pl-5' : ''} ${isDark ? 'text-ink-300' : 'text-ink-700'}`}
-                        dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : '') }}
-                    />
+                        dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : '') }} />
                     {!value && (
-                        <div className="absolute inset-0 pointer-events-none">
-                            <EmptyState icon={Icons.Wand} title={placeholder} hint="Paste, type, or drop a file" kbdHint={{ k: 'Ctrl+V', label: 'to paste' }} isDark={isDark} />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 select-none pointer-events-none">
+                            <div className={`p-3 rounded-2xl ${isDark ? 'bg-white/[0.03] border border-white/[0.05]' : 'bg-ink-100/50 border border-ink-200/50'}`}>
+                                <Icons.Wand size={20} className="text-ink-400 dark:text-ink-500" />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-[13px] font-semibold text-ink-500 dark:text-ink-400">{placeholder}</p>
+                                <p className="text-[11px] text-ink-400 dark:text-ink-500 mt-0.5">Type, paste, or drop a file anywhere</p>
+                            </div>
                         </div>
                     )}
                     <textarea value={value} onChange={onChange} onScroll={handleScroll}
                         className={`absolute inset-0 w-full h-full px-4 py-3 bg-transparent resize-none outline-none font-mono text-[12px] custom-scrollbar overflow-auto editor-textarea ${isJson ? 'pl-5' : ''}`}
-                        spellCheck="false" aria-label="Input"
-                    />
+                        spellCheck="false" aria-label="Input" />
                 </div>
             );
         };
 
-        // ---------- TOOLBAR BUTTON ----------
-        const TBtn = ({ onClick, disabled, title, children, active, isDark, danger }) => (
-            <button onClick={onClick} disabled={disabled} title={title}
-                className={`group relative flex items-center gap-1.5 h-8 px-2.5 rounded-lg text-[11px] font-semibold transition-all
-                    ${disabled ? 'opacity-30 cursor-not-allowed' : 'active:scale-[0.97]'}
-                    ${danger
-                        ? (isDark ? 'text-red-400 hover:bg-red-500/10' : 'text-red-600 hover:bg-red-50')
-                        : active
-                            ? (isDark ? 'bg-white/10 text-white' : 'bg-ink-900 text-white')
-                            : (isDark ? 'text-ink-400 hover:bg-white/[0.06] hover:text-ink-100' : 'text-ink-600 hover:bg-ink-100 hover:text-ink-900')}`}>
-                {children}
-            </button>
-        );
+        // ---------- STATS BAR ----------
+        const StatsBar = ({ stats, isDark, label }) => {
+            const getColor = (e) => parseFloat(e) < 3.0 ? (isDark ? 'text-ink-500' : 'text-ink-400') : parseFloat(e) < 4.5 ? 'text-emerald-500' : parseFloat(e) < 6.5 ? 'text-amber-500' : 'text-red-500';
+            return (
+                <div className={`flex items-center justify-between px-3 py-1.5 border-t font-mono text-[9px] flex-shrink-0 ${isDark ? 'border-white/[0.05] text-ink-500' : 'border-ink-100 text-ink-500'}`}>
+                    <div className="flex gap-3">
+                        <span>{stats.lines}<span className="opacity-50 ml-1">Ln</span></span>
+                        <span>{stats.words}<span className="opacity-50 ml-1">Wd</span></span>
+                        <span>{stats.chars}<span className="opacity-50 ml-1">Ch</span></span>
+                    </div>
+                    <div className="flex gap-3">
+                        <span title="Shannon Entropy"><span className={`font-semibold ${getColor(stats.entropy)}`}>{stats.entropy}</span><span className="opacity-50 ml-1">Ent</span></span>
+                        <span>{stats.bytes}<span className="opacity-50 ml-1">B</span></span>
+                    </div>
+                </div>
+            );
+        };
 
         // ---------- CURL TAB ----------
         function CurlDecoderTab({ isDark, onToast }) {
@@ -607,8 +583,8 @@
             );
 
             return (
-                <div className="flex flex-col gap-4 animate-fade-in w-full max-w-[110rem] mx-auto">
-                    <div className="surface rounded-xl overflow-hidden">
+                <div className="flex flex-col gap-4 animate-fade-in w-full max-w-[110rem] mx-auto h-full">
+                    <div className="surface rounded-xl overflow-hidden flex-shrink-0">
                         <div className={`flex items-center justify-between px-4 py-2.5 border-b ${isDark ? 'border-white/[0.05]' : 'border-ink-100'}`}>
                             <div className="flex items-center gap-2">
                                 <Icons.Terminal size={14} className={isDark ? 'text-emerald-400' : 'text-emerald-600'} />
@@ -636,8 +612,8 @@
                         </div>
                     </div>
 
-                    {parsedResults && (
-                        <div className="space-y-4 animate-slide-up pb-6">
+                    {parsedResults ? (
+                        <div className="space-y-4 animate-slide-up pb-6 overflow-y-auto custom-scrollbar flex-1 min-h-0">
                             <Section icon={<Icons.Link size={13}/>} title="Target Endpoint" color={isDark ? 'text-blue-400' : 'text-blue-600'}>
                                 <div className={`p-3.5 font-mono text-[12px] break-words ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>{parsedResults.url}</div>
                             </Section>
@@ -660,12 +636,22 @@
                                         : <div className={`p-6 text-center text-[11px] ${isDark ? 'text-ink-500' : 'text-ink-400'}`}>No body parsed</div>}
                             </Section>
                         </div>
+                    ) : (
+                        <div className={`surface rounded-xl flex flex-col items-center justify-center gap-3 flex-1 min-h-[280px] ${isDark ? '' : ''}`}>
+                            <div className={`p-3 rounded-2xl ${isDark ? 'bg-white/[0.03] border border-white/[0.05]' : 'bg-ink-100/50 border border-ink-200/50'}`}>
+                                <Icons.Terminal size={20} className="text-ink-400 dark:text-ink-500" />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-[13px] font-semibold text-ink-500 dark:text-ink-400">Paste a cURL command above</p>
+                                <p className="text-[11px] text-ink-400 dark:text-ink-500 mt-0.5">Nested payloads will be auto-decoded and analyzed</p>
+                            </div>
+                        </div>
                     )}
                 </div>
             );
         }
 
-        // ---------- STANDARD DECODER TAB ----------
+        // ---------- STANDARD DECODER ----------
         const StandardDecoderTab = memo(({ isDark, onToast, AlgorithmsLib, workspaceId, isSplitView, registerActions }) => {
             const {
                 defang, refang, toHex, fromHex, toBin, fromBin, toOctal, fromOctal,
@@ -801,7 +787,6 @@
                 reader.readAsText(f);
             };
 
-            // Register actions for global keyboard shortcut / command palette
             useEffect(() => {
                 if (!registerActions) return;
                 registerActions(workspaceId, { swap, beautify: () => applyJsonFormat('beautify'), minify: () => applyJsonFormat('minify'), clear, download: downloadFile, qr: toggleQR });
@@ -809,7 +794,6 @@
 
             const inStats = getStats(input), outStats = getStats(output), currAlgo = algorithms.find(a => a.id === algo);
             const isLockMode = ['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'uuid', 'epoch', 'url_all', 'string_utils'].includes(algo) || category === 'hashes';
-            const getEntropyColor = (e) => parseFloat(e) < 3.0 ? 'text-ink-400' : parseFloat(e) < 4.5 ? 'text-emerald-500' : parseFloat(e) < 6.5 ? 'text-amber-500' : 'text-red-500';
 
             let isJsonOutput = false;
             if (!errorMsg && output && (output.trim().startsWith('{') || output.trim().startsWith('['))) {
@@ -820,16 +804,13 @@
                 ${isDark ? 'bg-ink-900/50 border-white/[0.06] hover:bg-ink-900 hover:border-white/10 text-ink-100' : 'bg-white border-ink-200 hover:bg-ink-50 hover:border-ink-300 text-ink-800'}`;
 
             return (
-                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1' : 'gap-3 max-w-[110rem]'}`}>
+                <div className="flex flex-col w-full h-full gap-2">
 
                     {/* TOOLBAR */}
-                    <div className={`surface rounded-xl flex items-center justify-between flex-wrap flex-shrink-0 ${isSplitView ? 'p-1.5 gap-1' : 'p-2 gap-2'}`}>
-
-                        {/* LEFT: Category + Algorithm Selectors */}
+                    <div className="surface rounded-xl flex items-center justify-between flex-wrap gap-2 p-2 flex-shrink-0">
                         <div className="flex items-center gap-1.5 flex-1 min-w-0">
                             <div className="relative">
-                                <select value={category} onChange={handleCategoryChange}
-                                    className={`${selectCls} h-8 pl-7 pr-6 min-w-[110px]`}>
+                                <select value={category} onChange={handleCategoryChange} className={`${selectCls} h-8 pl-7 pr-6 min-w-[110px]`}>
                                     {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
                                 <div className={`absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
@@ -853,7 +834,6 @@
                             </div>
                         </div>
 
-                        {/* MIDDLE: Mode toggle + extras */}
                         <div className="flex items-center gap-1.5">
                             {algo !== 'uuid' && (
                                 <div className={`flex rounded-lg p-0.5 ${isLockMode ? 'opacity-40 pointer-events-none' : ''} ${isDark ? 'bg-ink-900/60 border border-white/[0.05]' : 'bg-ink-100 border border-ink-200'}`}>
@@ -871,9 +851,7 @@
 
                             {algo === 'caesar' && (
                                 <div className={`flex items-center gap-1.5 rounded-lg px-2 h-8 ${isDark ? 'bg-ink-900/60 border border-white/[0.05]' : 'bg-white border border-ink-200'}`}>
-                                    <input type="range" min="1" max="25" value={caesarShift}
-                                        onChange={(e) => setCaesarShift(e.target.value)}
-                                        className="w-16 accent-emerald-500" />
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className="w-16 accent-emerald-500" />
                                     <span className={`font-mono font-bold text-[10px] ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
                                 </div>
                             )}
@@ -900,93 +878,81 @@
                             )}
                         </div>
 
-                        {/* RIGHT: Actions */}
                         <div className="flex items-center gap-1">
                             <input type="file" ref={fileInputRef} onChange={e => { handleFile(e.target.files[0]); e.target.value = null; }} accept=".txt,.json,.xml,.csv,.log,.md,.bin" />
-                            <TBtn onClick={() => fileInputRef.current.click()} title="Load file" isDark={isDark}>
+                            <button onClick={() => fileInputRef.current.click()}
+                                className={`flex items-center gap-1.5 h-8 px-2.5 rounded-lg text-[11px] font-semibold transition-all
+                                    ${isDark ? 'text-ink-400 hover:bg-white/[0.06] hover:text-ink-100' : 'text-ink-600 hover:bg-ink-100 hover:text-ink-900'}`}>
                                 <Icons.Upload size={12} /><span className="hidden sm:inline">Load</span>
-                            </TBtn>
-                            <TBtn onClick={clear} title="Clear" isDark={isDark} danger>
+                            </button>
+                            <button onClick={clear}
+                                className={`flex items-center gap-1.5 h-8 px-2.5 rounded-lg text-[11px] font-semibold transition-all
+                                    ${isDark ? 'text-red-400 hover:bg-red-500/10' : 'text-red-600 hover:bg-red-50'}`}>
                                 <Icons.Trash size={12} /><span className="hidden sm:inline">Clear</span>
-                            </TBtn>
+                            </button>
                         </div>
                     </div>
 
                     {/* PANELS */}
-                    <div className={`flex-grow flex min-h-0 min-w-0 animate-slide-up ${isSplitView ? 'flex-col gap-1' : 'flex-col lg:flex-row gap-3'}`}>
+                    <div className={`flex-1 flex min-h-0 min-w-0 ${isSplitView ? 'flex-col gap-2' : 'flex-col lg:flex-row gap-2'}`}>
 
-                        {/* INPUT */}
+                        {/* INPUT PANEL */}
                         <div className="flex-1 flex flex-col min-h-0 min-w-0 rounded-xl surface overflow-hidden">
-                            <div className={`flex items-center justify-between px-3 py-2 border-b ${isDark ? 'border-white/[0.05]' : 'border-ink-100'}`}>
+                            <div className={`flex items-center justify-between px-3 py-2 border-b flex-shrink-0 ${isDark ? 'border-white/[0.05]' : 'border-ink-100'}`}>
                                 <div className="flex items-center gap-2">
-                                    <div className={`w-1.5 h-1.5 rounded-full ${isDark ? 'bg-emerald-500' : 'bg-emerald-500'}`}></div>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
                                     <span className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-ink-300' : 'text-ink-600'}`}>Input</span>
+                                    {input && <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${isDark ? 'bg-white/[0.06] text-ink-400' : 'bg-ink-100 text-ink-500'}`}>{inStats.bytes}B</span>}
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <button onClick={() => copyToClipboard(input, onToast)} disabled={!input}
-                                        title="Copy input"
-                                        className={`p-1.5 rounded-md transition-all ${!input ? 'opacity-30 cursor-not-allowed' : (isDark ? 'text-ink-500 hover:text-ink-200 hover:bg-white/[0.05]' : 'text-ink-400 hover:text-ink-700 hover:bg-ink-100')}`}>
-                                        <Icons.Copy size={12} />
-                                    </button>
-                                </div>
+                                <button onClick={() => copyToClipboard(input, onToast)} disabled={!input} title="Copy input"
+                                    className={`p-1.5 rounded-md transition-all ${!input ? 'opacity-30 cursor-not-allowed' : (isDark ? 'text-ink-500 hover:text-ink-200 hover:bg-white/[0.05]' : 'text-ink-400 hover:text-ink-700 hover:bg-ink-100')}`}>
+                                    <Icons.Copy size={12} />
+                                </button>
                             </div>
                             <HighlightedInput value={input} onChange={e => setInput(e.target.value)} isDark={isDark}
                                 placeholder={algo === 'epoch' ? "Enter a Unix timestamp" : "Paste or type your payload"}
                                 isSplitView={isSplitView} onDrop={handleFile} />
-                            <div className={`flex items-center justify-between px-3 py-1.5 border-t font-mono text-[9px] ${isDark ? 'border-white/[0.05] text-ink-500' : 'border-ink-100 text-ink-500'}`}>
-                                <div className="flex gap-3">
-                                    <span>{inStats.lines}<span className="opacity-50 ml-1">Ln</span></span>
-                                    <span>{inStats.words}<span className="opacity-50 ml-1">Wd</span></span>
-                                    <span>{inStats.chars}<span className="opacity-50 ml-1">Ch</span></span>
-                                </div>
-                                <div className="flex gap-3">
-                                    <span title="Entropy">
-                                        <span className={`font-semibold ${getEntropyColor(inStats.entropy)}`}>{inStats.entropy}</span>
-                                        <span className="opacity-50 ml-1">Ent</span>
-                                    </span>
-                                    <span>{inStats.bytes}<span className="opacity-50 ml-1">B</span></span>
-                                </div>
-                            </div>
+                            <StatsBar stats={inStats} isDark={isDark} />
                         </div>
 
-                        {/* MIDDLE ACTION BAR */}
-                        <div className={`flex items-center justify-center flex-shrink-0 ${isSplitView ? 'flex-row w-full' : 'flex-row lg:flex-col py-1 lg:py-0'}`}>
+                        {/* MIDDLE TOOLBAR */}
+                        <div className={`flex items-center justify-center flex-shrink-0 ${isSplitView ? 'flex-row w-full' : 'flex-row lg:flex-col'}`}>
                             <div className={`flex items-center rounded-full border shadow-sm ${isSplitView ? 'flex-row px-1 py-0.5' : 'flex-row lg:flex-col p-1'} ${isDark ? 'bg-ink-900 border-white/[0.08]' : 'bg-white border-ink-200'}`}>
                                 <button onClick={() => applyJsonFormat('beautify')} title="Beautify (Ctrl+B)"
-                                    className={`flex items-center justify-center rounded-full transition-all ${isSplitView ? 'h-6 w-6' : 'h-8 w-8'} ${isDark ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-emerald-600 hover:bg-emerald-50'}`}>
-                                    <Icons.AlignL size={isSplitView ? 11 : 13} />
+                                    className={`flex items-center justify-center rounded-full transition-all h-7 w-7 ${isDark ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-emerald-600 hover:bg-emerald-50'}`}>
+                                    <Icons.AlignL size={13} />
                                 </button>
                                 <div className={`${isSplitView ? 'w-px h-3 mx-0.5' : 'w-3 h-px my-0.5 lg:w-px lg:h-3 lg:my-0.5'} ${isDark ? 'bg-white/10' : 'bg-ink-200'}`}></div>
                                 <button onClick={swap} disabled={isLockMode} title="Swap (Ctrl+Enter)"
-                                    className={`flex items-center justify-center rounded-full transition-all active:scale-90 shadow-md ${isSplitView ? 'h-7 w-7 border' : 'h-9 w-9 border-2'}
+                                    className={`flex items-center justify-center rounded-full transition-all active:scale-90 shadow-md h-9 w-9 border-2
                                         ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''}
                                         ${isDark ? 'bg-ink-800 border-white/10 text-ink-100 hover:border-emerald-500/50 hover:shadow-glow-emerald' : 'bg-ink-900 border-ink-800 text-white hover:shadow-glow-emerald'}`}>
                                     <div className={`transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
-                                        <Icons.Swap size={isSplitView ? 12 : 14} className={isSplitView ? 'rotate-90' : 'rotate-90 lg:rotate-0'} />
+                                        <Icons.Swap size={14} className={isSplitView ? 'rotate-90' : 'rotate-90 lg:rotate-0'} />
                                     </div>
                                 </button>
                                 <div className={`${isSplitView ? 'w-px h-3 mx-0.5' : 'w-3 h-px my-0.5 lg:w-px lg:h-3 lg:my-0.5'} ${isDark ? 'bg-white/10' : 'bg-ink-200'}`}></div>
                                 <button onClick={() => applyJsonFormat('minify')} title="Minify (Ctrl+M)"
-                                    className={`flex items-center justify-center rounded-full transition-all ${isSplitView ? 'h-6 w-6' : 'h-8 w-8'} ${isDark ? 'text-blue-400 hover:bg-blue-500/10' : 'text-blue-600 hover:bg-blue-50'}`}>
-                                    <Icons.FileCode size={isSplitView ? 11 : 13} />
+                                    className={`flex items-center justify-center rounded-full transition-all h-7 w-7 ${isDark ? 'text-blue-400 hover:bg-blue-500/10' : 'text-blue-600 hover:bg-blue-50'}`}>
+                                    <Icons.FileCode size={13} />
                                 </button>
                             </div>
                         </div>
 
-                        {/* OUTPUT */}
+                        {/* OUTPUT PANEL */}
                         <div className="flex-1 flex flex-col min-h-0 min-w-0 rounded-xl surface overflow-hidden">
-                            <div className={`flex items-center justify-between px-3 py-2 border-b ${isDark ? 'border-white/[0.05]' : 'border-ink-100'}`}>
-                                <div className="flex items-center gap-2">
-                                    <div className={`w-1.5 h-1.5 rounded-full ${errorMsg ? 'bg-red-500' : 'bg-blue-500'}`}></div>
+                            <div className={`flex items-center justify-between px-3 py-2 border-b flex-shrink-0 ${isDark ? 'border-white/[0.05]' : 'border-ink-100'}`}>
+                                <div className="flex items-center gap-2 min-w-0">
+                                    <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${errorMsg ? 'bg-red-500' : 'bg-blue-500'}`}></div>
                                     <span className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-ink-300' : 'text-ink-600'}`}>Output</span>
                                     {!errorMsg && currAlgo && (
-                                        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${isDark ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
+                                        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded truncate ${isDark ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
                                             {currAlgo.name}
                                         </span>
                                     )}
                                     {errorMsg && <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-500/10 text-red-500">ERROR</span>}
                                 </div>
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-1 flex-shrink-0">
                                     <button onClick={toggleQR} disabled={!output || !!errorMsg} title="QR Code"
                                         className={`p-1.5 rounded-md transition-all ${(!output || errorMsg) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'text-ink-500 hover:text-ink-200 hover:bg-white/[0.05]' : 'text-ink-400 hover:text-ink-700 hover:bg-ink-100')}`}>
                                         <Icons.Qr size={12} />
@@ -1002,13 +968,9 @@
                                 </div>
                             </div>
 
-                            <div className={`relative flex-1 min-h-0 w-full ${isSplitView ? 'h-full' : 'h-[48vh] min-h-[320px]'}`}>
-                                {isJsonOutput ? (
-                                    <div className={`absolute inset-0 px-4 py-3 overflow-auto font-mono text-[12px] custom-scrollbar ${isDark ? 'text-ink-300' : 'text-ink-700'}`}>
-                                        <div className={`absolute left-0 top-3 bottom-3 w-[2px] rounded-r ${isDark ? 'bg-cyan-500/60' : 'bg-cyan-500/50'}`}></div>
-                                        <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(output) }} className="whitespace-pre-wrap pl-2 editor-pre"></pre>
-                                    </div>
-                                ) : errorMsg ? (
+                            {/* OUTPUT BODY - FIXED: visible text via <pre> */}
+                            <div className="relative flex-1 min-h-0 w-full">
+                                {errorMsg ? (
                                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6">
                                         <div className={`p-3 rounded-2xl ${isDark ? 'bg-red-500/10 border border-red-500/20' : 'bg-red-50 border border-red-200'}`}>
                                             <Icons.AlertCircle size={20} className={isDark ? 'text-red-400' : 'text-red-500'} />
@@ -1019,15 +981,25 @@
                                         </div>
                                     </div>
                                 ) : output ? (
-                                    <textarea value={output} readOnly
-                                        className={`absolute inset-0 w-full h-full px-4 py-3 bg-transparent resize-none outline-none font-mono text-[12px] custom-scrollbar overflow-auto editor-textarea leading-relaxed ${isDark ? 'text-ink-200' : 'text-ink-800'}`} />
+                                    isJsonOutput ? (
+                                        <pre
+                                            className={`absolute inset-0 px-4 py-3 overflow-auto font-mono text-[12px] custom-scrollbar output-pre ${isDark ? 'text-ink-200' : 'text-ink-800'}`}
+                                            dangerouslySetInnerHTML={{ __html: syntaxHighlight(output) }}
+                                        />
+                                    ) : (
+                                        <pre className={`absolute inset-0 px-4 py-3 overflow-auto font-mono text-[12px] custom-scrollbar output-pre ${isDark ? 'text-ink-200' : 'text-ink-800'}`}>
+                                            {output}
+                                        </pre>
+                                    )
                                 ) : (
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 select-none pointer-events-none">
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 select-none pointer-events-none">
                                         <div className={`p-3 rounded-2xl ${isDark ? 'bg-white/[0.03] border border-white/[0.05]' : 'bg-ink-100/50 border border-ink-200/50'}`}>
-                                            <Icons.Zap size={20} className="text-ink-400 dark:text-ink-500" />
+                                            <Icons.Sparkles size={20} className="text-ink-400 dark:text-ink-500" />
                                         </div>
-                                        <p className="text-[13px] font-semibold text-ink-500 dark:text-ink-400">Output will appear here</p>
-                                        <p className="text-[11px] text-ink-400 dark:text-ink-500">Start typing in the input panel</p>
+                                        <div className="text-center">
+                                            <p className="text-[13px] font-semibold text-ink-500 dark:text-ink-400">Output will appear here</p>
+                                            <p className="text-[11px] text-ink-400 dark:text-ink-500 mt-0.5">Start typing in the input panel</p>
+                                        </div>
                                     </div>
                                 )}
 
@@ -1043,20 +1015,7 @@
                                 )}
                             </div>
 
-                            <div className={`flex items-center justify-between px-3 py-1.5 border-t font-mono text-[9px] ${isDark ? 'border-white/[0.05] text-ink-500' : 'border-ink-100 text-ink-500'}`}>
-                                <div className="flex gap-3">
-                                    <span>{outStats.lines}<span className="opacity-50 ml-1">Ln</span></span>
-                                    <span>{outStats.words}<span className="opacity-50 ml-1">Wd</span></span>
-                                    <span>{outStats.chars}<span className="opacity-50 ml-1">Ch</span></span>
-                                </div>
-                                <div className="flex gap-3">
-                                    <span>
-                                        <span className={`font-semibold ${getEntropyColor(outStats.entropy)}`}>{outStats.entropy}</span>
-                                        <span className="opacity-50 ml-1">Ent</span>
-                                    </span>
-                                    <span>{outStats.bytes}<span className="opacity-50 ml-1">B</span></span>
-                                </div>
-                            </div>
+                            <StatsBar stats={outStats} isDark={isDark} />
                         </div>
                     </div>
                 </div>
@@ -1202,7 +1161,6 @@
 
             const registerActions = useCallback((id, actions) => { actionsRef.current[id] = actions; }, []);
 
-            // Keyboard shortcuts
             useEffect(() => {
                 const onKey = (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setCmdOpen(o => !o); return; }
@@ -1263,14 +1221,13 @@
             };
             const renameWorkspace = (id, name) => setWorkspaces(workspaces.map(ws => ws.id === id ? { ...ws, name } : ws));
 
-            // Command Palette commands
             const commands = useMemo(() => {
                 const acts = actionsRef.current[activeWorkspaceId] || {};
                 const list = [
                     { id: 'tab-decoderx', label: 'Go to: Essential Tools', hint: 'Decoder / encoder workspace', icon: <Icons.Terminal size={13}/>, action: () => setActiveTab('decoderx') },
                     { id: 'tab-curl', label: 'Go to: Deep cURL Parse', hint: 'Deep-decode cURL commands', icon: <Icons.Layers size={13}/>, action: () => setActiveTab('curl') },
                     { id: 'toggle-theme', label: theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode', icon: theme === 'dark' ? <Icons.Sun size={13}/> : <Icons.Moon size={13}/>, action: () => setTheme(t => t === 'dark' ? 'light' : 'dark') },
-                    { id: 'new-ws', label: 'New Workspace', icon: <Icons.Plus size={13}/>, kbd: '⌘N', action: addWorkspace },
+                    { id: 'new-ws', label: 'New Workspace', icon: <Icons.Plus size={13}/>, action: addWorkspace },
                     { id: 'toggle-split', label: isSplitView ? 'Exit Split View' : 'Enter Split View', icon: <Icons.Columns size={13}/>, action: () => workspaces.length > 1 && setIsSplitView(!isSplitView), hint: workspaces.length <= 1 ? 'Add a second workspace first' : '' },
                 ];
                 if (acts.beautify) list.unshift(
@@ -1284,8 +1241,7 @@
             }, [activeWorkspaceId, theme, isSplitView, workspaces.length]);
 
             return (
-                <div className={`flex flex-col relative font-sans ${isSplitView && activeTab === 'decoderx' ? 'h-screen overflow-hidden' : 'min-h-screen'}`}>
-
+                <div className="h-screen flex flex-col relative font-sans overflow-hidden">
                     {/* Background */}
                     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                         <div className={`absolute -top-1/3 -left-1/4 w-[70%] h-[70%] rounded-full blur-[200px] opacity-25 ${isDark ? 'bg-blue-600' : 'bg-blue-300'}`}></div>
@@ -1293,7 +1249,7 @@
                         <div className="absolute inset-0 bg-dots opacity-60"></div>
                     </div>
 
-                    <main className={`flex-grow w-full max-w-[120rem] mx-auto p-2 sm:p-3 relative z-10 flex flex-col overflow-x-hidden ${isSplitView && activeTab === 'decoderx' ? 'h-full gap-2' : 'gap-3'}`}>
+                    <main className="flex-1 flex flex-col w-full max-w-[130rem] mx-auto p-2 sm:p-3 relative z-10 overflow-hidden gap-2">
 
                         {/* HEADER */}
                         <header className="surface rounded-xl flex items-center justify-between gap-2 px-3 py-2 flex-shrink-0">
@@ -1312,7 +1268,6 @@
                                 </div>
                             </div>
 
-                            {/* Center: Tabs */}
                             <div className={`flex p-0.5 rounded-lg ${isDark ? 'bg-ink-900 border border-white/[0.05]' : 'bg-ink-100 border border-ink-200'}`}>
                                 <button onClick={() => setActiveTab('decoderx')}
                                     className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-[11px] font-semibold transition-all
@@ -1384,15 +1339,15 @@
                         )}
 
                         {/* CONTENT */}
-                        <div className={`flex flex-col w-full relative overflow-hidden ${isSplitView && activeTab === 'decoderx' ? 'flex-1 min-h-0' : 'flex-grow'}`}>
+                        <div className="flex-1 min-h-0 w-full relative overflow-hidden">
                             {activeTab === 'decoderx' ? (
                                 <div className={`w-full h-full ${isSplitView
                                     ? `grid gap-2 grid-cols-1 lg:grid-cols-2 ${workspaces.length > 2 ? 'grid-rows-2' : 'grid-rows-1'} min-h-0`
                                     : 'flex flex-col min-h-0'}`}>
                                     {workspaces.map(ws => (
                                         <div key={ws.id} className={`${isSplitView
-                                            ? `flex flex-col h-full min-h-0 rounded-xl overflow-hidden surface`
-                                            : (activeWorkspaceId === ws.id ? 'block flex-grow min-h-0' : 'hidden')}`}>
+                                            ? 'flex flex-col h-full min-h-0 rounded-xl overflow-hidden surface'
+                                            : (activeWorkspaceId === ws.id ? 'flex flex-col h-full min-h-0' : 'hidden')}`}>
                                             {isSplitView && (
                                                 <div className={`px-3 py-1.5 border-b flex items-center justify-between flex-shrink-0 ${isDark ? 'border-white/[0.05] bg-white/[0.01]' : 'border-ink-100 bg-ink-50/50'}`}>
                                                     <div className="flex items-center gap-1.5">
@@ -1413,21 +1368,11 @@
                                     ))}
                                 </div>
                             ) : (
-                                <div className="overflow-y-auto h-full custom-scrollbar pb-6">
+                                <div className="h-full overflow-hidden">
                                     <CurlDecoderTab isDark={isDark} onToast={onToast} />
                                 </div>
                             )}
                         </div>
-
-                        {!isSplitView && (
-                            <footer className="text-center flex-shrink-0 pb-1">
-                                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-medium ${isDark ? 'text-ink-500' : 'text-ink-500'}`}>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]"></div>
-                                    <span className="uppercase tracking-widest">Engineered by</span>
-                                    <span className="text-gradient font-bold">Mr Shiva</span>
-                                </div>
-                            </footer>
-                        )}
                     </main>
 
                     <Toast toasts={toasts} onDismiss={dismissToast} />
