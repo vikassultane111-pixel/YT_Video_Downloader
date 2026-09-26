@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DecoderX Pro Suite - Advanced decoder, encoder, hashing and cURL parsing toolkit.">
     <title>DecoderX Pro Suite - Advanced Security Tools</title>
-    
+
     <!-- Krysha's Custom Favicon (Emerald Shield) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>" type="image/svg+xml">
-    
+
     <!-- React & ReactDOM (Production Minified) -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>   
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
+
     <!-- Babel Standalone -->
     <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -49,21 +50,25 @@
                         'fade-in': 'fadeIn 0.3s ease-out forwards',
                         'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'scanline': 'scanline 8s linear infinite',
+                        'bounce-in': 'bounceIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                        'pulse-glow': 'pulseGlow 1.6s ease-in-out infinite',
                     },
                     keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
                         slideUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100vh)' } }
+                        scanline: { '0%': { transform: 'translateY(-10%)' }, '100%': { transform: 'translateY(100vh)' } },
+                        bounceIn: { '0%': { opacity: '0', transform: 'scale(0.85)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+                        pulseGlow: { '0%,100%': { opacity: '0.5' }, '50%': { opacity: '1' } },
                     }
                 }
             }
         }
     </script>
-    
+
     <style>
         html.dark { color-scheme: dark; background-color: #09090b; }
         html { color-scheme: light; background-color: #f8fafc; }
-        
+
         /* Premium Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -71,8 +76,19 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
         .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
         .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
-        
-        body { 
+
+        /* Explicit custom-scrollbar utility (used in many panels) */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+        /* Firefox */
+        .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(148, 163, 184, 0.4) transparent; }
+        .dark .custom-scrollbar { scrollbar-color: rgba(255, 255, 255, 0.15) transparent; }
+
+        body {
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
@@ -88,7 +104,7 @@
             border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-        
+
         .text-gradient-primary {
             background-clip: text;
             -webkit-background-clip: text;
@@ -98,14 +114,14 @@
 
         /* Enhanced Syntax Highlighting */
         .json-key { color: #0ea5e9; font-weight: 500; }
-        .dark .json-key { color: #38bdf8; } 
+        .dark .json-key { color: #38bdf8; }
         .json-string { color: #10b981; }
-        .dark .json-string { color: #34d399; } 
+        .dark .json-string { color: #34d399; }
         .json-number { color: #a855f7; }
-        .dark .json-number { color: #c084fc; } 
+        .dark .json-number { color: #c084fc; }
         .json-boolean { color: #f43f5e; font-weight: 600; }
-        .dark .json-boolean { color: #fb7185; } 
-        .dark .json-bracket { color: #94a3b8; } 
+        .dark .json-boolean { color: #fb7185; }
+        .dark .json-bracket { color: #94a3b8; }
 
         .editor-textarea, .editor-pre {
             white-space: pre-wrap !important;
@@ -158,7 +174,40 @@
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react" data-type="module">
-        const { useState, useEffect, useRef, memo } = React;
+        const { useState, useEffect, useRef, useMemo, useCallback, memo } = React;
+
+        // --- GLOBAL HELPERS (outside component, stable refs) ---
+        const htmlParser = new DOMParser();
+
+        const b64EncodeUtf8 = (str) => {
+            const bytes = new TextEncoder().encode(str);
+            let bin = '';
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            return btoa(bin);
+        };
+        const b64DecodeUtf8 = (str) => {
+            const clean = str.replace(/\s+/g, '');
+            const bin = atob(clean);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+        };
+        const b64UrlEncode = (str) => b64EncodeUtf8(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        const b64UrlDecode = (str) => {
+            let b = str.replace(/-/g, '+').replace(/_/g, '/');
+            while (b.length % 4) b += '=';
+            return b64DecodeUtf8(b);
+        };
+        const genUUID = () => {
+            if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+            // RFC4122 v4 fallback
+            const bytes = new Uint8Array(16);
+            (crypto || window.crypto).getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = [...bytes].map(b => b.toString(16).padStart(2, '0')).join('');
+            return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+        };
 
         // --- ICONS ---
         const Icons = {
@@ -269,10 +318,12 @@
         const copyToClipboard = (text, setToast) => {
             try {
                 if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(text).then(() => setToast('Copied to clipboard! 📋'));
+                    navigator.clipboard.writeText(text).then(() => setToast('Copied to clipboard! 📋')).catch(() => setToast('Failed to copy!'));
                 } else {
                     const textArea = document.createElement("textarea");
                     textArea.value = text;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = '0';
                     document.body.appendChild(textArea);
                     textArea.select();
                     document.execCommand("copy");
@@ -314,13 +365,22 @@
                 let changed = false;
                 let urlDec = safeUrlDecode(current);
                 if (urlDec !== current && urlDec !== "") { current = urlDec; urlCount++; steps.push({ method: 'URL Decode', value: current }); changed = true; continue; }
-                if (/^[A-Za-z0-9\+\/\-\_]+={0,2}$/.test(current) && current.length >= 16) {
+                // Stricter base64 detection: require length >= 20 and at least one of +/=-_ to reduce false positives
+                if (/^[A-Za-z0-9+/]+={0,2}$/.test(current) && current.length >= 20 && current.length % 4 !== 1) {
                     try {
-                        let b64 = current.replace(/-/g, '+').replace(/_/g, '/');
-                        while (b64.length % 4) b64 += '='; 
-                        let decoded = decodeURIComponent(escape(window.atob(b64)));
+                        let decoded = b64DecodeUtf8(current);
+                        // Accept only if decoded looks like printable text (reject pure control chars)
                         if (decoded && decoded !== current && /^[\x20-\x7E\n\r\t\u00A0-\uFFFF]+$/.test(decoded)) {
-                            current = decoded; b64Count++; steps.push({ method: `Base64 Decode (Level ${b64Count})`, value: current }); changed = true; continue; 
+                            current = decoded; b64Count++; steps.push({ method: `Base64 Decode (Level ${b64Count})`, value: current }); changed = true; continue;
+                        }
+                    } catch(e) {}
+                }
+                // URL-safe base64 variant
+                if (/^[A-Za-z0-9\-_]+={0,2}$/.test(current) && /[-_]/.test(current) && current.length >= 20) {
+                    try {
+                        let decoded = b64UrlDecode(current);
+                        if (decoded && decoded !== current && /^[\x20-\x7E\n\r\t\u00A0-\uFFFF]+$/.test(decoded)) {
+                            current = decoded; b64Count++; steps.push({ method: `Base64URL Decode (Level ${b64Count})`, value: current }); changed = true; continue;
                         }
                     } catch(e) {}
                 }
@@ -346,7 +406,7 @@
                 <div className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden group ${isSplitView ? '' : 'min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]'}`}>
                     {isJson && <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md z-0 transition-colors ${isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-400' : 'bg-emerald-500/30 group-focus-within:bg-emerald-500'}`}></div>}
                     <pre ref={preRef} className={`absolute inset-0 p-2 sm:p-4 font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-5' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
-                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-5' : ''}`} spellCheck="false" />
+                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-5' : ''}`} spellCheck="false" aria-label="Input payload" />
                 </div>
             );
         };
@@ -397,7 +457,8 @@
                 }
                 cookiesMap.forEach((val, key) => results.cookies.push({ key, analysis: analyzeData(val) }));
 
-                const bodyRegex = /(?:--data-raw|--data|-d)\s*(?:\$)?(['"])([\s\S]*?)\1/g;
+                // Match --data-raw, --data, --data-binary, -d
+                const bodyRegex = /(?:--data-raw|--data-binary|--data|-d)\s*(?:\$)?(['"])([\s\S]*?)\1/g;
                 let bMatch = bodyRegex.exec(curlInput);
                 if (bMatch) {
                     let rawData = bMatch[2].replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n');
@@ -406,14 +467,15 @@
                         let pMatch, foundParts = false;
                         while ((pMatch = partsRegex.exec(rawData)) !== null) { foundParts = true; results.bodyParams.push({ key: pMatch[1], analysis: analyzeData(pMatch[2].trim()) }); }
                         if (!foundParts) results.bodyDump = analyzeData(rawData);
-                    } 
+                    }
                     else if (rawData.includes('&') && rawData.includes('=')) {
                         const params = new URLSearchParams(rawData);
                         for (const [key, value] of params.entries()) results.bodyParams.push({ key, analysis: analyzeData(value) });
                     }
                     else results.bodyDump = analyzeData(rawData);
                 }
-                setParsedResults(results); setToast("Payload Deep-Decoded! 🕵️‍♀️"); setTimeout(() => setToast(null), 2500);
+                setParsedResults(results);
+                setToast("Payload Deep-Decoded! 🕵️‍♀️");
             };
 
             const AnalysisRow = ({ itemKey, analysis }) => {
@@ -424,7 +486,7 @@
                                 <span className={`font-semibold text-sm break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
                             </div>
                             <div className="md:w-3/4 p-4 font-mono text-[13px] relative">
-                                {analysis.isJson 
+                                {analysis.isJson
                                     ? <div className={`p-4 rounded-xl overflow-x-auto relative ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
                                         <div className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
                                         <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(analysis.final) }} className="pl-2 whitespace-pre-wrap leading-relaxed" />
@@ -451,7 +513,7 @@
                             <div className="flex items-center gap-2 mb-4">{badge}</div>
                             <div className={`text-[10px] uppercase tracking-wider font-bold mb-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Original Raw Value:</div>
                             <div className={`p-3 rounded-xl text-xs font-mono break-words mb-5 max-h-32 overflow-y-auto custom-scrollbar ${isDark ? 'bg-black/40 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{analysis.original}</div>
-                            
+
                             <div className={`text-[10px] uppercase tracking-wider font-bold mb-3 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Decoding Sequence:</div>
                             <div className="space-y-4">
                                 {analysis.steps.map((step, i) => {
@@ -498,10 +560,11 @@
                                 <span className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Paste cURL Command</span>
                             </div>
                         </div>
-                        <textarea 
+                        <textarea
                             value={curlInput} onChange={(e) => setCurlInput(e.target.value)}
-                            className={`w-full p-5 outline-none resize-y min-h-[160px] font-mono text-[13px] leading-relaxed custom-scrollbar ${isDark ? 'bg-brand-bg/50 text-slate-300 placeholder-slate-600' : 'bg-white/50 text-slate-800 placeholder-slate-400'}`} 
+                            className={`w-full p-5 outline-none resize-y min-h-[160px] font-mono text-[13px] leading-relaxed custom-scrollbar ${isDark ? 'bg-brand-bg/50 text-slate-300 placeholder-slate-600' : 'bg-white/50 text-slate-800 placeholder-slate-400'}`}
                             placeholder="curl 'https://api.target.com/data' -H 'Authorization: Bearer eyJhb...' -b 'session=base64_encoded_cookie'" spellCheck="false"
+                            aria-label="cURL command input"
                         />
                         <div className={`px-5 py-3 border-t flex flex-col sm:flex-row justify-between items-center gap-4 ${isDark ? 'border-white/5 bg-black/40' : 'border-black/5 bg-slate-50'}`}>
                             <span className={`text-xs flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
@@ -536,9 +599,9 @@
                             <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
                                 <PanelHeader icon={<Icons.Database size={16}/>} title="Body Payload" colorClass={isDark ? 'text-rose-400' : 'text-rose-600'} />
                                 <div>
-                                    {parsedResults.bodyParams.length > 0 
+                                    {parsedResults.bodyParams.length > 0
                                         ? parsedResults.bodyParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)
-                                        : parsedResults.bodyDump 
+                                        : parsedResults.bodyDump
                                             ? <AnalysisRow itemKey="Raw Body Dump" analysis={parsedResults.bodyDump} />
                                             : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No body payload parsed.</div>
                                     }
@@ -551,12 +614,11 @@
         }
 
         // ==========================================
-        // COMPONENT: STANDARD DECODER TAB (Now Workspace Aware)
+        // COMPONENT: STANDARD DECODER TAB
         // ==========================================
-        // Wrapped in memo so that hidden workspaces don't re-render unnecessarily when active workspace changes
         const StandardDecoderTab = memo(({ isDark, setToast, AlgorithmsLib, workspaceId, isSplitView }) => {
             const { defang, refang, toHex, fromHex, toBin, fromBin, toOctal, fromOctal, htmlEncode, htmlDecode, rev, atbash, rot47, caesarCipher, vigenereCipher, toMorse, fromMorse, formatJSON, parseJWT, b32Encode, b32Decode, extractIPs, extractURLs, hexdump, epochConvert, urlEncodeAll, stringUtils } = AlgorithmsLib;
-            
+
             const [input, setInput] = useState('');
             const [output, setOutput] = useState('');
             const [mode, setMode] = useState('decode');
@@ -568,7 +630,7 @@
             const [caesarShift, setCaesarShift] = useState(13);
             const [vigenereKey, setVigenereKey] = useState('KEY');
             const [strUtilMode, setStrUtilMode] = useState('upper');
-            
+
             const fileInputRef = useRef(null);
 
             const handleCategoryChange = (e) => {
@@ -581,24 +643,26 @@
                 }
             };
 
+            // Separate effect: regenerate UUID only when algo becomes 'uuid'
+            useEffect(() => {
+                if (algo === 'uuid') setOutput(genUUID());
+            }, [algo]);
+
             useEffect(() => {
                 let isMounted = true;
                 const process = async () => {
-                    setErrorMsg(null); setShowQR(false); 
-                    
-                    if (algo === 'uuid') {
-                        if (isMounted) setOutput(crypto.randomUUID());
-                        return;
-                    }
+                    setErrorMsg(null); setShowQR(false);
 
+                    if (algo === 'uuid') return; // handled above
                     if (!input) { if(isMounted) setOutput(''); return; }
-                    
+
                     try {
                         let res = '', effectiveMode = mode;
                         if (category === 'hashes' || algo === 'url_all') effectiveMode = 'encode';
                         if (['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(algo)) effectiveMode = 'decode';
 
                         if (category === 'hashes') {
+                            if (!window.crypto || !window.crypto.subtle) throw new Error("Hashing requires HTTPS / Secure Context");
                             const hashBuffer = await crypto.subtle.digest(algo === 'sha512' ? 'SHA-512' : algo === 'sha1' ? 'SHA-1' : 'SHA-256', new TextEncoder().encode(input));
                             res = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
                             if (isMounted) setOutput(res); return;
@@ -606,12 +670,16 @@
 
                         switch (algo) {
                             case 'defang': res = effectiveMode === 'encode' ? defang(input) : refang(input); break;
-                            case 'base64': res = effectiveMode === 'encode' ? btoa(unescape(encodeURIComponent(input))) : decodeURIComponent(escape(atob(input.replace(/\s+/g,'')))); break;
-                            case 'base64url': res = effectiveMode === 'encode' ? btoa(unescape(encodeURIComponent(input))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'') : (() => { let b=input.replace(/-/g,'+').replace(/_/g,'/'); while(b.length%4)b+='='; return decodeURIComponent(escape(atob(b.replace(/\s+/g, '')))); })(); break;
+                            case 'base64': res = effectiveMode === 'encode' ? b64EncodeUtf8(input) : b64DecodeUtf8(input); break;
+                            case 'base64url': res = effectiveMode === 'encode' ? b64UrlEncode(input) : b64UrlDecode(input); break;
                             case 'base32': res = effectiveMode === 'encode' ? b32Encode(input) : b32Decode(input); break;
                             case 'url': res = effectiveMode === 'encode' ? encodeURIComponent(input) : decodeURIComponent(input.replace(/\+/g, ' ')); break;
                             case 'url_all': res = urlEncodeAll(input); break;
-                            case 'urlparse': const u = new URL(input.startsWith('http') ? input : `https://${input}`); res = JSON.stringify({ Protocol: u.protocol.replace(':',''), Host: u.host, Path: u.pathname, Parameters: Object.keys(Object.fromEntries(u.searchParams)).length ? Object.fromEntries(u.searchParams) : "None" }, null, 4); break;
+                            case 'urlparse': {
+                                const u = new URL(input.startsWith('http') ? input : `https://${input}`);
+                                res = JSON.stringify({ Protocol: u.protocol.replace(':',''), Host: u.host, Path: u.pathname, Parameters: Object.keys(Object.fromEntries(u.searchParams)).length ? Object.fromEntries(u.searchParams) : "None" }, null, 4);
+                                break;
+                            }
                             case 'hex': res = effectiveMode === 'encode' ? toHex(input) : fromHex(input); break;
                             case 'binary': res = effectiveMode === 'encode' ? toBin(input) : fromBin(input); break;
                             case 'octal': res = effectiveMode === 'encode' ? toOctal(input) : fromOctal(input); break;
@@ -619,7 +687,7 @@
                             case 'reverse': res = rev(input); break;
                             case 'atbash': res = atbash(input); break;
                             case 'rot47': res = rot47(input); break;
-                            case 'caesar': res = caesarCipher(input, parseInt(caesarShift), effectiveMode === 'decode'); break;
+                            case 'caesar': res = caesarCipher(input, parseInt(caesarShift, 10), effectiveMode === 'decode'); break;
                             case 'vigenere': res = vigenereCipher(input, vigenereKey, effectiveMode === 'decode'); break;
                             case 'morse': res = effectiveMode === 'encode' ? toMorse(input) : fromMorse(input); break;
                             case 'json': res = formatJSON(input, effectiveMode === 'encode'); break;
@@ -638,15 +706,14 @@
             }, [input, mode, algo, category, caesarShift, vigenereKey, strUtilMode]);
 
             const applyJsonFormat = (type) => {
-                if (!output) { setToast('No output to format! 😅'); setTimeout(()=>setToast(null), 2000); return; }
+                if (!output) { setToast('No output to format! 😅'); return; }
                 try {
                     const parsed = JSON.parse(output);
                     if (typeof parsed === 'object' && parsed !== null) {
                         setOutput(type === 'beautify' ? JSON.stringify(parsed, null, 4) : JSON.stringify(parsed));
                         setToast(`JSON ${type === 'beautify' ? 'Beautified ✨' : 'Minified 🗜️'}`);
-                        setTimeout(()=>setToast(null), 2000);
                     } else throw new Error();
-                } catch(e) { setToast('Output is not valid JSON! 🥲'); setTimeout(()=>setToast(null), 2000); }
+                } catch(e) { setToast('Output is not valid JSON! 🥲'); }
             };
 
             const downloadFile = () => {
@@ -666,7 +733,8 @@
 
             const swap = () => {
                 if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'uuid', 'epoch'].includes(algo) || category === 'hashes') {
-                    setToast(`Cannot swap ${algorithms.find(a=>a.id===algo).name}`); setTimeout(()=>setToast(null), 2000); return;
+                    setToast(`Cannot swap ${algorithms.find(a=>a.id===algo).name}`);
+                    return;
                 }
                 setAnimating(true); setInput(output); setMode(mode === 'encode' ? 'decode' : 'encode'); setShowQR(false);
                 setTimeout(() => setAnimating(false), 400);
@@ -674,17 +742,17 @@
 
             const handleFile = (e) => {
                 const f = e.target.files[0]; if (!f) return;
-                if(f.size > 1024 * 1024 * 2) { setToast("File too large (Max 2MB)"); setTimeout(()=>setToast(null), 2500); return; }
+                if(f.size > 1024 * 1024 * 2) { setToast("File too large (Max 2MB)"); return; }
                 const reader = new FileReader();
-                reader.onload = (ev) => { setInput(ev.target.result); setToast(`Loaded: ${f.name}`); setTimeout(()=>setToast(null), 2500); };
-                reader.readAsText(f); e.target.value = null; 
+                reader.onload = (ev) => { setInput(ev.target.result); setToast(`Loaded: ${f.name}`); };
+                reader.readAsText(f); e.target.value = null;
             };
 
             const inStats = getStats(input), outStats = getStats(output), currAlgo = algorithms.find(a=>a.id===algo);
             const isLockMode = ['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'uuid', 'epoch', 'url_all', 'string_utils'].includes(algo) || category === 'hashes';
             const getEntropyColor = (e) => parseFloat(e) < 3.0 ? 'text-slate-500' : parseFloat(e) < 4.5 ? 'text-emerald-500' : parseFloat(e) < 6.5 ? 'text-amber-500' : 'text-red-500 animate-pulse';
 
-            const PanelHeader = ({ title, stats, isOutput, copyVal }) => (
+            const PanelHeader = ({ title, stats, isOutput }) => (
                 <div className={`flex flex-row items-center justify-between border-b z-20 relative ${isSplitView ? 'px-2 py-1' : 'px-5 py-3'} ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
                     <div className="flex items-center gap-1.5 sm:gap-2">
                         <div className={`rounded-full ${isSplitView ? 'w-1.5 h-1.5' : 'w-2.5 h-2.5'} ${isOutput ? (errorMsg ? 'bg-red-500 shadow-neon-red' : (isDark ? 'bg-blue-500 shadow-neon-blue' : 'bg-blue-500')) : (isDark ? 'bg-emerald-500 shadow-neon-emerald' : 'bg-emerald-500')}`}></div>
@@ -696,12 +764,12 @@
                     <div className="flex items-center gap-1">
                         {isOutput && (
                             <>
-                                <button onClick={toggleQR} disabled={!!errorMsg || !output} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={isSplitView ? 10 : 14}/></button>
-                                <button onClick={downloadFile} disabled={!!errorMsg || !output} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={isSplitView ? 10 : 14}/></button>
+                                <button onClick={toggleQR} disabled={!!errorMsg || !output} aria-label="Show QR code" className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={isSplitView ? 10 : 14}/></button>
+                                <button onClick={downloadFile} disabled={!!errorMsg || !output} aria-label="Download output" className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={isSplitView ? 10 : 14}/></button>
                                 <div className={`w-px ${isSplitView ? 'h-3 mx-0.5' : 'h-4 mx-1'} ${isDark ? 'bg-white/10' : 'bg-black/10'}`}></div>
                             </>
                         )}
-                        <button onClick={()=> copyToClipboard(isOutput ? output : input, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${(!copyVal && !input) || (isOutput && errorMsg) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={isSplitView ? 10 : 14}/></button>
+                        <button onClick={()=> copyToClipboard(isOutput ? output : input, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} aria-label="Copy to clipboard" className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${(isOutput ? (errorMsg || !output) : !input) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={isSplitView ? 10 : 14}/></button>
                     </div>
                 </div>
             );
@@ -723,24 +791,24 @@
 
             return (
                 <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
-                    {/* TOP CONTROL BAR (SAAS STYLE) */}
+                    {/* TOP CONTROL BAR */}
                     <div className={`glass-panel rounded-2xl border shadow-lg flex flex-wrap items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1 gap-1 flex-row' : 'p-3 sm:p-4 gap-3 flex-col xl:flex-row'}`}>
-                        
+
                         <div className={`flex ${isSplitView ? 'flex-row gap-1 w-auto flex-1 min-w-[150px]' : 'w-full xl:w-auto grid grid-cols-2 xl:flex gap-2 sm:gap-3'}`}>
                             <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-48'}`}>
-                                <select value={category} onChange={handleCategoryChange} className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
+                                <select value={category} onChange={handleCategoryChange} aria-label="Select category" className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
                                     {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
                                 <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
                                 {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
-                            
+
                             <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-60'}`}>
-                                <select value={algo} onChange={e => { 
-                                        const val = e.target.value; setAlgo(val); 
-                                        if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode'); 
-                                        else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(val)) setMode('decode'); 
-                                    }} className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
+                                <select value={algo} onChange={e => {
+                                        const val = e.target.value; setAlgo(val);
+                                        if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode');
+                                        else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(val)) setMode('decode');
+                                    }} aria-label="Select algorithm" className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-4 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
                                     {algorithms.filter(a => a.category === category).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
                                 <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: isSplitView ? 12 : 14 })}</div>
@@ -760,14 +828,14 @@
                             {algo === 'caesar' && (
                                 <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start rounded-xl ${isSplitView ? 'h-7 px-2 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
                                     {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
-                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className={`w-full ${isSplitView ? 'sm:w-12' : 'sm:w-20'}`} />
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} aria-label="Caesar shift" className={`w-full ${isSplitView ? 'sm:w-12' : 'sm:w-20'}`} />
                                     <span className={`font-mono font-bold w-5 text-center ${isSplitView ? 'text-[9px]' : 'text-[11px]'} ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
                                 </div>
                             )}
                             {algo === 'vigenere' && (
                                 <div className={`flex flex-1 sm:flex-none items-center rounded-xl ${isSplitView ? 'h-7 px-2 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
                                     {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
-                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-12 text-[9px]' : 'sm:w-20 text-[11px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
+                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" aria-label="Vigenere key" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-12 text-[9px]' : 'sm:w-20 text-[11px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
                                 </div>
                             )}
                             {algo === 'string_utils' && (
@@ -782,37 +850,37 @@
                         </div>
 
                         <div className={`flex items-center ${isSplitView ? 'gap-1 w-auto ml-auto' : 'w-full xl:w-auto xl:ml-auto gap-2 sm:gap-3'}`}>
-                            <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin" />
-                            <button onClick={() => fileInputRef.current.click()} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+                            <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin" aria-label="Load file" />
+                            <button onClick={() => fileInputRef.current.click()} aria-label="Load file" className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
                                 <Icons.Upload size={isSplitView ? 10 : 14} /> {!isSplitView && 'LOAD'}
                             </button>
-                            <button onClick={() => {setInput(''); setOutput(''); setErrorMsg(null); setShowQR(false);}} className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
+                            <button onClick={() => {setInput(''); setOutput(algo === 'uuid' ? genUUID() : ''); setErrorMsg(null); setShowQR(false);}} aria-label="Clear input and output" className={`flex-1 xl:flex-none flex items-center justify-center gap-1.5 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-7 px-2 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
                                 <Icons.Trash2 size={isSplitView ? 10 : 14} /> {!isSplitView && 'CLEAR'}
                             </button>
                         </div>
                     </div>
 
-                    {/* MAIN EDITOR GRID - FLEX-1 AND MIN-H-0 CRITICAL FOR FLUID SPLIT VIEW */}
+                    {/* MAIN EDITOR GRID */}
                     <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up flex-row ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-6 flex-col lg:flex-row'}`} style={{animationDelay: '0.1s'}}>
-                        
+
                         {/* INPUT PANEL */}
                         <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
-                            <PanelHeader title="Input Payload" stats={inStats} isOutput={false} copyVal={input} />
+                            <PanelHeader title="Input Payload" stats={inStats} isOutput={false} />
                             <HighlightedInput value={input} onChange={e => setInput(e.target.value)} isDark={isDark} placeholder={algo === 'epoch' ? "Enter Unix Timestamp (e.g. 1729000000)" : "Enter payload or drag file here..."} isSplitView={isSplitView} />
                             <PanelFooter stats={inStats} />
                         </div>
 
-                        {/* PROFESSIONAL UNIFIED TOOLBAR */}
+                        {/* UNIFIED TOOLBAR */}
                         <div className={`flex items-center justify-center relative z-10 flex-shrink-0 ${isSplitView ? 'flex-col px-0.5' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-1'}`}>
                             <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-col p-0.5' : 'flex-row lg:flex-col p-1'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
-                                
-                                <button onClick={() => applyJsonFormat('beautify')} className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
+
+                                <button onClick={() => applyJsonFormat('beautify')} aria-label="Beautify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
                                     <Icons.AlignLeft size={isSplitView ? 12 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
 
                                 <div className={`my-0.5 ${isSplitView ? 'w-3 h-px' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                <button onClick={swap} disabled={isLockMode} className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-7 w-7 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
+                                <button onClick={swap} disabled={isLockMode} aria-label="Swap input and output" className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-7 w-7 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
                                     <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
                                         <Icons.ArrowRightLeft size={isSplitView ? 12 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-0' : 'rotate-90 lg:rotate-0'} />
                                     </div>
@@ -820,7 +888,7 @@
 
                                 <div className={`my-0.5 ${isSplitView ? 'w-3 h-px' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                <button onClick={() => applyJsonFormat('minify')} className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
+                                <button onClick={() => applyJsonFormat('minify')} aria-label="Minify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-6 w-6' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
                                     <Icons.FileCode size={isSplitView ? 12 : 16} className="transition-transform group-hover:scale-110" />
                                 </button>
                             </div>
@@ -828,7 +896,7 @@
 
                         {/* OUTPUT PANEL */}
                         <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
-                            <PanelHeader title="Processed Output" stats={outStats} isOutput={true} copyVal={output} />
+                            <PanelHeader title="Processed Output" stats={outStats} isOutput={true} />
                                 <div className={`relative flex-1 min-h-0 w-full flex flex-col ${isSplitView ? '' : 'min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]'}`}>
                                     {isJsonOutput ? (
                                         <div className={`absolute inset-0 p-2 sm:p-4 overflow-auto font-mono text-[10px] sm:text-[12px] custom-scrollbar z-0 ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
@@ -836,13 +904,13 @@
                                             <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className="whitespace-pre-wrap pl-3 m-0 editor-pre leading-relaxed"></pre>
                                         </div>
                                     ) : (
-                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
+                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} aria-label="Processed output" className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono text-[10px] sm:text-[12px] custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
                                     )}
-                                    
+
                                     {showQR && (
                                         <div className="absolute inset-0 z-20 flex items-center justify-center p-6 animate-bounce-in bg-black/40 backdrop-blur-md">
                                             <div className={`p-3 sm:p-5 rounded-3xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
-                                                <button onClick={()=>setShowQR(false)} className="absolute -top-3 -right-3 p-1.5 rounded-full shadow-lg bg-red-500 text-white hover:bg-red-600 transition-colors"><Icons.X size={14} /></button>
+                                                <button onClick={()=>setShowQR(false)} aria-label="Close QR" className="absolute -top-3 -right-3 p-1.5 rounded-full shadow-lg bg-red-500 text-white hover:bg-red-600 transition-colors"><Icons.X size={14} /></button>
                                                 <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-24 h-24 sm:w-48 sm:h-48 rounded-xl opacity-90" />
                                             </div>
                                         </div>
@@ -856,7 +924,7 @@
         });
 
         // ==========================================
-        // COMPONENT: WORKSPACE TAB (EDITABLE & POLISHED)
+        // COMPONENT: WORKSPACE TAB
         // ==========================================
         const WorkspaceTab = ({ ws, isActive, onSelect, onClose, onRename, isDark, isOnlyTab }) => {
             const [isEditing, setIsEditing] = useState(false);
@@ -875,7 +943,7 @@
                 if (editName.trim() && editName.trim() !== ws.name) {
                     onRename(ws.id, editName.trim());
                 } else {
-                    setEditName(ws.name); 
+                    setEditName(ws.name);
                 }
             };
 
@@ -885,17 +953,19 @@
             };
 
             return (
-                <div 
+                <div
                     onClick={() => !isEditing && onSelect(ws.id)}
                     onDoubleClick={() => setIsEditing(true)}
+                    role="tab"
+                    aria-selected={isActive}
                     className={`group flex items-center gap-2 px-3.5 py-2 min-w-[140px] max-w-[220px] cursor-pointer rounded-xl transition-all duration-300 border shadow-sm flex-shrink-0 relative ${
-                        isActive 
-                            ? (isDark ? 'bg-brand-panel border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-emerald-50/80 border-emerald-300 text-emerald-700 shadow-[0_0_15px_rgba(16,185,129,0.1)]') 
+                        isActive
+                            ? (isDark ? 'bg-brand-panel border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-emerald-50/80 border-emerald-300 text-emerald-700 shadow-[0_0_15px_rgba(16,185,129,0.1)]')
                             : (isDark ? 'bg-black/20 border-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200' : 'bg-white border-slate-200/60 text-slate-500 hover:bg-slate-50 hover:text-slate-800')
                     }`}
                 >
                     <Icons.Folder size={14} className={`flex-shrink-0 ${isActive ? '' : 'opacity-60'}`} />
-                    
+
                     {isEditing ? (
                         <input
                             ref={inputRef}
@@ -904,6 +974,7 @@
                             onChange={(e) => setEditName(e.target.value)}
                             onBlur={handleRenameSubmit}
                             onKeyDown={handleKeyDown}
+                            aria-label="Rename workspace"
                             className={`text-xs font-bold w-full bg-transparent outline-none flex-grow ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}
                         />
                     ) : (
@@ -911,8 +982,9 @@
                     )}
 
                     {!isOnlyTab && !isEditing && (
-                        <button 
+                        <button
                             onClick={(e) => { e.stopPropagation(); onClose(ws.id); }}
+                            aria-label="Close workspace"
                             className={`p-1 rounded-md opacity-50 hover:opacity-100 transition-all flex-shrink-0 ml-1 ${isDark ? 'hover:bg-red-500/20 hover:text-red-400 text-slate-400' : 'hover:bg-red-100 hover:text-red-600 text-slate-500'}`}
                             title="Close Workspace"
                         >
@@ -930,21 +1002,30 @@
             const [theme, setTheme] = useState('light');
             const [activeTab, setActiveTab] = useState('decoderx');
             const [toast, setToast] = useState(null);
+            const toastTimerRef = useRef(null);
+
+            // Smart toast: auto-clears after 2.5s, cancels previous timer
+            const showToast = useCallback((msg) => {
+                if (toastTimerRef.current) { clearTimeout(toastTimerRef.current); toastTimerRef.current = null; }
+                setToast(msg);
+                if (msg) toastTimerRef.current = setTimeout(() => setToast(null), 2500);
+            }, []);
+
+            useEffect(() => () => { if (toastTimerRef.current) clearTimeout(toastTimerRef.current); }, []);
 
             // --- WORKSPACE MANAGER STATE ---
             const [workspaces, setWorkspaces] = useState([{ id: 1, name: 'Workspace 1' }]);
             const [activeWorkspaceId, setActiveWorkspaceId] = useState(1);
             const [nextWorkspaceId, setNextWorkspaceId] = useState(2);
-            
+
             // --- SPLIT VIEW STATE ---
             const [isSplitView, setIsSplitView] = useState(false);
 
-            useEffect(() => { 
+            useEffect(() => {
                 if (theme === 'dark') document.documentElement.classList.add('dark');
                 else document.documentElement.classList.remove('dark');
             }, [theme]);
 
-            // Add or remove body class based on split view to prevent external scrolling
             useEffect(() => {
                 if (isSplitView && workspaces.length > 1 && activeTab === 'decoderx') {
                     document.body.classList.add('split-view-active');
@@ -954,42 +1035,41 @@
             }, [isSplitView, workspaces.length, activeTab]);
 
             const isDark = theme === 'dark';
-            
-            // Algorithms logic object
-            const algosLib = {
+
+            // Memoized algorithm library so hidden workspaces don't re-render on unrelated state changes
+            const algosLib = useMemo(() => ({
                 toHex: s => { let r=''; for(let i=0;i<s.length;i++) r+=s.charCodeAt(i).toString(16).padStart(2,'0'); return r; },
-                fromHex: h => { let s=''; h=h.replace(/\s|0x/g,''); for(let i=0;i<h.length;i+=2) s+=String.fromCharCode(parseInt(h.substr(i,2),16)); return s; },
-                toBin: s => s.split('').map(c=>c.charCodeAt(0).toString(2).padStart(8,'0')).join(' '),
-                fromBin: b => { let clean = b.replace(/[^01]/g, ''); if(!clean) return ''; let s = ''; for(let i=0; i<clean.length; i+=8) s += String.fromCharCode(parseInt(clean.substr(i,8).padEnd(8, '0'), 2)); return s; },
-                toOctal: s => s.split('').map(c => '\\' + c.charCodeAt(0).toString(8).padStart(3, '0')).join(''),
+                fromHex: h => { let s=''; h=h.replace(/\s|0x/g,''); for(let i=0;i<h.length;i+=2) s+=String.fromCharCode(parseInt(h.slice(i,i+2),16)); return s; },
+                toBin: s => Array.from(s).map(c=>c.charCodeAt(0).toString(2).padStart(8,'0')).join(' '),
+                fromBin: b => { let clean = b.replace(/[^01]/g, ''); if(!clean) return ''; let s = ''; for(let i=0; i<clean.length; i+=8) s += String.fromCharCode(parseInt(clean.slice(i,i+8).padEnd(8, '0'), 2)); return s; },
+                toOctal: s => Array.from(s).map(c => '\\' + c.charCodeAt(0).toString(8).padStart(3, '0')).join(''),
                 fromOctal: s => s.replace(/\\([0-7]{1,3})/g, (m, p1) => String.fromCharCode(parseInt(p1, 8))),
                 htmlEncode: s => s.replace(/[\u00A0-\u9999<>&"']/g, i => '&#'+i.charCodeAt(0)+';'),
-                htmlDecode: s => new DOMParser().parseFromString(s,'text/html').documentElement.textContent,
-                rev: s => s.split('').reverse().join(''),
+                htmlDecode: s => htmlParser.parseFromString(s,'text/html').documentElement.textContent,
+                rev: s => Array.from(s).reverse().join(''),
                 atbash: s => s.replace(/[a-zA-Z]/g, c => String.fromCharCode((c <= 'Z' ? 90 + 65 : 122 + 97) - c.charCodeAt(0))),
                 rot47: s => s.replace(/[!-~]/g, c => String.fromCharCode((c.charCodeAt(0) - 33 + 47) % 94 + 33)),
                 defang: s => s.replace(/\./g, '[.]').replace(/http/gi, 'hxxp'),
                 refang: s => s.replace(/\[\.\]/g, '.').replace(/hxxp/gi, 'http'),
                 caesarCipher: (str, shift, dec) => str.replace(/[a-zA-Z]/g, c => String.fromCharCode(((c.charCodeAt(0)-(c<='Z'?65:97)+(dec?(26-(shift%26)):(shift%26)))%26)+(c<='Z'?65:97))),
                 vigenereCipher: (str, key, dec) => { let k=key.toUpperCase().replace(/[^A-Z]/g,'')||'A', ki=0; return str.replace(/[a-zA-Z]/g, c => { const shift = k.charCodeAt(ki%k.length)-65; ki++; return String.fromCharCode(((c.charCodeAt(0)-(c<='Z'?65:97)+(dec?(26-shift):shift))%26)+(c<='Z'?65:97));}); },
-                toMorse: s => s.toUpperCase().split('').map(c => ({'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/','.':'.-.-.-',',':'--..--','?':'..--..',"'":'.----.','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',':':'---...',';':'-.-.-.','=':'-...-','+':'.-.-.','-':'-....-','_':'..--.-','"':'.-..-.','$':'...-..-','@':'.--.-.'}[c]||c)).join(' '),
+                toMorse: s => Array.from(s.toUpperCase()).map(c => ({'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/','.':'.-.-.-',',':'--..--','?':'..--..',"'":'.----.','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',':':'---...',';':'-.-.-.','=':'-...-','+':'.-.-.','-':'-....-','_':'..--.-','"':'.-..-.','$':'...-..-','@':'.--.-.'}[c]||c)).join(' '),
                 fromMorse: s => { const d = Object.entries({'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/','.':'.-.-.-',',':'--..--','?':'..--..',"'":'.----.','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',':':'---...',';':'-.-.-.','=':'-...-','+':'.-.-.','-':'-....-','_':'..--.-','"':'.-..-.','$':'...-..-','@':'.--.-.'}).reduce((a,[k,v])=>(a[v]=k,a),{}); return s.split(' ').map(c=>d[c]||c).join('').replace(/\//g,' '); },
                 formatJSON: (str, min) => { if(!str.trim()) return ''; try { return min ? JSON.stringify(JSON.parse(str)) : JSON.stringify(JSON.parse(str), null, 4); } catch(e){ throw new Error("Invalid JSON Format"); } },
-                parseJWT: t => { try { const p=t.split('.'); if(p.length < 2) throw new Error("Invalid JWT"); const dec = s => { let b=s.replace(/-/g,'+').replace(/_/g,'/'); while(b.length%4) b+='='; return decodeURIComponent(escape(atob(b))); }; return JSON.stringify({Header:JSON.parse(dec(p[0])),Payload:JSON.parse(dec(p[1])),Signature:"VERIFICATION_REQUIRED"},null,4); } catch(e){ throw new Error("Invalid or Corrupted JWT"); } },
-                b32Encode: (s) => { let bits = 0, value = 0, output = ''; for (let i = 0; i < s.length; i++) { value = (value << 8) | s.charCodeAt(i); bits += 8; while (bits >= 5) { output += "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[(value >>> (bits - 5)) & 31]; bits -= 5; } } if (bits > 0) output += "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[(value << (5 - bits)) & 31]; while (output.length % 8 !== 0) output += '='; return output; },
-                b32Decode: (s) => { s = s.replace(/=+$/, '').toUpperCase().replace(/\s+/g, ''); let bits = 0, value = 0, output = ''; for (let i = 0; i < s.length; i++) { let val = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".indexOf(s[i]); if (val === -1) throw new Error("Invalid Base32 char"); value = (value << 5) | val; bits += 5; if (bits >= 8) { output += String.fromCharCode((value >>> (bits - 8)) & 255); bits -= 8; } } return output; },
+                parseJWT: t => { try { const p=t.split('.'); if(p.length < 2) throw new Error("Invalid JWT"); const dec = s => b64UrlDecode(s); return JSON.stringify({Header:JSON.parse(dec(p[0])),Payload:JSON.parse(dec(p[1])),Signature:"VERIFICATION_REQUIRED"},null,4); } catch(e){ throw new Error("Invalid or Corrupted JWT"); } },
+                b32Encode: (s) => { const bytes = new TextEncoder().encode(s); let bits = 0, value = 0, output = ''; for (let i = 0; i < bytes.length; i++) { value = (value << 8) | bytes[i]; bits += 8; while (bits >= 5) { output += "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[(value >>> (bits - 5)) & 31]; bits -= 5; } } if (bits > 0) output += "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[(value << (5 - bits)) & 31]; while (output.length % 8 !== 0) output += '='; return output; },
+                b32Decode: (s) => { s = s.replace(/=+$/, '').toUpperCase().replace(/\s+/g, ''); let bits = 0, value = 0, out = []; for (let i = 0; i < s.length; i++) { let val = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".indexOf(s[i]); if (val === -1) throw new Error("Invalid Base32 char"); value = (value << 5) | val; bits += 5; if (bits >= 8) { out.push((value >>> (bits - 8)) & 255); bits -= 8; } } return new TextDecoder().decode(new Uint8Array(out)); },
                 extractIPs: (s) => { const ipv4 = s.match(/\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/g) || []; const ipv6 = s.match(/\b(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}\b/g) || []; const all = [...new Set([...ipv4, ...ipv6])]; return all.length ? all.join('\n') : 'No IPs found.'; },
                 extractURLs: (s) => { const urls = s.match(/https?:\/\/[^\s"'<>]+/gi) || []; return urls.length ? [...new Set(urls)].join('\n') : 'No URLs found.'; },
-                hexdump: (s) => { let out = ''; for (let i = 0; i < s.length; i += 16) { let chunk = s.slice(i, i + 16); let hex = Array.from(chunk).map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join(' '); let ascii = Array.from(chunk).map(c => { let code = c.charCodeAt(0); return (code >= 32 && code <= 126) ? c : '.'; }).join(''); out += i.toString(16).padStart(8, '0') + '  ' + hex.padEnd(48, ' ') + '  |' + ascii + '|\n'; } return out || 'No data.'; },
-                epochConvert: (s) => { s = s.trim(); if(!/^\d+$/.test(s)) throw new Error("Invalid Epoch Number"); let ms = s.length <= 10 ? parseInt(s) * 1000 : parseInt(s); return new Date(ms).toUTCString() + "\nLocal: " + new Date(ms).toString(); },
-                urlEncodeAll: (s) => s.split('').map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()).join(''),
+                hexdump: (s) => { let out = ''; const bytes = new TextEncoder().encode(s); for (let i = 0; i < bytes.length; i += 16) { let chunk = bytes.slice(i, i + 16); let hex = Array.from(chunk).map(b => b.toString(16).padStart(2, '0')).join(' '); let ascii = Array.from(chunk).map(b => (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.').join(''); out += i.toString(16).padStart(8, '0') + '  ' + hex.padEnd(48, ' ') + '  |' + ascii + '|\n'; } return out || 'No data.'; },
+                epochConvert: (s) => { s = s.trim(); if(!/^\d+$/.test(s)) throw new Error("Invalid Epoch Number"); let ms = s.length <= 10 ? parseInt(s, 10) * 1000 : parseInt(s, 10); return new Date(ms).toUTCString() + "\nLocal: " + new Date(ms).toString(); },
+                urlEncodeAll: (s) => Array.from(new TextEncoder().encode(s)).map(b => '%' + b.toString(16).padStart(2, '0').toUpperCase()).join(''),
                 stringUtils: (s, mode) => { if(mode === 'upper') return s.toUpperCase(); if(mode === 'lower') return s.toLowerCase(); return s.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substring(1).toLowerCase()); }
-            };
+            }), []);
 
             const addWorkspace = () => {
                 if (workspaces.length >= 4) {
-                    setToast("Max 4 workspaces allowed in Grid View!");
-                    setTimeout(() => setToast(null), 2000);
+                    showToast("Max 4 workspaces allowed in Grid View!");
                     return;
                 }
                 const newId = nextWorkspaceId;
@@ -999,12 +1079,14 @@
             };
 
             const removeWorkspace = (idToRemove) => {
-                if (workspaces.length === 1) return; // Must have at least 1 workspace
+                if (workspaces.length === 1) return;
                 const updatedWorkspaces = workspaces.filter(ws => ws.id !== idToRemove);
                 setWorkspaces(updatedWorkspaces);
                 if (activeWorkspaceId === idToRemove) {
                     setActiveWorkspaceId(updatedWorkspaces[updatedWorkspaces.length - 1].id);
                 }
+                // Auto-exit split view when only one workspace remains
+                if (updatedWorkspaces.length <= 1) setIsSplitView(false);
             };
 
             const renameWorkspace = (id, newName) => {
@@ -1013,19 +1095,19 @@
 
             return (
                 <div className={`flex flex-col relative font-sans ${isSplitView && activeTab === 'decoderx' ? 'h-screen overflow-hidden' : 'min-h-screen'}`}>
-                    <div className="fixed inset-0 pointer-events-none z-0">
+                    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                         <div className={`absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full blur-[180px] opacity-30 mix-blend-screen transition-colors duration-1000 ${isDark ? 'bg-blue-600' : 'bg-blue-200'}`}></div>
                         <div className={`absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full blur-[180px] opacity-30 mix-blend-screen transition-colors duration-1000 ${isDark ? 'bg-emerald-600' : 'bg-emerald-200'}`}></div>
                         <div className={`absolute inset-0 bg-grid-pattern opacity-100`}></div>
-                        {isDark && <div className="scanline opacity-30"></div>}
+                        {isDark && (
+                            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent animate-scanline"></div>
+                        )}
                     </div>
 
                     <main className={`flex-grow w-full max-w-[120rem] mx-auto p-2 sm:p-3 lg:p-4 relative z-10 flex flex-col overflow-x-hidden ${isSplitView && activeTab === 'decoderx' ? 'h-full gap-2' : 'gap-4'}`}>
-                        
-                        {/* COMPACT FULL HEADER - LOGO & TABS RESTORED */}
+
                         <header className={`glass-panel border rounded-2xl p-2 md:px-4 md:py-2 flex flex-col lg:flex-row items-center justify-between gap-3 shadow-sm transition-all duration-500 animate-slide-up flex-shrink-0 ${isDark ? 'bg-brand-bg/60 border-white/5' : 'bg-white/80 border-slate-200'}`}>
-                            
-                            {/* LOGO SECTION */}
+
                             <div className="flex items-center gap-3 w-full lg:w-1/3">
                                 <div className="relative">
                                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 blur-[8px] opacity-40 rounded-xl"></div>
@@ -1039,7 +1121,6 @@
                                 </div>
                             </div>
 
-                            {/* MAIN TABS TOGGLE */}
                             <div className={`flex p-1 rounded-xl w-full lg:w-auto shadow-inner border flex-shrink-0 ${isDark ? 'bg-black/60 border-white/5' : 'bg-slate-100 border-slate-200/50'}`}>
                                 <button onClick={() => setActiveTab('decoderx')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${activeTab === 'decoderx' ? (isDark ? 'bg-brand-panel text-emerald-400 shadow-md border border-white/5' : 'bg-white text-emerald-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
                                     <Icons.Terminal size={14}/> Essential Tools
@@ -1049,15 +1130,13 @@
                                 </button>
                             </div>
 
-                            {/* THEME TOGGLE */}
                             <div className="flex justify-end w-full lg:w-1/3">
-                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} className={`h-8 w-8 flex items-center justify-center rounded-xl border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
+                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} aria-label="Toggle theme" className={`h-8 w-8 flex items-center justify-center rounded-xl border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
                                     {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
                                 </button>
                             </div>
                         </header>
 
-                        {/* WORKSPACE TAB MANAGER (Only visible in 'decoderx' tab) */}
                         {activeTab === 'decoderx' && (
                             <div className={`flex items-center justify-between py-1.5 px-2 animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 flex-shrink-0 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
                                 <div className="flex items-center gap-2 overflow-x-auto tab-scroll-container">
@@ -1073,24 +1152,24 @@
                                             isOnlyTab={workspaces.length === 1}
                                         />
                                     ))}
-                                    
+
                                     <div className={`w-px h-5 flex-shrink-0 mx-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
                                     <button onClick={addWorkspace} className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border border-dashed flex-shrink-0 group ${isDark ? 'border-white/20 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/40' : 'border-slate-300 text-slate-500 hover:bg-slate-100 hover:text-slate-800 hover:border-slate-400'}`}>
                                         <Icons.Plus size={14} className="transition-transform group-hover:scale-110" /> New Tab
                                     </button>
                                 </div>
-                                
+
                                 <div className="flex items-center gap-2 pl-2 flex-shrink-0">
                                     <div className={`hidden lg:flex items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase px-2 opacity-50 select-none ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                                         <Icons.Wand size={10} /> Double-Click Tab to Rename
                                     </div>
                                     <div className={`w-px h-5 hidden lg:block ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
-                                    
-                                    {/* SPLIT VIEW TOGGLE */}
-                                    <button 
+
+                                    <button
                                         onClick={() => workspaces.length > 1 && setIsSplitView(!isSplitView)}
                                         disabled={workspaces.length <= 1}
+                                        aria-label="Toggle split view"
                                         className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all border shadow-sm flex-shrink-0 ${workspaces.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''} ${isSplitView ? (isDark ? 'bg-emerald-500 text-white shadow-neon-emerald border-emerald-400' : 'bg-emerald-500 text-white shadow-md border-emerald-600') : (isDark ? 'bg-brand-panel border-white/10 text-emerald-400 hover:bg-white/10 hover:border-emerald-500/50' : 'bg-white border-slate-200 text-emerald-600 hover:bg-emerald-50')}`}
                                         title={workspaces.length <= 1 ? "Open another tab to use Split View" : "Toggle Grid Split View"}
                                     >
@@ -1100,20 +1179,18 @@
                             </div>
                         )}
 
-                        {/* WORKSPACE CONTENT AREA */}
                         <div className={`flex flex-col w-full relative overflow-hidden ${isSplitView && activeTab === 'decoderx' ? 'flex-1 min-h-0' : 'flex-grow'}`}>
                             {activeTab === 'decoderx' ? (
                                 <div className={`w-full h-full transition-all duration-500 ${isSplitView ? `grid gap-2 sm:gap-3 grid-cols-1 md:grid-cols-2 ${workspaces.length > 2 ? 'grid-rows-2' : 'grid-rows-1'} min-h-0` : 'flex flex-col min-h-0'}`}>
-                                    {/* WORKSPACE CONTENTS RENDERED */}
                                     {workspaces.map(ws => (
                                         <div key={ws.id} className={`${isSplitView ? 'block h-full min-h-0' : (activeWorkspaceId === ws.id ? 'block flex-grow min-h-0' : 'hidden')} animate-fade-in`}>
-                                            <StandardDecoderTab isDark={isDark} setToast={setToast} AlgorithmsLib={algosLib} workspaceId={ws.id} isSplitView={isSplitView} />
+                                            <StandardDecoderTab isDark={isDark} setToast={showToast} AlgorithmsLib={algosLib} workspaceId={ws.id} isSplitView={isSplitView} />
                                         </div>
                                     ))}
                                 </div>
                             ) : (
                                 <div className="overflow-y-auto h-full custom-scrollbar pb-6">
-                                    <CurlDecoderTab isDark={isDark} setToast={setToast} />
+                                    <CurlDecoderTab isDark={isDark} setToast={showToast} />
                                 </div>
                             )}
                         </div>
