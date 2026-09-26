@@ -35,29 +35,29 @@
                     },
                     colors: {
                         brand: {
-                            bg: '#09090b',
-                            panel: '#18181b',
-                            border: '#27272a',
+                            bg: '#0a0a0c',
+                            panel: '#151518',
+                            border: '#242429',
                         }
                     },
                     boxShadow: {
-                        'neon-emerald': '0 0 20px rgba(16, 185, 129, 0.15)',
-                        'neon-blue': '0 0 20px rgba(59, 130, 246, 0.15)',
-                        'neon-red': '0 0 20px rgba(239, 68, 68, 0.15)',
-                        'floating': '0 10px 40px -10px rgba(0,0,0,0.5)',
+                        'neon-emerald': '0 0 15px rgba(16, 185, 129, 0.15)',
+                        'neon-blue': '0 0 15px rgba(59, 130, 246, 0.15)',
+                        'neon-red': '0 0 15px rgba(239, 68, 68, 0.15)',
+                        'floating': '0 4px 20px -5px rgba(0,0,0,0.4)',
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.3s ease-out forwards',
-                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in': 'fadeIn 0.2s ease-out forwards',
+                        'slide-up': 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'scanline': 'scanline 8s linear infinite',
-                        'bounce-in': 'bounceIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                        'bounce-in': 'bounceIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
                         'pulse-glow': 'pulseGlow 1.6s ease-in-out infinite',
                     },
                     keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-                        slideUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(6px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
                         scanline: { '0%': { transform: 'translateY(-10%)' }, '100%': { transform: 'translateY(100vh)' } },
-                        bounceIn: { '0%': { opacity: '0', transform: 'scale(0.85)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+                        bounceIn: { '0%': { opacity: '0', transform: 'scale(0.95)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
                         pulseGlow: { '0%,100%': { opacity: '0.5' }, '50%': { opacity: '1' } },
                     }
                 }
@@ -66,20 +66,20 @@
     </script>
 
     <style>
-        html.dark { color-scheme: dark; background-color: #09090b; }
-        html { color-scheme: light; background-color: #f8fafc; }
+        html.dark { color-scheme: dark; background-color: #0a0a0c; }
+        html { color-scheme: light; background-color: #f1f5f9; }
 
         /* Premium Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 8px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
         .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
         .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
@@ -88,19 +88,19 @@
 
         body {
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
         .light .glass-panel, html:not(.dark) .glass-panel {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
         }
 
         .text-gradient-primary {
@@ -125,7 +125,7 @@
             word-break: break-all !important;
             overflow-wrap: break-word !important;
             tab-size: 4;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         .editor-textarea {
             color: transparent !important;
@@ -142,11 +142,11 @@
         }
 
         .bg-grid-pattern {
-            background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 24px 24px;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
         .dark .bg-grid-pattern {
-            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
         }
 
         body.split-view-active {
@@ -157,15 +157,15 @@
         textarea:focus { outline: none; }
         input[type="file"] { display: none; }
 
-        .tab-scroll-container::-webkit-scrollbar { height: 4px; }
+        .tab-scroll-container::-webkit-scrollbar { height: 3px; }
         .tab-scroll-container::-webkit-scrollbar-track { background: transparent; }
-        .tab-scroll-container::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 10px; }
+        .tab-scroll-container::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 8px; }
         .tab-scroll-container::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
         .dark .tab-scroll-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); }
         .dark .tab-scroll-container::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-100 min-h-screen bg-slate-50 dark:bg-brand-bg text-slate-800 dark:text-slate-300">
+<body class="antialiased overflow-x-hidden selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-100 min-h-screen bg-slate-100 dark:bg-brand-bg text-slate-800 dark:text-slate-300">
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react" data-type="module">
@@ -382,10 +382,10 @@
             }
             const handleScroll = (e) => { if (preRef.current) { preRef.current.scrollTop = e.target.scrollTop; preRef.current.scrollLeft = e.target.scrollLeft; } };
             return (
-                <div className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden group ${isSplitView ? 'h-full min-h-[120px]' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
+                <div className={`relative flex-1 min-h-0 w-full bg-transparent overflow-hidden group ${isSplitView ? 'h-full' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
                     {isJson && <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md z-0 transition-colors ${isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-400' : 'bg-emerald-500/30 group-focus-within:bg-emerald-500'}`}></div>}
-                    <pre ref={preRef} className={`absolute inset-0 p-2 sm:p-4 font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-5' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
-                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-5' : ''}`} spellCheck="false" aria-label="Input payload" />
+                    <pre ref={preRef} className={`absolute inset-0 p-2 font-mono ${isSplitView ? 'text-[10px] sm:text-[11px]' : 'text-[12px]'} custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-4' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
+                    <textarea value={value} onChange={onChange} onScroll={handleScroll} className={`absolute inset-0 w-full h-full p-2 bg-transparent resize-none outline-none font-mono ${isSplitView ? 'text-[10px] sm:text-[11px]' : 'text-[12px]'} custom-scrollbar overflow-auto z-10 editor-textarea ${isJson ? 'pl-4' : ''}`} spellCheck="false" aria-label="Input payload" />
                 </div>
             );
         };
@@ -457,13 +457,13 @@
                 if (!analysis.isEncoded) {
                     return (
                         <div className={`flex flex-col md:flex-row transition-colors border-b last:border-0 ${isDark ? 'border-white/5 hover:bg-white/[0.02]' : 'border-black/5 hover:bg-black/[0.02]'}`}>
-                            <div className={`md:w-1/4 p-4 border-r ${isDark ? 'border-white/5' : 'border-black/5'}`}>
-                                <span className={`font-semibold text-sm break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
+                            <div className={`md:w-1/4 p-3 border-r ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                                <span className={`font-semibold text-xs break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
                             </div>
-                            <div className="md:w-3/4 p-4 font-mono text-[13px] relative">
+                            <div className="md:w-3/4 p-3 font-mono text-[11px] relative">
                                 {analysis.isJson
-                                    ? <div className={`p-4 rounded-xl overflow-x-auto relative ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
-                                        <div className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
+                                    ? <div className={`p-3 rounded-lg overflow-x-auto relative ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
+                                        <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
                                         <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(analysis.final) }} className="pl-2 whitespace-pre-wrap leading-relaxed" />
                                       </div>
                                     : <div className={`break-words ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{analysis.final}</div>
@@ -473,40 +473,40 @@
                     );
                 }
                 let badge = null;
-                if (analysis.b64Count >= 3) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse">⚠️ TRIPLE BASE64 ENCODED!</span>;
-                else if (analysis.b64Count === 2) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">🚨 DOUBLE BASE64 ENCODED</span>;
-                else if (analysis.b64Count === 1 && analysis.urlCount > 0) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">MIXED ENCODED</span>;
-                else if (analysis.b64Count === 1) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">BASE64 ENCODED</span>;
-                else if (analysis.urlCount > 0) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">URL ENCODED</span>;
+                if (analysis.b64Count >= 3) badge = <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse">⚠️ TRIPLE BASE64 ENCODED!</span>;
+                else if (analysis.b64Count === 2) badge = <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">🚨 DOUBLE BASE64 ENCODED</span>;
+                else if (analysis.b64Count === 1 && analysis.urlCount > 0) badge = <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">MIXED ENCODED</span>;
+                else if (analysis.b64Count === 1) badge = <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">BASE64 ENCODED</span>;
+                else if (analysis.urlCount > 0) badge = <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">URL ENCODED</span>;
 
                 return (
                     <div className={`flex flex-col md:flex-row transition-colors border-b last:border-0 ${isDark ? 'border-white/5 hover:bg-white/[0.02]' : 'border-black/5 hover:bg-black/[0.02]'}`}>
-                        <div className={`md:w-1/4 p-4 border-r ${isDark ? 'border-white/5' : 'border-black/5'}`}>
-                            <span className={`font-semibold text-sm break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
+                        <div className={`md:w-1/4 p-3 border-r ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                            <span className={`font-semibold text-xs break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
                         </div>
-                        <div className="md:w-3/4 p-4">
-                            <div className="flex items-center gap-2 mb-4">{badge}</div>
-                            <div className={`text-[10px] uppercase tracking-wider font-bold mb-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Original Raw Value:</div>
-                            <div className={`p-3 rounded-xl text-xs font-mono break-words mb-5 max-h-32 overflow-y-auto custom-scrollbar ${isDark ? 'bg-black/40 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{analysis.original}</div>
+                        <div className="md:w-3/4 p-3">
+                            <div className="flex items-center gap-2 mb-3">{badge}</div>
+                            <div className={`text-[9px] uppercase tracking-wider font-bold mb-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Original Raw Value:</div>
+                            <div className={`p-2.5 rounded-lg text-[11px] font-mono break-words mb-4 max-h-32 overflow-y-auto custom-scrollbar ${isDark ? 'bg-black/40 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{analysis.original}</div>
 
-                            <div className={`text-[10px] uppercase tracking-wider font-bold mb-3 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Decoding Sequence:</div>
-                            <div className="space-y-4">
+                            <div className={`text-[9px] uppercase tracking-wider font-bold mb-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Decoding Sequence:</div>
+                            <div className="space-y-3">
                                 {analysis.steps.map((step, i) => {
                                     const isLast = i === analysis.steps.length - 1;
                                     const isJSONView = isLast && analysis.isJson;
                                     return (
-                                        <div key={i} className={`relative pl-6 ml-1 border-l-2 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
-                                            <div className={`absolute w-3 h-3 rounded-full -left-[7px] top-0.5 ring-4 ${isDark ? 'bg-emerald-500 ring-brand-panel' : 'bg-emerald-500 ring-white'}`}></div>
-                                            <span className={`text-[10px] uppercase tracking-wider font-bold flex items-center gap-1.5 mb-2 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
-                                                {step.method.includes('Base64') ? <Icons.Lock size={12}/> : <Icons.Globe size={12}/>} {step.method}
+                                        <div key={i} className={`relative pl-5 ml-1 border-l-2 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
+                                            <div className={`absolute w-2.5 h-2.5 rounded-full -left-[6px] top-0.5 ring-4 ${isDark ? 'bg-emerald-500 ring-brand-panel' : 'bg-emerald-500 ring-white'}`}></div>
+                                            <span className={`text-[9px] uppercase tracking-wider font-bold flex items-center gap-1.5 mb-1.5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
+                                                {step.method.includes('Base64') ? <Icons.Lock size={10}/> : <Icons.Globe size={10}/>} {step.method}
                                             </span>
                                             {isJSONView ? (
-                                                <div className={`p-4 rounded-xl overflow-x-auto max-h-[400px] font-mono text-[12px] relative custom-scrollbar ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
-                                                    <div className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
+                                                <div className={`p-3 rounded-lg overflow-x-auto max-h-[400px] font-mono text-[11px] relative custom-scrollbar ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
+                                                    <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
                                                     <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(step.value) }} className="pl-2 whitespace-pre-wrap leading-relaxed" />
                                                 </div>
                                             ) : (
-                                                <div className={`p-3 rounded-xl font-mono text-[12px] break-words ${isDark ? 'bg-brand-bg text-slate-300 border border-white/5' : 'bg-slate-50 text-slate-700 border border-slate-200'}`}>
+                                                <div className={`p-2.5 rounded-lg font-mono text-[11px] break-words ${isDark ? 'bg-brand-bg text-slate-300 border border-white/5' : 'bg-slate-50 text-slate-700 border border-slate-200'}`}>
                                                     {step.value}
                                                 </div>
                                             )}
@@ -520,65 +520,65 @@
             };
 
             const PanelHeader = ({ icon, title, colorClass }) => (
-                <div className={`px-5 py-3.5 border-b flex items-center gap-2.5 ${isDark ? 'bg-white/[0.01] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
+                <div className={`px-4 py-2.5 border-b flex items-center gap-2 ${isDark ? 'bg-white/[0.01] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
                     <div className={colorClass}>{icon}</div>
-                    <h2 className={`font-bold text-sm tracking-wide uppercase ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{title}</h2>
+                    <h2 className={`font-bold text-xs tracking-wide uppercase ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{title}</h2>
                 </div>
             );
 
             return (
-                <div className="flex flex-col gap-6 animate-fade-in w-full max-w-[100rem] mx-auto">
-                    <div className={`rounded-2xl border shadow-lg overflow-hidden glass-panel group transition-colors duration-300 ${isDark ? 'focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald border-white/5' : 'focus-within:border-emerald-400 border-black/5'}`}>
-                        <div className={`flex items-center justify-between px-5 py-3 border-b ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
+                <div className="flex flex-col gap-5 animate-fade-in w-full max-w-[100rem] mx-auto">
+                    <div className={`rounded-xl border shadow-sm overflow-hidden glass-panel group transition-colors duration-300 ${isDark ? 'focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald border-white/5' : 'focus-within:border-emerald-400 border-black/5'}`}>
+                        <div className={`flex items-center justify-between px-4 py-2.5 border-b ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
                             <div className="flex items-center gap-2">
-                                <Icons.Terminal size={16} className={isDark ? "text-emerald-400" : "text-emerald-600"} />
-                                <span className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Paste cURL Command</span>
+                                <Icons.Terminal size={14} className={isDark ? "text-emerald-400" : "text-emerald-600"} />
+                                <span className={`text-[10px] font-bold uppercase tracking-widest ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Paste cURL Command</span>
                             </div>
                         </div>
                         <textarea
                             value={curlInput} onChange={(e) => setCurlInput(e.target.value)}
-                            className={`w-full p-5 outline-none resize-y min-h-[160px] font-mono text-[13px] leading-relaxed custom-scrollbar ${isDark ? 'bg-brand-bg/50 text-slate-300 placeholder-slate-600' : 'bg-white/50 text-slate-800 placeholder-slate-400'}`}
+                            className={`w-full p-4 outline-none resize-y min-h-[140px] font-mono text-[12px] leading-relaxed custom-scrollbar ${isDark ? 'bg-brand-bg/50 text-slate-300 placeholder-slate-600' : 'bg-white/50 text-slate-800 placeholder-slate-400'}`}
                             placeholder="curl 'https://api.target.com/data' -H 'Authorization: Bearer eyJhb...' -b 'session=base64_encoded_cookie'" spellCheck="false"
                             aria-label="cURL command input"
                         />
-                        <div className={`px-5 py-3 border-t flex flex-col sm:flex-row justify-between items-center gap-4 ${isDark ? 'border-white/5 bg-black/40' : 'border-black/5 bg-slate-50'}`}>
-                            <span className={`text-xs flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                                <Icons.Activity size={14} className={isDark ? 'text-emerald-400' : 'text-emerald-600'} /> Auto-detects deeply nested encodings.
+                        <div className={`px-4 py-2 border-t flex flex-col sm:flex-row justify-between items-center gap-3 ${isDark ? 'border-white/5 bg-black/40' : 'border-black/5 bg-slate-50'}`}>
+                            <span className={`text-[10px] flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                <Icons.Activity size={12} className={isDark ? 'text-emerald-400' : 'text-emerald-600'} /> Auto-detects deeply nested encodings.
                             </span>
-                            <button onClick={processRequest} className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2.5 px-6 rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
-                                <Icons.Cpu size={16} /> Deep Decode Data
+                            <button onClick={processRequest} className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-1.5 px-4 rounded-lg transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 text-[11px]">
+                                <Icons.Cpu size={14} /> Deep Decode Data
                             </button>
                         </div>
                     </div>
 
                     {parsedResults && (
-                        <div className="space-y-6 animate-slide-up pb-10">
-                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
-                                <PanelHeader icon={<Icons.Link size={16}/>} title="Target Endpoint" colorClass={isDark ? 'text-blue-400' : 'text-blue-600'} />
-                                <div className={`p-5 font-mono text-[13px] break-words ${isDark ? 'text-blue-300 bg-brand-bg/80' : 'text-blue-700 bg-blue-50/50'}`}>{parsedResults.url}</div>
+                        <div className="space-y-4 animate-slide-up pb-8">
+                            <div className="glass-panel rounded-xl border overflow-hidden shadow-sm">
+                                <PanelHeader icon={<Icons.Link size={14}/>} title="Target Endpoint" colorClass={isDark ? 'text-blue-400' : 'text-blue-600'} />
+                                <div className={`p-3 font-mono text-[11px] break-words ${isDark ? 'text-blue-300 bg-brand-bg/80' : 'text-blue-700 bg-blue-50/50'}`}>{parsedResults.url}</div>
                             </div>
                             {parsedResults.queryParams.length > 0 && (
-                                <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
-                                    <PanelHeader icon={<Icons.Code size={16}/>} title="Query Parameters" colorClass={isDark ? 'text-emerald-400' : 'text-emerald-600'} />
+                                <div className="glass-panel rounded-xl border overflow-hidden shadow-sm">
+                                    <PanelHeader icon={<Icons.Code size={14}/>} title="Query Parameters" colorClass={isDark ? 'text-emerald-400' : 'text-emerald-600'} />
                                     <div>{parsedResults.queryParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)}</div>
                                 </div>
                             )}
-                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
-                                <PanelHeader icon={<Icons.Lock size={16}/>} title="Session Cookies" colorClass={isDark ? 'text-amber-400' : 'text-amber-600'} />
-                                <div>{parsedResults.cookies.length > 0 ? parsedResults.cookies.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No cookies parsed.</div>}</div>
+                            <div className="glass-panel rounded-xl border overflow-hidden shadow-sm">
+                                <PanelHeader icon={<Icons.Lock size={14}/>} title="Session Cookies" colorClass={isDark ? 'text-amber-400' : 'text-amber-600'} />
+                                <div>{parsedResults.cookies.length > 0 ? parsedResults.cookies.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className={`p-4 text-center text-[11px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No cookies parsed.</div>}</div>
                             </div>
-                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
-                                <PanelHeader icon={<Icons.AlignLeft size={16}/>} title="HTTP Headers" colorClass={isDark ? 'text-purple-400' : 'text-purple-600'} />
-                                <div>{parsedResults.headers.length > 0 ? parsedResults.headers.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No headers parsed.</div>}</div>
+                            <div className="glass-panel rounded-xl border overflow-hidden shadow-sm">
+                                <PanelHeader icon={<Icons.AlignLeft size={14}/>} title="HTTP Headers" colorClass={isDark ? 'text-purple-400' : 'text-purple-600'} />
+                                <div>{parsedResults.headers.length > 0 ? parsedResults.headers.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className={`p-4 text-center text-[11px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No headers parsed.</div>}</div>
                             </div>
-                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
-                                <PanelHeader icon={<Icons.Database size={16}/>} title="Body Payload" colorClass={isDark ? 'text-rose-400' : 'text-rose-600'} />
+                            <div className="glass-panel rounded-xl border overflow-hidden shadow-sm">
+                                <PanelHeader icon={<Icons.Database size={14}/>} title="Body Payload" colorClass={isDark ? 'text-rose-400' : 'text-rose-600'} />
                                 <div>
                                     {parsedResults.bodyParams.length > 0
                                         ? parsedResults.bodyParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)
                                         : parsedResults.bodyDump
                                             ? <AnalysisRow itemKey="Raw Body Dump" analysis={parsedResults.bodyDump} />
-                                            : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No body payload parsed.</div>
+                                            : <div className={`p-4 text-center text-[11px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No body payload parsed.</div>
                                     }
                                 </div>
                             </div>
@@ -724,31 +724,31 @@
             const getEntropyColor = (e) => parseFloat(e) < 3.0 ? 'text-slate-500' : parseFloat(e) < 4.5 ? 'text-emerald-500' : parseFloat(e) < 6.5 ? 'text-amber-500' : 'text-red-500 animate-pulse';
 
             const PanelHeader = ({ title, stats, isOutput }) => (
-                <div className={`flex flex-row items-center justify-between border-b z-20 relative ${isSplitView ? 'px-3 py-1.5' : 'px-5 py-3'} ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                        <div className={`rounded-full ${isSplitView ? 'w-1.5 h-1.5' : 'w-2.5 h-2.5'} ${isOutput ? (errorMsg ? 'bg-red-500 shadow-neon-red' : (isDark ? 'bg-blue-500 shadow-neon-blue' : 'bg-blue-500')) : (isDark ? 'bg-emerald-500 shadow-neon-emerald' : 'bg-emerald-500')}`}></div>
-                        <span className={`font-bold uppercase tracking-widest flex items-center gap-2 ${isSplitView ? 'text-[9px]' : 'text-xs'} ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                <div className={`flex flex-row items-center justify-between border-b z-20 relative ${isSplitView ? 'px-2.5 py-1' : 'px-4 py-2'} ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
+                    <div className="flex items-center gap-1.5">
+                        <div className={`rounded-full ${isSplitView ? 'w-1.5 h-1.5' : 'w-2 h-2'} ${isOutput ? (errorMsg ? 'bg-red-500 shadow-neon-red' : (isDark ? 'bg-blue-500 shadow-neon-blue' : 'bg-blue-500')) : (isDark ? 'bg-emerald-500 shadow-neon-emerald' : 'bg-emerald-500')}`}></div>
+                        <span className={`font-bold uppercase tracking-widest flex items-center gap-2 ${isSplitView ? 'text-[9px]' : 'text-[10px]'} ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
                             {title}
                         </span>
-                        {isOutput && !isSplitView && <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono font-bold border ${errorMsg ? 'bg-red-500/20 text-red-500 border-red-500/30' : (isDark ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200')}`}>{errorMsg ? 'ERROR' : currAlgo?.name}</span>}
+                        {isOutput && !isSplitView && <span className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold border ${errorMsg ? 'bg-red-500/20 text-red-500 border-red-500/30' : (isDark ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200')}`}>{errorMsg ? 'ERROR' : currAlgo?.name}</span>}
                     </div>
                     <div className="flex items-center gap-1">
                         {isOutput && (
                             <>
-                                <button onClick={toggleQR} disabled={!!errorMsg || !output} aria-label="Show QR code" className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={isSplitView ? 12 : 14}/></button>
-                                <button onClick={downloadFile} disabled={!!errorMsg || !output} aria-label="Download output" className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={isSplitView ? 12 : 14}/></button>
-                                <div className={`w-px ${isSplitView ? 'h-3 mx-0.5' : 'h-4 mx-1'} ${isDark ? 'bg-white/10' : 'bg-black/10'}`}></div>
+                                <button onClick={toggleQR} disabled={!!errorMsg || !output} aria-label="Show QR code" className={`rounded transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={isSplitView ? 12 : 14}/></button>
+                                <button onClick={downloadFile} disabled={!!errorMsg || !output} aria-label="Download output" className={`rounded transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={isSplitView ? 12 : 14}/></button>
+                                <div className={`w-px ${isSplitView ? 'h-3 mx-0.5' : 'h-3.5 mx-1'} ${isDark ? 'bg-white/10' : 'bg-black/10'}`}></div>
                             </>
                         )}
-                        <button onClick={()=> copyToClipboard(isOutput ? output : input, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} aria-label="Copy to clipboard" className={`rounded-lg transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${(isOutput ? (errorMsg || !output) : !input) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={isSplitView ? 12 : 14}/></button>
+                        <button onClick={()=> copyToClipboard(isOutput ? output : input, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} aria-label="Copy to clipboard" className={`rounded transition-all ${isSplitView ? 'p-1' : 'p-1.5'} ${(isOutput ? (errorMsg || !output) : !input) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={isSplitView ? 12 : 14}/></button>
                     </div>
                 </div>
             );
 
             const PanelFooter = ({ stats }) => (
-                <div className={`flex justify-between items-center font-mono border-t z-20 relative ${isSplitView ? 'px-3 py-1.5 text-[9px]' : 'px-5 py-2.5 text-[10px]'} ${isDark ? 'border-white/5 bg-black/20 text-slate-500' : 'border-black/5 bg-slate-50 text-slate-500'}`}>
-                    <div className="flex gap-2 sm:gap-4"><span>Ln: {stats.lines}</span><span>Wd: {stats.words}</span><span>Ch: {stats.chars}</span></div>
-                    <div className="flex gap-2 sm:gap-4"><span title="Shannon Entropy">Ent: <span className={`font-bold ${getEntropyColor(stats.entropy)}`}>{stats.entropy}</span></span><span>{stats.bytes} B</span></div>
+                <div className={`flex justify-between items-center font-mono border-t z-20 relative ${isSplitView ? 'px-2.5 py-1 text-[8px]' : 'px-4 py-2 text-[9px]'} ${isDark ? 'border-white/5 bg-black/20 text-slate-500' : 'border-black/5 bg-slate-50 text-slate-500'}`}>
+                    <div className="flex gap-2 sm:gap-3"><span>Ln: {stats.lines}</span><span>Wd: {stats.words}</span><span>Ch: {stats.chars}</span></div>
+                    <div className="flex gap-2 sm:gap-3"><span title="Shannon Entropy">Ent: <span className={`font-bold ${getEntropyColor(stats.entropy)}`}>{stats.entropy}</span></span><span>{stats.bytes} B</span></div>
                 </div>
             );
 
@@ -761,58 +761,58 @@
             }
 
             return (
-                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-6 max-w-[100rem]'}`}>
+                <div className={`flex flex-col animate-fade-in w-full mx-auto h-full ${isSplitView ? 'gap-1' : 'gap-4 sm:gap-5 max-w-[100rem]'}`}>
                     {/* TOP CONTROL BAR */}
-                    <div className={`glass-panel rounded-2xl border shadow-lg flex flex-wrap items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1 gap-1 flex-row' : 'p-3 sm:p-4 gap-3 flex-col xl:flex-row'}`}>
+                    <div className={`glass-panel rounded-xl border shadow-sm flex flex-wrap items-center justify-between z-30 relative animate-slide-up flex-shrink-0 ${isSplitView ? 'p-1 gap-1 flex-row' : 'p-2 sm:p-3 gap-2.5 flex-col xl:flex-row'}`}>
 
-                        <div className={`flex ${isSplitView ? 'flex-row gap-1 w-auto flex-1 min-w-[150px]' : 'w-full xl:w-auto grid grid-cols-2 xl:flex gap-2 sm:gap-3'}`}>
-                            <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-48'}`}>
-                                <select value={category} onChange={handleCategoryChange} aria-label="Select category" className={`w-full appearance-none rounded-xl font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-6 pl-5 pr-3 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
+                        <div className={`flex ${isSplitView ? 'flex-row gap-1 w-auto flex-1 min-w-[150px]' : 'w-full xl:w-auto grid grid-cols-2 xl:flex gap-1.5 sm:gap-2'}`}>
+                            <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-44'}`}>
+                                <select value={category} onChange={handleCategoryChange} aria-label="Select category" className={`w-full appearance-none rounded-lg font-bold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-3 text-[9px]' : 'h-9 pl-8 pr-7 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
                                     {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
-                                <div className={`absolute ${isSplitView ? 'left-1' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={14}/>, { size: isSplitView ? 10 : 14 })}</div>
-                                {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
+                                <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{React.cloneElement(toolCategories.find(c=>c.id===category)?.icon || <Icons.Settings size={12}/>, { size: isSplitView ? 10 : 12 })}</div>
+                                {!isSplitView && <Icons.ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
 
-                            <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-60'}`}>
+                            <div className={`relative flex-1 ${isSplitView ? '' : 'xl:w-52'}`}>
                                 <select value={algo} onChange={e => {
                                         const val = e.target.value; setAlgo(val);
                                         if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode');
                                         else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch'].includes(val)) setMode('decode');
-                                    }} aria-label="Select algorithm" className={`w-full appearance-none rounded-xl font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-6 pl-5 pr-3 text-[9px]' : 'h-10 pl-9 pr-8 text-[11px] sm:text-[12px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
+                                    }} aria-label="Select algorithm" className={`w-full appearance-none rounded-lg font-semibold outline-none transition-all cursor-pointer ${isSplitView ? 'h-7 pl-6 pr-3 text-[9px]' : 'h-9 pl-8 pr-7 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
                                     {algorithms.filter(a => a.category === category).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
-                                <div className={`absolute ${isSplitView ? 'left-1' : 'left-2.5'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={14}/>, { size: isSplitView ? 10 : 14 })}</div>
-                                {!isSplitView && <Icons.ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
+                                <div className={`absolute ${isSplitView ? 'left-1.5' : 'left-2'} top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{React.cloneElement(algorithms.find(a=>a.id===algo)?.icon || <Icons.Code size={12}/>, { size: isSplitView ? 10 : 12 })}</div>
+                                {!isSplitView && <Icons.ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />}
                             </div>
                         </div>
 
-                        <div className={`flex flex-wrap sm:flex-nowrap items-center animate-fade-in ${isSplitView ? 'gap-1 w-auto' : 'w-full xl:w-auto gap-2 sm:gap-3'}`}>
+                        <div className={`flex flex-wrap sm:flex-nowrap items-center animate-fade-in ${isSplitView ? 'gap-1 w-auto' : 'w-full xl:w-auto gap-1.5 sm:gap-2'}`}>
                             {!['uuid'].includes(algo) && (
-                                <div className={`flex rounded-xl transition-opacity ${isSplitView ? 'p-0.5' : 'p-1'} ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                <div className={`flex rounded-lg transition-opacity ${isSplitView ? 'p-0.5' : 'p-0.5'} ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['encode', 'decode'].map(m => (
-                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold capitalize transition-all duration-300 ${isSplitView ? 'px-1.5 py-0.5 text-[9px]' : 'px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs'} ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
+                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none rounded font-bold capitalize transition-all duration-300 ${isSplitView ? 'px-2 py-0.5 text-[9px]' : 'px-3 py-1 text-[10px] sm:text-xs'} ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-sm border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
                                     ))}
                                 </div>
                             )}
 
                             {algo === 'caesar' && (
-                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start rounded-xl ${isSplitView ? 'h-6 px-1.5 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
-                                    {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
-                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} aria-label="Caesar shift" className={`w-full ${isSplitView ? 'sm:w-10' : 'sm:w-20'}`} />
-                                    <span className={`font-mono font-bold w-4 text-center ${isSplitView ? 'text-[9px]' : 'text-[11px]'} ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
+                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start rounded-lg ${isSplitView ? 'h-7 px-2 gap-1' : 'h-9 px-2.5 gap-1.5'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                    {!isSplitView && <Icons.Settings size={12} className="text-slate-500 hidden sm:block" />}
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} aria-label="Caesar shift" className={`w-full ${isSplitView ? 'sm:w-12' : 'sm:w-16'}`} />
+                                    <span className={`font-mono font-bold w-4 text-center ${isSplitView ? 'text-[9px]' : 'text-[10px]'} ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
                                 </div>
                             )}
                             {algo === 'vigenere' && (
-                                <div className={`flex flex-1 sm:flex-none items-center rounded-xl ${isSplitView ? 'h-6 px-1.5 gap-1' : 'h-10 px-3 gap-2'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
-                                    {!isSplitView && <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />}
-                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" aria-label="Vigenere key" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-10 text-[9px]' : 'sm:w-20 text-[11px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
+                                <div className={`flex flex-1 sm:flex-none items-center rounded-lg ${isSplitView ? 'h-7 px-2 gap-1' : 'h-9 px-2.5 gap-1.5'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                    {!isSplitView && <Icons.Settings size={12} className="text-slate-500 hidden sm:block" />}
+                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" aria-label="Vigenere key" className={`w-full bg-transparent outline-none font-mono font-bold text-center uppercase tracking-widest ${isSplitView ? 'sm:w-12 text-[9px]' : 'sm:w-16 text-[10px]'} ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
                                 </div>
                             )}
                             {algo === 'string_utils' && (
-                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto rounded-xl ${isSplitView ? 'h-6 p-0.5 gap-0.5' : 'h-10 p-1 gap-1'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto rounded-lg ${isSplitView ? 'h-7 p-0.5 gap-0.5' : 'h-9 p-0.5 gap-0.5'} ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
                                     {['upper', 'lower', 'title'].map(m => (
-                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none rounded-lg font-bold transition-all ${isSplitView ? 'text-[8px] px-1 py-0.5' : 'text-[10px] px-2.5 py-1'} ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
+                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none rounded font-bold transition-all ${isSplitView ? 'text-[8px] px-1 py-0.5' : 'text-[9px] px-2 py-0.5'} ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
                                             {m === 'upper' ? 'UPPER' : m === 'lower' ? 'lower' : 'Title'}
                                         </button>
                                     ))}
@@ -820,69 +820,69 @@
                             )}
                         </div>
 
-                        <div className={`flex items-center ${isSplitView ? 'gap-1 w-auto ml-auto' : 'w-full xl:w-auto xl:ml-auto gap-2 sm:gap-3'}`}>
+                        <div className={`flex items-center ${isSplitView ? 'gap-1 w-auto ml-auto' : 'w-full xl:w-auto xl:ml-auto gap-1.5 sm:gap-2'}`}>
                             <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin" aria-label="Load file" />
-                            <button onClick={() => fileInputRef.current.click()} aria-label="Load file" className={`flex-1 xl:flex-none flex items-center justify-center gap-1 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-6 px-1.5 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
-                                <Icons.Upload size={isSplitView ? 10 : 14} /> {!isSplitView && 'LOAD'}
+                            <button onClick={() => fileInputRef.current.click()} aria-label="Load file" className={`flex-1 xl:flex-none flex items-center justify-center gap-1 font-bold tracking-widest rounded-lg transition-all shadow-sm ${isSplitView ? 'h-7 px-1.5 text-[9px]' : 'h-9 px-2.5 sm:px-3 text-[10px]'} ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+                                <Icons.Upload size={isSplitView ? 10 : 12} /> {!isSplitView && 'LOAD'}
                             </button>
-                            <button onClick={() => {setInput(''); setOutput(algo === 'uuid' ? genUUID() : ''); setErrorMsg(null); setShowQR(false);}} aria-label="Clear input and output" className={`flex-1 xl:flex-none flex items-center justify-center gap-1 font-bold tracking-widest rounded-xl transition-all shadow-sm ${isSplitView ? 'h-6 px-1.5 text-[9px]' : 'h-10 px-3 sm:px-4 text-[10px] sm:text-[11px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
-                                <Icons.Trash2 size={isSplitView ? 10 : 14} /> {!isSplitView && 'CLEAR'}
+                            <button onClick={() => {setInput(''); setOutput(algo === 'uuid' ? genUUID() : ''); setErrorMsg(null); setShowQR(false);}} aria-label="Clear input and output" className={`flex-1 xl:flex-none flex items-center justify-center gap-1 font-bold tracking-widest rounded-lg transition-all shadow-sm ${isSplitView ? 'h-7 px-1.5 text-[9px]' : 'h-9 px-2.5 sm:px-3 text-[10px]'} ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
+                                <Icons.Trash2 size={isSplitView ? 10 : 12} /> {!isSplitView && 'CLEAR'}
                             </button>
                         </div>
                     </div>
 
                     {/* MAIN EDITOR GRID */}
-                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up ${isSplitView ? 'flex-col gap-1' : 'flex-col lg:flex-row gap-4 sm:gap-6'}`} style={{animationDelay: '0.1s'}}>
+                    <div className={`flex-grow flex min-h-0 min-w-0 items-stretch animate-slide-up ${isSplitView ? 'flex-col gap-0.5' : 'flex-col lg:flex-row gap-3 sm:gap-4'}`} style={{animationDelay: '0.1s'}}>
 
                         {/* INPUT PANEL */}
-                        <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
+                        <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-md'}`}>
                             <PanelHeader title="Input Payload" stats={inStats} isOutput={false} />
                             <HighlightedInput value={input} onChange={e => setInput(e.target.value)} isDark={isDark} placeholder={algo === 'epoch' ? "Enter Unix Timestamp (e.g. 1729000000)" : "Enter payload or drag file here..."} isSplitView={isSplitView} />
                             <PanelFooter stats={inStats} />
                         </div>
 
                         {/* UNIFIED TOOLBAR (Compact in Split View) */}
-                        <div className={`flex items-center justify-center relative z-10 flex-shrink-0 ${isSplitView ? 'flex-row w-full py-0.5' : 'flex-row lg:flex-col py-1 lg:py-0 lg:px-1'}`}>
-                            <div className={`flex items-center rounded-full shadow-floating backdrop-blur-xl border ${isSplitView ? 'flex-row px-1.5 py-0.5' : 'flex-row lg:flex-col p-1'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        <div className={`flex items-center justify-center relative z-10 flex-shrink-0 ${isSplitView ? 'flex-row w-full h-6 -my-1' : 'flex-row lg:flex-col py-0.5 lg:py-0 lg:px-0.5'}`}>
+                            <div className={`flex items-center rounded-full shadow-md backdrop-blur-xl border ${isSplitView ? 'flex-row px-1 py-0.5' : 'flex-row lg:flex-col p-0.5'} ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/95 border-slate-200'}`}>
 
-                                <button onClick={() => applyJsonFormat('beautify')} aria-label="Beautify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-7 w-7' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
-                                    <Icons.AlignLeft size={isSplitView ? 14 : 16} className="transition-transform group-hover:scale-110" />
+                                <button onClick={() => applyJsonFormat('beautify')} aria-label="Beautify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-5 w-5' : 'h-7 w-7 sm:h-8 sm:w-8'} ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
+                                    <Icons.AlignLeft size={isSplitView ? 11 : 14} className="transition-transform group-hover:scale-110" />
                                 </button>
 
-                                <div className={`my-0.5 ${isSplitView ? 'w-px h-3 mx-0.5' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                <div className={`my-0.5 ${isSplitView ? 'w-px h-2.5 mx-0.5' : 'w-px h-2.5 mx-0.5 lg:w-2.5 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                <button onClick={swap} disabled={isLockMode} aria-label="Swap input and output" className={`flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-8 w-8 border' : 'h-9 w-9 sm:h-12 sm:w-12 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
+                                <button onClick={swap} disabled={isLockMode} aria-label="Swap input and output" className={`flex items-center justify-center rounded-full shadow-md transition-all active:scale-95 group relative overflow-hidden z-20 ${isSplitView ? 'h-6 w-6 border' : 'h-8 w-8 sm:h-10 sm:w-10 border-2'} ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-slate-700 text-white hover:shadow-lg hover:bg-slate-900'}`} title="Swap Input & Output">
                                     <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
-                                        <Icons.ArrowRightLeft size={isSplitView ? 14 : 16} strokeWidth={2.5} className={isSplitView ? 'rotate-90' : 'rotate-90 lg:rotate-0'} />
+                                        <Icons.ArrowRightLeft size={isSplitView ? 12 : 14} strokeWidth={2.5} className={isSplitView ? 'rotate-90' : 'rotate-90 lg:rotate-0'} />
                                     </div>
                                 </button>
 
-                                <div className={`my-0.5 ${isSplitView ? 'w-px h-3 mx-0.5' : 'w-px h-3 mx-0.5 lg:w-3 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                <div className={`my-0.5 ${isSplitView ? 'w-px h-2.5 mx-0.5' : 'w-px h-2.5 mx-0.5 lg:w-2.5 lg:h-px lg:mx-0'} ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                <button onClick={() => applyJsonFormat('minify')} aria-label="Minify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-7 w-7' : 'h-8 w-8 sm:h-10 sm:w-10'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
-                                    <Icons.FileCode size={isSplitView ? 14 : 16} className="transition-transform group-hover:scale-110" />
+                                <button onClick={() => applyJsonFormat('minify')} aria-label="Minify JSON" className={`flex items-center justify-center rounded-full transition-all group relative z-10 ${isSplitView ? 'h-5 w-5' : 'h-7 w-7 sm:h-8 sm:w-8'} ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
+                                    <Icons.FileCode size={isSplitView ? 11 : 14} className="transition-transform group-hover:scale-110" />
                                 </button>
                             </div>
                         </div>
 
                         {/* OUTPUT PANEL */}
-                        <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
+                        <div className={`flex-1 flex flex-col min-h-0 min-w-0 rounded-xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-md') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-md')}`}>
                             <PanelHeader title="Processed Output" stats={outStats} isOutput={true} />
-                                <div className={`relative flex-1 min-h-0 w-full flex flex-col ${isSplitView ? 'h-full min-h-[120px]' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
+                                <div className={`relative flex-1 min-h-0 w-full flex flex-col ${isSplitView ? 'h-full' : 'h-[50vh] min-h-[350px] md:min-h-[450px]'}`}>
                                     {isJsonOutput ? (
-                                        <div className={`absolute inset-0 p-2 sm:p-4 overflow-auto font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar z-0 ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
+                                        <div className={`absolute inset-0 p-2 overflow-auto font-mono ${isSplitView ? 'text-[10px] sm:text-[11px]' : 'text-[12px]'} custom-scrollbar z-0 ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
                                             <div className={`absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md transition-colors ${isDark ? 'bg-cyan-500/50 group-focus-within:bg-cyan-400' : 'bg-cyan-500/30 group-focus-within:bg-cyan-500'}`}></div>
                                             <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className="whitespace-pre-wrap pl-3 m-0 editor-pre leading-relaxed"></pre>
                                         </div>
                                     ) : (
-                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} aria-label="Processed output" className={`absolute inset-0 w-full h-full p-2 sm:p-4 bg-transparent resize-none outline-none font-mono ${isSplitView ? 'text-[11px] sm:text-xs' : 'text-[13px]'} custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
+                                        <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} aria-label="Processed output" className={`absolute inset-0 w-full h-full p-2 bg-transparent resize-none outline-none font-mono ${isSplitView ? 'text-[10px] sm:text-[11px]' : 'text-[12px]'} custom-scrollbar overflow-auto leading-relaxed z-10 ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
                                     )}
 
                                     {showQR && (
                                         <div className="absolute inset-0 z-20 flex items-center justify-center p-6 animate-bounce-in bg-black/40 backdrop-blur-md">
-                                            <div className={`p-3 sm:p-5 rounded-3xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
-                                                <button onClick={()=>setShowQR(false)} aria-label="Close QR" className="absolute -top-3 -right-3 p-1.5 rounded-full shadow-lg bg-red-500 text-white hover:bg-red-600 transition-colors"><Icons.X size={14} /></button>
-                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-24 h-24 sm:w-48 sm:h-48 rounded-xl opacity-90" />
+                                            <div className={`p-3 sm:p-5 rounded-2xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
+                                                <button onClick={()=>setShowQR(false)} aria-label="Close QR" className="absolute -top-3 -right-3 p-1 rounded-full shadow-md bg-red-500 text-white hover:bg-red-600 transition-colors"><Icons.X size={12} /></button>
+                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(output)}&color=${isDark?'ffffff':'000000'}&bgcolor=${isDark?'09090b':'ffffff'}`} alt="QR" className="w-24 h-24 sm:w-40 sm:h-40 rounded-xl opacity-90" />
                                             </div>
                                         </div>
                                     )}
@@ -926,13 +926,13 @@
                     onDoubleClick={() => setIsEditing(true)}
                     role="tab"
                     aria-selected={isActive}
-                    className={`group flex items-center gap-2 px-3 py-1.5 min-w-[120px] max-w-[200px] cursor-pointer rounded-xl transition-all duration-300 border shadow-sm flex-shrink-0 relative ${
+                    className={`group flex items-center gap-1.5 px-2.5 py-1 min-w-[110px] max-w-[180px] cursor-pointer rounded-lg transition-all duration-300 border shadow-sm flex-shrink-0 relative ${
                         isActive
-                            ? (isDark ? 'bg-brand-panel border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-emerald-50/80 border-emerald-300 text-emerald-700 shadow-[0_0_15px_rgba(16,185,129,0.1)]')
+                            ? (isDark ? 'bg-brand-panel border-emerald-500/50 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.1)]' : 'bg-emerald-50/80 border-emerald-300 text-emerald-700 shadow-[0_0_10px_rgba(16,185,129,0.1)]')
                             : (isDark ? 'bg-black/20 border-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200' : 'bg-white border-slate-200/60 text-slate-500 hover:bg-slate-50 hover:text-slate-800')
                     }`}
                 >
-                    <Icons.Folder size={14} className={`flex-shrink-0 ${isActive ? '' : 'opacity-60'}`} />
+                    <Icons.Folder size={12} className={`flex-shrink-0 ${isActive ? '' : 'opacity-60'}`} />
 
                     {isEditing ? (
                         <input
@@ -943,20 +943,20 @@
                             onBlur={handleRenameSubmit}
                             onKeyDown={handleKeyDown}
                             aria-label="Rename workspace"
-                            className={`text-xs font-bold w-full bg-transparent outline-none flex-grow ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}
+                            className={`text-[11px] font-bold w-full bg-transparent outline-none flex-grow ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}
                         />
                     ) : (
-                        <span className="text-xs font-bold truncate flex-grow select-none" title="Double-click to rename">{ws.name}</span>
+                        <span className="text-[11px] font-bold truncate flex-grow select-none" title="Double-click to rename">{ws.name}</span>
                     )}
 
                     {!isOnlyTab && !isEditing && (
                         <button
                             onClick={(e) => { e.stopPropagation(); onClose(ws.id); }}
                             aria-label="Close workspace"
-                            className={`p-0.5 rounded-md opacity-50 hover:opacity-100 transition-all flex-shrink-0 ml-1 ${isDark ? 'hover:bg-red-500/20 hover:text-red-400 text-slate-400' : 'hover:bg-red-100 hover:text-red-600 text-slate-500'}`}
+                            className={`p-0.5 rounded opacity-50 hover:opacity-100 transition-all flex-shrink-0 ml-0.5 ${isDark ? 'hover:bg-red-500/20 hover:text-red-400 text-slate-400' : 'hover:bg-red-100 hover:text-red-600 text-slate-500'}`}
                             title="Close Workspace"
                         >
-                            <Icons.X size={12} />
+                            <Icons.X size={10} />
                         </button>
                     )}
                 </div>
@@ -1063,42 +1063,42 @@
                         )}
                     </div>
 
-                    <main className={`flex-grow w-full max-w-[120rem] mx-auto p-2 sm:p-3 lg:p-4 relative z-10 flex flex-col overflow-x-hidden ${isSplitView && activeTab === 'decoderx' ? 'h-full gap-2' : 'gap-4'}`}>
+                    <main className={`flex-grow w-full max-w-[120rem] mx-auto p-1.5 sm:p-2 lg:p-2.5 relative z-10 flex flex-col overflow-x-hidden ${isSplitView && activeTab === 'decoderx' ? 'h-full gap-1' : 'gap-2.5'}`}>
 
-                        <header className={`glass-panel border rounded-2xl p-2 md:px-4 md:py-2 flex flex-col lg:flex-row items-center justify-between gap-3 shadow-sm transition-all duration-500 animate-slide-up flex-shrink-0 ${isDark ? 'bg-brand-bg/60 border-white/5' : 'bg-white/80 border-slate-200'}`}>
+                        <header className={`glass-panel border rounded-xl p-1.5 flex flex-col lg:flex-row items-center justify-between gap-2 shadow-sm transition-all duration-500 animate-slide-up flex-shrink-0 ${isDark ? 'bg-brand-bg/60 border-white/5' : 'bg-white/80 border-slate-200'}`}>
 
-                            <div className="flex items-center gap-3 w-full lg:w-1/3">
+                            <div className="flex items-center gap-2 w-full lg:w-1/3">
                                 <div className="relative">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 blur-[8px] opacity-40 rounded-xl"></div>
-                                    <div className={`relative p-1.5 rounded-xl border shadow-sm flex items-center justify-center ${isDark ? 'bg-brand-panel border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}`}>
-                                        <Icons.Shield size={18} strokeWidth={2.5} className="text-emerald-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 blur-[6px] opacity-40 rounded-lg"></div>
+                                    <div className={`relative p-1 rounded-lg border shadow-sm flex items-center justify-center ${isDark ? 'bg-brand-panel border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}`}>
+                                        <Icons.Shield size={16} strokeWidth={2.5} className="text-emerald-500" />
                                     </div>
                                 </div>
                                 <div>
-                                    <h1 className="text-lg md:text-xl font-display font-bold tracking-tight text-gradient-primary leading-none">DecoderX</h1>
-                                    <p className={`text-[9px] font-bold tracking-[0.2em] uppercase mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Pro Suite</p>
+                                    <h1 className="text-base md:text-lg font-display font-bold tracking-tight text-gradient-primary leading-none">DecoderX</h1>
+                                    <p className={`text-[8px] font-bold tracking-[0.15em] uppercase mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Pro Suite</p>
                                 </div>
                             </div>
 
-                            <div className={`flex p-1 rounded-xl w-full lg:w-auto shadow-inner border flex-shrink-0 ${isDark ? 'bg-black/60 border-white/5' : 'bg-slate-100 border-slate-200/50'}`}>
-                                <button onClick={() => setActiveTab('decoderx')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${activeTab === 'decoderx' ? (isDark ? 'bg-brand-panel text-emerald-400 shadow-md border border-white/5' : 'bg-white text-emerald-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
-                                    <Icons.Terminal size={14}/> Essential Tools
+                            <div className={`flex p-0.5 rounded-lg w-full lg:w-auto shadow-inner border flex-shrink-0 ${isDark ? 'bg-black/60 border-white/5' : 'bg-slate-100 border-slate-200/50'}`}>
+                                <button onClick={() => setActiveTab('decoderx')} className={`flex-1 lg:flex-none flex items-center justify-center gap-1.5 px-3 py-1 rounded text-[10px] font-semibold transition-all duration-300 ${activeTab === 'decoderx' ? (isDark ? 'bg-brand-panel text-emerald-400 shadow-sm border border-white/5' : 'bg-white text-emerald-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
+                                    <Icons.Terminal size={12}/> Essential Tools
                                 </button>
-                                <button onClick={() => setActiveTab('curl')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${activeTab === 'curl' ? (isDark ? 'bg-brand-panel text-blue-400 shadow-md border border-white/5' : 'bg-white text-blue-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
-                                    <Icons.Layers size={14}/> Deep cURL Parse
+                                <button onClick={() => setActiveTab('curl')} className={`flex-1 lg:flex-none flex items-center justify-center gap-1.5 px-3 py-1 rounded text-[10px] font-semibold transition-all duration-300 ${activeTab === 'curl' ? (isDark ? 'bg-brand-panel text-blue-400 shadow-sm border border-white/5' : 'bg-white text-blue-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
+                                    <Icons.Layers size={12}/> Deep cURL Parse
                                 </button>
                             </div>
 
                             <div className="flex justify-end w-full lg:w-1/3">
-                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} aria-label="Toggle theme" className={`h-8 w-8 flex items-center justify-center rounded-xl border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
-                                    {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
+                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} aria-label="Toggle theme" className={`h-7 w-7 flex items-center justify-center rounded-lg border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
+                                    {isDark ? <Icons.Sun size={14} /> : <Icons.Moon size={14} />}
                                 </button>
                             </div>
                         </header>
 
                         {activeTab === 'decoderx' && (
-                            <div className={`flex items-center justify-between py-1 px-2 animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 flex-shrink-0 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
-                                <div className="flex items-center gap-2 overflow-x-auto tab-scroll-container">
+                            <div className={`flex items-center justify-between py-1 px-1.5 animate-slide-up rounded-xl border glass-panel shadow-sm w-full transition-all duration-500 flex-shrink-0 ${isDark ? 'border-white/5 bg-brand-bg/60' : 'border-slate-200 bg-white/80'}`}>
+                                <div className="flex items-center gap-1.5 overflow-x-auto tab-scroll-container">
                                     {workspaces.map(ws => (
                                         <WorkspaceTab
                                             key={ws.id}
@@ -1112,27 +1112,27 @@
                                         />
                                     ))}
 
-                                    <div className={`w-px h-5 flex-shrink-0 mx-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                    <div className={`w-px h-4 flex-shrink-0 mx-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
-                                    <button onClick={addWorkspace} className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border border-dashed flex-shrink-0 group ${isDark ? 'border-white/20 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/40' : 'border-slate-300 text-slate-500 hover:bg-slate-100 hover:text-slate-800 hover:border-slate-400'}`}>
-                                        <Icons.Plus size={14} className="transition-transform group-hover:scale-110" /> New Tab
+                                    <button onClick={addWorkspace} className={`flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all border border-dashed flex-shrink-0 group ${isDark ? 'border-white/20 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/40' : 'border-slate-300 text-slate-500 hover:bg-slate-100 hover:text-slate-800 hover:border-slate-400'}`}>
+                                        <Icons.Plus size={12} className="transition-transform group-hover:scale-110" /> New Tab
                                     </button>
                                 </div>
 
-                                <div className="flex items-center gap-2 pl-2 flex-shrink-0">
-                                    <div className={`hidden lg:flex items-center gap-1.5 text-[9px] font-bold tracking-widest uppercase px-2 opacity-50 select-none ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                                        <Icons.Wand size={10} /> Double-Click Tab to Rename
+                                <div className="flex items-center gap-1.5 pl-1.5 flex-shrink-0">
+                                    <div className={`hidden lg:flex items-center gap-1 text-[8px] font-bold tracking-widest uppercase px-1.5 opacity-50 select-none ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                        <Icons.Wand size={8} /> Double-Click Tab to Rename
                                     </div>
-                                    <div className={`w-px h-5 hidden lg:block ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+                                    <div className={`w-px h-4 hidden lg:block ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
 
                                     <button
                                         onClick={() => workspaces.length > 1 && setIsSplitView(!isSplitView)}
                                         disabled={workspaces.length <= 1}
                                         aria-label="Toggle split view"
-                                        className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all border shadow-sm flex-shrink-0 ${workspaces.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''} ${isSplitView ? (isDark ? 'bg-emerald-500 text-white shadow-neon-emerald border-emerald-400' : 'bg-emerald-500 text-white shadow-md border-emerald-600') : (isDark ? 'bg-brand-panel border-white/10 text-emerald-400 hover:bg-white/10 hover:border-emerald-500/50' : 'bg-white border-slate-200 text-emerald-600 hover:bg-emerald-50')}`}
+                                        className={`flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-bold transition-all border shadow-sm flex-shrink-0 ${workspaces.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''} ${isSplitView ? (isDark ? 'bg-emerald-500 text-white shadow-neon-emerald border-emerald-400' : 'bg-emerald-500 text-white shadow-md border-emerald-600') : (isDark ? 'bg-brand-panel border-white/10 text-emerald-400 hover:bg-white/10 hover:border-emerald-500/50' : 'bg-white border-slate-200 text-emerald-600 hover:bg-emerald-50')}`}
                                         title={workspaces.length <= 1 ? "Open another tab to use Split View" : "Toggle Grid Split View"}
                                     >
-                                        {isSplitView ? <><Icons.Maximize size={12} className="animate-pulse" /> SINGLE VIEW</> : <><Icons.Columns size={12} /> SPLIT VIEW</>}
+                                        {isSplitView ? <><Icons.Maximize size={10} className="animate-pulse" /> SINGLE VIEW</> : <><Icons.Columns size={10} /> SPLIT VIEW</>}
                                     </button>
                                 </div>
                             </div>
@@ -1140,17 +1140,17 @@
 
                         <div className={`flex flex-col w-full relative overflow-hidden ${isSplitView && activeTab === 'decoderx' ? 'flex-1 min-h-0' : 'flex-grow'}`}>
                             {activeTab === 'decoderx' ? (
-                                <div className={`w-full h-full transition-all duration-500 ${isSplitView ? `grid gap-2 grid-cols-1 lg:grid-cols-2 ${workspaces.length > 2 ? 'grid-rows-2' : 'grid-rows-1'} min-h-0 p-1` : 'flex flex-col min-h-0'}`}>
+                                <div className={`w-full h-full transition-all duration-500 ${isSplitView ? `grid gap-1 grid-cols-1 lg:grid-cols-2 ${workspaces.length > 2 ? 'grid-rows-2' : 'grid-rows-1'} min-h-0 p-0.5` : 'flex flex-col min-h-0'}`}>
                                     {workspaces.map(ws => (
-                                        <div key={ws.id} className={`${isSplitView ? 'flex flex-col h-full min-h-0 rounded-2xl border overflow-hidden shadow-md transition-all duration-300 ' + (isDark ? 'bg-brand-panel/40 border-white/10' : 'bg-white/60 border-slate-200') : (activeWorkspaceId === ws.id ? 'block flex-grow min-h-0' : 'hidden')} animate-fade-in`}>
+                                        <div key={ws.id} className={`${isSplitView ? 'flex flex-col h-full min-h-0 rounded-xl border overflow-hidden shadow-sm transition-all duration-300 ' + (isDark ? 'bg-brand-panel/40 border-white/10' : 'bg-white/60 border-slate-200') : (activeWorkspaceId === ws.id ? 'block flex-grow min-h-0' : 'hidden')} animate-fade-in`}>
                                             {isSplitView && (
-                                                <div className={`px-3 py-1.5 border-b flex items-center justify-between ${isDark ? 'bg-white/[0.02] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
-                                                    <div className="flex items-center gap-2">
-                                                        <Icons.Folder size={12} className="text-emerald-500" />
-                                                        <span className={`text-[11px] font-bold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{ws.name}</span>
+                                                <div className={`px-2.5 py-1 border-b flex items-center justify-between ${isDark ? 'bg-white/[0.02] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Icons.Folder size={10} className="text-emerald-500" />
+                                                        <span className={`text-[10px] font-bold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{ws.name}</span>
                                                     </div>
-                                                    <button onClick={() => removeWorkspace(ws.id)} className={`p-1 rounded-md transition-colors ${isDark ? 'hover:bg-red-500/20 text-slate-500 hover:text-red-400' : 'hover:bg-red-100 text-slate-400 hover:text-red-600'}`} title="Close Workspace">
-                                                        <Icons.X size={12} />
+                                                    <button onClick={() => removeWorkspace(ws.id)} className={`p-0.5 rounded transition-colors ${isDark ? 'hover:bg-red-500/20 text-slate-500 hover:text-red-400' : 'hover:bg-red-100 text-slate-400 hover:text-red-600'}`} title="Close Workspace">
+                                                        <Icons.X size={10} />
                                                     </button>
                                                 </div>
                                             )}
@@ -1169,9 +1169,9 @@
 
                         {!isSplitView && (
                             <footer className="mt-auto pt-1 pb-1 animate-fade-in text-center flex-shrink-0">
-                                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border glass-panel shadow-sm ${isDark ? 'border-white/5' : 'border-black/5'}`}>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-glow shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                                    <span className={`text-[9px] font-bold tracking-widest uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border glass-panel shadow-sm ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-glow shadow-[0_0_6px_rgba(16,185,129,0.8)]"></div>
+                                    <span className={`text-[8px] font-bold tracking-widest uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                                         Engineered by <span className="text-gradient-primary">Mr Shiva</span>
                                     </span>
                                 </div>
@@ -1180,9 +1180,9 @@
                     </main>
 
                     {toast && (
-                        <div className="fixed bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-50 animate-slide-up w-[90%] sm:w-auto max-w-sm">
-                            <div className={`flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-floating border font-bold text-[13px] sm:text-sm tracking-wide glass-panel ${isDark ? 'border-emerald-500/30 text-emerald-400 bg-brand-bg/95' : 'border-emerald-200 text-emerald-700 bg-white/95'}`}>
-                                <div className={`p-1.5 rounded-full shrink-0 ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'}`}><Icons.Check size={16} /></div>
+                        <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 animate-slide-up w-[90%] sm:w-auto max-w-sm">
+                            <div className={`flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-xl shadow-floating border font-bold text-[11px] sm:text-xs tracking-wide glass-panel ${isDark ? 'border-emerald-500/30 text-emerald-400 bg-brand-bg/95' : 'border-emerald-200 text-emerald-700 bg-white/95'}`}>
+                                <div className={`p-1 rounded-full shrink-0 ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'}`}><Icons.Check size={12} /></div>
                                 <span className="truncate">{toast}</span>
                             </div>
                         </div>
