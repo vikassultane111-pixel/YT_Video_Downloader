@@ -3,287 +3,638 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For Shobie ✨</title>
+    <title>For Shobie 🌌</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Playfair Display for elegant serif, Montserrat for clean sans-serif -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
-            color: #333;
-            height: 100vh;
-            width: 100vw;
+            background-color: #030308; /* Deep space black/blue */
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+            touch-action: none; /* Prevents pull-to-refresh on mobile */
         }
 
-        .handwriting {
-            font-family: 'Caveat', cursive;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-        }
-
-        .slide {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-            transform: translateY(20px);
-        }
-
-        .slide.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #btnNo {
-            position: relative;
-            transition: top 0.2s ease, left 0.2s ease;
-        }
-
-        canvas {
+        /* 3D Canvas Background */
+        #webgl-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        /* UI Overlay */
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through to 3D by default */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Cinematic Text Styling */
+        .serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .step-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 600px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-out;
             pointer-events: none;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
 
-        .heart-float {
-            animation: floatUp 4s infinite ease-in-out alternate;
+        .step-container.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-15px) rotate(5deg); }
+        .step-container.hidden-up {
+            opacity: 0;
+            transform: translate(-50%, -70%) scale(0.95);
         }
+
+        .step-container.hidden-down {
+            opacity: 0;
+            transform: translate(-50%, -30%) scale(0.95);
+        }
+
+        /* Premium Buttons */
+        .btn-glow {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+            pointer-events: auto;
+        }
+
+        .btn-glow:hover, .btn-glow:active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 105, 180, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border: none;
+            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
+            font-weight: 500;
+        }
+        
+        .btn-yes:hover, .btn-yes:active {
+            box-shadow: 0 15px 30px rgba(255, 65, 108, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* The tricky No button */
+        #btn-no {
+            position: absolute;
+            z-index: 50;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Glowing text effect */
+        .text-glow-pink {
+            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(255, 117, 140, 0.4));
+        }
+
+        .text-glow-gold {
+            background: linear-gradient(to right, #e6d070, #947a26);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(230, 208, 112, 0.3));
+        }
+
+        /* Touch indicator animation */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        .tap-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            animation: pulse-ring 2s infinite;
+            margin: 0 auto;
+        }
+
+        /* Utilities */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-300 { transition-delay: 300ms; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen relative">
+<body>
 
-    <canvas id="bgCanvas"></canvas>
+    <!-- 3D Canvas goes here -->
+    <div id="webgl-container"></div>
 
-    <div id="presentation" class="w-full max-w-md p-6 relative z-10">
+    <!-- UI Overlay Layer -->
+    <div id="ui-layer">
         
-        <!-- Slide 1: Introduction -->
-        <div class="slide active flex-col items-center text-center glass-card rounded-3xl p-8" id="slide1">
-            <div class="text-6xl mb-4 heart-float">✨</div>
-            <h1 class="text-4xl handwriting text-purple-800 mb-2">Hi Shobie,</h1>
-            <p class="text-lg text-gray-700 mb-8 mt-4">I made this little something just for you...</p>
-            <button onclick="nextSlide(2)" class="px-8 py-3 bg-white/70 hover:bg-white text-purple-700 font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95">
-                See what it is ➔
-            </button>
+        <!-- Intro Step -->
+        <div id="step-0" class="step-container active">
+            <h1 class="serif-title text-4xl md:text-5xl lg:text-6xl text-white mb-8 font-style: italic tracking-wide">
+                For Shobie
+            </h1>
+            <div class="tap-indicator mb-4"></div>
+            <p class="text-xs tracking-[0.3em] uppercase text-gray-400">Tap anywhere to begin</p>
         </div>
 
-        <!-- Slide 2: Friendship -->
-        <div class="slide flex-col items-center text-center glass-card rounded-3xl p-8" id="slide2">
-            <div class="text-5xl mb-4">🌟</div>
-            <p class="text-xl text-gray-800 mb-4">We've been best friends for a while now, and I just want to say...</p>
-            <h2 class="text-3xl handwriting text-pink-600 mb-2 font-bold">"Mahalaga ka para sa akin."</h2>
-            <p class="text-sm text-gray-600 italic mb-8">(You mean so much to me)</p>
-            <button onclick="nextSlide(3)" class="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95">
-                Next ➔
-            </button>
+        <!-- Step 1 -->
+        <div id="step-1" class="step-container hidden-up">
+            <h2 class="serif-title text-3xl md:text-5xl text-glow-gold mb-6 italic">Hi Bestie...</h2>
+            <p class="text-sm md:text-lg text-gray-300 leading-relaxed max-w-md mx-auto mb-10 px-4 font-light">
+                We've shared so many amazing moments together, and you've become such a huge part of my life.
+            </p>
+            <button class="btn-glow" onclick="nextStep(2)">Keep reading</button>
         </div>
 
-        <!-- Slide 3: The Filipino Care -->
-        <div class="slide flex-col items-center text-center glass-card rounded-3xl p-8" id="slide3">
-            <div class="text-5xl mb-4">🍚</div>
-            <p class="text-lg text-gray-800 mb-4">I know the truest way to a Filipina's heart is always making sure to ask...</p>
-            <h2 class="text-3xl handwriting text-purple-700 mb-2 font-bold">"Kumain ka na ba?"</h2>
-            <p class="text-sm text-gray-600 italic mb-8">(Have you eaten?)</p>
-            <button onclick="nextSlide(4)" class="px-8 py-3 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95">
-                But seriously... ➔
-            </button>
+        <!-- Step 2 -->
+        <div id="step-2" class="step-container hidden-up">
+            <h2 class="serif-title text-3xl md:text-5xl text-white mb-4">Alam mo ba?</h2>
+            <p class="text-xs text-gray-400 tracking-widest mb-6 uppercase">(Did you know?)</p>
+            <p class="text-base md:text-xl text-gray-200 leading-relaxed max-w-md mx-auto mb-10 px-4 font-light italic">
+                "Tuwing nakakausap kita, sumasaya ang araw ko."
+            </p>
+            <p class="text-xs text-gray-400 mb-8">(Every time I talk to you, my day gets brighter)</p>
+            <button class="btn-glow" onclick="nextStep(3)">Continue</button>
         </div>
 
-        <!-- Slide 4: The Pivot -->
-        <div class="slide flex-col items-center text-center glass-card rounded-3xl p-8" id="slide4">
-            <div class="text-5xl mb-4">🦋</div>
-            <p class="text-lg text-gray-800 mb-4">I love being your best friend, but lately...</p>
-            <h2 class="text-2xl handwriting text-pink-600 mb-2 font-bold leading-relaxed">"Higit pa sa magkaibigan ang pagtingin ko sa iyo."</h2>
-            <p class="text-sm text-gray-600 italic mb-8">(I think of you as more than a friend)</p>
-            <button onclick="nextSlide(5)" class="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95">
-                Listen... ➔
-            </button>
+        <!-- Step 3 -->
+        <div id="step-3" class="step-container hidden-up">
+            <h2 class="serif-title text-3xl md:text-4xl text-glow-pink mb-6 italic">The truth is...</h2>
+            <p class="text-sm md:text-lg text-gray-300 leading-relaxed max-w-md mx-auto mb-10 px-4 font-light">
+                Lately, I look at you differently. You are more than just a best friend to me now.
+            </p>
+            <h2 class="serif-title text-2xl md:text-3xl text-white mb-2">Gusto kita, Shobie.</h2>
+            <p class="text-xs text-gray-400 mb-10 tracking-widest uppercase">(I like you)</p>
+            <button class="btn-glow" onclick="nextStep(4)">One last thing...</button>
         </div>
 
-        <!-- Slide 5: The Confession & Question -->
-        <div class="slide flex-col items-center text-center glass-card rounded-3xl p-8" id="slide5">
-            <div class="text-6xl mb-4 heart-float text-red-500">❤️</div>
-            <h2 class="text-4xl handwriting text-red-500 mb-4 font-bold">Gusto kita, Shobie.</h2>
-            <p class="text-lg text-gray-800 mb-8">Will you go on a date with me?</p>
+        <!-- Step 4: The Climax -->
+        <div id="step-4" class="step-container hidden-up">
+            <h1 class="serif-title text-4xl md:text-6xl text-white mb-8 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                Will you be my date? 🌹
+            </h1>
             
-            <div class="flex flex-row justify-center items-center w-full gap-4 min-h-[60px]">
-                <button onclick="nextSlide(6)" class="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-110">
-                    Yes!
+            <div class="relative w-full h-[120px] flex justify-center items-center mt-8">
+                <!-- Yes Button -->
+                <button class="btn-glow btn-yes px-12 py-4 absolute z-10" onclick="finalStep()">
+                    YES! ❤️
                 </button>
-                <button id="btnNo" class="px-8 py-3 bg-gray-400 text-white font-bold rounded-full shadow-md absolute right-8">
+                
+                <!-- The Tricky No Button -->
+                <button id="btn-no" class="btn-glow px-8 py-3 bg-white/5 border-white/10 text-gray-400 text-xs">
                     No
                 </button>
             </div>
         </div>
 
-        <!-- Slide 6: The Success -->
-        <div class="slide flex-col items-center text-center glass-card rounded-3xl p-8" id="slide6">
-            <div class="text-6xl mb-4">🎉🥰</div>
-            <h2 class="text-4xl handwriting text-pink-600 mb-4 font-bold">Yay! Bagay tayo!</h2>
-            <p class="text-sm text-gray-600 italic mb-6">(We're a great match / We look good together)</p>
-            <p class="text-lg text-gray-800 mb-8">I can't wait for our date. Let me know when you're free! ❤️</p>
-            <button onclick="copyMessage()" id="copyBtn" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-full shadow-lg transition-all duration-300">
-                Send me a screenshot of this! 📸
+        <!-- Final Step -->
+        <div id="step-5" class="step-container hidden-up">
+            <h1 class="serif-title text-4xl md:text-6xl text-glow-gold mb-6 italic">
+                Yay! Totoo ba to?! 🎉
+            </h1>
+            <p class="text-xs text-gray-400 tracking-widest mb-8 uppercase">(Is this real?!)</p>
+            <p class="text-base md:text-lg text-white leading-relaxed max-w-md mx-auto mb-10 px-4 font-light">
+                You just made me the happiest person. I'm planning something special for us.
+            </p>
+            <button class="btn-glow btn-yes" onclick="copySuccess()">
+                Screenshot & Send to me! 📸
             </button>
         </div>
 
     </div>
 
     <script>
-        // --- Canvas Background Animation ---
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
+        // --- THREE.JS SETUP ---
+        const container = document.getElementById('webgl-container');
+        const scene = new THREE.Scene();
         
-        let width, height;
-        let particles = [];
+        // Add subtle fog for depth
+        scene.fog = new THREE.FogExp2(0x030308, 0.001);
 
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 150;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Optimize for mobile
+        container.appendChild(renderer.domElement);
+
+        // --- PARTICLE SYSTEM GENERATION ---
+        const particleCount = 4000;
+        
+        // Arrays to hold different formations
+        const positionsSphere = new Float32Array(particleCount * 3);
+        const positionsHeart = new Float32Array(particleCount * 3);
+        
+        // Array for current rendering position
+        const positionsCurrent = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+        const sizes = new Float32Array(particleCount);
+        const randoms = new Float32Array(particleCount); // for organic movement
+
+        // Colors
+        const colorBase = new THREE.Color(0xffaaee); // Soft pink
+        const colorAccent = new THREE.Color(0xffffff); // White star
+        const colorCore = new THREE.Color(0xff2266); // Deep red/pink
+
+        // 1. Generate Sphere positions (Initial State)
+        for (let i = 0; i < particleCount; i++) {
+            const i3 = i * 3;
+            
+            // Random point on sphere (Galaxy feel)
+            const r = 60 + Math.random() * 40;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            
+            positionsSphere[i3] = r * Math.sin(phi) * Math.cos(theta);
+            positionsSphere[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            positionsSphere[i3 + 2] = r * Math.cos(phi);
+
+            // Initially set current to sphere
+            positionsCurrent[i3] = positionsSphere[i3];
+            positionsCurrent[i3 + 1] = positionsSphere[i3 + 1];
+            positionsCurrent[i3 + 2] = positionsSphere[i3 + 2];
+
+            // 2. Generate Heart positions (Target State)
+            // Mathematical heart formula: 
+            // x = 16 * sin^3(t)
+            // y = 13 * cos(t) - 5 * cos(2t) - 2 * cos(3t) - cos(4t)
+            const t = Math.PI * 2 * Math.random();
+            // Add some randomness to create volume, not just a thin line
+            const volumeSpread = Math.random() * 5; 
+            
+            let hx = 16 * Math.pow(Math.sin(t), 3);
+            let hy = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            let hz = (Math.random() - 0.5) * 20; // Depth
+
+            // Scale the heart up
+            const scale = 2.5;
+            hx *= scale;
+            hy *= scale;
+
+            // Add volume noise
+            const noiseX = (Math.random() - 0.5) * volumeSpread;
+            const noiseY = (Math.random() - 0.5) * volumeSpread;
+            
+            positionsHeart[i3] = hx + noiseX;
+            positionsHeart[i3 + 1] = hy + noiseY;
+            positionsHeart[i3 + 2] = hz;
+
+            // Colors based on depth/position to make it look glowing
+            let mixRatio = Math.random();
+            let finalColor = colorBase.clone().lerp(colorAccent, mixRatio);
+            
+            // Core particles get deeper color
+            if(Math.random() > 0.8) finalColor = colorCore;
+
+            colors[i3] = finalColor.r;
+            colors[i3 + 1] = finalColor.g;
+            colors[i3 + 2] = finalColor.b;
+
+            // Sizes and random offsets for animation
+            sizes[i] = Math.random() * 2.5 + 0.5;
+            randoms[i] = Math.random();
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positionsCurrent, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        geometry.setAttribute('random', new THREE.BufferAttribute(randoms, 1));
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height + height;
-                this.size = Math.random() * 5 + 2;
-                this.speedY = Math.random() * 1 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.1;
-                // Soft pinks and purples
-                const colors = ['255, 182, 193', '216, 191, 216', '255, 255, 255'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
+        // Create a glowing circular texture programmatically
+        function createGlowTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const context = canvas.getContext('2d');
+            const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
+            gradient.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 64, 64);
+            const texture = new THREE.CanvasTexture(canvas);
+            return texture;
+        }
 
-            update() {
-                this.y -= this.speedY;
-                this.x += this.speedX;
+        // Custom Shader Material for glowing, size-varying particles
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 },
+                pointTexture: { value: createGlowTexture() },
+                morphProgress: { value: 0.0 } // 0 = Sphere, 1 = Heart
+            },
+            vertexShader: `
+                uniform float time;
+                attribute float size;
+                attribute float random;
+                attribute vec3 color;
+                varying vec3 vColor;
                 
-                // Reset if it goes off screen
-                if (this.y < -10) {
-                    this.y = height + 10;
-                    this.x = Math.random() * width;
+                void main() {
+                    vColor = color;
+                    
+                    // Add subtle floating animation to vertices
+                    vec3 pos = position;
+                    pos.y += sin(time * 2.0 + random * 10.0) * 1.5;
+                    pos.x += cos(time * 1.5 + random * 10.0) * 1.5;
+
+                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                    
+                    // Size attenuation based on depth
+                    gl_PointSize = size * (250.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
                 }
-            }
+            `,
+            fragmentShader: `
+                uniform sampler2D pointTexture;
+                varying vec3 vColor;
+                void main() {
+                    // Apply texture and color
+                    gl_FragColor = vec4(vColor, 1.0) * texture2D(pointTexture, gl_PointCoord);
+                }
+            `,
+            blending: THREE.AdditiveBlending,
+            depthTest: false,
+            transparent: true
+        });
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-                ctx.fill();
+        const particleSystem = new THREE.Points(geometry, material);
+        scene.add(particleSystem);
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        // Track touch/mouse for Parallax
+        function onPointerMove(event) {
+            let clientX = event.clientX;
+            let clientY = event.clientY;
+            
+            if (event.touches && event.touches.length > 0) {
+                clientX = event.touches[0].clientX;
+                clientY = event.touches[0].clientY;
             }
+            
+            mouseX = (clientX - windowHalfX);
+            mouseY = (clientY - windowHalfY);
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 50; i++) {
-                particles.push(new Particle());
+        document.addEventListener('mousemove', onPointerMove);
+        document.addEventListener('touchmove', onPointerMove, { passive: true });
+
+        // Logic variables
+        const clock = new THREE.Clock();
+        let currentStep = 0;
+        let morphTarget = 0; // 0 for sphere, 1 for heart
+        let currentMorph = 0;
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            // Update shader time for organic float
+            material.uniforms.time.value = time;
+
+            // Smooth Parallax movement
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+            
+            particleSystem.rotation.y += 0.002; // Base spin
+            particleSystem.rotation.x += (targetY - particleSystem.rotation.x) * 0.05;
+            particleSystem.rotation.y += (targetX - particleSystem.rotation.y) * 0.05;
+
+            // Heart beat effect when fully morphed (Step 4 & 5)
+            let scaleTarget = 1;
+            if (currentStep >= 4) {
+                // Creates a heartbeat rhythm: fast pulse, short pause, fast pulse, long pause
+                const beat = (Math.sin(time * 6) + Math.sin(time * 6 + 1.5)) * 0.5;
+                if(beat > 0.5) scaleTarget = 1.08;
+                
+                // Rotate faster for drama
+                particleSystem.rotation.y += 0.005; 
             }
-        }
+            particleSystem.scale.lerp(new THREE.Vector3(scaleTarget, scaleTarget, scaleTarget), 0.1);
 
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
+            // Morphing Logic (CPU Lerping)
+            if (Math.abs(currentMorph - morphTarget) > 0.001) {
+                // Ease towards target
+                currentMorph += (morphTarget - currentMorph) * 0.03;
+                
+                const positions = particleSystem.geometry.attributes.position.array;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+                    
+                    // Lerp between Sphere and Heart coords based on currentMorph
+                    positions[i3] = positionsSphere[i3] + (positionsHeart[i3] - positionsSphere[i3]) * currentMorph;
+                    positions[i3 + 1] = positionsSphere[i3 + 1] + (positionsHeart[i3 + 1] - positionsSphere[i3 + 1]) * currentMorph;
+                    positions[i3 + 2] = positionsSphere[i3 + 2] + (positionsHeart[i3 + 2] - positionsSphere[i3 + 2]) * currentMorph;
+                }
+                particleSystem.geometry.attributes.position.needsUpdate = true;
             }
-            requestAnimationFrame(animateCanvas);
+
+            renderer.render(scene, camera);
         }
+        animate();
 
-        initParticles();
-        animateCanvas();
+        // Responsive Resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Adjust camera zoom based on screen width (mobile vs desktop)
+            if(window.innerWidth < 600) {
+                camera.position.z = 200; // Zoom out for small screens so heart fits
+            } else {
+                camera.position.z = 150;
+            }
+        });
+        // trigger resize once to set initial mobile zoom
+        window.dispatchEvent(new Event('resize'));
 
-        // --- Slide Transition Logic ---
-        function nextSlide(slideNumber) {
-            // Hide all slides
-            document.querySelectorAll('.slide').forEach(slide => {
-                slide.classList.remove('active');
-                // slight delay for smooth exit before showing next
+        
+        // Start experience on first click/tap anywhere
+        document.getElementById('ui-layer').addEventListener('click', function initStart(e) {
+            // Only trigger if we are on step 0
+            if (currentStep === 0) {
+                nextStep(1);
+            }
+        });
+
+        function nextStep(step) {
+            // Hide current
+            const currentEl = document.getElementById(`step-${currentStep}`);
+            if(currentEl) {
+                currentEl.classList.remove('active');
+                currentEl.classList.add('hidden-down');
+            }
+
+            currentStep = step;
+
+            // Show next
+            const nextEl = document.getElementById(`step-${step}`);
+            if(nextEl) {
+                nextEl.classList.remove('hidden-up', 'hidden-down');
+                // Small delay to allow previous to exit
                 setTimeout(() => {
-                    slide.style.display = 'none';
-                }, 400); 
-            });
+                    nextEl.classList.add('active');
+                }, 400);
+            }
 
-            // Show the target slide after delay
-            setTimeout(() => {
-                const nextSlideEl = document.getElementById('slide' + slideNumber);
-                nextSlideEl.style.display = 'flex';
-                // Trigger reflow
-                void nextSlideEl.offsetWidth; 
-                nextSlideEl.classList.add('active');
-                
-                if(slideNumber === 5) {
-                    initRunawayButton();
-                }
-            }, 400);
+            // Sync 3D animations with story
+            if (step === 2) {
+                morphTarget = 0.4; // Start forming
+            } else if (step === 3) {
+                morphTarget = 0.8; // Almost heart
+            } else if (step === 4) {
+                morphTarget = 1.0; // Perfect Heart, start beating
+                setTimeout(initRunawayButton, 1000); // init No button physics
+            }
         }
 
-        // --- STREAMING_CHUNK:Implementing the Runaway Button logic... ---
         function initRunawayButton() {
-            const btnNo = document.getElementById('btnNo');
-            const container = document.getElementById('slide5');
+            const btnNo = document.getElementById('btn-no');
+            const container = document.getElementById('step-4');
             
-            // Need to reset position to absolute relative to container
-            btnNo.style.position = 'absolute';
-            
-            const moveButton = (e) => {
-                e.preventDefault(); // Stop touch from clicking
-                
-                const containerRect = container.getBoundingClientRect();
+            // Position it initially beside the Yes button
+            btnNo.style.transform = `translate(100px, 0px)`;
+            let currentX = 100;
+            let currentY = 0;
+
+            const dodge = (e) => {
+                // Prevent tap
+                e.preventDefault();
+                e.stopPropagation();
+
                 const btnRect = btnNo.getBoundingClientRect();
                 
-                // Calculate safe boundaries inside the card
-                const maxX = containerRect.width - btnRect.width - 20;
-                const maxY = containerRect.height - btnRect.height - 20;
+                // Get tap/mouse coords
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                let clientY = e.clientY || (e.touches && e.touches[0].clientY);
                 
-                // Random position
-                const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-                const randomY = Math.max(20, Math.floor(Math.random() * maxY));
-                
-                btnNo.style.left = `${randomX}px`;
-                btnNo.style.top = `${randomY}px`;
-                btnNo.style.right = 'auto'; // clear right property
+                if(!clientX) return;
+
+                const btnCenterX = btnRect.left + btnRect.width / 2;
+                const btnCenterY = btnRect.top + btnRect.height / 2;
+
+                const distanceX = btnCenterX - clientX;
+                const distanceY = btnCenterY - clientY;
+                const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                // If finger/mouse gets within 100px, teleport away
+                if (distance < 100) {
+                    // Calculate a random escape vector
+                    const angle = Math.random() * Math.PI * 2;
+                    const jumpDistance = 150 + Math.random() * 100;
+                    
+                    let newX = currentX + Math.cos(angle) * jumpDistance;
+                    let newY = currentY + Math.sin(angle) * jumpDistance;
+
+                    // STRICT Screen boundaries to prevent it disappearing off mobile screens
+                    // Convert local transform coords to screen bounds roughly
+                    const halfWidth = window.innerWidth / 2 - 50;
+                    const halfHeight = window.innerHeight / 2 - 50;
+
+                    if (newX > halfWidth) newX = halfWidth - 50;
+                    if (newX < -halfWidth) newX = -halfWidth + 50;
+                    if (newY > halfHeight) newY = halfHeight - 50;
+                    if (newY < -halfHeight) newY = -halfHeight + 50;
+
+                    currentX = newX;
+                    currentY = newY;
+
+                    btnNo.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
             };
 
-            // Desktop hover
-            btnNo.addEventListener('mouseover', moveButton);
-            // Mobile touch
-            btnNo.addEventListener('touchstart', moveButton);
+            // Mobile-first event listeners
+            btnNo.addEventListener('touchstart', dodge, {passive: false});
+            // Desktop fallback
+            document.addEventListener('mousemove', (e) => {
+                if(currentStep === 4) dodge(e);
+            });
         }
 
-        // --- Copy Message Helper ---
-        function copyMessage() {
-            const btn = document.getElementById('copyBtn');
-            btn.innerHTML = "Yay! Tell me now! 🥰";
-            btn.classList.replace('from-pink-500', 'from-green-500');
-            btn.classList.replace('to-purple-500', 'to-green-600');
+        function finalStep() {
+            nextStep(5);
+            // Make heart explode into joy
+            morphTarget = 1.0;
+            particleSystem.material.uniforms.pointTexture.value = createGlowTexture(); // Ensure intense glow
+            
+            // Change color array rapidly to gold/pink mix for celebration
+            const colors = particleSystem.geometry.attributes.color.array;
+            for(let i=0; i<particleCount*3; i+=3) {
+                if(Math.random() > 0.5) {
+                    colors[i] = 1.0; // R
+                    colors[i+1] = 0.8; // G
+                    colors[i+2] = 0.2; // B (Gold)
+                }
+            }
+            particleSystem.geometry.attributes.color.needsUpdate = true;
         }
 
-        // Fix for iOS Safari height issues
-        window.onload = function() {
-            document.body.style.height = window.innerHeight + 'px';
+        function copySuccess() {
+            const btn = document.querySelector('#step-5 .btn-yes');
+            btn.innerHTML = "Screenshot expected soon! 🥰";
+            btn.style.background = "linear-gradient(135deg, #4ade80, #16a34a)";
+            btn.style.boxShadow = "0 10px 20px rgba(74, 222, 128, 0.4)";
         }
     </script>
 </body>
