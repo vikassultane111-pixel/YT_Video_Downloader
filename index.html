@@ -189,6 +189,29 @@
 <body>
     <div id="root" class="h-full w-full"></div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.__DX_FIREBASE_SDK__ = {
+            initializeApp,
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged,
+            getFirestore,
+            doc,
+            getDoc,
+            setDoc,
+            updateDoc,
+            deleteDoc,
+            onSnapshot,
+            collection
+        };
+        window.dispatchEvent(new Event('dx-firebase-ready'));
+    </script>
+
     <script type="text/babel" data-presets="react" data-type="module">
         const { useState, useEffect, useRef, useMemo, memo, useCallback, useLayoutEffect } = React;
 
@@ -231,6 +254,39 @@
             Zap: ({ size = 14, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> ),
             EyeOff: ({ size = 14, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg> ),
             Eye: ({ size = 14, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> ),
+            Users: ({ size = 13, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ),
+        };
+
+        const computeClientIdentity = async () => {
+            let ipAddr = 'local';
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 2500);
+                const res = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+                clearTimeout(timeout);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.ip) ipAddr = data.ip;
+                }
+            } catch (e) {}
+
+            const rawTraits = [
+                ipAddr,
+                navigator.userAgent || '',
+                navigator.language || '',
+                screen.width + 'x' + screen.height + 'x' + (screen.colorDepth || 24),
+                Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+                navigator.hardwareConcurrency || '',
+                navigator.deviceMemory || ''
+            ].join('|');
+
+            let hash = 2166136261;
+            for (let i = 0; i < rawTraits.length; i++) {
+                hash ^= rawTraits.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+            const fpHex = (hash >>> 0).toString(16).padStart(8, '0');
+            return { identityKey: `id_${fpHex}`, ipMasked: ipAddr !== 'local' ? ipAddr.replace(/(\d+)\.(\d+)\.\d+\.\d+/, '$1.$2.*.*') : 'local' };
         };
 
         const algorithms = [
@@ -1571,6 +1627,11 @@
             const [isContactOpen, setIsContactOpen] = useState(false);
             const [isCmdOpen, setIsCmdOpen] = useState(false);
 
+            const [liveUsersCount, setLiveUsersCount] = useState(1);
+            const [currentUserId, setCurrentUserId] = useState('');
+            const [showPresenceInfo, setShowPresenceInfo] = useState(false);
+            const activeRecordsRef = useRef([]);
+
             const [workspaces, setWorkspaces] = useState([{ id: 1, name: 'Main Payload', input: '', output: '', mode: 'decode', category: 'encoders', algo: 'base64', caesarShift: 13, vigenereKey: 'KEY', strUtilMode: 'upper', expectedHash: '' }]);
             const [activeWorkspaceId, setActiveWorkspaceId] = useState(1);
             const [nextWorkspaceId, setNextWorkspaceId] = useState(2);
@@ -1578,6 +1639,154 @@
             const [curlInput, setCurlInput] = useState('');
             const [curlParsed, setCurlParsed] = useState(null);
             const fileInputRef = useRef(null);
+
+            useEffect(() => {
+                let isMounted = true;
+                let heartbeatTimer = null;
+                let pruneTimer = null;
+                let unsubscribeSnapshot = null;
+                let userDocRef = null;
+                let currentAuthUser = null;
+                let bc = null;
+                const localPeers = new Map();
+
+                const recalculateLiveCount = () => {
+                    if (!isMounted) return;
+                    const now = Date.now();
+                    const ACTIVE_TTL = 65000; // 65 seconds window
+                    const uniqueIdentities = new Set();
+
+                    activeRecordsRef.current.forEach(rec => {
+                        if (rec && rec.lastSeen && (now - rec.lastSeen < ACTIVE_TTL)) {
+                            uniqueIdentities.add(rec.identityKey || rec.userId);
+                        }
+                    });
+
+                    localPeers.forEach((lastSeen, peerKey) => {
+                        if (now - lastSeen < ACTIVE_TTL) {
+                            uniqueIdentities.add(peerKey);
+                        }
+                    });
+
+                    setLiveUsersCount(Math.max(1, uniqueIdentities.size));
+                };
+
+                const initLivePresence = async () => {
+                    const clientMeta = await computeClientIdentity();
+                    if (!isMounted) return;
+
+                    // Local BroadcastChannel fallback/sync
+                    try {
+                        bc = new BroadcastChannel('decoderx_live_presence_v1');
+                        localPeers.set(clientMeta.identityKey, Date.now());
+                        bc.postMessage({ type: 'ping', key: clientMeta.identityKey, ts: Date.now() });
+                        bc.onmessage = (ev) => {
+                            if (ev.data && ev.data.key) {
+                                if (ev.data.type === 'leave') {
+                                    localPeers.delete(ev.data.key);
+                                } else {
+                                    localPeers.set(ev.data.key, Date.now());
+                                }
+                                recalculateLiveCount();
+                            }
+                        };
+                    } catch (e) {}
+
+                    // Cloud Firestore Real-Time Presence
+                    const sdk = window.__DX_FIREBASE_SDK__;
+                    if (sdk && typeof __firebase_config !== 'undefined' && __firebase_config) {
+                        try {
+                            const firebaseConfig = JSON.parse(__firebase_config);
+                            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                            const app = sdk.initializeApp(firebaseConfig);
+                            const auth = sdk.getAuth(app);
+                            const db = sdk.getFirestore(app);
+
+                            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                                await sdk.signInWithCustomToken(auth, __initial_auth_token);
+                            } else {
+                                await sdk.signInAnonymously(auth);
+                            }
+
+                            const user = auth.currentUser;
+                            if (!user || !isMounted) return;
+                            currentAuthUser = user;
+                            setCurrentUserId(user.uid);
+
+                            userDocRef = sdk.doc(db, 'artifacts', appId, 'public', 'data', 'active_users', user.uid);
+                            const usersColRef = sdk.collection(db, 'artifacts', appId, 'public', 'data', 'active_users');
+
+                            const pushHeartbeat = async () => {
+                                if (!currentAuthUser) return;
+                                try {
+                                    await sdk.setDoc(userDocRef, {
+                                        userId: currentAuthUser.uid,
+                                        identityKey: clientMeta.identityKey,
+                                        ipMasked: clientMeta.ipMasked,
+                                        lastSeen: Date.now()
+                                    });
+                                } catch (err) {}
+                            };
+
+                            await pushHeartbeat();
+
+                            unsubscribeSnapshot = sdk.onSnapshot(
+                                usersColRef,
+                                (snapshot) => {
+                                    const list = [];
+                                    snapshot.forEach(d => list.push(d.data()));
+                                    activeRecordsRef.current = list;
+                                    recalculateLiveCount();
+                                },
+                                (err) => {}
+                            );
+
+                            heartbeatTimer = setInterval(() => {
+                                pushHeartbeat();
+                                if (bc) bc.postMessage({ type: 'ping', key: clientMeta.identityKey, ts: Date.now() });
+                            }, 22000);
+                        } catch (e) {}
+                    } else {
+                        setCurrentUserId(clientMeta.identityKey);
+                        heartbeatTimer = setInterval(() => {
+                            localPeers.set(clientMeta.identityKey, Date.now());
+                            if (bc) bc.postMessage({ type: 'ping', key: clientMeta.identityKey, ts: Date.now() });
+                            recalculateLiveCount();
+                        }, 15000);
+                    }
+
+                    pruneTimer = setInterval(recalculateLiveCount, 10000);
+
+                    const handleUnload = () => {
+                        if (bc) {
+                            try { bc.postMessage({ type: 'leave', key: clientMeta.identityKey }); } catch (e) {}
+                        }
+                        if (userDocRef && currentAuthUser && window.__DX_FIREBASE_SDK__) {
+                            try { window.__DX_FIREBASE_SDK__.deleteDoc(userDocRef); } catch (e) {}
+                        }
+                    };
+                    window.addEventListener('beforeunload', handleUnload);
+                };
+
+                if (window.__DX_FIREBASE_SDK__) {
+                    initLivePresence();
+                } else {
+                    window.addEventListener('dx-firebase-ready', initLivePresence, { once: true });
+                }
+
+                return () => {
+                    isMounted = false;
+                    if (heartbeatTimer) clearInterval(heartbeatTimer);
+                    if (pruneTimer) clearInterval(pruneTimer);
+                    if (unsubscribeSnapshot) unsubscribeSnapshot();
+                    if (userDocRef && currentAuthUser && window.__DX_FIREBASE_SDK__) {
+                        try { window.__DX_FIREBASE_SDK__.deleteDoc(userDocRef); } catch (e) {}
+                    }
+                    if (bc) {
+                        try { bc.close(); } catch (e) {}
+                    }
+                };
+            }, []);
 
             useEffect(() => { 
                 if (theme === 'dark') document.documentElement.classList.add('dark');
@@ -1641,39 +1850,81 @@
             const handleGlobalClear = () => {
                 if(activeTab === 'decoderx') updateWorkspace(activeWorkspaceId, {input: '', output: '', expectedHash: ''});
                 else { setCurlInput(''); setCurlParsed(null); }
+                setToast("Workspace Cleared");
             };
 
-            const handleSelectToolFromPalette = (item) => {
+            const handleSelectToolFromPalette = (tool) => {
                 setActiveTab('decoderx');
                 updateWorkspace(activeWorkspaceId, {
-                    category: item.category,
-                    algo: item.id,
-                    mode: (item.category === 'hashes' || ['uuid', 'passgen', 'url_all'].includes(item.id)) ? 'encode' : 'decode'
+                    category: tool.category,
+                    algo: tool.id,
+                    mode: (tool.category === 'hashes' || ['uuid', 'passgen', 'url_all'].includes(tool.id)) ? 'encode' : (['magic', 'jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch', 'regex_tester', 'csv2json'].includes(tool.id) ? 'decode' : activeWs.mode)
                 });
-                setToast(`Selected: ${item.name}`);
+                setToast(`Selected: ${tool.name}`);
             };
 
             return (
-                <div className="flex flex-col h-full w-full">
-                    {/* APP HEADER */}
-                    <header className={`shrink-0 flex items-center justify-between px-3 sm:px-4 py-2.5 border-b z-20 gap-2 ${isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'}`}>
-                        <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-                            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 shrink-0">
-                                <Icons.Shield size={18} />
-                            </div>
-                            <div className="shrink-0">
-                                <h1 className="text-xs sm:text-sm font-bold tracking-tight text-gradient-primary leading-tight">DecoderX Pro</h1>
-                                <p className={`text-[8px] sm:text-[9px] font-bold tracking-[0.2em] uppercase ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>Cyber Toolkit</p>
+                <div className="flex flex-col h-full w-full overflow-hidden select-none">
+                    
+                    {/* TOP APPLICATION BAR */}
+                    <header className={`h-14 border-b px-3 sm:px-4 flex items-center justify-between gap-2 shrink-0 z-20 ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}>
+                        
+                        {/* LEFT BRANDING + ENGINEERED BY MR SHIVA + LIVE USERS */}
+                        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                            <div className="flex items-center gap-2.5 shrink-0">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500">
+                                    <Icons.Shield size={18} />
+                                </div>
+                                <div>
+                                    <h1 className="text-sm font-bold tracking-tight leading-none flex items-center gap-1.5">
+                                        DecoderX <span className="text-emerald-500">Pro</span>
+                                    </h1>
+                                    <span className="text-[9px] font-mono uppercase tracking-widest opacity-50 block mt-0.5">Cyber Toolkit</span>
+                                </div>
                             </div>
 
-                            {/* Divider & Engineered by Mr Shiva Badge */}
+                            {/* Divider & Engineered by Mr Shiva Badge + Live Users Counter */}
                             <div className={`h-5 w-px shrink-0 ${isDark ? 'bg-zinc-800' : 'bg-zinc-200'}`}></div>
-                            <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border shrink-0 ${isDark ? 'bg-zinc-900/90 border-zinc-800/90' : 'bg-zinc-100 border-zinc-200'}`}>
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)]"></span>
-                                <span className={`text-[9px] sm:text-[10px] font-semibold tracking-wider uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                                    <span className="hidden md:inline">Engineered by </span>
-                                    <span className="font-bold text-gradient-primary">Mr Shiva</span>
-                                </span>
+                            <div className="relative flex items-center gap-1.5 shrink-0">
+                                <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border shrink-0 ${isDark ? 'bg-zinc-900/90 border-zinc-800/90' : 'bg-zinc-100 border-zinc-200'}`}>
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)]"></span>
+                                    <span className={`text-[9px] sm:text-[10px] font-semibold tracking-wider uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                                        <span className="hidden md:inline">Engineered by </span>
+                                        <span className="font-bold text-gradient-primary">Mr Shiva</span>
+                                    </span>
+                                </div>
+
+                                {/* Minimal Live Users Icon & Count right next to Mr Shiva */}
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPresenceInfo(prev => !prev)}
+                                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border font-mono text-[10px] sm:text-[11px] font-bold transition-all shrink-0 ${
+                                        isDark 
+                                        ? 'bg-zinc-900/90 border-zinc-800/90 text-emerald-400 hover:border-emerald-500/40' 
+                                        : 'bg-zinc-100 border-zinc-200 text-emerald-600 hover:border-emerald-500/40'
+                                    }`}
+                                    title="Live Active Users"
+                                >
+                                    <Icons.Users size={12} className="text-emerald-500 shrink-0" />
+                                    <span>{liveUsersCount}</span>
+                                </button>
+
+                                {showPresenceInfo && (
+                                    <div 
+                                        onClick={() => setShowPresenceInfo(false)}
+                                        className={`absolute left-0 top-full mt-2 z-50 p-3 rounded-xl border shadow-xl text-[11px] w-64 animate-fade-in ${
+                                            isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-white border-zinc-200 text-zinc-700'
+                                        }`}
+                                    >
+                                        <div className="flex items-center justify-between font-bold mb-1.5 text-emerald-500">
+                                            <span>● Live Active Users: {liveUsersCount}</span>
+                                            <Icons.X size={12} className="cursor-pointer opacity-60 hover:opacity-100" />
+                                        </div>
+                                        <div className="text-[10px] opacity-75 font-mono break-all">
+                                            Session ID: {currentUserId || 'Initializing...'}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
