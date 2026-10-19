@@ -2,640 +2,1486 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For Shobie 🌌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DecoderX Pro Suite - Advanced Security Tools</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Krysha's Custom Favicon (Emerald Shield) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>" type="image/svg+xml">
+    
+    <!-- React & ReactDOM (Production Minified) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>   
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+    
+    <!-- Local Client-Side QR Code Generation (No External API calls) -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Playfair Display for elegant serif, Montserrat for clean sans-serif -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#09090b',
+                            panel: '#18181b',
+                            border: '#27272a',
+                        }
+                    },
+                    boxShadow: {
+                        'neon-emerald': '0 0 20px rgba(16, 185, 129, 0.15)',
+                        'neon-blue': '0 0 20px rgba(59, 130, 246, 0.15)',
+                        'neon-red': '0 0 20px rgba(239, 68, 68, 0.15)',
+                        'floating': '0 10px 40px -10px rgba(0,0,0,0.5)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'scanline': 'scanline 8s linear infinite',
+                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.26, 1.55) forwards',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100vh)' } },
+                        pulseGlow: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '.5' } },
+                        bounceIn: { '0%': { transform: 'scale(0.8)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #030308; /* Deep space black/blue */
-            font-family: 'Montserrat', sans-serif;
-            color: #ffffff;
-            touch-action: none; /* Prevents pull-to-refresh on mobile */
+        html.dark { color-scheme: dark; background-color: #09090b; }
+        html { color-scheme: light; background-color: #f8fafc; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+        .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
+        .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+        
+        body { 
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* 3D Canvas Background */
-        #webgl-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: auto;
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        /* UI Overlay */
-        #ui-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            pointer-events: none; /* Let clicks pass through to 3D by default */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* Cinematic Text Styling */
-        .serif-title {
-            font-family: 'Playfair Display', serif;
-        }
-
-        .step-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 600px;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out, transform 1.5s ease-out;
-            pointer-events: none;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-        }
-
-        .step-container.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: auto;
-        }
-
-        .step-container.hidden-up {
-            opacity: 0;
-            transform: translate(-50%, -70%) scale(0.95);
-        }
-
-        .step-container.hidden-down {
-            opacity: 0;
-            transform: translate(-50%, -30%) scale(0.95);
-        }
-
-        /* Premium Buttons */
-        .btn-glow {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
-            pointer-events: auto;
-        }
-
-        .btn-glow:hover, .btn-glow:active {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 105, 180, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .btn-yes {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            border: none;
-            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
-            font-weight: 500;
+        .light .glass-panel, html:not(.dark) .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
         
-        .btn-yes:hover, .btn-yes:active {
-            box-shadow: 0 15px 30px rgba(255, 65, 108, 0.6);
-            transform: scale(1.05);
-        }
-
-        /* The tricky No button */
-        #btn-no {
-            position: absolute;
-            z-index: 50;
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Glowing text effect */
-        .text-glow-pink {
-            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+        .text-gradient-primary {
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 8px rgba(255, 117, 140, 0.4));
+            background-image: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
         }
 
-        .text-glow-gold {
-            background: linear-gradient(to right, #e6d070, #947a26);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 8px rgba(230, 208, 112, 0.3));
+        .json-key { color: #0ea5e9; font-weight: 500; }
+        .dark .json-key { color: #38bdf8; } 
+        .json-string { color: #10b981; }
+        .dark .json-string { color: #34d399; } 
+        .json-number { color: #a855f7; }
+        .dark .json-number { color: #c084fc; } 
+        .json-boolean { color: #f43f5e; font-weight: 600; }
+        .dark .json-boolean { color: #fb7185; } 
+        .dark .json-bracket { color: #94a3b8; } 
+
+        .editor-textarea, .editor-pre {
+            white-space: pre-wrap !important;
+            word-break: break-all !important;
+            overflow-wrap: break-word !important;
+            tab-size: 4;
+            line-height: 1.6;
+        }
+        .editor-textarea {
+            color: transparent !important;
+            background: transparent !important;
+            caret-color: #10b981;
+        }
+        .editor-textarea::selection {
+            background: rgba(16, 185, 129, 0.2);
+            color: transparent;
+        }
+        .dark .editor-textarea::selection {
+            background: rgba(52, 211, 153, 0.25);
+            color: transparent;
+        }
+        .editor-textarea.no-highlight {
+            color: inherit !important;
+            caret-color: inherit;
         }
 
-        /* Touch indicator animation */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
-            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
-        .tap-indicator {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: white;
-            animation: pulse-ring 2s infinite;
-            margin: 0 auto;
+        .dark .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
         }
 
-        /* Utilities */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-300 { transition-delay: 300ms; }
+        textarea:focus, input:focus { outline: none; }
+        input[type="file"] { display: none; }
+
+        .tab-scroll-container::-webkit-scrollbar { height: 4px; }
+        .tab-scroll-container::-webkit-scrollbar-track { background: transparent; }
+        .tab-scroll-container::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 10px; }
+        .dark .tab-scroll-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); }
     </style>
 </head>
-<body>
+<body class="antialiased overflow-x-hidden selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-100 min-h-screen bg-slate-50 dark:bg-brand-bg text-slate-800 dark:text-slate-300">
+    <div id="root"></div>
 
-    <!-- 3D Canvas goes here -->
-    <div id="webgl-container"></div>
+    <script type="text/babel" data-presets="react" data-type="module">
+        const { useState, useEffect, useRef, useMemo, memo, useCallback } = React;
 
-    <!-- UI Overlay Layer -->
-    <div id="ui-layer">
+        // --- ICONS ---
+        const Icons = {
+            Shield: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> ),
+            ArrowRightLeft: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg> ),
+            Copy: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> ),
+            Check: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg> ),
+            Trash2: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> ),
+            Sun: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg> ),
+            Moon: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> ),
+            Code: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg> ),
+            Lock: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> ),
+            Globe: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> ),
+            Hash: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg> ),
+            Binary: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="14" y="14" width="4" height="6" rx="2"></rect><rect x="6" y="4" width="4" height="6" rx="2"></rect><path d="M6 20h4"></path><path d="M14 10h4"></path><path d="M6 14h2v6"></path><path d="M14 4h2v6"></path></svg> ),
+            FileCode: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="m10 13-2 2 2 2"></path><path d="m14 17 2-2-2-2"></path></svg> ),
+            Terminal: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> ),
+            AlignLeft: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg> ),
+            ChevronDown: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="6 9 12 15 18 9"></polyline></svg> ),
+            Upload: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> ),
+            Download: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> ),
+            QrCode: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> ),
+            Database: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg> ),
+            Activity: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg> ),
+            Search: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> ),
+            Clock: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> ),
+            Type: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg> ),
+            Wifi: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg> ),
+            Settings: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> ),
+            Cpu: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg> ),
+            Wand: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 4V2"></path><path d="M15 16v-2"></path><path d="M8 9h2"></path><path d="M20 9h2"></path><path d="M17.8 11.8 19 13"></path><path d="M15 9h0"></path><path d="M17.8 6.2 19 5"></path><path d="m3 21 9-9"></path><path d="M12.2 6.2 11 5"></path></svg> ),
+            Link: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> ),
+            Layers: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> ),
+            Plus: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> ),
+            Folder: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> ),
+            X: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ),
+            Warning: ({ size = 24, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> )
+        };
+
+        // --- ALGORITHMS & CATEGORIES ---
+        const algorithms = [
+            { id: 'defang', category: 'network', name: 'Defang IP / URL', icon: <Icons.Wifi size={16} /> },
+            { id: 'base64', category: 'encoders', name: 'Base64', icon: <Icons.Code size={16} /> },
+            { id: 'base64url', category: 'encoders', name: 'Base64 (URL Safe)', icon: <Icons.Lock size={16} /> },
+            { id: 'base32', category: 'encoders', name: 'Base32', icon: <Icons.Code size={16} /> },
+            { id: 'url', category: 'encoders', name: 'URL / URI', icon: <Icons.Globe size={16} /> },
+            { id: 'url_all', category: 'encoders', name: 'URL Encode All', icon: <Icons.Globe size={16} /> },
+            { id: 'hex', category: 'encoders', name: 'Hexadecimal', icon: <Icons.Hash size={16} /> },
+            { id: 'binary', category: 'encoders', name: 'Binary', icon: <Icons.Binary size={16} /> },
+            { id: 'octal', category: 'encoders', name: 'Octal Escaping', icon: <Icons.FileCode size={16} /> },
+            { id: 'html', category: 'encoders', name: 'HTML Entity', icon: <Icons.Terminal size={16} /> },
+            { id: 'rot47', category: 'ciphers', name: 'ROT47 Cipher', icon: <Icons.Shield size={16} /> },
+            { id: 'caesar', category: 'ciphers', name: 'Caesar Cipher', icon: <Icons.Shield size={16} /> },
+            { id: 'vigenere', category: 'ciphers', name: 'Vigenère Cipher', icon: <Icons.Lock size={16} /> },
+            { id: 'atbash', category: 'ciphers', name: 'Atbash Cipher', icon: <Icons.Code size={16} /> },
+            { id: 'morse', category: 'ciphers', name: 'Morse Code', icon: <Icons.Activity size={16} /> },
+            { id: 'sha256', category: 'hashes', name: 'SHA-256', icon: <Icons.Hash size={16} /> },
+            { id: 'sha512', category: 'hashes', name: 'SHA-512', icon: <Icons.Hash size={16} /> },
+            { id: 'sha1', category: 'hashes', name: 'SHA-1 (Legacy)', icon: <Icons.Hash size={16} /> },
+            { id: 'urlparse', category: 'parsers', name: 'URL Parser', icon: <Icons.Link size={16} /> },
+            { id: 'jwt', category: 'parsers', name: 'JWT Parser', icon: <Icons.Lock size={16} /> },
+            { id: 'json', category: 'parsers', name: 'JSON Formatter', icon: <Icons.Database size={16} /> },
+            { id: 'csv2json', category: 'parsers', name: 'CSV to JSON', icon: <Icons.Database size={16} /> },
+            { id: 'hexdump', category: 'parsers', name: 'Hexdump Generator', icon: <Icons.Hash size={16} /> },
+            { id: 'extract_ips', category: 'extractors', name: 'Extract IPs (v4/v6)', icon: <Icons.Search size={16} /> },
+            { id: 'extract_urls', category: 'extractors', name: 'Extract URLs', icon: <Icons.Search size={16} /> },
+            { id: 'epoch', category: 'utilities', name: 'Epoch Time Converter', icon: <Icons.Clock size={16} /> },
+            { id: 'uuid', category: 'utilities', name: 'UUID v4 Generator', icon: <Icons.Shield size={16} /> },
+            { id: 'string_utils', category: 'utilities', name: 'String Case Utils', icon: <Icons.Type size={16} /> },
+            { id: 'reverse', category: 'utilities', name: 'Reverse Text', icon: <Icons.AlignLeft size={16} /> },
+            { id: 'regex_tester', category: 'utilities', name: 'Regex Match', icon: <Icons.Search size={16} /> },
+        ];
+
+        const toolCategories = [
+            { id: 'network', name: 'Network', icon: <Icons.Wifi size={16} /> },
+            { id: 'encoders', name: 'Encoders', icon: <Icons.Code size={16} /> },
+            { id: 'ciphers', name: 'Ciphers', icon: <Icons.Shield size={16} /> },
+            { id: 'hashes', name: 'Hashes', icon: <Icons.Hash size={16} /> },
+            { id: 'parsers', name: 'Parsers', icon: <Icons.Database size={16} /> },
+            { id: 'extractors', name: 'Extractors', icon: <Icons.Search size={16} /> },
+            { id: 'utilities', name: 'Utilities', icon: <Icons.Settings size={16} /> },
+        ];
+
+        // --- HELPER FUNCTIONS ---
         
-        <!-- Intro Step -->
-        <div id="step-0" class="step-container active">
-            <h1 class="serif-title text-4xl md:text-5xl lg:text-6xl text-white mb-8 font-style: italic tracking-wide">
-                For Shobie
-            </h1>
-            <div class="tap-indicator mb-4"></div>
-            <p class="text-xs tracking-[0.3em] uppercase text-gray-400">Tap anywhere to begin</p>
-        </div>
+        // Strict safe escaping for inner HTML injections
+        const escapeHTML = (str) => {
+            if (typeof str !== 'string') return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        };
 
-        <!-- Step 1 -->
-        <div id="step-1" class="step-container hidden-up">
-            <h2 class="serif-title text-3xl md:text-5xl text-glow-gold mb-6 italic">Hi Bestie...</h2>
-            <p class="text-sm md:text-lg text-gray-300 leading-relaxed max-w-md mx-auto mb-10 px-4 font-light">
-                We've shared so many amazing moments together, and you've become such a huge part of my life.
-            </p>
-            <button class="btn-glow" onclick="nextStep(2)">Keep reading</button>
-        </div>
+        const getEntropy = (str) => {
+            if (!str) return '0.00';
+            const len = str.length;
+            const frequencies = Array.from(str).reduce((freq, c) => (freq[c] = (freq[c] || 0) + 1, freq), {});
+            return Object.values(frequencies).reduce((sum, f) => sum - f / len * Math.log2(f / len), 0).toFixed(2);
+        };
 
-        <!-- Step 2 -->
-        <div id="step-2" class="step-container hidden-up">
-            <h2 class="serif-title text-3xl md:text-5xl text-white mb-4">Alam mo ba?</h2>
-            <p class="text-xs text-gray-400 tracking-widest mb-6 uppercase">(Did you know?)</p>
-            <p class="text-base md:text-xl text-gray-200 leading-relaxed max-w-md mx-auto mb-10 px-4 font-light italic">
-                "Tuwing nakakausap kita, sumasaya ang araw ko."
-            </p>
-            <p class="text-xs text-gray-400 mb-8">(Every time I talk to you, my day gets brighter)</p>
-            <button class="btn-glow" onclick="nextStep(3)">Continue</button>
-        </div>
-
-        <!-- Step 3 -->
-        <div id="step-3" class="step-container hidden-up">
-            <h2 class="serif-title text-3xl md:text-4xl text-glow-pink mb-6 italic">The truth is...</h2>
-            <p class="text-sm md:text-lg text-gray-300 leading-relaxed max-w-md mx-auto mb-10 px-4 font-light">
-                Lately, I look at you differently. You are more than just a best friend to me now.
-            </p>
-            <h2 class="serif-title text-2xl md:text-3xl text-white mb-2">Gusto kita, Shobie.</h2>
-            <p class="text-xs text-gray-400 mb-10 tracking-widest uppercase">(I like you)</p>
-            <button class="btn-glow" onclick="nextStep(4)">One last thing...</button>
-        </div>
-
-        <!-- Step 4: The Climax -->
-        <div id="step-4" class="step-container hidden-up">
-            <h1 class="serif-title text-4xl md:text-6xl text-white mb-8 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
-                Will you be my date? 🌹
-            </h1>
-            
-            <div class="relative w-full h-[120px] flex justify-center items-center mt-8">
-                <!-- Yes Button -->
-                <button class="btn-glow btn-yes px-12 py-4 absolute z-10" onclick="finalStep()">
-                    YES! ❤️
-                </button>
-                
-                <!-- The Tricky No Button -->
-                <button id="btn-no" class="btn-glow px-8 py-3 bg-white/5 border-white/10 text-gray-400 text-xs">
-                    No
-                </button>
-            </div>
-        </div>
-
-        <!-- Final Step -->
-        <div id="step-5" class="step-container hidden-up">
-            <h1 class="serif-title text-4xl md:text-6xl text-glow-gold mb-6 italic">
-                Yay! Totoo ba to?! 🎉
-            </h1>
-            <p class="text-xs text-gray-400 tracking-widest mb-8 uppercase">(Is this real?!)</p>
-            <p class="text-base md:text-lg text-white leading-relaxed max-w-md mx-auto mb-10 px-4 font-light">
-                You just made me the happiest person. I'm planning something special for us.
-            </p>
-            <button class="btn-glow btn-yes" onclick="copySuccess()">
-                Screenshot & Send to me! 📸
-            </button>
-        </div>
-
-    </div>
-
-    <script>
-        // --- THREE.JS SETUP ---
-        const container = document.getElementById('webgl-container');
-        const scene = new THREE.Scene();
-        
-        // Add subtle fog for depth
-        scene.fog = new THREE.FogExp2(0x030308, 0.001);
-
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 150;
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Optimize for mobile
-        container.appendChild(renderer.domElement);
-
-        // --- PARTICLE SYSTEM GENERATION ---
-        const particleCount = 4000;
-        
-        // Arrays to hold different formations
-        const positionsSphere = new Float32Array(particleCount * 3);
-        const positionsHeart = new Float32Array(particleCount * 3);
-        
-        // Array for current rendering position
-        const positionsCurrent = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
-        const sizes = new Float32Array(particleCount);
-        const randoms = new Float32Array(particleCount); // for organic movement
-
-        // Colors
-        const colorBase = new THREE.Color(0xffaaee); // Soft pink
-        const colorAccent = new THREE.Color(0xffffff); // White star
-        const colorCore = new THREE.Color(0xff2266); // Deep red/pink
-
-        // 1. Generate Sphere positions (Initial State)
-        for (let i = 0; i < particleCount; i++) {
-            const i3 = i * 3;
-            
-            // Random point on sphere (Galaxy feel)
-            const r = 60 + Math.random() * 40;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            
-            positionsSphere[i3] = r * Math.sin(phi) * Math.cos(theta);
-            positionsSphere[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-            positionsSphere[i3 + 2] = r * Math.cos(phi);
-
-            // Initially set current to sphere
-            positionsCurrent[i3] = positionsSphere[i3];
-            positionsCurrent[i3 + 1] = positionsSphere[i3 + 1];
-            positionsCurrent[i3 + 2] = positionsSphere[i3 + 2];
-
-            // 2. Generate Heart positions (Target State)
-            // Mathematical heart formula: 
-            // x = 16 * sin^3(t)
-            // y = 13 * cos(t) - 5 * cos(2t) - 2 * cos(3t) - cos(4t)
-            const t = Math.PI * 2 * Math.random();
-            // Add some randomness to create volume, not just a thin line
-            const volumeSpread = Math.random() * 5; 
-            
-            let hx = 16 * Math.pow(Math.sin(t), 3);
-            let hy = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-            let hz = (Math.random() - 0.5) * 20; // Depth
-
-            // Scale the heart up
-            const scale = 2.5;
-            hx *= scale;
-            hy *= scale;
-
-            // Add volume noise
-            const noiseX = (Math.random() - 0.5) * volumeSpread;
-            const noiseY = (Math.random() - 0.5) * volumeSpread;
-            
-            positionsHeart[i3] = hx + noiseX;
-            positionsHeart[i3 + 1] = hy + noiseY;
-            positionsHeart[i3 + 2] = hz;
-
-            // Colors based on depth/position to make it look glowing
-            let mixRatio = Math.random();
-            let finalColor = colorBase.clone().lerp(colorAccent, mixRatio);
-            
-            // Core particles get deeper color
-            if(Math.random() > 0.8) finalColor = colorCore;
-
-            colors[i3] = finalColor.r;
-            colors[i3 + 1] = finalColor.g;
-            colors[i3 + 2] = finalColor.b;
-
-            // Sizes and random offsets for animation
-            sizes[i] = Math.random() * 2.5 + 0.5;
-            randoms[i] = Math.random();
-        }
-
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positionsCurrent, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-        geometry.setAttribute('random', new THREE.BufferAttribute(randoms, 1));
-
-        // Create a glowing circular texture programmatically
-        function createGlowTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 64;
-            canvas.height = 64;
-            const context = canvas.getContext('2d');
-            const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
-            gradient.addColorStop(0, 'rgba(255,255,255,1)');
-            gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
-            gradient.addColorStop(0.5, 'rgba(255,255,255,0.2)');
-            gradient.addColorStop(1, 'rgba(0,0,0,0)');
-            context.fillStyle = gradient;
-            context.fillRect(0, 0, 64, 64);
-            const texture = new THREE.CanvasTexture(canvas);
-            return texture;
-        }
-
-        // Custom Shader Material for glowing, size-varying particles
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-                pointTexture: { value: createGlowTexture() },
-                morphProgress: { value: 0.0 } // 0 = Sphere, 1 = Heart
-            },
-            vertexShader: `
-                uniform float time;
-                attribute float size;
-                attribute float random;
-                attribute vec3 color;
-                varying vec3 vColor;
-                
-                void main() {
-                    vColor = color;
-                    
-                    // Add subtle floating animation to vertices
-                    vec3 pos = position;
-                    pos.y += sin(time * 2.0 + random * 10.0) * 1.5;
-                    pos.x += cos(time * 1.5 + random * 10.0) * 1.5;
-
-                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                    
-                    // Size attenuation based on depth
-                    gl_PointSize = size * (250.0 / -mvPosition.z);
-                    gl_Position = projectionMatrix * mvPosition;
-                }
-            `,
-            fragmentShader: `
-                uniform sampler2D pointTexture;
-                varying vec3 vColor;
-                void main() {
-                    // Apply texture and color
-                    gl_FragColor = vec4(vColor, 1.0) * texture2D(pointTexture, gl_PointCoord);
-                }
-            `,
-            blending: THREE.AdditiveBlending,
-            depthTest: false,
-            transparent: true
-        });
-
-        const particleSystem = new THREE.Points(geometry, material);
-        scene.add(particleSystem);
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
-        const windowHalfX = window.innerWidth / 2;
-        const windowHalfY = window.innerHeight / 2;
-
-        // Track touch/mouse for Parallax
-        function onPointerMove(event) {
-            let clientX = event.clientX;
-            let clientY = event.clientY;
-            
-            if (event.touches && event.touches.length > 0) {
-                clientX = event.touches[0].clientX;
-                clientY = event.touches[0].clientY;
-            }
-            
-            mouseX = (clientX - windowHalfX);
-            mouseY = (clientY - windowHalfY);
-        }
-
-        document.addEventListener('mousemove', onPointerMove);
-        document.addEventListener('touchmove', onPointerMove, { passive: true });
-
-        // Logic variables
-        const clock = new THREE.Clock();
-        let currentStep = 0;
-        let morphTarget = 0; // 0 for sphere, 1 for heart
-        let currentMorph = 0;
-
-        // Animation Loop
-        function animate() {
-            requestAnimationFrame(animate);
-            const delta = clock.getDelta();
-            const time = clock.getElapsedTime();
-
-            // Update shader time for organic float
-            material.uniforms.time.value = time;
-
-            // Smooth Parallax movement
-            targetX = mouseX * 0.001;
-            targetY = mouseY * 0.001;
-            
-            particleSystem.rotation.y += 0.002; // Base spin
-            particleSystem.rotation.x += (targetY - particleSystem.rotation.x) * 0.05;
-            particleSystem.rotation.y += (targetX - particleSystem.rotation.y) * 0.05;
-
-            // Heart beat effect when fully morphed (Step 4 & 5)
-            let scaleTarget = 1;
-            if (currentStep >= 4) {
-                // Creates a heartbeat rhythm: fast pulse, short pause, fast pulse, long pause
-                const beat = (Math.sin(time * 6) + Math.sin(time * 6 + 1.5)) * 0.5;
-                if(beat > 0.5) scaleTarget = 1.08;
-                
-                // Rotate faster for drama
-                particleSystem.rotation.y += 0.005; 
-            }
-            particleSystem.scale.lerp(new THREE.Vector3(scaleTarget, scaleTarget, scaleTarget), 0.1);
-
-            // Morphing Logic (CPU Lerping)
-            if (Math.abs(currentMorph - morphTarget) > 0.001) {
-                // Ease towards target
-                currentMorph += (morphTarget - currentMorph) * 0.03;
-                
-                const positions = particleSystem.geometry.attributes.position.array;
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const i3 = i * 3;
-                    
-                    // Lerp between Sphere and Heart coords based on currentMorph
-                    positions[i3] = positionsSphere[i3] + (positionsHeart[i3] - positionsSphere[i3]) * currentMorph;
-                    positions[i3 + 1] = positionsSphere[i3 + 1] + (positionsHeart[i3 + 1] - positionsSphere[i3 + 1]) * currentMorph;
-                    positions[i3 + 2] = positionsSphere[i3 + 2] + (positionsHeart[i3 + 2] - positionsSphere[i3 + 2]) * currentMorph;
-                }
-                particleSystem.geometry.attributes.position.needsUpdate = true;
-            }
-
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Responsive Resizing
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            
-            // Adjust camera zoom based on screen width (mobile vs desktop)
-            if(window.innerWidth < 600) {
-                camera.position.z = 200; // Zoom out for small screens so heart fits
-            } else {
-                camera.position.z = 150;
-            }
-        });
-        // trigger resize once to set initial mobile zoom
-        window.dispatchEvent(new Event('resize'));
-
-        
-        // Start experience on first click/tap anywhere
-        document.getElementById('ui-layer').addEventListener('click', function initStart(e) {
-            // Only trigger if we are on step 0
-            if (currentStep === 0) {
-                nextStep(1);
-            }
-        });
-
-        function nextStep(step) {
-            // Hide current
-            const currentEl = document.getElementById(`step-${currentStep}`);
-            if(currentEl) {
-                currentEl.classList.remove('active');
-                currentEl.classList.add('hidden-down');
-            }
-
-            currentStep = step;
-
-            // Show next
-            const nextEl = document.getElementById(`step-${step}`);
-            if(nextEl) {
-                nextEl.classList.remove('hidden-up', 'hidden-down');
-                // Small delay to allow previous to exit
-                setTimeout(() => {
-                    nextEl.classList.add('active');
-                }, 400);
-            }
-
-            // Sync 3D animations with story
-            if (step === 2) {
-                morphTarget = 0.4; // Start forming
-            } else if (step === 3) {
-                morphTarget = 0.8; // Almost heart
-            } else if (step === 4) {
-                morphTarget = 1.0; // Perfect Heart, start beating
-                setTimeout(initRunawayButton, 1000); // init No button physics
-            }
-        }
-
-        function initRunawayButton() {
-            const btnNo = document.getElementById('btn-no');
-            const container = document.getElementById('step-4');
-            
-            // Position it initially beside the Yes button
-            btnNo.style.transform = `translate(100px, 0px)`;
-            let currentX = 100;
-            let currentY = 0;
-
-            const dodge = (e) => {
-                // Prevent tap
-                e.preventDefault();
-                e.stopPropagation();
-
-                const btnRect = btnNo.getBoundingClientRect();
-                
-                // Get tap/mouse coords
-                let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-                
-                if(!clientX) return;
-
-                const btnCenterX = btnRect.left + btnRect.width / 2;
-                const btnCenterY = btnRect.top + btnRect.height / 2;
-
-                const distanceX = btnCenterX - clientX;
-                const distanceY = btnCenterY - clientY;
-                const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-                // If finger/mouse gets within 100px, teleport away
-                if (distance < 100) {
-                    // Calculate a random escape vector
-                    const angle = Math.random() * Math.PI * 2;
-                    const jumpDistance = 150 + Math.random() * 100;
-                    
-                    let newX = currentX + Math.cos(angle) * jumpDistance;
-                    let newY = currentY + Math.sin(angle) * jumpDistance;
-
-                    // STRICT Screen boundaries to prevent it disappearing off mobile screens
-                    // Convert local transform coords to screen bounds roughly
-                    const halfWidth = window.innerWidth / 2 - 50;
-                    const halfHeight = window.innerHeight / 2 - 50;
-
-                    if (newX > halfWidth) newX = halfWidth - 50;
-                    if (newX < -halfWidth) newX = -halfWidth + 50;
-                    if (newY > halfHeight) newY = halfHeight - 50;
-                    if (newY < -halfHeight) newY = -halfHeight + 50;
-
-                    currentX = newX;
-                    currentY = newY;
-
-                    btnNo.style.transform = `translate(${currentX}px, ${currentY}px)`;
-                }
+        const getStats = (text) => {
+            if (!text) return { chars: 0, words: 0, lines: 0, bytes: 0, entropy: '0.00' };
+            const byteLen = new TextEncoder().encode(text).length;
+            return {
+                chars: Array.from(text).length, // properly handles Unicode surrogates
+                words: text.trim().split(/\s+/).filter(w => w.length > 0).length,
+                lines: text.split(/\r\n|\r|\n/).length,
+                bytes: byteLen,
+                entropy: getEntropy(text)
             };
+        };
 
-            // Mobile-first event listeners
-            btnNo.addEventListener('touchstart', dodge, {passive: false});
-            // Desktop fallback
-            document.addEventListener('mousemove', (e) => {
-                if(currentStep === 4) dodge(e);
+        const copyToClipboard = (text, setToast) => {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(() => setToast('Copied to clipboard! 📋')).catch(() => fallbackCopy(text, setToast));
+                } else {
+                    fallbackCopy(text, setToast);
+                }
+            } catch (err) { setToast('Failed to copy!'); }
+        };
+
+        const fallbackCopy = (text, setToast) => {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = 'fixed'; // Avoid scrolling
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try { document.execCommand("copy") ? setToast('Copied to clipboard! 📋') : setToast('Failed to copy!'); } 
+            catch (err) { setToast('Failed to copy!'); }
+            document.body.removeChild(textArea);
+        }
+
+        // Extremely careful syntax highlighter utilizing pre-escaped values
+        function syntaxHighlight(jsonStr) {
+            if (!jsonStr) return "";
+            let formatted = escapeHTML(jsonStr);
+            return formatted.replace(/(&quot;(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\&quot;])*&quot;(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'json-number';
+                if (/^&quot;/.test(match)) {
+                    if (/:$/.test(match)) {
+                        let keyStr = match.substring(0, match.lastIndexOf(':')).trim();
+                        let colonSpace = match.substring(match.lastIndexOf(':'));
+                        return '<span class="json-key">' + keyStr + '</span><span class="text-slate-500">' + colonSpace + '</span>';
+                    } else { cls = 'json-string'; }
+                } else if (/true|false/.test(match)) cls = 'json-boolean';
+                else if (/null/.test(match)) cls = 'json-bracket opacity-50';
+                return '<span class="' + cls + '">' + match + '</span>';
             });
         }
 
-        function finalStep() {
-            nextStep(5);
-            // Make heart explode into joy
-            morphTarget = 1.0;
-            particleSystem.material.uniforms.pointTexture.value = createGlowTexture(); // Ensure intense glow
-            
-            // Change color array rapidly to gold/pink mix for celebration
-            const colors = particleSystem.geometry.attributes.color.array;
-            for(let i=0; i<particleCount*3; i+=3) {
-                if(Math.random() > 0.5) {
-                    colors[i] = 1.0; // R
-                    colors[i+1] = 0.8; // G
-                    colors[i+2] = 0.2; // B (Gold)
+        function safeUrlDecode(str) { 
+            try { 
+                // Only decode if % is present to prevent destructive '+' replacement in normal text
+                if (str.includes('%')) {
+                    // Try decoding without '+' conversion first (proper URI decode)
+                    return decodeURIComponent(str);
                 }
-            }
-            particleSystem.geometry.attributes.color.needsUpdate = true;
+                return str;
+            } catch(e) { 
+                // Fallback for malformed URI components
+                return unescape(str); 
+            } 
         }
 
-        function copySuccess() {
-            const btn = document.querySelector('#step-5 .btn-yes');
-            btn.innerHTML = "Screenshot expected soon! 🥰";
-            btn.style.background = "linear-gradient(135deg, #4ade80, #16a34a)";
-            btn.style.boxShadow = "0 10px 20px rgba(74, 222, 128, 0.4)";
+        function safeFormUrlDecode(str) {
+            try { return decodeURIComponent(str.replace(/\+/g, ' ')); } catch(e) { return str; }
         }
+
+        function analyzeData(inputStr, isFormParam = false) {
+            if (!inputStr || typeof inputStr !== 'string') return { original: inputStr, final: inputStr, steps: [], isEncoded: false, b64Count: 0, urlCount: 0, isJson: false };
+            let current = inputStr.trim();
+            let steps = [];
+            let b64Count = 0;
+            let urlCount = 0;
+            let loopLimit = 5; // Strict pass limit
+            
+            while (loopLimit > 0) {
+                let changed = false;
+                
+                // 1. Check URL Encoding
+                if (current.includes('%') || (isFormParam && current.includes('+'))) {
+                    let urlDec = isFormParam ? safeFormUrlDecode(current) : safeUrlDecode(current);
+                    if (urlDec !== current && urlDec !== "") { 
+                        current = urlDec; 
+                        urlCount++; 
+                        steps.push({ method: 'URL Decode', value: current }); 
+                        changed = true; 
+                        continue; 
+                    }
+                }
+
+                // 2. Check Base64 (Standard and URL-Safe)
+                // Looks like b64: lengthy, matching charset, padded or non-padded
+                if (/^[A-Za-z0-9\+\/\-\_]+={0,2}$/.test(current) && current.length >= 16) {
+                    try {
+                        let b64 = current.replace(/-/g, '+').replace(/_/g, '/');
+                        while (b64.length % 4) b64 += '='; 
+                        
+                        const binStr = atob(b64);
+                        const bytes = new Uint8Array(binStr.length);
+                        for(let i=0; i<binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+                        let decoded = new TextDecoder('utf-8', {fatal: true}).decode(bytes);
+                        
+                        if (decoded && decoded !== current && /[\x20-\x7E\n\r\t\u00A0-\uFFFF]/.test(decoded)) {
+                            current = decoded; 
+                            b64Count++; 
+                            steps.push({ method: `Base64 Decode (Lvl ${b64Count})`, value: current }); 
+                            changed = true; 
+                            continue; 
+                        }
+                    } catch(e) { /* Not valid UTF-8 base64 */ }
+                }
+                if (!changed) break; 
+                loopLimit--;
+            }
+            
+            let isJson = false;
+            try { 
+                let j = JSON.parse(current); 
+                if (typeof j === 'object' && j !== null) { 
+                    current = JSON.stringify(j, null, 2); 
+                    isJson = true; 
+                } 
+            } catch(e) {}
+            
+            return { original: inputStr, final: current, steps, b64Count, urlCount, isJson, isEncoded: steps.length > 0 };
+        }
+
+        // Robust cURL Tokenizer
+        function tokenizeCurl(str) {
+            const tokens = [];
+            let current = '';
+            let inSingle = false, inDouble = false, escapeNext = false;
+            
+            for(let i=0; i<str.length; i++) {
+                const c = str[i];
+                if (escapeNext) { 
+                    if (c === '\n' || c === '\r') { /* Line continuation */ }
+                    else { current += c; }
+                    escapeNext = false; 
+                    continue; 
+                }
+                if (c === '\\') { escapeNext = true; continue; }
+                if (c === "'" && !inDouble) { inSingle = !inSingle; continue; }
+                if (c === '"' && !inSingle) { inDouble = !inDouble; continue; }
+                if (/\s/.test(c) && !inSingle && !inDouble) {
+                    if (current) { tokens.push(current); current = ''; }
+                    continue;
+                }
+                current += c;
+            }
+            if (current) tokens.push(current);
+            return tokens;
+        }
+
+        // ==========================================
+        // COMPONENT: MAGIC HIGHLIGHTED INPUT BOX
+        // ==========================================
+        const HighlightedInput = ({ value, onChange, isDark, placeholder, readOnly = false }) => {
+            const preRef = useRef(null);
+            let isJson = false;
+            let displayHtml = escapeHTML(value);
+            
+            if (value && (value.trim().startsWith('{') || value.trim().startsWith('['))) {
+                try { JSON.parse(value); isJson = true; displayHtml = syntaxHighlight(value); } catch(e) {}
+            }
+            
+            const handleScroll = (e) => { 
+                if (preRef.current) { 
+                    preRef.current.scrollTop = e.target.scrollTop; 
+                    preRef.current.scrollLeft = e.target.scrollLeft; 
+                } 
+            };
+            
+            return (
+                <div className="relative flex-grow flex flex-col w-full min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px] bg-transparent overflow-hidden group">
+                    {isJson && <div className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-md z-0 transition-colors ${isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-400' : 'bg-emerald-500/30 group-focus-within:bg-emerald-500'}`}></div>}
+                    
+                    <pre ref={preRef} className={`absolute inset-0 p-4 sm:p-5 font-mono text-[12px] sm:text-[13px] custom-scrollbar overflow-auto pointer-events-none z-0 editor-pre ${isJson ? 'pl-7' : ''} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} dangerouslySetInnerHTML={{ __html: displayHtml || (value ? ' ' : `<span class="opacity-40 italic">${placeholder}</span>`) }} />
+                    
+                    <textarea 
+                        value={value} 
+                        onChange={onChange} 
+                        onScroll={handleScroll} 
+                        readOnly={readOnly}
+                        className={`absolute inset-0 w-full h-full p-4 sm:p-5 bg-transparent resize-none outline-none font-mono text-[12px] sm:text-[13px] custom-scrollbar overflow-auto z-10 ${isJson ? 'editor-textarea pl-7' : 'editor-textarea no-highlight'}`} 
+                        spellCheck="false" 
+                    />
+                </div>
+            );
+        };
+
+        // ==========================================
+        // COMPONENT: CURL DECODER TAB
+        // ==========================================
+        const CurlDecoderTab = memo(({ isDark, setToast, curlInput, setCurlInput, parsedResults, setParsedResults }) => {
+            const processRequest = () => {
+                if (!curlInput.trim()) return;
+                
+                let results = { method: 'GET', url: 'No URL found', queryParams: [], cookies: [], headers: [], bodyDump: null, bodyParams: [] };
+                
+                try {
+                    const tokens = tokenizeCurl(curlInput);
+                    if (tokens.length === 0 || !tokens[0].toLowerCase().includes('curl')) {
+                        setToast("Error: Input does not appear to be a valid cURL command.");
+                        return;
+                    }
+
+                    let skipNext = false;
+                    for(let i = 1; i < tokens.length; i++) {
+                        if (skipNext) { skipNext = false; continue; }
+                        const t = tokens[i];
+                        
+                        if (t === '-X' || t === '--request') { results.method = tokens[i+1]?.toUpperCase() || 'GET'; skipNext = true; }
+                        else if (t === '-H' || t === '--header') {
+                            const header = tokens[i+1]; skipNext = true;
+                            if (header) {
+                                const splitIdx = header.indexOf(':');
+                                if (splitIdx > -1) {
+                                    const hName = header.substring(0, splitIdx).trim();
+                                    const hVal = header.substring(splitIdx + 1).trim();
+                                    
+                                    if (hName.toLowerCase() === 'cookie') {
+                                        hVal.split(';').forEach(pair => { 
+                                            let eqIdx = pair.indexOf('='); 
+                                            if(eqIdx > -1) results.cookies.push({ key: pair.substring(0, eqIdx).trim(), analysis: analyzeData(pair.substring(eqIdx + 1).trim(), true) }); 
+                                        });
+                                    } else {
+                                        let an = analyzeData(hVal);
+                                        if (hName.toLowerCase() === 'authorization' && hVal.toLowerCase().startsWith('bearer ')) {
+                                            an = analyzeData(hVal.split(' ')[1]);
+                                            if(an.isEncoded) an.original = hVal; 
+                                        }
+                                        results.headers.push({ key: hName, analysis: an });
+                                    }
+                                }
+                            }
+                        }
+                        else if (t === '-b' || t === '--cookie') {
+                            const cookieString = tokens[i+1]; skipNext = true;
+                            if (cookieString) {
+                                cookieString.split(';').forEach(pair => { 
+                                    let eqIdx = pair.indexOf('='); 
+                                    if(eqIdx > -1) results.cookies.push({ key: pair.substring(0, eqIdx).trim(), analysis: analyzeData(pair.substring(eqIdx + 1).trim(), true) }); 
+                                });
+                            }
+                        }
+                        else if (t === '-d' || t === '--data' || t === '--data-raw' || t === '--data-binary' || t === '--data-urlencode') {
+                            const bodyRaw = tokens[i+1]; skipNext = true;
+                            if (results.method === 'GET') results.method = 'POST'; // curl defaults to POST when data is present
+                            
+                            if (bodyRaw) {
+                                let mergedData = bodyRaw.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n');
+                                if ((t === '--data-urlencode' || mergedData.includes('&')) && mergedData.includes('=')) {
+                                    try {
+                                        const params = new URLSearchParams(mergedData);
+                                        for (const [key, value] of params.entries()) results.bodyParams.push({ key, analysis: analyzeData(value, true) });
+                                    } catch(e) { results.bodyDump = analyzeData(mergedData); }
+                                } else {
+                                    results.bodyDump = analyzeData(mergedData);
+                                }
+                            }
+                        }
+                        else if (t === '--url') {
+                            results.url = tokens[i+1]; skipNext = true;
+                        }
+                        else if (t.startsWith('http://') || t.startsWith('https://')) {
+                            results.url = t;
+                        }
+                    }
+
+                    if (results.url && results.url !== 'No URL found') {
+                        try {
+                            const u = new URL(results.url);
+                            results.url = u.origin + u.pathname;
+                            for (const [key, value] of u.searchParams.entries()) {
+                                results.queryParams.push({ key, analysis: analyzeData(value, true) });
+                            }
+                        } catch(e) {} // Leave as is if parse fails
+                    }
+                    
+                    setParsedResults(results); 
+                    setToast("Payload Deep-Decoded! 🕵️‍♀️");
+                    setTimeout(() => setToast(null), 2500);
+
+                } catch (e) {
+                    setToast("Error parsing cURL: " + e.message);
+                }
+            };
+
+            const AnalysisRow = ({ itemKey, analysis }) => {
+                if (!analysis.isEncoded) {
+                    return (
+                        <div className={`flex flex-col md:flex-row transition-colors border-b last:border-0 ${isDark ? 'border-white/5 hover:bg-white/[0.02]' : 'border-black/5 hover:bg-black/[0.02]'}`}>
+                            <div className={`md:w-1/4 p-4 border-r ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                                <span className={`font-semibold text-sm break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
+                            </div>
+                            <div className="md:w-3/4 p-4 font-mono text-[13px] relative">
+                                {analysis.isJson 
+                                    ? <div className={`p-4 rounded-xl overflow-x-auto relative ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
+                                        <div className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
+                                        <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(analysis.final) }} className="pl-2 whitespace-pre-wrap leading-relaxed m-0" />
+                                      </div>
+                                    : <div className={`break-words ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{escapeHTML(analysis.final)}</div>
+                                }
+                            </div>
+                        </div>
+                    );
+                }
+                
+                let badge = null;
+                if (analysis.b64Count >= 3) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse">⚠️ TRIPLE BASE64 ENCODED!</span>;
+                else if (analysis.b64Count === 2) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">🚨 DOUBLE BASE64 ENCODED</span>;
+                else if (analysis.b64Count === 1 && analysis.urlCount > 0) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">MIXED ENCODED</span>;
+                else if (analysis.b64Count === 1) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">BASE64 ENCODED</span>;
+                else if (analysis.urlCount > 0) badge = <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">URL ENCODED</span>;
+
+                return (
+                    <div className={`flex flex-col md:flex-row transition-colors border-b last:border-0 ${isDark ? 'border-white/5 hover:bg-white/[0.02]' : 'border-black/5 hover:bg-black/[0.02]'}`}>
+                        <div className={`md:w-1/4 p-4 border-r ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                            <span className={`font-semibold text-sm break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
+                        </div>
+                        <div className="md:w-3/4 p-4">
+                            <div className="flex items-center gap-2 mb-4">{badge}</div>
+                            <div className={`text-[10px] uppercase tracking-wider font-bold mb-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Original Raw Value:</div>
+                            <div className={`p-3 rounded-xl text-xs font-mono break-words mb-5 max-h-32 overflow-y-auto custom-scrollbar ${isDark ? 'bg-black/40 text-slate-500' : 'bg-slate-100 text-slate-500'}`}>{escapeHTML(analysis.original)}</div>
+                            
+                            <div className={`text-[10px] uppercase tracking-wider font-bold mb-3 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Decoding Sequence:</div>
+                            <div className="space-y-4">
+                                {analysis.steps.map((step, i) => {
+                                    const isLast = i === analysis.steps.length - 1;
+                                    const isJSONView = isLast && analysis.isJson;
+                                    return (
+                                        <div key={i} className={`relative pl-6 ml-1 border-l-2 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
+                                            <div className={`absolute w-3 h-3 rounded-full -left-[7px] top-0.5 ring-4 ${isDark ? 'bg-emerald-500 ring-brand-panel' : 'bg-emerald-500 ring-white'}`}></div>
+                                            <span className={`text-[10px] uppercase tracking-wider font-bold flex items-center gap-1.5 mb-2 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
+                                                {step.method.includes('Base64') ? <Icons.Lock size={12}/> : <Icons.Globe size={12}/>} {step.method}
+                                            </span>
+                                            {isJSONView ? (
+                                                <div className={`p-4 rounded-xl overflow-x-auto max-h-[400px] font-mono text-[12px] relative custom-scrollbar ${isDark ? 'bg-brand-bg border border-white/5' : 'bg-slate-50 border border-slate-200'}`}>
+                                                    <div className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-md ${isDark ? 'bg-cyan-500/50' : 'bg-cyan-500/30'}`}></div>
+                                                    <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(step.value) }} className="pl-2 whitespace-pre-wrap leading-relaxed m-0" />
+                                                </div>
+                                            ) : (
+                                                <div className={`p-3 rounded-xl font-mono text-[12px] break-words ${isDark ? 'bg-brand-bg text-slate-300 border border-white/5' : 'bg-slate-50 text-slate-700 border border-slate-200'}`}>
+                                                    {escapeHTML(step.value)}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const PanelHeader = ({ icon, title, colorClass }) => (
+                <div className={`px-5 py-3.5 border-b flex items-center gap-2.5 ${isDark ? 'bg-white/[0.01] border-white/5' : 'bg-black/[0.02] border-black/5'}`}>
+                    <div className={colorClass}>{icon}</div>
+                    <h2 className={`font-bold text-sm tracking-wide uppercase ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>{title}</h2>
+                </div>
+            );
+
+            return (
+                <div className="flex flex-col gap-6 animate-fade-in w-full max-w-[100rem] mx-auto h-full relative">
+                    <div className={`rounded-2xl border shadow-lg overflow-hidden glass-panel group transition-colors duration-300 ${isDark ? 'focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald border-white/5' : 'focus-within:border-emerald-400 border-black/5'}`}>
+                        <div className={`flex items-center justify-between px-5 py-3 border-b ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
+                            <div className="flex items-center gap-2">
+                                <Icons.Terminal size={16} className={isDark ? "text-emerald-400" : "text-emerald-600"} />
+                                <span className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Paste cURL Command</span>
+                            </div>
+                        </div>
+                        <textarea 
+                            value={curlInput} onChange={(e) => setCurlInput(e.target.value)}
+                            className={`w-full p-5 outline-none resize-y min-h-[160px] font-mono text-[13px] leading-relaxed custom-scrollbar ${isDark ? 'bg-brand-bg/50 text-slate-300 placeholder-slate-600' : 'bg-white/50 text-slate-800 placeholder-slate-400'}`} 
+                            placeholder="curl 'https://api.target.com/data' -H 'Authorization: Bearer eyJhb...' -b 'session=base64_encoded_cookie'" spellCheck="false"
+                        />
+                        <div className={`px-5 py-3 border-t flex flex-col sm:flex-row justify-between items-center gap-4 ${isDark ? 'border-white/5 bg-black/40' : 'border-black/5 bg-slate-50'}`}>
+                            <span className={`text-xs flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                <Icons.Activity size={14} className={isDark ? 'text-emerald-400' : 'text-emerald-600'} /> Auto-detects deeply nested encodings.
+                            </span>
+                            <button onClick={processRequest} className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2.5 px-6 rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+                                <Icons.Cpu size={16} /> Deep Decode Data
+                            </button>
+                        </div>
+                    </div>
+
+                    {parsedResults && (
+                        <div className="space-y-6 animate-slide-up pb-10">
+                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
+                                <PanelHeader icon={<Icons.Link size={16}/>} title="Target Endpoint" colorClass={isDark ? 'text-blue-400' : 'text-blue-600'} />
+                                <div className={`p-5 font-mono text-[13px] break-words flex items-center gap-4 ${isDark ? 'bg-brand-bg/80' : 'bg-blue-50/50'}`}>
+                                    <span className={`px-3 py-1 rounded-md text-xs font-bold ${isDark ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-200 text-blue-800'}`}>{parsedResults.method}</span>
+                                    <span className={isDark ? 'text-blue-300' : 'text-blue-700'}>{parsedResults.url}</span>
+                                </div>
+                            </div>
+                            {parsedResults.queryParams.length > 0 && (
+                                <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
+                                    <PanelHeader icon={<Icons.Code size={16}/>} title="Query Parameters" colorClass={isDark ? 'text-emerald-400' : 'text-emerald-600'} />
+                                    <div>{parsedResults.queryParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)}</div>
+                                </div>
+                            )}
+                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
+                                <PanelHeader icon={<Icons.Lock size={16}/>} title="Session Cookies" colorClass={isDark ? 'text-amber-400' : 'text-amber-600'} />
+                                <div>{parsedResults.cookies.length > 0 ? parsedResults.cookies.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No cookies parsed.</div>}</div>
+                            </div>
+                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
+                                <PanelHeader icon={<Icons.AlignLeft size={16}/>} title="HTTP Headers" colorClass={isDark ? 'text-purple-400' : 'text-purple-600'} />
+                                <div>{parsedResults.headers.length > 0 ? parsedResults.headers.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No headers parsed.</div>}</div>
+                            </div>
+                            <div className="glass-panel rounded-2xl border overflow-hidden shadow-lg">
+                                <PanelHeader icon={<Icons.Database size={16}/>} title="Body Payload" colorClass={isDark ? 'text-rose-400' : 'text-rose-600'} />
+                                <div>
+                                    {parsedResults.bodyParams.length > 0 
+                                        ? parsedResults.bodyParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)
+                                        : parsedResults.bodyDump 
+                                            ? <AnalysisRow itemKey="Raw Body Dump" analysis={parsedResults.bodyDump} />
+                                            : <div className={`p-6 text-center text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No body payload parsed.</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        });
+
+        // ==========================================
+        // COMPONENT: STANDARD DECODER TAB (Now strictly memoized)
+        // ==========================================
+        const StandardDecoderTab = memo(({ isDark, setToast, AlgorithmsLib, ws, updateWorkspace }) => {
+            const { input, output, mode, category, algo, caesarShift, vigenereKey, strUtilMode } = ws;
+            const [animating, setAnimating] = useState(false);
+            const [errorMsg, setErrorMsg] = useState(null);
+            const [showQR, setShowQR] = useState(false);
+            const fileInputRef = useRef(null);
+            const qrCanvasRef = useRef(null);
+
+            const setInput = (val) => updateWorkspace(ws.id, { input: val });
+            const setOutput = (val) => updateWorkspace(ws.id, { output: val });
+            const setMode = (val) => updateWorkspace(ws.id, { mode: val });
+            const setCategory = (val) => updateWorkspace(ws.id, { category: val });
+            const setAlgo = (val) => updateWorkspace(ws.id, { algo: val });
+            const setCaesarShift = (val) => updateWorkspace(ws.id, { caesarShift: val });
+            const setVigenereKey = (val) => updateWorkspace(ws.id, { vigenereKey: val });
+            const setStrUtilMode = (val) => updateWorkspace(ws.id, { strUtilMode: val });
+
+            const handleCategoryChange = (e) => {
+                const newCat = e.target.value; setCategory(newCat);
+                const firstAlgo = algorithms.find(a => a.category === newCat);
+                if(firstAlgo) {
+                    setAlgo(firstAlgo.id);
+                    if(newCat === 'hashes' || firstAlgo.id === 'uuid' || firstAlgo.id === 'url_all') setMode('encode');
+                    else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch', 'regex_tester', 'csv2json'].includes(firstAlgo.id)) setMode('decode');
+                }
+            };
+
+            // Re-render QR if toggled
+            useEffect(() => {
+                if (showQR && qrCanvasRef.current && output) {
+                    try {
+                        window.QRCode.toCanvas(qrCanvasRef.current, output, {
+                            errorCorrectionLevel: 'M',
+                            color: { dark: isDark ? '#10b981' : '#047857', light: '#00000000' },
+                            width: 200
+                        });
+                    } catch(e) { setToast("QR Generation Failed: Data too large or invalid."); setShowQR(false); }
+                }
+            }, [showQR, output, isDark, setToast]);
+
+            useEffect(() => {
+                let isMounted = true;
+                const process = async () => {
+                    setErrorMsg(null); setShowQR(false); 
+                    
+                    if (algo === 'uuid') {
+                        if (isMounted) setOutput(AlgorithmsLib.uuid());
+                        return;
+                    }
+
+                    if (!input) { if(isMounted) setOutput(''); return; }
+                    
+                    try {
+                        let res = '', effectiveMode = mode;
+                        if (category === 'hashes' || algo === 'url_all') effectiveMode = 'encode';
+                        if (['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch', 'regex_tester', 'csv2json'].includes(algo)) effectiveMode = 'decode';
+
+                        if (category === 'hashes') {
+                            res = await AlgorithmsLib.hash(input, algo);
+                            if (isMounted) setOutput(res); return;
+                        }
+
+                        switch (algo) {
+                            case 'defang': res = effectiveMode === 'encode' ? AlgorithmsLib.defang(input) : AlgorithmsLib.refang(input); break;
+                            case 'base64': res = effectiveMode === 'encode' ? AlgorithmsLib.b64Encode(input) : AlgorithmsLib.b64Decode(input); break;
+                            case 'base64url': res = effectiveMode === 'encode' ? AlgorithmsLib.b64UrlEncode(input) : AlgorithmsLib.b64UrlDecode(input); break;
+                            case 'base32': res = effectiveMode === 'encode' ? AlgorithmsLib.b32Encode(input) : AlgorithmsLib.b32Decode(input); break;
+                            case 'url': res = effectiveMode === 'encode' ? encodeURIComponent(input) : safeUrlDecode(input); break;
+                            case 'url_all': res = AlgorithmsLib.urlEncodeAll(input); break;
+                            case 'urlparse': res = AlgorithmsLib.urlParse(input); break;
+                            case 'hex': res = effectiveMode === 'encode' ? AlgorithmsLib.toHex(input) : AlgorithmsLib.fromHex(input); break;
+                            case 'binary': res = effectiveMode === 'encode' ? AlgorithmsLib.toBin(input) : AlgorithmsLib.fromBin(input); break;
+                            case 'octal': res = effectiveMode === 'encode' ? AlgorithmsLib.toOctal(input) : AlgorithmsLib.fromOctal(input); break;
+                            case 'html': res = effectiveMode === 'encode' ? escapeHTML(input) : AlgorithmsLib.htmlDecode(input); break;
+                            case 'reverse': res = AlgorithmsLib.rev(input); break;
+                            case 'atbash': res = AlgorithmsLib.atbash(input); break;
+                            case 'rot47': res = AlgorithmsLib.rot47(input); break;
+                            case 'caesar': res = AlgorithmsLib.caesarCipher(input, parseInt(caesarShift), effectiveMode === 'decode'); break;
+                            case 'vigenere': res = AlgorithmsLib.vigenereCipher(input, vigenereKey, effectiveMode === 'decode'); break;
+                            case 'morse': res = effectiveMode === 'encode' ? AlgorithmsLib.toMorse(input) : AlgorithmsLib.fromMorse(input); break;
+                            case 'json': res = AlgorithmsLib.formatJSON(input, effectiveMode === 'encode'); break;
+                            case 'csv2json': res = AlgorithmsLib.csv2json(input); break;
+                            case 'jwt': res = AlgorithmsLib.parseJWT(input); break;
+                            case 'hexdump': res = AlgorithmsLib.hexdump(input); break;
+                            case 'extract_ips': res = AlgorithmsLib.extractIPs(input); break;
+                            case 'extract_urls': res = AlgorithmsLib.extractURLs(input); break;
+                            case 'epoch': res = AlgorithmsLib.epochConvert(input); break;
+                            case 'string_utils': res = AlgorithmsLib.stringUtils(input, strUtilMode); break;
+                            case 'regex_tester': res = AlgorithmsLib.regexTester(input); break;
+                            default: res = input;
+                        }
+                        if (isMounted) setOutput(res);
+                    } catch (e) { if (isMounted) { setOutput(''); setErrorMsg(e.message || 'Error processing payload. Check format.'); } }
+                };
+                
+                // Debounce slightly for heavy tasks
+                const timeoutId = setTimeout(() => { process(); }, 200);
+                return () => { isMounted = false; clearTimeout(timeoutId); };
+            }, [input, mode, algo, category, caesarShift, vigenereKey, strUtilMode]);
+
+            const applyJsonFormat = (type) => {
+                if (!output) { setToast('No output to format! 😅'); setTimeout(()=>setToast(null), 2000); return; }
+                try {
+                    const parsed = JSON.parse(output);
+                    if (typeof parsed === 'object' && parsed !== null) {
+                        setOutput(type === 'beautify' ? JSON.stringify(parsed, null, 4) : JSON.stringify(parsed));
+                        setToast(`JSON ${type === 'beautify' ? 'Beautified ✨' : 'Minified 🗜️'}`);
+                        setTimeout(()=>setToast(null), 2000);
+                    } else throw new Error();
+                } catch(e) { setToast('Output is not valid JSON! 🥲'); setTimeout(()=>setToast(null), 2000); }
+            };
+
+            const downloadFile = () => {
+                if(output && !errorMsg) {
+                    const url = URL.createObjectURL(new Blob([output], { type: "text/plain" }));
+                    const a = document.createElement("a"); a.href = url; a.download = `decoderx_ws${ws.id}_${algo}.txt`;
+                    a.click(); URL.revokeObjectURL(url); setToast('File downloaded! 🚀');
+                }
+            };
+
+            const toggleQR = () => {
+                if(output && !errorMsg) {
+                    if(output.length > 2000) return setToast("Output too long for QR Code! (Max ~2000 bytes)");
+                    if(!window.QRCode) return setToast("QR generator library not loaded.");
+                    setShowQR(!showQR);
+                }
+            };
+
+            const swap = () => {
+                if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'uuid', 'epoch', 'regex_tester', 'csv2json'].includes(algo) || category === 'hashes') {
+                    setToast(`Cannot swap ${algorithms.find(a=>a.id===algo)?.name || 'this tool'}.`); setTimeout(()=>setToast(null), 2000); return;
+                }
+                setAnimating(true); setInput(output); setMode(mode === 'encode' ? 'decode' : 'encode'); setShowQR(false);
+                setTimeout(() => setAnimating(false), 400);
+            };
+
+            const handleFile = (e) => {
+                const f = e.target.files[0]; if (!f) return;
+                if(f.size > 1024 * 1024 * 5) { setToast("File too large (Max 5MB)"); setTimeout(()=>setToast(null), 2500); return; }
+                const reader = new FileReader();
+                reader.onload = (ev) => { setInput(ev.target.result); setToast(`Loaded: ${f.name}`); setTimeout(()=>setToast(null), 2500); };
+                reader.readAsText(f); e.target.value = null; 
+            };
+
+            const inStats = useMemo(() => getStats(input), [input]);
+            const outStats = useMemo(() => getStats(output), [output]);
+            const currAlgo = algorithms.find(a=>a.id===algo);
+            const isLockMode = ['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'uuid', 'epoch', 'url_all', 'string_utils', 'regex_tester', 'csv2json'].includes(algo) || category === 'hashes';
+            const getEntropyColor = (e) => parseFloat(e) < 3.0 ? 'text-slate-500' : parseFloat(e) < 4.5 ? 'text-emerald-500' : parseFloat(e) < 6.5 ? 'text-amber-500' : 'text-red-500 animate-pulse';
+
+            const PanelHeader = ({ title, stats, isOutput, copyVal }) => (
+                <div className={`flex flex-col sm:flex-row sm:items-center justify-between px-5 py-3 border-b z-20 relative ${isDark ? 'border-white/5 bg-white/[0.01]' : 'border-black/5 bg-black/[0.02]'}`}>
+                    <div className="flex items-center gap-3 mb-2 sm:mb-0">
+                        <div className={`w-2.5 h-2.5 rounded-full ${isOutput ? (errorMsg ? 'bg-red-500 shadow-neon-red' : (isDark ? 'bg-blue-500 shadow-neon-blue' : 'bg-blue-500')) : (isDark ? 'bg-emerald-500 shadow-neon-emerald' : 'bg-emerald-500')}`}></div>
+                        <span className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                            {title}
+                        </span>
+                        {isOutput && <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono font-bold border ${errorMsg ? 'bg-red-500/20 text-red-500 border-red-500/30' : (isDark ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200')}`}>{errorMsg ? 'ERROR' : currAlgo?.name}</span>}
+                    </div>
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                        {isOutput && (
+                            <>
+                                <button onClick={toggleQR} disabled={!!errorMsg || !output} className={`p-1.5 rounded-lg transition-all ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? (showQR ? 'bg-blue-500 text-white shadow-neon-blue' : 'hover:bg-white/10 text-slate-400 hover:text-blue-400') : (showQR ? 'bg-blue-100 text-blue-700' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600'))}`} title="QR Code"><Icons.QrCode size={14}/></button>
+                                <button onClick={downloadFile} disabled={!!errorMsg || !output} className={`p-1.5 rounded-lg transition-all ${!output || errorMsg ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-blue-400' : 'hover:bg-slate-200 text-slate-500 hover:text-blue-600')}`} title="Download TXT"><Icons.Download size={14}/></button>
+                                <div className={`w-px h-4 mx-1 ${isDark ? 'bg-white/10' : 'bg-black/10'}`}></div>
+                            </>
+                        )}
+                        <button onClick={()=> copyToClipboard(copyVal, setToast)} disabled={isOutput ? (!!errorMsg || !output) : !input} className={`p-1.5 rounded-lg transition-all ${(!copyVal && !input) || (isOutput && errorMsg) ? 'opacity-30 cursor-not-allowed' : (isDark ? 'hover:bg-white/10 text-slate-400 hover:text-emerald-400' : 'hover:bg-slate-200 text-slate-500 hover:text-emerald-600')}`} title="Copy"><Icons.Copy size={14}/></button>
+                    </div>
+                </div>
+            );
+
+            const PanelFooter = ({ stats }) => (
+                <div className={`flex justify-between items-center px-5 py-2.5 text-[10px] font-mono border-t z-20 relative ${isDark ? 'border-white/5 bg-black/20 text-slate-500' : 'border-black/5 bg-slate-50 text-slate-500'}`}>
+                    <div className="flex gap-4"><span>Ln: {stats.lines}</span><span>Wd: {stats.words}</span><span>Ch: {stats.chars}</span></div>
+                    <div className="flex gap-4"><span title="Shannon Entropy">Ent: <span className={`font-bold ${getEntropyColor(stats.entropy)}`}>{stats.entropy}</span></span><span>{stats.bytes} B</span></div>
+                </div>
+            );
+
+            let isJsonOutput = false;
+            let formattedJsonOutput = '';
+            if (!errorMsg && output) {
+                if (output.trim().startsWith('{') || output.trim().startsWith('[')) {
+                    try { JSON.parse(output); isJsonOutput = true; formattedJsonOutput = output; } catch (e) {}
+                }
+            }
+
+            return (
+                <div className="flex flex-col gap-4 sm:gap-6 animate-fade-in w-full max-w-[100rem] mx-auto">
+                    {/* TOP CONTROL BAR */}
+                    <div className="glass-panel p-3 sm:p-4 rounded-2xl border shadow-lg flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 z-30 relative animate-slide-up">
+                        
+                        <div className="grid grid-cols-2 xl:flex gap-3 w-full xl:w-auto">
+                            <div className="relative w-full xl:w-48 col-span-1">
+                                <select value={category} onChange={handleCategoryChange} className={`w-full h-11 appearance-none pl-10 pr-8 rounded-xl font-bold text-[12px] sm:text-[13px] outline-none transition-all cursor-pointer ${isDark ? 'bg-black/40 border border-white/5 text-emerald-400 hover:bg-black/60 focus:border-emerald-500/50' : 'bg-white border border-slate-200 text-emerald-700 hover:bg-slate-50 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100'}`}>
+                                    {toolCategories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                </select>
+                                <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400/80' : 'text-emerald-600'}`}>{toolCategories.find(c=>c.id===category)?.icon}</div>
+                                <Icons.ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />
+                            </div>
+                            <div className="relative w-full xl:w-60 col-span-1">
+                                <select value={algo} onChange={e => { 
+                                        const val = e.target.value; setAlgo(val); 
+                                        if(category === 'hashes' || val === 'uuid' || val === 'url_all') setMode('encode'); 
+                                        else if(['jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'epoch', 'regex_tester', 'csv2json'].includes(val)) setMode('decode'); 
+                                    }} className={`w-full h-11 appearance-none pl-10 pr-8 rounded-xl font-semibold text-[12px] sm:text-[13px] outline-none transition-all cursor-pointer ${isDark ? 'bg-black/40 border border-white/5 text-blue-300 hover:bg-black/60 focus:border-blue-500/50' : 'bg-white border border-slate-200 text-blue-700 hover:bg-slate-50 focus:border-blue-400 focus:ring-2 focus:ring-blue-100'}`}>
+                                    {algorithms.filter(a => a.category === category).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+                                </select>
+                                <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-400/80' : 'text-blue-600'}`}>{algorithms.find(a=>a.id===algo)?.icon}</div>
+                                <Icons.ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none" />
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full xl:w-auto">
+                            {!['uuid'].includes(algo) && (
+                                <div className={`flex p-1 rounded-xl w-full sm:w-auto transition-opacity ${isLockMode ? 'opacity-50 pointer-events-none' : ''} ${isDark ? 'bg-black/50 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                    {['encode', 'decode'].map(m => (
+                                        <button key={m} onClick={() => setMode(m)} className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-lg text-[13px] sm:text-sm font-bold capitalize transition-all duration-300 ${mode === m ? (isDark ? 'bg-brand-panel text-white shadow-lg border border-white/10' : 'bg-white text-slate-800 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white'}`}>{m}</button>
+                                    ))}
+                                </div>
+                            )}
+                            
+                            {algo === 'caesar' && (
+                                <div className={`flex flex-1 sm:flex-none items-center justify-between sm:justify-start gap-2 px-4 py-2 rounded-xl h-11 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                    <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />
+                                    <input type="range" min="1" max="25" value={caesarShift} onChange={(e) => setCaesarShift(e.target.value)} className="w-full sm:w-28 cursor-pointer" />
+                                    <span className={`font-mono font-bold w-5 text-center text-[11px] sm:text-xs ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{caesarShift}</span>
+                                </div>
+                            )}
+                            {algo === 'vigenere' && (
+                                <div className={`flex flex-1 sm:flex-none items-center gap-2 px-4 py-2 rounded-xl h-11 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-white border border-slate-200'}`}>
+                                    <Icons.Settings size={14} className="text-slate-500 hidden sm:block" />
+                                    <input type="text" value={vigenereKey} onChange={(e) => setVigenereKey(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} placeholder="KEY" className={`w-full sm:w-28 bg-transparent outline-none font-mono font-bold text-center text-[11px] sm:text-xs uppercase tracking-widest ${isDark ? 'text-emerald-400 placeholder-slate-600' : 'text-emerald-600 placeholder-slate-400'}`}/>
+                                </div>
+                            )}
+                            {algo === 'string_utils' && (
+                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto gap-1 p-1 rounded-xl h-11 ${isDark ? 'bg-black/40 border border-white/5' : 'bg-slate-200/50 border border-slate-300/50'}`}>
+                                    {['upper', 'lower', 'title'].map(m => (
+                                        <button key={m} onClick={() => setStrUtilMode(m)} className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${strUtilMode === m ? (isDark?'bg-brand-panel text-white':'bg-white text-slate-800') : 'text-slate-500 hover:text-slate-400'}`}>
+                                            {m === 'upper' ? 'UPPER' : m === 'lower' ? 'lower' : 'Title'}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                            {algo === 'regex_tester' && (
+                                <div className={`flex flex-1 sm:flex-none items-center w-full sm:w-auto gap-1 px-3 py-1.5 rounded-xl h-11 text-xs font-bold ${isDark ? 'bg-black/40 border border-white/5 text-amber-400' : 'bg-amber-50 border border-amber-200 text-amber-700'}`}>
+                                    Input 1: Regex Pattern. Input 2: Test String.
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex items-center gap-3 w-full xl:w-auto xl:ml-auto">
+                            <input type="file" ref={fileInputRef} onChange={handleFile} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin,.key,.pem" />
+                            <button onClick={() => fileInputRef.current.click()} className={`flex-1 xl:flex-none flex items-center justify-center gap-2 h-11 px-4 sm:px-5 text-[11px] sm:text-xs font-bold tracking-widest rounded-xl transition-all shadow-sm ${isDark ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+                                <Icons.Upload size={14} /> LOAD
+                            </button>
+                            <button onClick={() => {setInput(''); setOutput(''); setErrorMsg(null); setShowQR(false);}} className={`flex-1 xl:flex-none flex items-center justify-center gap-2 h-11 px-4 sm:px-5 text-[11px] sm:text-xs font-bold tracking-widest rounded-xl transition-all shadow-sm ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/40' : 'bg-red-50 border border-red-200 text-red-600 hover:bg-red-100'}`}>
+                                <Icons.Trash2 size={14} /> CLEAR
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* MAIN EDITOR GRID */}
+                    <div className="flex-grow grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 sm:gap-6 items-stretch animate-slide-up" style={{animationDelay: '0.1s'}}>
+                        
+                        {/* INPUT PANEL */}
+                        <div className={`flex flex-col rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${isDark ? 'border-white/5 focus-within:border-emerald-500/50 focus-within:shadow-neon-emerald' : 'border-black/5 focus-within:border-emerald-400 focus-within:shadow-lg'}`}>
+                            <PanelHeader title="Input Payload" stats={inStats} isOutput={false} copyVal={input} />
+                            <HighlightedInput value={input} onChange={e => setInput(e.target.value)} isDark={isDark} placeholder={algo === 'regex_tester' ? "/pattern/gi\n---\ntest string" : algo === 'epoch' ? "Enter Unix Timestamp (e.g. 1729000000)" : "Enter payload or drag file here..."} />
+                            <PanelFooter stats={inStats} />
+                        </div>
+
+                        {/* TOOLBAR */}
+                        <div className="flex flex-row lg:flex-col items-center justify-center gap-3 relative z-10 py-1 lg:py-0 lg:px-2">
+                            <div className={`flex flex-row lg:flex-col items-center p-1.5 rounded-full shadow-floating backdrop-blur-xl border ${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                                
+                                <button onClick={() => applyJsonFormat('beautify')} className={`h-10 w-10 flex items-center justify-center rounded-full transition-all group relative z-10 ${isDark ? 'text-emerald-400 hover:bg-white/10' : 'text-emerald-600 hover:bg-emerald-50'}`} title="Beautify JSON">
+                                    <Icons.AlignLeft size={16} className="transition-transform group-hover:scale-110" />
+                                </button>
+
+                                <div className={`w-px h-6 lg:w-6 lg:h-px mx-1 my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+
+                                <button onClick={swap} disabled={isLockMode} className={`h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center rounded-full shadow-lg transition-all active:scale-95 group relative overflow-hidden z-20 ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-brand-panel border-2 border-[#27272a] text-slate-200 hover:text-white hover:border-emerald-500 hover:shadow-neon-emerald' : 'bg-slate-800 border-2 border-slate-700 text-white hover:shadow-xl hover:bg-slate-900'}`} title="Swap Input & Output">
+                                    <div className={`relative z-10 transition-transform duration-500 ${animating ? 'rotate-180 scale-75' : ''}`}>
+                                        <Icons.ArrowRightLeft size={16} strokeWidth={2.5} className="sm:w-[18px] sm:h-[18px]" />
+                                    </div>
+                                </button>
+
+                                <div className={`w-px h-6 lg:w-6 lg:h-px mx-1 my-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+
+                                <button onClick={() => applyJsonFormat('minify')} className={`h-10 w-10 flex items-center justify-center rounded-full transition-all group relative z-10 ${isDark ? 'text-blue-400 hover:bg-white/10' : 'text-blue-600 hover:bg-blue-50'}`} title="Minify JSON">
+                                    <Icons.FileCode size={16} className="transition-transform group-hover:scale-110" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* OUTPUT PANEL */}
+                        <div className={`flex flex-col rounded-2xl glass-panel border overflow-hidden transition-all duration-300 group shadow-sm ${errorMsg ? (isDark ? 'border-red-500/50 shadow-neon-red' : 'border-red-400 shadow-lg') : (isDark ? 'border-white/5 focus-within:border-blue-500/50 focus-within:shadow-neon-blue' : 'border-black/5 focus-within:border-blue-400 focus-within:shadow-lg')}`}>
+                            <PanelHeader title="Processed Output" stats={outStats} isOutput={true} copyVal={output} />
+                            <div className="relative flex-grow flex flex-col min-h-[250px] h-[300px] md:h-[400px] lg:h-[450px]">
+                                {isJsonOutput ? (
+                                    <div className={`w-full h-full p-4 sm:p-5 overflow-auto font-mono text-[12px] sm:text-[13px] custom-scrollbar relative ${isDark ? 'bg-brand-bg text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
+                                        <div className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-md transition-colors ${isDark ? 'bg-cyan-500/50 group-focus-within:bg-cyan-400' : 'bg-cyan-500/30 group-focus-within:bg-cyan-500'}`}></div>
+                                        <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className="whitespace-pre-wrap pl-3 m-0 editor-pre leading-relaxed"></pre>
+                                    </div>
+                                ) : (
+                                    <textarea value={errorMsg || output} readOnly placeholder={errorMsg ? '' : "Result awaits..."} className={`w-full h-full p-4 sm:p-5 bg-transparent resize-none outline-none font-mono text-[12px] sm:text-[13px] custom-scrollbar overflow-auto leading-relaxed ${errorMsg ? (isDark ? 'text-red-400' : 'text-red-600') : (isDark ? 'text-blue-50' : 'text-slate-800')}`} />
+                                )}
+                                
+                                {showQR && (
+                                    <div className="absolute inset-0 z-10 flex items-center justify-center p-6 animate-bounce-in bg-black/40 backdrop-blur-md">
+                                        <div className={`p-5 rounded-3xl shadow-2xl relative border ${isDark ? 'bg-brand-panel border-white/10' : 'bg-white border-slate-200'}`}>
+                                            <button onClick={()=>setShowQR(false)} className="absolute -top-3 -right-3 p-1.5 rounded-full shadow-lg bg-red-500 text-white hover:bg-red-600 transition-colors z-20"><Icons.X size={14} /></button>
+                                            <canvas ref={qrCanvasRef} className="w-48 h-48 rounded-xl opacity-90 mx-auto bg-white p-2"></canvas>
+                                            <p className={`text-center text-[10px] mt-3 font-bold opacity-60 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>Client-Side Generation (Secure)</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <PanelFooter stats={outStats} />
+                        </div>
+                    </div>
+                </div>
+            );
+        });
+
+        // ==========================================
+        // COMPONENT: WORKSPACE TAB (EDITABLE)
+        // ==========================================
+        const WorkspaceTab = ({ ws, isActive, onSelect, onClose, onRename, isDark, isOnlyTab }) => {
+            const [isEditing, setIsEditing] = useState(false);
+            const [editName, setEditName] = useState(ws.name);
+            const inputRef = useRef(null);
+
+            useEffect(() => {
+                if (isEditing && inputRef.current) {
+                    inputRef.current.focus();
+                    inputRef.current.select();
+                }
+            }, [isEditing]);
+
+            const handleRenameSubmit = () => {
+                setIsEditing(false);
+                if (editName.trim() && editName.trim() !== ws.name) onRename(ws.id, editName.trim());
+                else setEditName(ws.name);
+            };
+
+            const handleKeyDown = (e) => {
+                if (e.key === 'Enter') handleRenameSubmit();
+                if (e.key === 'Escape') { setIsEditing(false); setEditName(ws.name); }
+            };
+
+            return (
+                <div 
+                    onClick={() => !isEditing && onSelect(ws.id)}
+                    onDoubleClick={() => setIsEditing(true)}
+                    className={`group flex items-center gap-2 px-3.5 py-2 min-w-[140px] max-w-[220px] cursor-pointer rounded-xl transition-all duration-300 border shadow-sm flex-shrink-0 relative ${
+                        isActive 
+                            ? (isDark ? 'bg-brand-panel border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-emerald-50/80 border-emerald-300 text-emerald-700 shadow-[0_0_15px_rgba(16,185,129,0.1)]') 
+                            : (isDark ? 'bg-black/20 border-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200' : 'bg-white border-slate-200/60 text-slate-500 hover:bg-slate-50 hover:text-slate-800')
+                    }`}
+                >
+                    <Icons.Folder size={14} className={`flex-shrink-0 ${isActive ? '' : 'opacity-60'}`} />
+                    {isEditing ? (
+                        <input
+                            ref={inputRef} type="text" value={editName} onChange={(e) => setEditName(e.target.value)}
+                            onBlur={handleRenameSubmit} onKeyDown={handleKeyDown}
+                            className={`text-xs font-bold w-full bg-transparent outline-none flex-grow ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}
+                        />
+                    ) : (
+                        <span className="text-xs font-bold truncate flex-grow select-none" title="Double-click to rename">{ws.name}</span>
+                    )}
+
+                    {!isOnlyTab && !isEditing && (
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); onClose(ws.id); }}
+                            className={`p-1 rounded-md opacity-50 hover:opacity-100 transition-all flex-shrink-0 ml-1 ${isDark ? 'hover:bg-red-500/20 hover:text-red-400 text-slate-400' : 'hover:bg-red-100 hover:text-red-600 text-slate-500'}`}
+                            title="Close Workspace"
+                        >
+                            <Icons.X size={12} />
+                        </button>
+                    )}
+                </div>
+            );
+        };
+
+        // ==========================================
+        // ALGORITHMS LIBRARY (UTF-8 SAFE & ROBUST)
+        // ==========================================
+        const utf8Encoder = new TextEncoder();
+        const utf8Decoder = new TextDecoder('utf-8', { fatal: false });
+
+        const algosLib = {
+            toHex: s => Array.from(utf8Encoder.encode(s)).map(b => b.toString(16).padStart(2,'0')).join(' '),
+            fromHex: h => { 
+                let clean = h.replace(/\s|0x|,|;/g, '');
+                if (clean.length % 2 !== 0) throw new Error("Invalid Hex String (Odd length)");
+                if (!/^[0-9a-fA-F]*$/.test(clean)) throw new Error("Invalid Hex Characters");
+                let bytes = new Uint8Array(clean.length / 2);
+                for(let i=0; i<clean.length; i+=2) bytes[i/2] = parseInt(clean.substr(i,2), 16);
+                return utf8Decoder.decode(bytes);
+            },
+            toBin: s => Array.from(utf8Encoder.encode(s)).map(b => b.toString(2).padStart(8,'0')).join(' '),
+            fromBin: b => { 
+                let clean = b.replace(/[^01]/g, ''); 
+                if(clean.length % 8 !== 0) throw new Error("Invalid Binary String (Not a multiple of 8 bits)");
+                let bytes = new Uint8Array(clean.length / 8);
+                for(let i=0; i<clean.length; i+=8) bytes[i/8] = parseInt(clean.substr(i,8), 2);
+                return utf8Decoder.decode(bytes);
+            },
+            toOctal: s => Array.from(utf8Encoder.encode(s)).map(b => '\\' + b.toString(8).padStart(3, '0')).join(''),
+            fromOctal: s => {
+                const parts = s.split('\\').filter(Boolean);
+                let bytes = new Uint8Array(parts.length);
+                for(let i=0; i<parts.length; i++) {
+                    let p = parts[i].trim();
+                    if(!/^[0-7]{1,3}$/.test(p)) throw new Error("Invalid Octal formatting (Use \\nnn)");
+                    bytes[i] = parseInt(p, 8);
+                }
+                return utf8Decoder.decode(bytes);
+            },
+            htmlDecode: s => new DOMParser().parseFromString(s,'text/html').documentElement.textContent,
+            rev: s => Array.from(s).reverse().join(''), // Array.from handles basic surrogate pairs
+            atbash: s => s.replace(/[a-zA-Z]/g, c => String.fromCharCode((c <= 'Z' ? 90 + 65 : 122 + 97) - c.charCodeAt(0))),
+            rot47: s => s.replace(/[!-~]/g, c => String.fromCharCode((c.charCodeAt(0) - 33 + 47) % 94 + 33)),
+            defang: s => s.replace(/\./g, '[.]').replace(/http/gi, 'hxxp'),
+            refang: s => s.replace(/\[\.\]/g, '.').replace(/hxxp/gi, 'http'),
+            caesarCipher: (str, shift, dec) => str.replace(/[a-zA-Z]/g, c => String.fromCharCode(((c.charCodeAt(0)-(c<='Z'?65:97)+(dec?(26-(shift%26)):(shift%26)))%26)+(c<='Z'?65:97))),
+            vigenereCipher: (str, key, dec) => { 
+                let k=key.toUpperCase().replace(/[^A-Z]/g,'')||'A', ki=0; 
+                return str.replace(/[a-zA-Z]/g, c => { 
+                    const shift = k.charCodeAt(ki%k.length)-65; ki++; 
+                    return String.fromCharCode(((c.charCodeAt(0)-(c<='Z'?65:97)+(dec?(26-shift):shift))%26)+(c<='Z'?65:97));
+                }); 
+            },
+            toMorse: s => s.toUpperCase().split('').map(c => ({'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/','.':'.-.-.-',',':'--..--','?':'..--..',"'":'.----.','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',':':'---...',';':'-.-.-.','=':'-...-','+':'.-.-.','-':'-....-','_':'..--.-','"':'.-..-.','$':'...-..-','@':'.--.-.'}[c]||c)).join(' '),
+            fromMorse: s => { 
+                const d = Object.entries({'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/','.':'.-.-.-',',':'--..--','?':'..--..',"'":'.----.','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',':':'---...',';':'-.-.-.','=':'-...-','+':'.-.-.','-':'-....-','_':'..--.-','"':'.-..-.','$':'...-..-','@':'.--.-.'}).reduce((a,[k,v])=>(a[v]=k,a),{}); 
+                return s.trim().split(' ').map(c=>d[c]||c).join('').replace(/\//g,' '); 
+            },
+            formatJSON: (str, min) => { 
+                if(!str.trim()) return ''; 
+                try { return min ? JSON.stringify(JSON.parse(str)) : JSON.stringify(JSON.parse(str), null, 4); } 
+                catch(e){ throw new Error("Invalid JSON Format"); } 
+            },
+            parseJWT: t => { 
+                try { 
+                    const p=t.split('.'); if(p.length < 2) throw new Error("Invalid JWT Format"); 
+                    const dec = s => { 
+                        let b=s.replace(/-/g,'+').replace(/_/g,'/'); while(b.length%4) b+='='; 
+                        const binStr = atob(b); const bytes = new Uint8Array(binStr.length);
+                        for(let i=0; i<binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+                        return utf8Decoder.decode(bytes);
+                    }; 
+                    const header = JSON.parse(dec(p[0]));
+                    const payload = JSON.parse(dec(p[1]));
+                    const sigInfo = p.length === 3 ? "Present (Verification requires secret/key)" : "None";
+                    
+                    // Expiry check
+                    let notes = [];
+                    const now = Math.floor(Date.now() / 1000);
+                    if(payload.exp) { notes.push(`Expires: ${new Date(payload.exp*1000).toISOString()} (${payload.exp < now ? 'EXPIRED' : 'Valid'})`); }
+                    if(payload.nbf) { notes.push(`Not Before: ${new Date(payload.nbf*1000).toISOString()} (${payload.nbf > now ? 'NOT YET ACTIVE' : 'Active'})`); }
+
+                    return JSON.stringify({Header: header, Payload: payload, Signature: sigInfo, Security_Notes: notes.length ? notes : "None"}, null, 4); 
+                } catch(e){ throw new Error("Invalid or Corrupted JWT: " + e.message); } 
+            },
+            
+            // UTF-8 Safe Base64
+            b64Encode: (str) => {
+                const bytes = utf8Encoder.encode(str);
+                let binStr = "";
+                for(let i=0; i<bytes.byteLength; i++) binStr += String.fromCharCode(bytes[i]);
+                return btoa(binStr);
+            },
+            b64Decode: (b64) => {
+                b64 = b64.replace(/\s+/g, '');
+                if (!/^[A-Za-z0-9+/]*={0,2}$/.test(b64) || b64.length % 4 !== 0) throw new Error("Invalid Base64 formatting");
+                const binStr = atob(b64);
+                const bytes = new Uint8Array(binStr.length);
+                for(let i=0; i<binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+                return utf8Decoder.decode(bytes);
+            },
+            b64UrlEncode: (str) => algosLib.b64Encode(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
+            b64UrlDecode: (b64u) => {
+                let b = b64u.replace(/-/g, '+').replace(/_/g, '/');
+                while (b.length % 4) b += '=';
+                return algosLib.b64Decode(b);
+            },
+
+            b32Encode: (s) => { 
+                const bytes = utf8Encoder.encode(s);
+                let bits = 0, value = 0, output = ''; 
+                for (let i = 0; i < bytes.length; i++) { 
+                    value = (value << 8) | bytes[i]; bits += 8; 
+                    while (bits >= 5) { output += "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[(value >>> (bits - 5)) & 31]; bits -= 5; } 
+                } 
+                if (bits > 0) output += "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[(value << (5 - bits)) & 31]; 
+                while (output.length % 8 !== 0) output += '='; 
+                return output; 
+            },
+            b32Decode: (s) => { 
+                s = s.replace(/=+$/, '').toUpperCase().replace(/\s+/g, ''); 
+                let bits = 0, value = 0; 
+                let bytes = [];
+                for (let i = 0; i < s.length; i++) { 
+                    let val = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".indexOf(s[i]); 
+                    if (val === -1) throw new Error("Invalid Base32 char"); 
+                    value = (value << 5) | val; bits += 5; 
+                    if (bits >= 8) { bytes.push((value >>> (bits - 8)) & 255); bits -= 8; } 
+                } 
+                return utf8Decoder.decode(new Uint8Array(bytes)); 
+            },
+            extractIPs: (s) => { 
+                const ipv4 = s.match(/\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/g) || []; 
+                const ipv6 = s.match(/\b(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}\b/g) || []; 
+                const all = [...new Set([...ipv4, ...ipv6])]; 
+                return all.length ? all.join('\n') : 'No IPs found.'; 
+            },
+            extractURLs: (s) => { 
+                const urls = s.match(/https?:\/\/[^\s"'<>]+/gi) || []; 
+                return urls.length ? [...new Set(urls)].join('\n') : 'No URLs found.'; 
+            },
+            hexdump: (s) => { 
+                const bytes = utf8Encoder.encode(s);
+                let out = ''; 
+                for (let i = 0; i < bytes.length; i += 16) { 
+                    let chunk = bytes.slice(i, i + 16); 
+                    let hex = Array.from(chunk).map(b => b.toString(16).padStart(2, '0')).join(' '); 
+                    let ascii = Array.from(chunk).map(b => (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.').join(''); 
+                    out += i.toString(16).padStart(8, '0') + '  ' + hex.padEnd(48, ' ') + '  |' + ascii + '|\n'; 
+                } 
+                return out || 'No data.'; 
+            },
+            epochConvert: (s) => { 
+                s = s.trim(); 
+                if(!/^-?\d+(\.\d+)?$/.test(s)) throw new Error("Invalid Unix Timestamp format"); 
+                let num = parseFloat(s);
+                let ms = num < 10000000000 ? num * 1000 : num; // Heuristic for seconds vs millis
+                let d = new Date(ms);
+                if(isNaN(d.getTime())) throw new Error("Date out of range");
+                return `UTC:   ${d.toUTCString()}\nLocal: ${d.toString()}\nISO:   ${d.toISOString()}`; 
+            },
+            urlEncodeAll: (s) => {
+                return Array.from(utf8Encoder.encode(s)).map(b => '%' + b.toString(16).padStart(2, '0').toUpperCase()).join('');
+            },
+            urlParse: (s) => {
+                try {
+                    const u = new URL(s.startsWith('http') ? s : `https://${s}`); 
+                    return JSON.stringify({ 
+                        Protocol: u.protocol.replace(':',''), 
+                        Host: u.host, 
+                        Port: u.port || (u.protocol === 'https:' ? '443' : '80'),
+                        Path: u.pathname, 
+                        Hash: u.hash,
+                        Parameters: Object.keys(Object.fromEntries(u.searchParams)).length ? Object.fromEntries(u.searchParams) : "None" 
+                    }, null, 4);
+                } catch(e) { throw new Error("Invalid URL Format"); }
+            },
+            stringUtils: (s, mode) => { 
+                if(mode === 'upper') return s.toUpperCase(); 
+                if(mode === 'lower') return s.toLowerCase(); 
+                return s.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substring(1).toLowerCase()); 
+            },
+            uuid: () => {
+                if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+                // Fallback for secure RNG
+                if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+                    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                    );
+                }
+                throw new Error("Secure random generation is not supported in this environment context.");
+            },
+            hash: async (s, algo) => {
+                if(typeof crypto === 'undefined' || !crypto.subtle) throw new Error("Web Crypto API unavailable. Requires HTTPS/Localhost.");
+                const name = algo === 'sha512' ? 'SHA-512' : algo === 'sha1' ? 'SHA-1' : 'SHA-256';
+                const hashBuffer = await crypto.subtle.digest(name, utf8Encoder.encode(s));
+                return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            },
+            regexTester: (s) => {
+                let parts = s.split('\n---\n');
+                if(parts.length < 2) throw new Error("Format must be:\n/pattern/flags\n---\nTarget string");
+                let patternStr = parts[0].trim();
+                let target = parts.slice(1).join('\n---\n');
+                
+                let m = patternStr.match(/^\/(.*?)\/([a-z]*)$/i);
+                if(!m) throw new Error("Invalid Regex format. Use /pattern/flags");
+                
+                let regex = new RegExp(m[1], m[2]);
+                let results = [], match;
+                
+                if (!regex.global) {
+                    let r = regex.exec(target);
+                    if(r) return JSON.stringify({ matches: [r[0]], captureGroups: r.slice(1), index: r.index }, null, 2);
+                    return "No Match Found.";
+                }
+
+                while ((match = regex.exec(target)) !== null) {
+                    results.push({ match: match[0], captureGroups: match.slice(1), index: match.index });
+                    if(match.index === regex.lastIndex) regex.lastIndex++;
+                }
+                return results.length ? JSON.stringify(results, null, 2) : "No Matches Found.";
+            },
+            csv2json: (s) => {
+                let lines = s.trim().split('\n');
+                if(lines.length < 2) throw new Error("CSV must have a header row and data.");
+                let headers = lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
+                let res = [];
+                for(let i=1; i<lines.length; i++) {
+                    let obj = {};
+                    // Basic split (not accounting for commas inside quotes to keep lightweight, but adequate for simple CSVs)
+                    let currentLine = lines[i].split(',');
+                    for(let j=0; j<headers.length; j++) {
+                        obj[headers[j]] = currentLine[j] ? currentLine[j].trim().replace(/^"|"$/g,'') : '';
+                    }
+                    res.push(obj);
+                }
+                return JSON.stringify(res, null, 4);
+            }
+        };
+
+        // ==========================================
+        // MAIN APP SHELL
+        // ==========================================
+        function App() {
+            const [theme, setTheme] = useState('dark');
+            const [activeTab, setActiveTab] = useState('decoderx');
+            const [toast, setToast] = useState(null);
+
+            // Workspace Management - Lifted State
+            const [workspaces, setWorkspaces] = useState([{ 
+                id: 1, name: 'Workspace 1', input: '', output: '', 
+                mode: 'decode', category: 'encoders', algo: 'base64', 
+                caesarShift: 13, vigenereKey: 'KEY', strUtilMode: 'upper' 
+            }]);
+            const [activeWorkspaceId, setActiveWorkspaceId] = useState(1);
+            const [nextWorkspaceId, setNextWorkspaceId] = useState(2);
+
+            // cURL Global State (preserves across view swaps)
+            const [curlInput, setCurlInput] = useState('');
+            const [curlParsed, setCurlParsed] = useState(null);
+
+            useEffect(() => { 
+                if (theme === 'dark') document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+            }, [theme]);
+
+            const isDark = theme === 'dark';
+
+            const addWorkspace = () => {
+                if (workspaces.length >= 10) return;
+                const newId = nextWorkspaceId;
+                setWorkspaces([...workspaces, { 
+                    id: newId, name: `Workspace ${newId}`, input: '', output: '', 
+                    mode: 'decode', category: 'encoders', algo: 'base64', 
+                    caesarShift: 13, vigenereKey: 'KEY', strUtilMode: 'upper' 
+                }]);
+                setActiveWorkspaceId(newId);
+                setNextWorkspaceId(newId + 1);
+            };
+
+            const removeWorkspace = (idToRemove) => {
+                if (workspaces.length === 1) {
+                    if (confirm("Clear current workspace data?")) {
+                        updateWorkspace(idToRemove, { input: '', output: '' });
+                    }
+                    return;
+                }
+                const updatedWorkspaces = workspaces.filter(ws => ws.id !== idToRemove);
+                setWorkspaces(updatedWorkspaces);
+                if (activeWorkspaceId === idToRemove) {
+                    setActiveWorkspaceId(updatedWorkspaces[updatedWorkspaces.length - 1].id);
+                }
+            };
+
+            const renameWorkspace = (id, newName) => {
+                setWorkspaces(ws => ws.map(w => w.id === id ? { ...w, name: newName } : w));
+            };
+
+            const updateWorkspace = useCallback((id, updates) => {
+                setWorkspaces(ws => ws.map(w => w.id === id ? { ...w, ...updates } : w));
+            }, []);
+
+            return (
+                <div className="min-h-screen flex flex-col relative font-sans">
+                    <div className="fixed inset-0 pointer-events-none z-0">
+                        <div className={`absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full blur-[180px] opacity-30 mix-blend-screen transition-colors duration-1000 ${isDark ? 'bg-blue-600' : 'bg-blue-200'}`}></div>
+                        <div className={`absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full blur-[180px] opacity-30 mix-blend-screen transition-colors duration-1000 ${isDark ? 'bg-emerald-600' : 'bg-emerald-200'}`}></div>
+                        <div className={`absolute inset-0 bg-grid-pattern opacity-100`}></div>
+                        {isDark && <div className="animate-scanline opacity-10 pointer-events-none fixed inset-0 border-b-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.5)] z-50"></div>}
+                    </div>
+
+                    <main className="flex-grow w-full max-w-[100rem] mx-auto p-3 sm:p-5 lg:p-6 relative z-10 flex flex-col gap-4 overflow-x-hidden h-[100vh]">
+                        
+                        {/* COMPACT FULL HEADER */}
+                        <header className={`glass-panel border rounded-2xl p-3 md:px-5 md:py-3 flex flex-col lg:flex-row items-center justify-between gap-4 shadow-sm transition-all duration-500 animate-slide-up flex-shrink-0 ${isDark ? 'bg-brand-bg/80 border-white/5' : 'bg-white/90 border-slate-200'}`}>
+                            <div className="flex items-center gap-3 w-full lg:w-1/3">
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500 blur-[8px] opacity-40 rounded-xl"></div>
+                                    <div className={`relative p-2 rounded-xl border shadow-sm flex items-center justify-center ${isDark ? 'bg-brand-panel border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}`}>
+                                        <Icons.Shield size={20} strokeWidth={2.5} className="text-emerald-500" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <h1 className="text-xl md:text-2xl font-display font-bold tracking-tight text-gradient-primary leading-none">DecoderX</h1>
+                                    <p className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 flex items-center gap-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Pro Suite <Icons.Check size={10} className="text-emerald-500"/></p>
+                                </div>
+                            </div>
+
+                            <div className={`flex p-1.5 rounded-xl w-full lg:w-auto shadow-inner border flex-shrink-0 ${isDark ? 'bg-black/60 border-white/5' : 'bg-slate-100 border-slate-200/50'}`}>
+                                <button onClick={() => setActiveTab('decoderx')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeTab === 'decoderx' ? (isDark ? 'bg-brand-panel text-emerald-400 shadow-md border border-white/5' : 'bg-white text-emerald-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
+                                    <Icons.Terminal size={15}/> Essential Tools
+                                </button>
+                                <button onClick={() => setActiveTab('curl')} className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${activeTab === 'curl' ? (isDark ? 'bg-brand-panel text-blue-400 shadow-md border border-white/5' : 'bg-white text-blue-600 shadow-sm border border-slate-200') : 'text-slate-500 hover:text-slate-300'}`}>
+                                    <Icons.Layers size={15}/> Deep cURL Parse
+                                </button>
+                            </div>
+
+                            <div className="flex justify-end w-full lg:w-1/3">
+                                <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} className={`h-10 w-10 flex items-center justify-center rounded-xl border outline-none transition-all hover:scale-105 active:scale-95 shadow-sm ${isDark ? 'bg-brand-panel border-white/10 text-yellow-400 hover:border-yellow-500/50 hover:shadow-neon-emerald' : 'bg-white border-slate-200 text-slate-500 hover:text-blue-500'}`}>
+                                    {isDark ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
+                                </button>
+                            </div>
+                        </header>
+
+                        {/* WORKSPACE TAB MANAGER */}
+                        <div className={activeTab === 'decoderx' ? "block" : "hidden"}>
+                            <div className={`flex items-center gap-2 py-2 px-3 overflow-x-auto tab-scroll-container animate-slide-up rounded-2xl border glass-panel shadow-sm w-full transition-all duration-500 ${isDark ? 'border-white/5 bg-brand-bg/80' : 'border-slate-200 bg-white/90'}`}>
+                                {workspaces.map(ws => (
+                                    <WorkspaceTab
+                                        key={ws.id} ws={ws} isActive={activeWorkspaceId === ws.id}
+                                        onSelect={setActiveWorkspaceId} onClose={removeWorkspace}
+                                        onRename={renameWorkspace} isDark={isDark} isOnlyTab={workspaces.length === 1}
+                                    />
+                                ))}
+                                
+                                <div className={`w-px h-6 flex-shrink-0 mx-1 ${isDark ? 'bg-white/10' : 'bg-slate-200'}`}></div>
+
+                                <button onClick={addWorkspace} className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all border border-dashed flex-shrink-0 group ${isDark ? 'border-white/20 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/40' : 'border-slate-300 text-slate-500 hover:bg-slate-100 hover:text-slate-800 hover:border-slate-400'}`}>
+                                    <Icons.Plus size={14} className="transition-transform group-hover:scale-110" /> New Tab
+                                </button>
+                                
+                                <div className="flex-grow"></div>
+                                <div className={`hidden md:flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase px-2 opacity-50 select-none flex-shrink-0 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                    <Icons.Wand size={12} /> Dbl-Click Tab to Rename
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* WORKSPACE CONTENT AREA */}
+                        <div className="flex-grow flex flex-col w-full relative overflow-y-auto custom-scrollbar overflow-x-hidden">
+                            
+                            {/* Standard Tools View (mapped so they don't unmount and lose internal UI state) */}
+                            <div className={activeTab === 'decoderx' ? "block h-full" : "hidden"}>
+                                {workspaces.map(ws => (
+                                    <div key={ws.id} className={activeWorkspaceId === ws.id ? 'block h-full animate-fade-in' : 'hidden'}>
+                                        <StandardDecoderTab isDark={isDark} setToast={setToast} AlgorithmsLib={algosLib} ws={ws} updateWorkspace={updateWorkspace} />
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* cURL Analyzer View */}
+                            <div className={activeTab === 'curl' ? "block h-full animate-fade-in" : "hidden"}>
+                                <CurlDecoderTab isDark={isDark} setToast={setToast} curlInput={curlInput} setCurlInput={setCurlInput} parsedResults={curlParsed} setParsedResults={setCurlParsed} />
+                            </div>
+
+                        </div>
+
+                        <footer className="mt-auto pt-2 pb-2 animate-fade-in text-center flex-shrink-0">
+                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border glass-panel shadow-sm ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse-glow shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                                <span className={`text-[10px] font-bold tracking-widest uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                    Engineered by <span className="text-gradient-primary">Mr Shiva</span>
+                                </span>
+                            </div>
+                        </footer>
+                    </main>
+
+                    {toast && (
+                        <div className="fixed bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-[100] animate-bounce-in w-[90%] sm:w-auto max-w-sm">
+                            <div className={`flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-floating border font-bold text-[13px] sm:text-sm tracking-wide glass-panel ${isDark ? 'border-emerald-500/30 text-emerald-400 bg-brand-bg/95' : 'border-emerald-200 text-emerald-700 bg-white/95'}`}>
+                                <div className={`p-1.5 rounded-full shrink-0 ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'}`}><Icons.Check size={16} /></div>
+                                <span className="truncate">{toast}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
