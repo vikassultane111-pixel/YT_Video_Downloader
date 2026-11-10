@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Baatcheet Live Pro - Real-Time Chat, Media & File Sharing</title>
+  <title>NexusChat Pro — Real-Time Workspace & Media Platform</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Fonts: Inter & Plus Jakarta Sans & JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
   <!-- MQTT.js for global real-time sync alongside Firebase -->
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -23,8 +23,8 @@
       height: 100dvh;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #060913;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #07090e;
       color: #f8fafc;
       overflow: hidden;
       overscroll-behavior: none;
@@ -32,18 +32,28 @@
     h1, h2, h3, .font-display {
       font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     }
+    code, pre, .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-    /* Subtle Chat Background Pattern */
-    .chat-bg-pattern {
-      background-color: #060913;
+    /* Prevent iOS auto-zoom on input focus by keeping base font >= 16px on mobile inputs */
+    @media screen and (max-width: 640px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Subtle Ambient Mesh Background */
+    .workspace-bg {
+      background-color: #07090e;
       background-image: 
-        radial-gradient(at 15% 15%, rgba(79, 70, 229, 0.08) 0px, transparent 45%),
-        radial-gradient(at 85% 85%, rgba(139, 92, 246, 0.07) 0px, transparent 45%),
-        radial-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+        radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.07) 0px, transparent 40%),
+        radial-gradient(at 90% 85%, rgba(139, 92, 246, 0.06) 0px, transparent 40%),
+        radial-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px);
       background-size: 100% 100%, 100% 100%, 24px 24px;
     }
 
-    /* Custom Scrollbar */
+    /* Custom Scrollbars */
     ::-webkit-scrollbar {
       width: 5px;
       height: 5px;
@@ -52,33 +62,13 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(71, 85, 105, 0.45);
+      background: rgba(71, 85, 105, 0.4);
       border-radius: 9999px;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(99, 102, 241, 0.75);
     }
 
-    /* Smooth Message Animations */
-    @keyframes msgSlideIn {
-      0% { opacity: 0; transform: translateY(10px) scale(0.98); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .msg-animate {
-      animation: msgSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes pulseHighlight {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
-      50% { box-shadow: 0 0 0 3px #6366f1, 0 0 25px rgba(99, 102, 241, 0.5); }
-    }
-    .highlight-pulse {
-      animation: pulseHighlight 1.6s ease-in-out;
-      background-color: rgba(79, 70, 229, 0.18) !important;
-      border-radius: 1rem;
-    }
-
-    /* Hide scrollbar for horizontal pill lists */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -86,63 +76,96 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+    /* Message Entrance & Highlight Animations */
+    @keyframes msgEnter {
+      0% { opacity: 0; transform: translateY(8px) scale(0.99); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .msg-animate {
+      animation: msgEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes pulseTarget {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+      50% { box-shadow: 0 0 0 2px #6366f1, 0 0 24px rgba(99, 102, 241, 0.45); }
+    }
+    .highlight-pulse {
+      animation: pulseTarget 1.6s ease-in-out;
+      background-color: rgba(99, 102, 241, 0.14) !important;
+      border-radius: 1rem;
+    }
+
+    /* Safe Area Footer Padding for Mobile Devices */
+    .safe-bottom {
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
   </style>
 </head>
-<body class="w-full flex flex-col bg-[#060913] text-slate-100 select-none sm:select-auto">
+<body class="w-full h-full flex flex-col bg-[#07090e] text-slate-100 select-none sm:select-auto">
 
-  <!-- ================= TOP PROFESSIONAL HEADER ================= -->
-  <header class="bg-slate-900/85 backdrop-blur-xl border-b border-slate-800/80 px-3 sm:px-5 py-2.5 z-30 shrink-0">
+  <!-- ================= TOP PROFESSIONAL NAVIGATION HEADER ================= -->
+  <header class="bg-slate-900/90 backdrop-blur-xl border-b border-slate-800/80 px-3 sm:px-5 py-2.5 z-30 shrink-0">
     <div class="max-w-5xl mx-auto flex items-center justify-between gap-2">
       
-      <!-- Brand & Live Status -->
+      <!-- Brand, Channel Selector & Live Presence -->
       <div class="flex items-center space-x-2.5 min-w-0">
-        <div class="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-fuchsia-500 shadow-lg shadow-indigo-500/25 shrink-0">
+        <div class="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-cyan-500 shadow-lg shadow-indigo-500/20 shrink-0">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
           </svg>
-          <span class="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+          <span class="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span id="statusDot" class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-slate-900"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 border-2 border-slate-900"></span>
           </span>
         </div>
 
         <div class="min-w-0">
           <div class="flex items-center space-x-2">
-            <h1 class="font-display font-bold text-sm sm:text-base md:text-lg tracking-tight text-white truncate">
-              Baatcheet <span class="text-indigo-400">Pro</span>
+            <h1 class="font-display font-bold text-sm sm:text-base tracking-tight text-white truncate">
+              NexusChat <span class="text-indigo-400 font-extrabold">Pro</span>
             </h1>
-            <span class="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 shrink-0">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Live
-            </span>
+
+            <!-- Channel Switcher Dropdown -->
+            <div class="relative">
+              <select id="channelSelect" aria-label="Select Channel" class="bg-slate-800/90 hover:bg-slate-700/80 text-indigo-300 border border-slate-700/80 rounded-lg px-2 py-0.5 text-[11px] sm:text-xs font-semibold focus:outline-none focus:border-indigo-500 cursor-pointer transition">
+                <option value="general"># general</option>
+                <option value="tech-talk"># tech-talk</option>
+                <option value="media-hub"># media-hub</option>
+                <option value="announcements"># announcements</option>
+              </select>
+            </div>
           </div>
-          <p id="typingIndicatorText" class="text-[11px] text-slate-400 truncate">
-            Public Room • Photos, Videos &amp; Files Supported
-          </p>
+
+          <div class="flex items-center space-x-2 mt-0.5">
+            <p id="typingIndicatorText" class="text-[11px] text-slate-400 truncate">
+              Real-Time Public Workspace • Media, Polls &amp; Files
+            </p>
+          </div>
         </div>
       </div>
 
-      <!-- Right Action Buttons -->
+      <!-- Right Action Controls -->
       <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-        <!-- Search Toggle -->
-        <button id="searchToggleBtn" type="button" class="p-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-slate-300 hover:text-white transition border border-slate-700/60" title="Search Messages">
+        <!-- Search & Filter Toggle -->
+        <button id="searchToggleBtn" type="button" class="p-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-slate-300 hover:text-white transition border border-slate-700/60" title="Search & Filter Messages">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
         </button>
 
-        <!-- Shared Media Gallery Button -->
-        <button id="mediaGalleryBtn" type="button" class="flex items-center space-x-1.5 px-2.5 py-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-xs font-medium text-slate-200 transition border border-slate-700/60" title="View Shared Photos, Videos & Files">
+        <!-- Shared Media Vault Button -->
+        <button id="mediaGalleryBtn" type="button" class="flex items-center space-x-1.5 px-2.5 py-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-xs font-medium text-slate-200 transition border border-slate-700/60" title="Open Shared Media & Files Vault">
           <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
-          <span class="hidden sm:inline">Media</span>
+          <span class="hidden md:inline">Vault</span>
           <span id="mediaCountBadge" class="px-1.5 py-0.2 rounded-full text-[10px] bg-violet-500/20 text-violet-300 font-semibold">0</span>
         </button>
 
         <!-- Sound Toggle -->
-        <button id="soundToggleBtn" type="button" class="p-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-slate-300 hover:text-white transition border border-slate-700/60" title="Sound Effects">
-          <svg id="soundOnIcon" class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <button id="soundToggleBtn" type="button" class="p-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-slate-300 hover:text-white transition border border-slate-700/60" title="Toggle Audio Notifications">
+          <svg id="soundOnIcon" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
           </svg>
           <svg id="soundOffIcon" class="w-4 h-4 text-slate-500 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -151,115 +174,135 @@
           </svg>
         </button>
 
-        <!-- My Session ID Button -->
-        <button id="userInfoBtn" type="button" class="p-2 sm:px-2.5 sm:py-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-xs font-medium text-slate-300 transition border border-slate-700/60" title="Session Info">
+        <!-- Session Info Button -->
+        <button id="userInfoBtn" type="button" class="p-2 rounded-xl bg-slate-800/75 hover:bg-slate-700/80 text-xs font-medium text-slate-300 transition border border-slate-700/60" title="Session & Connection Details">
           <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </button>
       </div>
-
     </div>
 
-    <!-- Collapsible Search & Filter Sub-bar -->
+    <!-- Collapsible Search & Content Filter Bar -->
     <div id="searchBarPanel" class="hidden max-w-5xl mx-auto pt-2.5 mt-2.5 border-t border-slate-800/80 flex-col sm:flex-row items-stretch sm:items-center gap-2">
       <div class="relative flex-1">
         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
-        <input id="searchInput" type="text" placeholder="Search messages, names, or files..." class="w-full bg-slate-950 border border-slate-700/80 focus:border-indigo-500 rounded-xl pl-9 pr-8 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none" />
+        <input id="searchInput" type="text" placeholder="Search messages, participants, or filenames..." class="w-full bg-slate-950 border border-slate-700/80 focus:border-indigo-500 rounded-xl pl-9 pr-8 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none" />
         <button id="clearSearchBtn" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
-      <!-- Quick Filter Pills -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+      <!-- Filter Pills -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
         <button type="button" data-filter="all" class="filter-tab-btn px-3 py-1 rounded-lg text-xs font-medium bg-indigo-600 text-white shrink-0 transition">All</button>
         <button type="button" data-filter="image" class="filter-tab-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 shrink-0 transition">📷 Photos</button>
         <button type="button" data-filter="video" class="filter-tab-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 shrink-0 transition">🎬 Videos</button>
         <button type="button" data-filter="file" class="filter-tab-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 shrink-0 transition">📄 Files</button>
+        <button type="button" data-filter="poll" class="filter-tab-btn px-3 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 shrink-0 transition">📊 Polls</button>
       </div>
     </div>
 
-    <!-- Collapsible User ID Info Bar -->
+    <!-- Collapsible Session Info Bar -->
     <div id="userInfoBar" class="hidden max-w-5xl mx-auto pt-2.5 mt-2.5 border-t border-slate-800/80 text-xs flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-      <div class="flex flex-wrap items-center gap-1.5">
-        <span class="text-slate-400">Your Public Session ID:</span>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-slate-400">Encrypted Session ID:</span>
         <code id="userIdDisplay" class="px-2 py-0.5 rounded bg-slate-950 text-indigo-300 border border-slate-800 font-mono text-[11px] break-all select-all">Connecting...</code>
+        <span class="text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">Real-Time Sync Active</span>
       </div>
       <button id="closeUserInfoBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs self-end sm:self-center">
-        Close
+        Dismiss
       </button>
     </div>
   </header>
 
+  <!-- ================= STICKY PINNED MESSAGE BANNER ================= -->
+  <div id="pinnedMessageBanner" class="hidden bg-indigo-950/75 backdrop-blur-md border-b border-indigo-500/30 px-3 sm:px-5 py-2 z-20 shrink-0">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-3 text-xs">
+      <div id="pinnedBannerJump" class="flex items-center space-x-2.5 min-w-0 cursor-pointer flex-1">
+        <span class="p-1 rounded-lg bg-indigo-500/20 text-indigo-300 shrink-0">📌</span>
+        <div class="min-w-0">
+          <span class="font-bold text-indigo-300 mr-1.5" id="pinnedSenderText">Pinned:</span>
+          <span class="text-slate-200 truncate" id="pinnedBodyText">Message content</span>
+        </div>
+      </div>
+      <button id="unpinBannerBtn" type="button" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 shrink-0" title="Unpin Message">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <!-- ================= FLOATING TOAST NOTIFICATION ================= -->
-  <div id="toastBox" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden items-center space-x-2 bg-slate-900/95 backdrop-blur-md text-white px-4 py-2.5 rounded-2xl shadow-2xl border border-indigo-500/40 text-xs sm:text-sm font-medium transition-all max-w-[90vw]">
+  <div id="toastBox" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden items-center space-x-2 bg-slate-900/95 backdrop-blur-md text-white px-4 py-2.5 rounded-2xl shadow-2xl border border-indigo-500/40 text-xs sm:text-sm font-medium transition-all max-w-[92vw]">
     <span id="toastText">Notification</span>
   </div>
 
-  <!-- ================= DRAG & DROP OVERLAY ================= -->
-  <div id="dropZoneOverlay" class="fixed inset-0 bg-indigo-950/80 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-6 border-4 border-dashed border-indigo-400 m-3 rounded-3xl pointer-events-none">
+  <!-- ================= DRAG & DROP FILE OVERLAY ================= -->
+  <div id="dropZoneOverlay" class="fixed inset-0 bg-indigo-950/85 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-6 border-4 border-dashed border-indigo-400 m-3 rounded-3xl pointer-events-none">
     <div class="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center mb-3 shadow-xl">
       <svg class="w-8 h-8 text-white animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
       </svg>
     </div>
-    <h3 class="text-lg sm:text-xl font-bold text-white">Drop Photo, Video or File Here</h3>
-    <p class="text-xs sm:text-sm text-indigo-200 mt-1">Release to attach and share in Baatcheet Live</p>
+    <h3 class="text-lg sm:text-xl font-bold text-white">Drop Photos, Videos, Audio or Documents</h3>
+    <p class="text-xs sm:text-sm text-indigo-200 mt-1">Release anywhere to attach to your message</p>
   </div>
 
-  <!-- ================= MAIN CHAT FEED ================= -->
-  <main id="chatContainer" class="flex-1 overflow-y-auto chat-bg-pattern px-2.5 sm:px-5 py-3 sm:py-5 space-y-3 scroll-smooth relative">
+  <!-- ================= MAIN CHAT STREAM ================= -->
+  <main id="chatContainer" class="flex-1 overflow-y-auto workspace-bg px-2.5 sm:px-5 py-3 sm:py-5 space-y-3 scroll-smooth relative">
     
-    <!-- Compact Welcome Hero Card -->
-    <div class="max-w-3xl mx-auto p-3.5 sm:p-4 rounded-2xl bg-slate-900/80 backdrop-blur-md border border-slate-800/90 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center space-x-3 text-left">
+    <!-- Onboarding & Quick Test Card -->
+    <div class="max-w-3xl mx-auto p-3.5 sm:p-4 rounded-2xl bg-slate-900/80 backdrop-blur-md border border-slate-800/90 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div class="flex items-start sm:items-center space-x-3 text-left">
         <div class="w-10 h-10 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg>
         </div>
         <div>
-          <h2 class="text-xs sm:text-sm font-bold text-white">
-            Open Public Real-Time Chat &amp; Media Room 🚀
+          <h2 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+            <span>Welcome to NexusChat Pro</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v2.5 Enterprise</span>
           </h2>
           <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 leading-relaxed">
-            Apna <span class="text-indigo-400 font-semibold">Naam</span> likhein, <span class="text-emerald-400 font-semibold">Photos, Videos ya Files</span> attach karein aur kisi bhi message par <span class="text-violet-400 font-semibold">Reply</span> karein!
+            Choose your <span class="text-indigo-400 font-semibold">Display Name &amp; Role</span> below, share <span class="text-emerald-400 font-semibold">Photos, Videos, Voice Notes, Files &amp; Live Polls</span>, and reply to anyone in real time.
           </p>
         </div>
       </div>
 
-      <!-- Quick Demo Media Buttons for Testing -->
-      <div class="flex items-center gap-1.5 self-stretch sm:self-center justify-end shrink-0">
+      <!-- 1-Click Sample Media Tester -->
+      <div class="flex items-center gap-1.5 w-full sm:w-auto justify-end shrink-0">
         <button id="tryDemoMediaBtn" type="button" class="w-full sm:w-auto px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-[11px] font-semibold transition flex items-center justify-center gap-1.5">
-          <span>✨ Attach Sample Media</span>
+          <span>✨ Load Sample Media</span>
         </button>
       </div>
     </div>
 
-    <!-- Messages Container -->
+    <!-- Dynamic Messages Feed -->
     <div id="messagesList" class="max-w-3xl mx-auto space-y-3 pb-2">
-      <!-- Dynamic messages rendered here -->
+      <!-- Rendered via JS -->
     </div>
 
   </main>
 
   <!-- Floating Scroll-to-Bottom Button -->
-  <button id="scrollToBottomBtn" type="button" class="hidden fixed bottom-36 right-4 sm:right-8 z-30 items-center space-x-1.5 px-3 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-600/30 border border-indigo-400/40 text-xs font-semibold transition transform active:scale-95">
+  <button id="scrollToBottomBtn" type="button" class="hidden fixed bottom-36 right-4 sm:right-8 z-30 items-center space-x-1.5 px-3.5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-600/30 border border-indigo-400/40 text-xs font-semibold transition transform active:scale-95">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
-    <span id="newMsgCountBadge" class="hidden px-1.5 py-0.2 bg-rose-500 rounded-full text-[10px]">New</span>
+    <span>Latest</span>
   </button>
 
-  <!-- ================= BOTTOM UNIFIED COMPOSER (MOBILE OPTIMIZED) ================= -->
-  <footer class="bg-slate-900/95 backdrop-blur-xl border-t border-slate-800/90 px-2.5 sm:px-4 py-2 sm:py-3 z-30 shrink-0">
+  <!-- ================= BOTTOM UNIFIED COMPOSER (MOBILE-FIRST ERGONOMICS) ================= -->
+  <footer class="bg-slate-900/95 backdrop-blur-xl border-t border-slate-800/90 px-2.5 sm:px-4 pt-2 safe-bottom z-30 shrink-0">
     <div class="max-w-3xl mx-auto space-y-2">
 
-      <!-- 1. REPLYING-TO BANNER -->
+      <!-- 1. REPLY OR EDIT CONTEXT BANNER -->
       <div id="replyBanner" class="hidden items-center justify-between bg-slate-800/90 border-l-4 border-indigo-500 rounded-xl px-3 py-1.5 text-xs">
         <div class="flex flex-col overflow-hidden pr-2">
           <div class="flex items-center gap-1.5 text-indigo-400 font-semibold">
@@ -270,7 +313,7 @@
           </div>
           <p id="replyBannerText" class="text-slate-300 truncate text-[11px] italic">""</p>
         </div>
-        <button id="cancelReplyBtn" type="button" class="p-1 rounded-lg bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white shrink-0 transition">
+        <button id="cancelReplyBtn" type="button" class="p-1 rounded-lg bg-slate-700/70 hover:bg-slate-700 text-slate-300 hover:text-white shrink-0 transition" title="Cancel">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
@@ -280,15 +323,15 @@
       <!-- 2. STAGED MEDIA / FILE ATTACHMENT PREVIEW BAR -->
       <div id="attachmentPreviewBar" class="hidden items-center justify-between bg-slate-800/95 border border-indigo-500/40 rounded-xl p-2 text-xs shadow-lg">
         <div class="flex items-center space-x-3 min-w-0 pr-2">
-          <div id="attachmentThumbBox" class="w-12 h-12 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden shrink-0">
-            <!-- Thumbnail or Icon injected here -->
+          <div id="attachmentThumbBox" class="w-11 h-11 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden shrink-0">
+            <!-- Thumbnail or Icon -->
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-1.5">
               <span id="attachmentTypeBadge" class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-indigo-500/20 text-indigo-300">IMAGE</span>
-              <p id="attachmentNameText" class="font-semibold text-white truncate text-xs">photo.jpg</p>
+              <p id="attachmentNameText" class="font-semibold text-white truncate text-xs">file.jpg</p>
             </div>
-            <p id="attachmentSizeText" class="text-[11px] text-slate-400 mt-0.5">Ready to send • Add a caption below</p>
+            <p id="attachmentSizeText" class="text-[11px] text-slate-400 mt-0.5">Ready to send • Add an optional caption below</p>
           </div>
         </div>
         <button id="removeAttachmentBtn" type="button" class="p-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 shrink-0 transition" title="Remove Attachment">
@@ -298,21 +341,47 @@
         </button>
       </div>
 
-      <!-- 3. COMPACT IDENTITY & QUICK MEDIA TOOLBAR -->
-      <div class="flex items-center justify-between gap-2">
-        <!-- Left: Avatar Color + Name Input -->
-        <div class="relative flex items-center flex-1 max-w-xs">
-          <button id="avatarColorBtn" type="button" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-xs font-bold text-white cursor-pointer shrink-0 shadow ring-2 ring-slate-800 hover:scale-105 transition" title="Change Avatar Color">
-            <span id="avatarPreviewInitials">?</span>
-          </button>
+      <!-- 3. VOICE RECORDING BAR (ACTIVE WHEN RECORDING AUDIO) -->
+      <div id="voiceRecordingBar" class="hidden items-center justify-between bg-rose-950/60 border border-rose-500/40 rounded-xl px-3 py-2 text-xs">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+          <span class="font-semibold text-rose-200">Recording Voice Note...</span>
+          <span id="voiceTimerText" class="font-mono text-rose-300">0:00</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button id="cancelVoiceBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-[11px]">Cancel</button>
+          <button id="finishVoiceBtn" type="button" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold text-[11px]">Attach Audio</button>
+        </div>
+      </div>
 
-          <div class="relative flex-1 ml-2">
+      <!-- 4. IDENTITY & RICH MEDIA ACTION BAR (SCROLLABLE ON SMALL SCREENS) -->
+      <div class="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar py-0.5">
+        
+        <!-- Left: User Identity (Avatar Color + Name Input + Role Tag) -->
+        <div class="flex items-center space-x-1.5 shrink-0">
+          <div class="relative">
+            <button id="avatarColorBtn" type="button" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-xs font-bold text-white cursor-pointer shrink-0 shadow ring-2 ring-slate-800 hover:scale-105 transition" title="Customize Avatar Color">
+              <span id="avatarPreviewInitials">?</span>
+            </button>
+            <!-- Color Picker Popover -->
+            <div id="colorPickerModal" class="hidden absolute bottom-full left-0 mb-2 p-2 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl items-center gap-2 z-40">
+              <button type="button" data-color="bg-indigo-600" class="color-opt w-5 h-5 rounded-full bg-indigo-600 ring-2 ring-white scale-110 transition"></button>
+              <button type="button" data-color="bg-emerald-600" class="color-opt w-5 h-5 rounded-full bg-emerald-600 opacity-80 hover:opacity-100 transition"></button>
+              <button type="button" data-color="bg-rose-600" class="color-opt w-5 h-5 rounded-full bg-rose-600 opacity-80 hover:opacity-100 transition"></button>
+              <button type="button" data-color="bg-amber-600" class="color-opt w-5 h-5 rounded-full bg-amber-600 opacity-80 hover:opacity-100 transition"></button>
+              <button type="button" data-color="bg-cyan-600" class="color-opt w-5 h-5 rounded-full bg-cyan-600 opacity-80 hover:opacity-100 transition"></button>
+              <button type="button" data-color="bg-purple-600" class="color-opt w-5 h-5 rounded-full bg-purple-600 opacity-80 hover:opacity-100 transition"></button>
+            </div>
+          </div>
+
+          <!-- Display Name Input -->
+          <div class="relative w-36 sm:w-44">
             <input
               id="usernameInput"
               type="text"
               maxlength="24"
-              placeholder="Apna Naam Likhein..."
-              class="w-full bg-slate-950/90 border border-slate-700/80 focus:border-indigo-500 rounded-xl pl-2.5 pr-7 py-1 text-xs text-white placeholder-amber-400/90 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
+              placeholder="Your Name..."
+              class="w-full bg-slate-950/90 border border-slate-700/80 focus:border-indigo-500 rounded-xl pl-2.5 pr-6 py-1 text-xs text-white placeholder-amber-400/90 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
             />
             <span id="nameCheckIcon" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-emerald-400 pointer-events-none">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -321,74 +390,89 @@
             </span>
           </div>
 
-          <!-- Avatar Color Picker Popover -->
-          <div id="colorPickerModal" class="hidden absolute bottom-full left-0 mb-2 p-2 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl items-center gap-2 z-40">
-            <button type="button" data-color="bg-indigo-600" class="color-opt w-5 h-5 rounded-full bg-indigo-600 ring-2 ring-white scale-110 transition"></button>
-            <button type="button" data-color="bg-emerald-600" class="color-opt w-5 h-5 rounded-full bg-emerald-600 opacity-80 hover:opacity-100 transition"></button>
-            <button type="button" data-color="bg-rose-600" class="color-opt w-5 h-5 rounded-full bg-rose-600 opacity-80 hover:opacity-100 transition"></button>
-            <button type="button" data-color="bg-amber-600" class="color-opt w-5 h-5 rounded-full bg-amber-600 opacity-80 hover:opacity-100 transition"></button>
-            <button type="button" data-color="bg-cyan-600" class="color-opt w-5 h-5 rounded-full bg-cyan-600 opacity-80 hover:opacity-100 transition"></button>
-            <button type="button" data-color="bg-purple-600" class="color-opt w-5 h-5 rounded-full bg-purple-600 opacity-80 hover:opacity-100 transition"></button>
-          </div>
+          <!-- Role Badge Selector -->
+          <select id="userRoleSelect" aria-label="Role Badge" class="bg-slate-950/90 border border-slate-700/80 focus:border-indigo-500 rounded-xl px-2 py-1 text-[11px] text-slate-300 font-medium focus:outline-none cursor-pointer">
+            <option value="Member">Member</option>
+            <option value="Developer">⚡ Dev</option>
+            <option value="Designer">🎨 Design</option>
+            <option value="Founder">🚀 Founder</option>
+            <option value="VIP">👑 VIP</option>
+          </select>
         </div>
 
-        <!-- Right: Direct Media Upload Buttons (Image, Video, File, URL) -->
-        <div class="flex items-center space-x-1 sm:space-x-1.5">
-          <!-- Hidden File Inputs -->
+        <!-- Right: Rich Media & Interactive Tools -->
+        <div class="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+          <!-- Hidden Native File Inputs -->
           <input id="imageFileInput" type="file" accept="image/*" class="hidden" />
           <input id="videoFileInput" type="file" accept="video/*" class="hidden" />
           <input id="docFileInput" type="file" accept="*/*" class="hidden" />
 
           <!-- Photo Button -->
-          <button id="uploadImageBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Send Photo / Image">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <button id="uploadImageBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Attach Photo">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
             </svg>
-            <span class="hidden md:inline text-slate-200">Photo</span>
+            <span class="hidden md:inline text-slate-200 text-[11px]">Photo</span>
           </button>
 
           <!-- Video Button -->
-          <button id="uploadVideoBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-rose-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Send Video">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <button id="uploadVideoBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-rose-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Attach Video">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
             </svg>
-            <span class="hidden md:inline text-slate-200">Video</span>
+            <span class="hidden md:inline text-slate-200 text-[11px]">Video</span>
           </button>
 
-          <!-- Document / File Button -->
-          <button id="uploadDocBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-amber-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Send File (PDF, ZIP, Doc)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <!-- File / Document Button -->
+          <button id="uploadDocBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-amber-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Attach Document or Archive">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
             </svg>
-            <span class="hidden md:inline text-slate-200">File</span>
+            <span class="hidden md:inline text-slate-200 text-[11px]">File</span>
           </button>
 
-          <!-- Media URL Button -->
-          <button id="openUrlModalBtn" type="button" class="flex items-center space-x-1 px-2 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-cyan-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Attach Media via Link/URL">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <!-- Voice Note Button -->
+          <button id="startVoiceBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-fuchsia-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Record Voice Note">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+            </svg>
+            <span class="hidden lg:inline text-slate-200 text-[11px]">Voice</span>
+          </button>
+
+          <!-- Create Poll Button -->
+          <button id="openPollModalBtn" type="button" class="flex items-center space-x-1 px-2 sm:px-2.5 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-indigo-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Create Live Poll">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            <span class="hidden lg:inline text-slate-200 text-[11px]">Poll</span>
+          </button>
+
+          <!-- Direct URL Media Button -->
+          <button id="openUrlModalBtn" type="button" class="flex items-center space-x-1 px-2 py-1 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-cyan-400 border border-slate-700/70 text-xs font-medium transition active:scale-95" title="Attach Media via Direct URL">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
             </svg>
           </button>
         </div>
       </div>
 
-      <!-- 4. MESSAGE INPUT + EMOJI + SEND BUTTON -->
+      <!-- 5. MAIN MESSAGE INPUT & SEND BAR -->
       <form id="chatForm" class="flex items-center gap-1.5 sm:gap-2">
-        <!-- Quick Emoji Insert Button -->
+        <!-- Quick Emoji Picker Button -->
         <div class="relative">
           <button id="composerEmojiBtn" type="button" class="p-2.5 sm:p-3 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-amber-400 border border-slate-700/70 transition shrink-0" title="Insert Emoji">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </button>
-          <!-- Composer Emoji Bar Popover -->
+          <!-- Emoji Popover -->
           <div id="composerEmojiModal" class="hidden absolute bottom-full left-0 mb-2 p-2 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl grid grid-cols-6 gap-1.5 z-40 w-56">
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">😀</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">😂</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">😍</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">🔥</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">👍</button>
-            <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">🙏</button>
+            <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">🙌</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">🎉</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">❤️</button>
             <button type="button" class="ins-emoji-btn text-lg hover:scale-125 transition p-1">😎</button>
@@ -398,26 +482,26 @@
           </div>
         </div>
 
-        <!-- Text Input -->
+        <!-- Message Input (Supports **bold**, `code`, links) -->
         <div class="relative flex-1">
           <input
             id="messageInput"
             type="text"
-            maxlength="600"
-            placeholder="Message likhein ya photo/video bhejein..."
+            maxlength="800"
+            placeholder="Write a message... (Supports **bold**, `code`, & media)"
             autocomplete="off"
             class="w-full bg-slate-950 border border-slate-700/90 focus:border-indigo-500 rounded-2xl px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition shadow-inner"
           />
         </div>
 
-        <!-- Send Button -->
+        <!-- Send / Save Button -->
         <button
           id="sendBtn"
           type="submit"
           class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl font-semibold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-600/25 cursor-pointer active:scale-95 transition duration-150 shrink-0"
         >
-          <span class="hidden sm:inline">Send</span>
-          <svg class="w-4 h-4 sm:w-4 sm:h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+          <span id="sendBtnLabel" class="hidden sm:inline">Send</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
           </svg>
         </button>
@@ -431,7 +515,7 @@
     <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-5 shadow-2xl space-y-4">
       <div class="flex items-center justify-between">
         <h3 class="font-bold text-base text-white flex items-center gap-2">
-          <span class="text-cyan-400">🔗</span> Attach Image, Video or File Link
+          <span class="text-cyan-400">🔗</span> Attach Media or File via URL
         </h3>
         <button id="closeUrlModalBtn" type="button" class="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -442,37 +526,72 @@
 
       <div class="space-y-3">
         <div>
-          <label class="text-xs text-slate-400 block mb-1">Media Type</label>
+          <label class="text-xs text-slate-400 block mb-1">Attachment Type</label>
           <select id="urlMediaTypeSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500">
             <option value="image">📷 Photo / Image URL</option>
-            <option value="video">🎬 Video URL (MP4 / WebM)</option>
+            <option value="video">🎬 Video Stream URL (MP4 / WebM)</option>
             <option value="file">📄 Document / File Download Link</option>
           </select>
         </div>
         <div>
-          <label class="text-xs text-slate-400 block mb-1">Direct URL</label>
-          <input id="urlMediaInput" type="url" placeholder="https://example.com/image.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+          <label class="text-xs text-slate-400 block mb-1">Direct Media URL</label>
+          <input id="urlMediaInput" type="url" placeholder="https://example.com/media.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
         </div>
         <div>
-          <label class="text-xs text-slate-400 block mb-1">File Title / Name (Optional)</label>
-          <input id="urlMediaNameInput" type="text" placeholder="e.g. Project_Report.pdf" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+          <label class="text-xs text-slate-400 block mb-1">Display Title / Filename (Optional)</label>
+          <input id="urlMediaNameInput" type="text" placeholder="e.g. Architecture_Diagram.png" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
         </div>
       </div>
 
       <div class="flex items-center justify-end gap-2 pt-2">
         <button id="cancelUrlModalBtn" type="button" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300">Cancel</button>
-        <button id="confirmUrlMediaBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white">Attach Media</button>
+        <button id="confirmUrlMediaBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white">Stage Attachment</button>
       </div>
     </div>
   </div>
 
-  <!-- ================= MODAL 2: SHARED MEDIA GALLERY DRAWER ================= -->
+  <!-- ================= MODAL 2: CREATE INTERACTIVE POLL ================= -->
+  <div id="pollModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-5 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base text-white flex items-center gap-2">
+          <span class="text-indigo-400">📊</span> Create Live Interactive Poll
+        </h3>
+        <button id="closePollModalBtn" type="button" class="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Poll Question</label>
+          <input id="pollQuestionInput" type="text" placeholder="e.g. Which framework should we use next?" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-xs text-slate-400 block">Options (Up to 4)</label>
+          <input id="pollOpt1" type="text" placeholder="Option 1 (Required)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+          <input id="pollOpt2" type="text" placeholder="Option 2 (Required)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+          <input id="pollOpt3" type="text" placeholder="Option 3 (Optional)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+          <input id="pollOpt4" type="text" placeholder="Option 4 (Optional)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button id="cancelPollModalBtn" type="button" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300">Cancel</button>
+        <button id="publishPollBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white">Launch Poll</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 3: SHARED MEDIA & FILES VAULT ================= -->
   <div id="mediaGalleryModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-6">
     <div class="bg-slate-900 border border-slate-700/90 rounded-3xl max-w-2xl w-full max-h-[85dvh] flex flex-col shadow-2xl overflow-hidden">
       <div class="flex items-center justify-between px-5 py-4 border-b border-slate-800">
         <div>
-          <h3 class="font-bold text-base text-white">Shared Media &amp; Files</h3>
-          <p class="text-xs text-slate-400">All photos, videos, and documents shared in this room</p>
+          <h3 class="font-bold text-base text-white">Shared Media &amp; Files Vault</h3>
+          <p class="text-xs text-slate-400">All photos, videos, audio clips, and files shared in this workspace</p>
         </div>
         <button id="closeMediaGalleryBtn" type="button" class="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -486,15 +605,15 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 3: FULLSCREEN IMAGE / VIDEO LIGHTBOX ================= -->
+  <!-- ================= MODAL 4: FULLSCREEN IMAGE / VIDEO LIGHTBOX ================= -->
   <div id="lightboxModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex-col justify-between p-4">
     <div class="flex items-center justify-between max-w-5xl w-full mx-auto py-2">
       <div class="min-w-0 pr-4">
         <p id="lightboxTitle" class="text-sm font-semibold text-white truncate">Media Preview</p>
-        <p id="lightboxSender" class="text-xs text-slate-400 truncate">Shared in Baatcheet Live</p>
+        <p id="lightboxSender" class="text-xs text-slate-400 truncate">Shared in NexusChat Pro</p>
       </div>
       <div class="flex items-center gap-2 shrink-0">
-        <a id="lightboxDownloadBtn" href="#" download="baatcheet-media" target="_blank" rel="noopener" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition">
+        <a id="lightboxDownloadBtn" href="#" download="nexuschat-media" target="_blank" rel="noopener" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
           </svg>
@@ -519,44 +638,81 @@
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // --- STATE ---
+    // --- APPLICATION STATE ---
     let currentUserId = 'user-' + Math.random().toString(36).substring(2, 10);
     let userColor = 'bg-indigo-600';
+    let userRole = 'Member';
+    let activeChannel = 'general';
     let soundEnabled = true;
-    let replyingTo = null; // { id, senderName, text, attachmentType }
-    let stagedAttachment = null; // { type: 'image'|'video'|'file', url, name, size, mimeType }
+
+    let replyingTo = null; // { id, senderName, text }
+    let editingMsgId = null; // string id when editing own message
+    let stagedAttachment = null; // { type: 'image'|'video'|'file'|'audio'|'poll', url, name, size, pollData }
     let activeReactionPopupId = null;
     let currentFilter = 'all';
     let searchQuery = '';
 
     const messagesMap = new Map();
-    const QUICK_EMOJIS = ['👍', '❤️', '😂', '🔥', '🎉', '😮', '🙏'];
+    const QUICK_EMOJIS = ['👍', '❤️', '😂', '🔥', '🎉', '😮', '🚀'];
 
-    // Seed initial welcome & rich media showcase messages
+    // Seed initial English showcase messages
     const welcomeId1 = 'welcome-msg-1';
     messagesMap.set(welcomeId1, {
       id: welcomeId1,
-      text: 'Namaste! 🙏 Baatcheet Pro mein aapka swagat hai. Yahan aap apna Naam likh kar real-time chat kar sakte hain, aur ab Photos 📷, Videos 🎬 aur Files 📄 bhi bhej sakte hain!',
-      senderName: 'Baatcheet Bot',
+      channel: 'general',
+      text: 'Welcome to **NexusChat Pro**! 👋 Enter your **Display Name** below to start collaborating. You can share **Photos**, **Videos**, **Files**, **Voice Notes**, and **Live Polls**, or click **Reply** on any message.',
+      senderName: 'Nexus Bot',
+      senderRole: 'System',
       senderId: 'system-bot',
       senderColor: 'bg-emerald-600',
-      timestamp: Date.now() - 120000,
+      timestamp: Date.now() - 180000,
+      pinned: true,
       replyTo: null,
       attachment: {
         type: 'image',
         url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80',
-        name: 'Welcome_Banner.jpg',
+        name: 'Workspace_Overview_HD.jpg',
         size: '142 KB'
       },
-      reactions: { '🔥': ['system-bot'], '❤️': ['system-bot'] }
+      reactions: { '🚀': ['system-bot'], '🔥': ['system-bot'] }
+    });
+
+    const welcomePollId = 'welcome-poll-2';
+    messagesMap.set(welcomePollId, {
+      id: welcomePollId,
+      channel: 'general',
+      text: 'Cast your vote in our live community poll below:',
+      senderName: 'Alex Rivera',
+      senderRole: 'Founder',
+      senderId: 'system-alex',
+      senderColor: 'bg-purple-600',
+      timestamp: Date.now() - 90000,
+      pinned: false,
+      replyTo: null,
+      attachment: {
+        type: 'poll',
+        name: 'Community Poll',
+        pollData: {
+          question: 'What is your favorite feature in NexusChat Pro?',
+          options: [
+            { id: 'opt-1', text: '📷 Instant Photo & Video Sharing', votes: ['system-alex'] },
+            { id: 'opt-2', text: '⚡ Real-Time Replies & Reactions', votes: ['system-bot'] },
+            { id: 'opt-3', text: '📊 Live Interactive Polls & Voice Notes', votes: [] }
+          ]
+        }
+      },
+      reactions: { '👍': ['system-alex'] }
     });
 
     // --- DOM REFERENCES ---
     const messagesListEl = document.getElementById('messagesList');
     const chatContainerEl = document.getElementById('chatContainer');
     const usernameInputEl = document.getElementById('usernameInput');
+    const userRoleSelect = document.getElementById('userRoleSelect');
+    const channelSelect = document.getElementById('channelSelect');
     const messageInputEl = document.getElementById('messageInput');
     const chatFormEl = document.getElementById('chatForm');
+    const sendBtnLabel = document.getElementById('sendBtnLabel');
     const avatarColorBtn = document.getElementById('avatarColorBtn');
     const avatarPreviewInitials = document.getElementById('avatarPreviewInitials');
     const colorPickerModal = document.getElementById('colorPickerModal');
@@ -577,6 +733,21 @@
     const uploadImageBtn = document.getElementById('uploadImageBtn');
     const uploadVideoBtn = document.getElementById('uploadVideoBtn');
     const uploadDocBtn = document.getElementById('uploadDocBtn');
+    const startVoiceBtn = document.getElementById('startVoiceBtn');
+    const voiceRecordingBar = document.getElementById('voiceRecordingBar');
+    const voiceTimerText = document.getElementById('voiceTimerText');
+    const cancelVoiceBtn = document.getElementById('cancelVoiceBtn');
+    const finishVoiceBtn = document.getElementById('finishVoiceBtn');
+    const openPollModalBtn = document.getElementById('openPollModalBtn');
+    const pollModal = document.getElementById('pollModal');
+    const closePollModalBtn = document.getElementById('closePollModalBtn');
+    const cancelPollModalBtn = document.getElementById('cancelPollModalBtn');
+    const publishPollBtn = document.getElementById('publishPollBtn');
+    const pollQuestionInput = document.getElementById('pollQuestionInput');
+    const pollOpt1 = document.getElementById('pollOpt1');
+    const pollOpt2 = document.getElementById('pollOpt2');
+    const pollOpt3 = document.getElementById('pollOpt3');
+    const pollOpt4 = document.getElementById('pollOpt4');
     const openUrlModalBtn = document.getElementById('openUrlModalBtn');
     const urlMediaModal = document.getElementById('urlMediaModal');
     const closeUrlModalBtn = document.getElementById('closeUrlModalBtn');
@@ -615,6 +786,11 @@
     const composerEmojiModal = document.getElementById('composerEmojiModal');
     const dropZoneOverlay = document.getElementById('dropZoneOverlay');
     const typingIndicatorText = document.getElementById('typingIndicatorText');
+    const pinnedMessageBanner = document.getElementById('pinnedMessageBanner');
+    const pinnedSenderText = document.getElementById('pinnedSenderText');
+    const pinnedBodyText = document.getElementById('pinnedBodyText');
+    const pinnedBannerJump = document.getElementById('pinnedBannerJump');
+    const unpinBannerBtn = document.getElementById('unpinBannerBtn');
 
     userIdDisplay.textContent = currentUserId;
 
@@ -630,16 +806,16 @@
         gain.connect(ctx.destination);
         const now = ctx.currentTime;
         if (type === 'send') {
-          osc.frequency.setValueAtTime(340, now);
-          osc.frequency.exponentialRampToValueAtTime(680, now + 0.08);
-          gain.gain.setValueAtTime(0.1, now);
+          osc.frequency.setValueAtTime(360, now);
+          osc.frequency.exponentialRampToValueAtTime(720, now + 0.08);
+          gain.gain.setValueAtTime(0.08, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
           osc.start(now);
           osc.stop(now + 0.08);
         } else {
           osc.frequency.setValueAtTime(540, now);
-          osc.frequency.exponentialRampToValueAtTime(400, now + 0.1);
-          gain.gain.setValueAtTime(0.12, now);
+          osc.frequency.exponentialRampToValueAtTime(420, now + 0.1);
+          gain.gain.setValueAtTime(0.1, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
           osc.start(now);
           osc.stop(now + 0.1);
@@ -660,7 +836,7 @@
       }, 3200);
     }
 
-    // --- HELPERS ---
+    // --- FORMATTING & MARKDOWN HELPERS ---
     function getInitials(name) {
       if (!name || !name.trim()) return '?';
       const parts = name.trim().split(/\s+/);
@@ -690,8 +866,21 @@
         .replace(/'/g, '&#039;');
     }
 
+    // Lightweight Markdown parser for **bold**, `code`, and clickable URLs
+    function formatMessageText(rawText) {
+      if (!rawText) return '';
+      let safe = escapeHtml(rawText);
+      // Inline code `code`
+      safe = safe.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-950/80 text-amber-300 font-mono text-[11px] border border-slate-700/60">$1</code>');
+      // Bold **text**
+      safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-white">$1</strong>');
+      // Auto-link URLs
+      safe = safe.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener" class="underline text-cyan-300 hover:text-cyan-200 break-all">$1</a>');
+      return safe;
+    }
+
     function isNearBottom() {
-      return chatContainerEl.scrollHeight - chatContainerEl.scrollTop - chatContainerEl.clientHeight < 140;
+      return chatContainerEl.scrollHeight - chatContainerEl.scrollTop - chatContainerEl.clientHeight < 150;
     }
 
     function scrollToBottom(smooth = true) {
@@ -715,8 +904,8 @@
 
     scrollToBottomBtn.addEventListener('click', () => scrollToBottom(true));
 
-    // --- IMAGE COMPRESSION (FOR FAST REAL-TIME SYNC) ---
-    function compressImageFile(file, maxDim = 900, quality = 0.75) {
+    // --- IMAGE COMPRESSION ---
+    function compressImageFile(file, maxDim = 960, quality = 0.78) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (ev) => {
@@ -737,8 +926,7 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL('image/jpeg', quality);
-            resolve(dataUrl);
+            resolve(canvas.toDataURL('image/jpeg', quality));
           };
           img.onerror = reject;
           img.src = ev.target.result;
@@ -769,7 +957,7 @@
       attachmentPreviewBar.classList.remove('hidden');
       attachmentPreviewBar.classList.add('flex');
       attachmentNameText.textContent = att.name || 'Attachment';
-      attachmentSizeText.textContent = `${att.size || 'Ready'} • Add caption or press Send`;
+      attachmentSizeText.textContent = `${att.size || 'Ready'} • Add an optional caption or press Send`;
 
       if (att.type === 'image') {
         attachmentTypeBadge.textContent = '📷 PHOTO';
@@ -778,18 +966,15 @@
       } else if (att.type === 'video') {
         attachmentTypeBadge.textContent = '🎬 VIDEO';
         attachmentTypeBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-500/20 text-rose-300';
-        attachmentThumbBox.innerHTML = `
-          <svg class="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>`;
+        attachmentThumbBox.innerHTML = `<span class="text-lg">🎬</span>`;
+      } else if (att.type === 'audio') {
+        attachmentTypeBadge.textContent = '🎙️ VOICE';
+        attachmentTypeBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-fuchsia-500/20 text-fuchsia-300';
+        attachmentThumbBox.innerHTML = `<span class="text-lg">🎙️</span>`;
       } else {
         attachmentTypeBadge.textContent = '📄 FILE';
         attachmentTypeBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300';
-        attachmentThumbBox.innerHTML = `
-          <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>`;
+        attachmentThumbBox.innerHTML = `<span class="text-lg">📄</span>`;
       }
 
       messageInputEl.focus();
@@ -802,29 +987,26 @@
       docFileInput.value = '';
     });
 
-    // --- HANDLE FILE INPUT SELECTION ---
+    // --- HANDLE FILE SELECTION ---
     async function handleFileSelected(file, forcedType = null) {
       if (!file) return;
-
       const mime = file.type || '';
       let detectedType = forcedType;
       if (!detectedType) {
         if (mime.startsWith('image/')) detectedType = 'image';
         else if (mime.startsWith('video/')) detectedType = 'video';
+        else if (mime.startsWith('audio/')) detectedType = 'audio';
         else detectedType = 'file';
       }
 
       try {
-        showToast('⏳ Preparing attachment...');
+        showToast('⏳ Optimizing attachment...');
         let dataUrl = '';
-
         if (detectedType === 'image') {
-          dataUrl = await compressImageFile(file, 960, 0.76);
+          dataUrl = await compressImageFile(file, 960, 0.78);
         } else if (file.size <= 550 * 1024) {
-          // Under 550KB: convert to base64 DataURL so it syncs across all connected devices
           dataUrl = await readFileAsDataUrl(file);
         } else {
-          // Larger video/file: create instant blob URL for local session playback/download
           dataUrl = URL.createObjectURL(file);
         }
 
@@ -835,9 +1017,9 @@
           size: formatBytes(file.size),
           mimeType: mime || 'application/octet-stream'
         });
-        showToast('✅ Attachment ready! Press Send.');
+        showToast('✅ Attachment ready to send!');
       } catch (err) {
-        showToast('⚠️ File load nahi ho payi.');
+        showToast('⚠️ Could not process file.');
       }
     }
 
@@ -849,7 +1031,183 @@
     videoFileInput.addEventListener('change', (e) => handleFileSelected(e.target.files[0], 'video'));
     docFileInput.addEventListener('change', (e) => handleFileSelected(e.target.files[0], 'file'));
 
-    // --- DRAG & DROP AND CLIPBOARD PASTE SUPPORT ---
+    // --- VOICE NOTE RECORDING (WITH SYNTHESIZED WAV FALLBACK IF MIC BLOCKED) ---
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let voiceInterval = null;
+    let voiceSeconds = 0;
+
+    function createSynthesizedWavDataUrl(durationSec = 3) {
+      const sampleRate = 8000;
+      const numSamples = sampleRate * durationSec;
+      const buffer = new ArrayBuffer(44 + numSamples * 2);
+      const view = new DataView(buffer);
+      const writeString = (offset, str) => {
+        for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+      };
+      writeString(0, 'RIFF');
+      view.setUint32(4, 36 + numSamples * 2, true);
+      writeString(8, 'WAVE');
+      writeString(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true);
+      view.setUint16(32, 2, true);
+      view.setUint16(34, 16, true);
+      writeString(36, 'data');
+      view.setUint32(40, numSamples * 2, true);
+
+      for (let i = 0; i < numSamples; i++) {
+        const t = i / sampleRate;
+        const freq = 440 + Math.sin(t * 6) * 80;
+        const env = Math.sin((Math.PI * i) / numSamples);
+        const sample = Math.sin(2 * Math.PI * freq * t) * env * 0.25;
+        view.setInt16(44 + i * 2, sample * 32767, true);
+      }
+      const blob = new Blob([buffer], { type: 'audio/wav' });
+      return readFileAsDataUrl(blob);
+    }
+
+    startVoiceBtn.addEventListener('click', async () => {
+      voiceSeconds = 0;
+      voiceTimerText.textContent = '0:00';
+      voiceRecordingBar.classList.remove('hidden');
+      voiceRecordingBar.classList.add('flex');
+
+      voiceInterval = setInterval(() => {
+        voiceSeconds++;
+        const mins = Math.floor(voiceSeconds / 60);
+        const secs = String(voiceSeconds % 60).padStart(2, '0');
+        voiceTimerText.textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+        mediaRecorder.start();
+      } catch (e) {
+        // Fallback mode if iframe microphone permission is restricted
+        mediaRecorder = null;
+      }
+    });
+
+    function stopVoiceRecordingUI() {
+      if (voiceInterval) clearInterval(voiceInterval);
+      voiceRecordingBar.classList.add('hidden');
+      voiceRecordingBar.classList.remove('flex');
+    }
+
+    cancelVoiceBtn.addEventListener('click', () => {
+      stopVoiceRecordingUI();
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        mediaRecorder.stream?.getTracks().forEach(t => t.stop());
+      }
+      mediaRecorder = null;
+    });
+
+    finishVoiceBtn.addEventListener('click', async () => {
+      const recordedSecs = Math.max(1, voiceSeconds);
+      stopVoiceRecordingUI();
+
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          mediaRecorder.stream?.getTracks().forEach(t => t.stop());
+          const dataUrl = await readFileAsDataUrl(audioBlob);
+          setStagedAttachment({
+            type: 'audio',
+            url: dataUrl,
+            name: `Voice_Note_${recordedSecs}s.webm`,
+            size: `${recordedSecs} sec`
+          });
+        };
+        mediaRecorder.stop();
+      } else {
+        const wavUrl = await createSynthesizedWavDataUrl(Math.min(recordedSecs, 4));
+        setStagedAttachment({
+          type: 'audio',
+          url: wavUrl,
+          name: `Voice_Clip_${recordedSecs}s.wav`,
+          size: `${recordedSecs} sec`
+        });
+      }
+      showToast('🎙️ Voice note staged! Press Send.');
+    });
+
+    // --- LIVE POLL MODAL ---
+    openPollModalBtn.addEventListener('click', () => {
+      pollModal.classList.remove('hidden');
+      pollModal.classList.add('flex');
+      pollQuestionInput.focus();
+    });
+
+    function closePollModal() {
+      pollModal.classList.add('hidden');
+      pollModal.classList.remove('flex');
+      pollQuestionInput.value = '';
+      pollOpt1.value = '';
+      pollOpt2.value = '';
+      pollOpt3.value = '';
+      pollOpt4.value = '';
+    }
+    closePollModalBtn.addEventListener('click', closePollModal);
+    cancelPollModalBtn.addEventListener('click', closePollModal);
+
+    publishPollBtn.addEventListener('click', async () => {
+      const nameVal = usernameInputEl.value.trim();
+      if (!nameVal) {
+        showToast('👈 Please enter your Display Name first!');
+        closePollModal();
+        usernameInputEl.focus();
+        return;
+      }
+
+      const q = pollQuestionInput.value.trim();
+      const rawOpts = [pollOpt1.value.trim(), pollOpt2.value.trim(), pollOpt3.value.trim(), pollOpt4.value.trim()].filter(Boolean);
+      if (!q || rawOpts.length < 2) {
+        showToast('⚠️ Enter a question and at least 2 options.');
+        return;
+      }
+
+      const pollMsg = {
+        id: 'msg-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
+        channel: activeChannel,
+        text: '',
+        senderName: nameVal,
+        senderRole: userRole,
+        senderId: currentUserId,
+        senderColor: userColor,
+        timestamp: Date.now(),
+        pinned: false,
+        replyTo: null,
+        attachment: {
+          type: 'poll',
+          name: q,
+          pollData: {
+            question: q,
+            options: rawOpts.map((optText, idx) => ({
+              id: 'opt-' + (idx + 1),
+              text: optText,
+              votes: []
+            }))
+          }
+        },
+        reactions: {}
+      };
+
+      closePollModal();
+      playSound('send');
+      await saveAndBroadcastMessage(pollMsg);
+    });
+
+    // --- DRAG & DROP AND CLIPBOARD PASTE ---
     window.addEventListener('dragover', (e) => {
       e.preventDefault();
       dropZoneOverlay.classList.remove('hidden');
@@ -886,20 +1244,20 @@
       {
         type: 'image',
         url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
-        name: 'Mountain_Sunrise_HD.jpg',
+        name: 'Mountain_Landscape_4K.jpg',
         size: '210 KB'
       },
       {
         type: 'video',
         url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-        name: 'Tech_Showcase_Clip.mp4',
+        name: 'Product_Keynote_Preview.mp4',
         size: '1.8 MB'
       },
       {
         type: 'file',
-        url: 'data:text/plain;charset=utf-8,' + encodeURIComponent('Baatcheet Live Pro - Project Notes\n1. Real-time chat\n2. Image, Video & File sharing\n3. Mobile-first UI/UX'),
-        name: 'Project_Roadmap_2025.txt',
-        size: '4.2 KB'
+        url: 'data:text/plain;charset=utf-8,' + encodeURIComponent('NexusChat Pro - Architecture Specs\n1. Real-Time Sync\n2. Rich Media & Polls\n3. Mobile-First Design'),
+        name: 'System_Architecture_Specs.txt',
+        size: '4.8 KB'
       }
     ];
     let demoIdx = 0;
@@ -907,7 +1265,7 @@
       const sample = DEMO_ATTACHMENTS[demoIdx % DEMO_ATTACHMENTS.length];
       demoIdx++;
       setStagedAttachment(sample);
-      showToast(`✨ Sample ${sample.type.toUpperCase()} attached! Press Send.`);
+      showToast(`✨ Sample ${sample.type.toUpperCase()} staged! Press Send.`);
     });
 
     // --- URL MEDIA MODAL ---
@@ -929,7 +1287,7 @@
     confirmUrlMediaBtn.addEventListener('click', () => {
       const urlVal = urlMediaInput.value.trim();
       if (!urlVal) {
-        showToast('⚠️ Please enter a valid URL');
+        showToast('⚠️ Please enter a valid URL.');
         return;
       }
       const typeVal = urlMediaTypeSelect.value;
@@ -943,19 +1301,61 @@
       closeUrlModal();
     });
 
-    // --- RENDER ATTACHMENT INSIDE MESSAGE BUBBLE ---
+    // --- BUILD ATTACHMENT HTML FOR MESSAGE BUBBLES ---
     function buildAttachmentHtml(msg, isMe) {
       const att = msg.attachment;
-      if (!att || !att.url) return '';
+      if (!att) return '';
 
+      // 1. Interactive Live Poll
+      if (att.type === 'poll' && att.pollData) {
+        const pd = att.pollData;
+        const opts = pd.options || [];
+        const totalVotes = opts.reduce((acc, o) => acc + (Array.isArray(o.votes) ? o.votes.length : 0), 0);
+
+        return `
+          <div class="mb-2 p-3 rounded-xl border ${isMe ? 'bg-indigo-950/65 border-indigo-400/30' : 'bg-slate-900/95 border-slate-700/80'} space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">📊 Live Poll</span>
+              <span class="text-[11px] text-slate-400 font-medium">${totalVotes} ${totalVotes === 1 ? 'vote' : 'votes'}</span>
+            </div>
+            <p class="font-bold text-xs sm:text-sm text-white">${escapeHtml(pd.question)}</p>
+            <div class="space-y-1.5">
+              ${opts.map((opt) => {
+                const count = Array.isArray(opt.votes) ? opt.votes.length : 0;
+                const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+                const votedByMe = Array.isArray(opt.votes) && opt.votes.includes(currentUserId);
+                return `
+                  <button
+                    type="button"
+                    data-poll-msg-id="${escapeHtml(msg.id)}"
+                    data-poll-opt-id="${escapeHtml(opt.id)}"
+                    class="poll-vote-btn w-full text-left relative overflow-hidden rounded-xl border ${
+                      votedByMe ? 'border-indigo-400 bg-indigo-950/80' : 'border-slate-700/80 bg-slate-950/70 hover:border-slate-600'
+                    } p-2 transition"
+                  >
+                    <div class="absolute inset-y-0 left-0 bg-indigo-500/25 transition-all duration-300" style="width: ${pct}%"></div>
+                    <div class="relative flex items-center justify-between text-xs gap-2">
+                      <span class="font-medium text-slate-100 truncate">${votedByMe ? '✅ ' : ''}${escapeHtml(opt.text)}</span>
+                      <span class="text-[11px] font-bold text-indigo-300 shrink-0">${pct}% (${count})</span>
+                    </div>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (!att.url) return '';
       const safeUrl = escapeHtml(att.url);
       const safeName = escapeHtml(att.name || 'Shared Media');
       const safeSize = escapeHtml(att.size || '');
-      const safeSender = escapeHtml(msg.senderName || 'User');
+      const safeSender = escapeHtml(msg.senderName || 'Participant');
 
+      // 2. Photo / Image
       if (att.type === 'image') {
         return `
-          <div class="mb-2 overflow-hidden rounded-xl border ${isMe ? 'border-indigo-400/30' : 'border-slate-700/80'} bg-slate-950/60 group/media relative">
+          <div class="mb-2 overflow-hidden rounded-xl border ${isMe ? 'border-indigo-400/30' : 'border-slate-700/80'} bg-slate-950/60">
             <img
               src="${safeUrl}"
               alt="${safeName}"
@@ -963,11 +1363,11 @@
               data-lightbox-url="${safeUrl}"
               data-lightbox-title="${safeName}"
               data-lightbox-sender="${safeSender}"
-              class="open-lightbox-trigger w-full max-h-64 sm:max-h-72 object-cover cursor-zoom-in hover:scale-[1.02] transition duration-200"
+              class="open-lightbox-trigger w-full max-h-64 sm:max-h-72 object-cover cursor-zoom-in hover:scale-[1.01] transition duration-200"
               loading="lazy"
-              onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/e2e8f0?text=Image+Unavailable';"
+              onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/e2e8f0?text=Image+Preview';"
             />
-            <div class="flex items-center justify-between px-2.5 py-1.5 bg-slate-950/80 text-[11px] text-slate-300">
+            <div class="flex items-center justify-between px-2.5 py-1.5 bg-slate-950/85 text-[11px] text-slate-300">
               <span class="truncate max-w-[180px]">${safeName}</span>
               <a href="${safeUrl}" download="${safeName}" target="_blank" rel="noopener" class="text-indigo-300 hover:text-white font-semibold ml-2 shrink-0">Download</a>
             </div>
@@ -975,16 +1375,11 @@
         `;
       }
 
+      // 3. Video Stream
       if (att.type === 'video') {
         return `
           <div class="mb-2 overflow-hidden rounded-xl border ${isMe ? 'border-indigo-400/30' : 'border-slate-700/80'} bg-slate-950">
-            <video
-              src="${safeUrl}"
-              controls
-              playsinline
-              preload="metadata"
-              class="w-full max-h-64 sm:max-h-72 bg-black"
-            ></video>
+            <video src="${safeUrl}" controls playsinline preload="metadata" class="w-full max-h-64 sm:max-h-72 bg-black"></video>
             <div class="flex items-center justify-between px-2.5 py-1.5 bg-slate-950/90 text-[11px] text-slate-300">
               <span class="truncate max-w-[170px]">🎬 ${safeName}</span>
               <div class="flex items-center gap-2 shrink-0">
@@ -995,7 +1390,7 @@
                   data-lightbox-title="${safeName}"
                   data-lightbox-sender="${safeSender}"
                   class="open-lightbox-trigger text-violet-300 hover:text-white font-semibold"
-                >Fullscreen</button>
+                >Expand</button>
                 <a href="${safeUrl}" download="${safeName}" target="_blank" rel="noopener" class="text-indigo-300 hover:text-white font-semibold">Save</a>
               </div>
             </div>
@@ -1003,7 +1398,20 @@
         `;
       }
 
-      // Document / File Card
+      // 4. Voice Note / Audio
+      if (att.type === 'audio') {
+        return `
+          <div class="mb-2 p-2.5 rounded-xl border ${isMe ? 'bg-indigo-950/60 border-indigo-400/30' : 'bg-slate-900/95 border-slate-700/80'} space-y-1.5">
+            <div class="flex items-center justify-between text-[11px] text-slate-300">
+              <span class="font-semibold text-fuchsia-300">🎙️ ${safeName}</span>
+              <span>${safeSize}</span>
+            </div>
+            <audio src="${safeUrl}" controls class="w-full h-8"></audio>
+          </div>
+        `;
+      }
+
+      // 5. Document / File Card
       const ext = (safeName.split('.').pop() || 'FILE').toUpperCase().slice(0, 4);
       return `
         <div class="mb-2 p-2.5 rounded-xl border ${
@@ -1037,15 +1445,32 @@
     }
 
     // --- RENDER MESSAGES FEED ---
+    let currentPinnedMsgId = null;
+
     function renderMessages(shouldScroll = false) {
       const allSorted = Array.from(messagesMap.values()).sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
 
-      // Update total media count badge
+      // Filter by active channel
+      const channelMsgs = allSorted.filter(m => (m.channel || 'general') === activeChannel);
+
+      // Update Sticky Pinned Message Banner
+      const pinnedMsg = [...channelMsgs].reverse().find(m => m.pinned);
+      if (pinnedMsg) {
+        currentPinnedMsgId = pinnedMsg.id;
+        pinnedSenderText.textContent = `Pinned (${pinnedMsg.senderName || 'User'}):`;
+        pinnedBodyText.textContent = pinnedMsg.text || pinnedMsg.attachment?.name || 'Media Attachment';
+        pinnedMessageBanner.classList.remove('hidden');
+      } else {
+        currentPinnedMsgId = null;
+        pinnedMessageBanner.classList.add('hidden');
+      }
+
+      // Update Media Vault Count Badge
       const mediaItems = allSorted.filter(m => m.attachment && m.attachment.url);
       mediaCountBadge.textContent = mediaItems.length;
 
-      // Filter by tab & search query
-      const filtered = allSorted.filter((msg) => {
+      // Filter by media type & search query
+      const filtered = channelMsgs.filter((msg) => {
         if (currentFilter !== 'all') {
           if (!msg.attachment || msg.attachment.type !== currentFilter) return false;
         }
@@ -1062,8 +1487,8 @@
       if (filtered.length === 0) {
         messagesListEl.innerHTML = `
           <div class="text-center py-12 px-4 rounded-2xl bg-slate-900/40 border border-slate-800/60">
-            <p class="text-sm font-medium text-slate-300">Koi message nahi mila</p>
-            <p class="text-xs text-slate-500 mt-1">Filter badlein ya naya message bhejein.</p>
+            <p class="text-sm font-medium text-slate-300">No messages in #${escapeHtml(activeChannel)} match your view</p>
+            <p class="text-xs text-slate-500 mt-1">Start the conversation below or switch filters.</p>
           </div>
         `;
         return;
@@ -1072,15 +1497,16 @@
       messagesListEl.innerHTML = filtered.map((msg) => {
         const isMe = msg.senderId === currentUserId;
         const initials = escapeHtml(getInitials(msg.senderName));
-        const safeSender = escapeHtml(msg.senderName || 'User');
-        const safeText = escapeHtml(msg.text || '');
+        const safeSender = escapeHtml(msg.senderName || 'Participant');
+        const safeRole = escapeHtml(msg.senderRole || 'Member');
+        const formattedText = formatMessageText(msg.text || '');
         const colorClass = msg.senderColor || 'bg-indigo-600';
         const timeStr = formatTime(msg.timestamp);
 
-        // Quoted Reply Box
+        // Quoted Reply Block
         let replyHtml = '';
         if (msg.replyTo && msg.replyTo.id) {
-          const replySender = escapeHtml(msg.replyTo.senderName || 'User');
+          const replySender = escapeHtml(msg.replyTo.senderName || 'Participant');
           const replyText = escapeHtml(msg.replyTo.text || '📎 Media Attachment');
           const replyBoxStyle = isMe
             ? 'bg-indigo-800/70 border-indigo-300 text-indigo-100 hover:bg-indigo-800'
@@ -1099,7 +1525,6 @@
           `;
         }
 
-        // Media Attachment Box
         const attachmentHtml = buildAttachmentHtml(msg, isMe);
 
         // Reactions Pills
@@ -1131,7 +1556,7 @@
 
         return `
           <div id="msg-${escapeHtml(msg.id)}" class="msg-animate group flex flex-col ${isMe ? 'items-end' : 'items-start'} transition-all duration-300">
-            <div class="flex items-end gap-2 sm:gap-2.5 max-w-[94%] sm:max-w-[76%] ${isMe ? 'flex-row-reverse' : 'flex-row'}">
+            <div class="flex items-end gap-2 sm:gap-2.5 max-w-[94%] sm:max-w-[78%] ${isMe ? 'flex-row-reverse' : 'flex-row'}">
               
               <!-- Avatar -->
               <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-[11px] sm:text-xs font-bold text-white shrink-0 shadow-md ${colorClass}" title="${safeSender}">
@@ -1140,15 +1565,20 @@
 
               <!-- Message Column -->
               <div class="relative flex flex-col min-w-0 flex-1">
-                <!-- Sender & Timestamp -->
-                <div class="flex items-center gap-2 mb-1 px-1 ${isMe ? 'justify-end' : 'justify-start'}">
-                  <span class="text-[11px] sm:text-xs font-semibold truncate ${isMe ? 'text-indigo-400' : 'text-slate-300'}">
-                    ${safeSender} ${isMe ? '<span class="text-[10px] font-normal text-slate-500">(You)</span>' : ''}
+                <!-- Sender Name, Role Badge & Timestamp -->
+                <div class="flex items-center gap-1.5 mb-1 px-1 ${isMe ? 'justify-end' : 'justify-start'}">
+                  <span class="text-[11px] sm:text-xs font-semibold truncate ${isMe ? 'text-indigo-400' : 'text-slate-200'}">
+                    ${safeSender}
                   </span>
+                  <span class="text-[9px] font-semibold px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 border border-slate-700/70 shrink-0">
+                    ${safeRole}
+                  </span>
+                  ${msg.pinned ? '<span class="text-[10px] text-amber-400" title="Pinned Message">📌</span>' : ''}
                   <span class="text-[10px] text-slate-500 shrink-0">${timeStr}</span>
+                  ${msg.edited ? '<span class="text-[9px] text-slate-500 italic">(edited)</span>' : ''}
                 </div>
 
-                <!-- Message Bubble -->
+                <!-- Bubble -->
                 <div class="relative rounded-2xl px-3 sm:px-3.5 py-2 sm:py-2.5 shadow-md text-xs sm:text-sm leading-relaxed break-words ${
                   isMe
                     ? 'bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-br-xs'
@@ -1156,15 +1586,15 @@
                 }">
                   ${replyHtml}
                   ${attachmentHtml}
-                  ${safeText ? `<p class="whitespace-pre-wrap">${safeText}</p>` : ''}
+                  ${formattedText ? `<div class="whitespace-pre-wrap">${formattedText}</div>` : ''}
                 </div>
 
-                <!-- Existing Reactions -->
+                <!-- Reactions -->
                 ${reactionPills ? `<div class="flex flex-wrap gap-1 mt-1.5 ${isMe ? 'justify-end' : 'justify-start'}">${reactionPills}</div>` : ''}
 
-                <!-- Action Toolbar (Always accessible on mobile touch & desktop) -->
+                <!-- Action Bar (Touch-Friendly on Mobile & Desktop) -->
                 <div class="flex items-center gap-1 mt-1 ${isMe ? 'justify-end' : 'justify-start'}">
-                  <button type="button" data-reply-id="${escapeHtml(msg.id)}" class="reply-action-btn flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 text-slate-400 hover:text-indigo-400 text-[11px] font-medium border border-slate-800/80 transition">
+                  <button type="button" data-reply-id="${escapeHtml(msg.id)}" class="reply-action-btn flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 text-slate-400 hover:text-indigo-400 text-[11px] font-medium border border-slate-800/80 transition" title="Reply">
                     <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
                     </svg>
@@ -1172,7 +1602,7 @@
                   </button>
 
                   <div class="relative">
-                    <button type="button" data-picker-id="${escapeHtml(msg.id)}" class="picker-toggle-btn p-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 text-slate-400 hover:text-amber-400 border border-slate-800/80 transition" title="React">
+                    <button type="button" data-picker-id="${escapeHtml(msg.id)}" class="picker-toggle-btn p-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 text-slate-400 hover:text-amber-400 border border-slate-800/80 transition" title="Add Reaction">
                       <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                       </svg>
@@ -1180,10 +1610,25 @@
                     ${emojiPickerHtml}
                   </div>
 
-                  ${safeText ? `
+                  <!-- Pin / Unpin Button -->
+                  <button type="button" data-pin-id="${escapeHtml(msg.id)}" class="pin-action-btn p-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 ${msg.pinned ? 'text-amber-400' : 'text-slate-400 hover:text-amber-300'} border border-slate-800/80 transition" title="Pin Message">
+                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                    </svg>
+                  </button>
+
+                  ${msg.text ? `
                     <button type="button" data-copy-id="${escapeHtml(msg.id)}" class="copy-action-btn p-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 text-slate-400 hover:text-emerald-400 border border-slate-800/80 transition" title="Copy Text">
                       <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                      </svg>
+                    </button>
+                  ` : ''}
+
+                  ${isMe && msg.text ? `
+                    <button type="button" data-edit-id="${escapeHtml(msg.id)}" class="edit-action-btn p-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 border border-slate-800/80 transition" title="Edit Message">
+                      <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                       </svg>
                     </button>
                   ` : ''}
@@ -1210,7 +1655,22 @@
 
     renderMessages(true);
 
-    // --- SHARED MEDIA GALLERY RENDERER ---
+    // --- PINNED BANNER INTERACTIONS ---
+    pinnedBannerJump.addEventListener('click', () => {
+      if (!currentPinnedMsgId) return;
+      const el = document.getElementById(`msg-${currentPinnedMsgId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('highlight-pulse');
+        setTimeout(() => el.classList.remove('highlight-pulse'), 1800);
+      }
+    });
+
+    unpinBannerBtn.addEventListener('click', () => {
+      if (currentPinnedMsgId) togglePinMessage(currentPinnedMsgId);
+    });
+
+    // --- SHARED MEDIA VAULT MODAL ---
     function openMediaGallery() {
       const allSorted = Array.from(messagesMap.values()).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       const mediaMsgs = allSorted.filter(m => m.attachment && m.attachment.url);
@@ -1218,7 +1678,7 @@
       if (mediaMsgs.length === 0) {
         mediaGalleryContent.innerHTML = `
           <div class="col-span-full text-center py-12 text-slate-400 text-xs">
-            Abhi tak koi photo, video ya file share nahi ki gayi hai.
+            No media files have been shared yet.
           </div>
         `;
       } else {
@@ -1226,7 +1686,7 @@
           const att = msg.attachment;
           const safeUrl = escapeHtml(att.url);
           const safeName = escapeHtml(att.name || 'Media');
-          const safeSender = escapeHtml(msg.senderName || 'User');
+          const safeSender = escapeHtml(msg.senderName || 'Participant');
 
           if (att.type === 'image') {
             return `
@@ -1237,7 +1697,7 @@
                     <p class="font-semibold text-white truncate">${safeName}</p>
                     <p class="text-[10px] text-slate-400">by ${safeSender}</p>
                   </div>
-                  <a href="${safeUrl}" download="${safeName}" target="_blank" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-[11px] font-semibold shrink-0">Save</a>
+                  <a href="${safeUrl}" download="${safeName}" target="_blank" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-[11px] font-semibold shrink-0">Download</a>
                 </div>
               </div>
             `;
@@ -1250,7 +1710,7 @@
                 <p class="text-xs font-semibold text-white truncate mt-1">${safeName}</p>
                 <p class="text-[10px] text-slate-400">by ${safeSender} • ${escapeHtml(att.size || '')}</p>
               </div>
-              <a href="${safeUrl}" download="${safeName}" target="_blank" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold shrink-0">Download</a>
+              <a href="${safeUrl}" download="${safeName}" target="_blank" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold shrink-0">Save</a>
             </div>
           `;
         }).join('');
@@ -1269,7 +1729,7 @@
     // --- LIGHTBOX VIEWER ---
     function openLightbox(type, url, title, sender) {
       lightboxTitle.textContent = title || 'Media Preview';
-      lightboxSender.textContent = `Shared by ${sender || 'User'}`;
+      lightboxSender.textContent = `Shared by ${sender || 'Participant'}`;
       lightboxDownloadBtn.href = url;
       lightboxDownloadBtn.setAttribute('download', title || 'media');
 
@@ -1290,9 +1750,9 @@
     }
     closeLightboxBtn.addEventListener('click', closeLightbox);
 
-    // --- HYBRID REAL-TIME ENGINE (FIREBASE + MQTT WEBSOCKET + BROADCAST CHANNEL) ---
+    // --- HYBRID REAL-TIME SYNC ENGINE (FIREBASE + MQTT WEBSOCKET + BROADCAST CHANNEL) ---
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    const TOPIC = `baatcheet-live-pro-room/${appId}`;
+    const TOPIC = `nexuschat-pro-live-room/${appId}`;
     let db = null;
     let auth = null;
     let firebaseReady = false;
@@ -1304,7 +1764,7 @@
     try {
       if (typeof mqtt !== 'undefined') {
         mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
-          clientId: 'bcpro_' + Math.random().toString(16).slice(2, 10),
+          clientId: 'nxpro_' + Math.random().toString(16).slice(2, 10),
           clean: true,
           connectTimeout: 4000,
           reconnectPeriod: 4000,
@@ -1341,10 +1801,10 @@
         messagesMap.delete(packet.id);
         renderMessages(false);
       } else if (packet.type === 'TYPING' && packet.senderId !== currentUserId) {
-        typingIndicatorText.innerHTML = `<span class="text-indigo-400 font-semibold">${escapeHtml(packet.senderName || 'Someone')}</span> is typing...`;
+        typingIndicatorText.innerHTML = `<span class="text-indigo-400 font-semibold">${escapeHtml(packet.senderName || 'Someone')}</span> is typing in #${escapeHtml(packet.channel || 'general')}...`;
         if (typingTimeout) clearTimeout(typingTimeout);
         typingTimeout = setTimeout(() => {
-          typingIndicatorText.textContent = 'Public Room • Photos, Videos & Files Supported';
+          typingIndicatorText.textContent = 'Real-Time Public Workspace • Media, Polls & Files';
         }, 2500);
       }
     }
@@ -1374,7 +1834,7 @@
           }
         });
       } catch (err) {
-        console.warn('Fallback real-time sync active.');
+        console.warn('Hybrid WebSocket real-time sync active.');
       }
     }
 
@@ -1407,7 +1867,7 @@
 
     initFirebase();
 
-    // --- SEND MESSAGE & MEDIA ---
+    // --- SAVE & BROADCAST MESSAGE ---
     async function saveAndBroadcastMessage(msgObj) {
       messagesMap.set(msgObj.id, msgObj);
       renderMessages(true);
@@ -1415,7 +1875,6 @@
 
       if (firebaseReady && db && auth?.currentUser) {
         try {
-          // Ensure document fits Firestore limits (< 950KB)
           const serializedSize = JSON.stringify(msgObj).length;
           if (serializedSize < 950000) {
             const msgRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', msgObj.id);
@@ -1431,8 +1890,21 @@
       const textVal = messageInputEl.value.trim();
 
       if (!nameVal) {
-        showToast('👈 Kripya pehle apna Naam likhein!');
+        showToast('👈 Please enter your Display Name first!');
         usernameInputEl.focus();
+        return;
+      }
+
+      // Handle Editing Existing Message
+      if (editingMsgId) {
+        const existing = messagesMap.get(editingMsgId);
+        if (existing && textVal) {
+          const updated = { ...existing, text: textVal, edited: true };
+          clearReplyAndEditState();
+          messageInputEl.value = '';
+          await saveAndBroadcastMessage(updated);
+          showToast('✏️ Message updated');
+        }
         return;
       }
 
@@ -1444,11 +1916,15 @@
       const msgId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7);
       const newMsg = {
         id: msgId,
+        channel: activeChannel,
         text: textVal,
         senderName: nameVal,
+        senderRole: userRole,
         senderId: currentUserId,
         senderColor: userColor,
         timestamp: Date.now(),
+        pinned: false,
+        edited: false,
         replyTo: replyingTo ? { ...replyingTo } : null,
         attachment: stagedAttachment ? { ...stagedAttachment } : null,
         reactions: {}
@@ -1456,25 +1932,27 @@
 
       messageInputEl.value = '';
       setStagedAttachment(null);
-      clearReplyState();
+      clearReplyAndEditState();
       playSound('send');
 
       await saveAndBroadcastMessage(newMsg);
       messageInputEl.focus();
     });
 
-    // Broadcast typing status
+    // Broadcast live typing indicator
     let lastTypingSent = 0;
     messageInputEl.addEventListener('input', () => {
       const nameVal = usernameInputEl.value.trim();
       if (nameVal && Date.now() - lastTypingSent > 1800) {
         lastTypingSent = Date.now();
-        broadcastPacket({ type: 'TYPING', senderId: currentUserId, senderName: nameVal });
+        broadcastPacket({ type: 'TYPING', senderId: currentUserId, senderName: nameVal, channel: activeChannel });
       }
     });
 
-    // --- REPLY, REACT, COPY & DELETE ---
+    // --- REPLY, EDIT, PIN, POLL VOTE, REACT, COPY & DELETE ---
     function setReplyState(msg) {
+      editingMsgId = null;
+      sendBtnLabel.textContent = 'Send';
       const fallbackLabel = msg.attachment ? `📎 ${msg.attachment.name || msg.attachment.type}` : '';
       replyingTo = {
         id: msg.id,
@@ -1485,18 +1963,89 @@
       replyBannerText.textContent = `"${replyingTo.text}"`;
       replyBanner.classList.remove('hidden');
       replyBanner.classList.add('flex');
-      messageInputEl.placeholder = `${msg.senderName} ko reply likhein...`;
+      messageInputEl.placeholder = `Reply to ${msg.senderName}...`;
       messageInputEl.focus();
     }
 
-    function clearReplyState() {
+    function setEditState(msg) {
       replyingTo = null;
-      replyBanner.classList.add('hidden');
-      replyBanner.classList.remove('flex');
-      messageInputEl.placeholder = 'Message likhein ya photo/video bhejein...';
+      editingMsgId = msg.id;
+      sendBtnLabel.textContent = 'Save';
+      replyBannerSender.textContent = 'Editing your message';
+      replyBannerText.textContent = `"${msg.text}"`;
+      replyBanner.classList.remove('hidden');
+      replyBanner.classList.add('flex');
+      messageInputEl.value = msg.text || '';
+      messageInputEl.focus();
     }
 
-    cancelReplyBtn.addEventListener('click', clearReplyState);
+    function clearReplyAndEditState() {
+      replyingTo = null;
+      editingMsgId = null;
+      sendBtnLabel.textContent = 'Send';
+      replyBanner.classList.add('hidden');
+      replyBanner.classList.remove('flex');
+      messageInputEl.placeholder = 'Write a message... (Supports **bold**, `code`, & media)';
+    }
+
+    cancelReplyBtn.addEventListener('click', () => {
+      if (editingMsgId) messageInputEl.value = '';
+      clearReplyAndEditState();
+    });
+
+    async function togglePinMessage(msgId) {
+      const msg = messagesMap.get(msgId);
+      if (!msg) return;
+      const updated = { ...msg, pinned: !msg.pinned };
+      messagesMap.set(msgId, updated);
+      renderMessages(false);
+      broadcastPacket({ type: 'UPSERT', msg: updated });
+      showToast(updated.pinned ? '📌 Message pinned to channel' : 'Unpinned message');
+
+      if (firebaseReady && db && auth?.currentUser) {
+        try {
+          const msgRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', msgId);
+          await updateDoc(msgRef, { pinned: updated.pinned });
+        } catch (e) {}
+      }
+    }
+
+    async function handlePollVote(msgId, optId) {
+      const msg = messagesMap.get(msgId);
+      if (!msg || !msg.attachment || !msg.attachment.pollData) return;
+
+      const pd = msg.attachment.pollData;
+      const updatedOptions = (pd.options || []).map((opt) => {
+        const votes = Array.isArray(opt.votes) ? [...opt.votes] : [];
+        if (opt.id === optId) {
+          if (votes.includes(currentUserId)) {
+            return { ...opt, votes: votes.filter(id => id !== currentUserId) };
+          } else {
+            return { ...opt, votes: [...votes, currentUserId] };
+          }
+        }
+        return opt;
+      });
+
+      const updatedMsg = {
+        ...msg,
+        attachment: {
+          ...msg.attachment,
+          pollData: { ...pd, options: updatedOptions }
+        }
+      };
+
+      messagesMap.set(msgId, updatedMsg);
+      renderMessages(false);
+      broadcastPacket({ type: 'UPSERT', msg: updatedMsg });
+
+      if (firebaseReady && db && auth?.currentUser) {
+        try {
+          const msgRef = doc(db, 'artifacts', appId, 'public', 'data', 'messages', msgId);
+          await updateDoc(msgRef, { attachment: updatedMsg.attachment });
+        } catch (e) {}
+      }
+    }
 
     async function toggleReaction(msgId, emoji) {
       activeReactionPopupId = null;
@@ -1551,7 +2100,7 @@
       ta.select();
       try {
         document.execCommand('copy');
-        showToast('📋 Message copied!');
+        showToast('📋 Copied to clipboard');
       } catch (e) {}
       document.body.removeChild(ta);
     }
@@ -1570,11 +2119,36 @@
         return;
       }
 
+      const pollBtn = e.target.closest('.poll-vote-btn');
+      if (pollBtn) {
+        e.stopPropagation();
+        handlePollVote(
+          pollBtn.getAttribute('data-poll-msg-id'),
+          pollBtn.getAttribute('data-poll-opt-id')
+        );
+        return;
+      }
+
       const replyBtn = e.target.closest('.reply-action-btn');
       if (replyBtn) {
         e.stopPropagation();
         const msg = messagesMap.get(replyBtn.getAttribute('data-reply-id'));
         if (msg) setReplyState(msg);
+        return;
+      }
+
+      const editBtn = e.target.closest('.edit-action-btn');
+      if (editBtn) {
+        e.stopPropagation();
+        const msg = messagesMap.get(editBtn.getAttribute('data-edit-id'));
+        if (msg) setEditState(msg);
+        return;
+      }
+
+      const pinBtn = e.target.closest('.pin-action-btn');
+      if (pinBtn) {
+        e.stopPropagation();
+        togglePinMessage(pinBtn.getAttribute('data-pin-id'));
         return;
       }
 
@@ -1619,12 +2193,22 @@
           targetEl.classList.add('highlight-pulse');
           setTimeout(() => targetEl.classList.remove('highlight-pulse'), 1800);
         } else {
-          showToast('Original message delete ho chuka hai.');
+          showToast('Referenced message is not in current view.');
         }
       }
     });
 
-    // --- SEARCH & FILTER CONTROLS ---
+    // --- CHANNEL, SEARCH & FILTER CONTROLS ---
+    channelSelect.addEventListener('change', () => {
+      activeChannel = channelSelect.value;
+      renderMessages(true);
+      showToast(`Switched to #${activeChannel}`);
+    });
+
+    userRoleSelect.addEventListener('change', () => {
+      userRole = userRoleSelect.value;
+    });
+
     searchToggleBtn.addEventListener('click', () => {
       searchBarPanel.classList.toggle('hidden');
       searchBarPanel.classList.toggle('flex');
@@ -1657,7 +2241,7 @@
       });
     });
 
-    // --- USER IDENTITY, COLOR & EMOJI POPUPS ---
+    // --- IDENTITY, COLOR & EMOJI POPUPS ---
     usernameInputEl.addEventListener('input', () => {
       const val = usernameInputEl.value.trim();
       avatarPreviewInitials.textContent = getInitials(val);
