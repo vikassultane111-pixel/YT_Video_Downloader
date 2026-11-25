@@ -7,7 +7,7 @@
     <title>Shivansh Digital Setu Kendra | शिवांश डिजिटल सेतू केंद्र</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Plus Jakarta Sans & Noto Sans Devanagari for crisp English & Marathi/Hindi typography -->
+    <!-- Google Fonts: Plus Jakarta Sans & Noto Sans Devanagari -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,7 +23,8 @@
                     },
                     colors: {
                         brand: {
-                            navy: '#0B1D3A',
+                            navy: '#09172E',
+                            slate: '#0F2547',
                             blue: '#0369A1',
                             sky: '#0284C7',
                             saffron: '#F97316',
@@ -32,29 +33,30 @@
                         }
                     },
                     boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(11, 29, 58, 0.08)',
-                        'glow': '0 0 30px rgba(249, 115, 22, 0.25)',
+                        'card': '0 4px 24px -4px rgba(9, 23, 46, 0.06)',
+                        'card-hover': '0 20px 40px -12px rgba(9, 23, 46, 0.14)',
+                        'premium': '0 25px 50px -12px rgba(9, 23, 46, 0.25)',
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Custom subtle background patterns & smooth transitions */
-        .hero-grid-bg {
-            background-color: #071326;
+        /* Premium Hero Mesh & Subtle Architectural Grid */
+        .hero-surface {
+            background-color: #061021;
             background-image: 
-                radial-gradient(at 15% 15%, rgba(249, 115, 22, 0.18) 0px, transparent 50%),
-                radial-gradient(at 85% 20%, rgba(2, 132, 199, 0.22) 0px, transparent 50%),
-                radial-gradient(at 50% 85%, rgba(22, 163, 74, 0.14) 0px, transparent 50%),
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+                radial-gradient(circle at 12% 18%, rgba(249, 115, 22, 0.20) 0%, transparent 45%),
+                radial-gradient(circle at 88% 15%, rgba(2, 132, 199, 0.24) 0%, transparent 48%),
+                radial-gradient(circle at 65% 88%, rgba(22, 163, 74, 0.14) 0%, transparent 45%),
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
-        .tricolor-bar {
-            background: linear-gradient(90deg, #F97316 0%, #F97316 33%, #FFFFFF 33%, #0284C7 50%, #FFFFFF 67%, #16A34A 67%, #16A34A 100%);
+        .tricolor-accent {
+            background: linear-gradient(90deg, #F97316 0%, #F97316 33.3%, #FFFFFF 33.3%, #0284C7 50%, #FFFFFF 66.6%, #16A34A 66.6%, #16A34A 100%);
         }
-        /* Hide scrollbar for horizontal category pills on mobile */
+        /* Smooth custom scrollbar hiding for horizontal pill strips */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -62,213 +64,221 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Modal Entrance Animation */
+        @keyframes modalPop {
+            0% { opacity: 0; transform: translateY(16px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-modal {
+            animation: modalPop 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-orange-500 selection:text-white pb-20 md:pb-0">
+<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased selection:bg-orange-500 selection:text-white pb-20 md:pb-0 overflow-x-hidden">
 
-    <!-- Top Tricolor Accent Line -->
-    <div class="h-1.5 w-full tricolor-bar"></div>
+    <!-- Top Brand Tricolor Bar -->
+    <div class="h-1.5 w-full tricolor-accent"></div>
 
-    <!-- Top Announcement / Contact Strip -->
+    <!-- Top Utility & Contact Bar -->
     <div class="bg-brand-navy text-slate-200 text-xs py-2 px-4 border-b border-white/10">
         <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-3">
-                <span class="inline-flex items-center gap-1.5 font-medium text-orange-400">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span data-i18n="topBadge">Authorized Maha e-Seva & Digital Cyber Hub</span>
+            <div class="flex items-center gap-2.5">
+                <span class="inline-flex items-center gap-1.5 font-semibold text-orange-300">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span data-i18n="topBadge">Authorized Maha e-Seva &amp; Digital Cyber Hub</span>
                 </span>
-                <span class="hidden sm:inline text-slate-500">|</span>
-                <span class="hidden sm:inline text-slate-300 font-devanagari">आपली सोय... आमची सेवा...</span>
+                <span class="hidden md:inline text-slate-600">|</span>
+                <span class="hidden md:inline text-slate-300 font-devanagari font-medium">आपली सोय... आमची सेवा...</span>
             </div>
             <div class="flex items-center gap-4 ml-auto">
-                <span class="hidden md:inline-flex items-center gap-1 text-slate-300">
+                <span class="hidden sm:inline-flex items-center gap-1.5 text-slate-300">
                     <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-400"></i>
                     <span data-i18n="timingText">Mon – Sun: 9:00 AM – 9:30 PM</span>
                 </span>
                 <a href="tel:8805024010" class="inline-flex items-center gap-1.5 font-bold text-white hover:text-orange-400 transition">
                     <i data-lucide="phone-call" class="w-3.5 h-3.5 text-emerald-400"></i>
-                    8805024010
+                    <span>+91 8805024010</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Sticky Glass Navigation Header -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <!-- Sticky Glassmorphic Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-lg border-b border-slate-200/80 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-18 py-2.5">
-                <!-- Brand Logo + Name -->
-                <a href="#" class="flex items-center gap-3 group">
-                    <!-- Custom Vector Emblem inspired by Shivansh Digital Setu Kendra Logo -->
-                    <div class="w-12 h-12 rounded-2xl bg-white shadow-md border border-slate-100 p-1 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Outer Saffron & Blue Arcs -->
+            <div class="flex items-center justify-between py-3">
+                <!-- Brand Emblem & Typography -->
+                <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white shadow-md border border-slate-100 p-1 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
+                        <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-label="Shivansh Digital Logo">
                             <circle cx="50" cy="50" r="46" fill="none" stroke="#F97316" stroke-width="5" stroke-dasharray="155 140" stroke-dashoffset="25" stroke-linecap="round"/>
                             <circle cx="50" cy="50" r="46" fill="none" stroke="#0284C7" stroke-width="5" stroke-dasharray="130 165" stroke-dashoffset="-135" stroke-linecap="round"/>
                             <circle cx="50" cy="50" r="41" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-dasharray="60 220" stroke-dashoffset="-110" stroke-linecap="round"/>
-                            <!-- Stylized S Ribbon -->
-                            <path d="M62 24 C42 20, 32 32, 42 44 C52 55, 68 56, 62 72 C56 84, 34 80, 28 70" fill="none" stroke="url(#sGrad)" stroke-width="11" stroke-linecap="round"/>
-                            <!-- Digital Pixels -->
+                            <path d="M62 24 C42 20, 32 32, 42 44 C52 55, 68 56, 62 72 C56 84, 34 80, 28 70" fill="none" stroke="url(#headerSGrad)" stroke-width="11" stroke-linecap="round"/>
                             <rect x="66" y="18" width="6" height="6" rx="1" fill="#0284C7"/>
                             <rect x="74" y="24" width="5" height="5" rx="1" fill="#F97316"/>
                             <rect x="67" y="28" width="5" height="5" rx="1" fill="#16A34A"/>
-                            <!-- Service Mini Dots -->
                             <circle cx="78" cy="44" r="4.5" fill="#F97316"/>
                             <circle cx="80" cy="56" r="4.5" fill="#0284C7"/>
                             <circle cx="76" cy="68" r="4.5" fill="#16A34A"/>
                             <defs>
-                                <linearGradient id="sGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="headerSGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#0284C7"/>
-                                    <stop offset="55%" stop-color="#0B1D3A"/>
+                                    <stop offset="55%" stop-color="#09172E"/>
                                     <stop offset="100%" stop-color="#F97316"/>
                                 </linearGradient>
                             </defs>
                         </svg>
                     </div>
                     <div>
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-baseline gap-1.5">
                             <span class="text-xl sm:text-2xl font-extrabold tracking-tight text-brand-crimson font-devanagari leading-none">शिवांश</span>
                             <span class="text-lg sm:text-xl font-extrabold tracking-tight text-brand-navy leading-none">DIGITAL</span>
                         </div>
-                        <p class="text-xs font-bold text-brand-blue font-devanagari tracking-wide mt-0.5">सेतू केंद्र &amp; सायबर कॅफे</p>
+                        <p class="text-[11px] sm:text-xs font-bold text-brand-blue font-devanagari tracking-wide mt-0.5">सेतू केंद्र &amp; सायबर कॅफे</p>
                     </div>
                 </a>
 
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-600">
-                    <a href="#services" class="hover:text-brand-saffron transition" data-i18n="navServices">Services</a>
-                    <a href="#tracker" class="hover:text-brand-saffron transition" data-i18n="navTracker">Track Status</a>
-                    <a href="#calculator" class="hover:text-brand-saffron transition" data-i18n="navRates">Print &amp; Photo Rates</a>
-                    <a href="#booking" class="hover:text-brand-saffron transition" data-i18n="navBooking">Book Token</a>
-                    <a href="#contact" class="hover:text-brand-saffron transition" data-i18n="navContact">Contact</a>
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                    <a href="#services" class="hover:text-brand-saffron transition-colors" data-i18n="navServices">Services</a>
+                    <a href="#process" class="hover:text-brand-saffron transition-colors" data-i18n="navProcess">How It Works</a>
+                    <a href="#calculator" class="hover:text-brand-saffron transition-colors" data-i18n="navRates">Print &amp; Photo Rates</a>
+                    <a href="#booking" class="hover:text-brand-saffron transition-colors" data-i18n="navBooking">Book Visit</a>
+                    <a href="#contact" class="hover:text-brand-saffron transition-colors" data-i18n="navContact">Contact</a>
                 </nav>
 
-                <!-- Right Actions: Language Toggle + CTA -->
-                <div class="flex items-center gap-2.5 sm:gap-3">
-                    <!-- Bilingual Switcher -->
+                <!-- Action Controls -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Bilingual Toggle -->
                     <button id="langToggleBtn" onclick="toggleLanguage()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-orange-50 hover:border-orange-300 text-xs font-bold text-slate-700 transition cursor-pointer" title="Switch Language / भाषा बदला">
                         <i data-lucide="languages" class="w-4 h-4 text-brand-saffron"></i>
                         <span id="langLabel">मराठी</span>
                     </button>
 
-                    <!-- Express Token Button -->
-                    <a href="#booking" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-saffron to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 transition">
-                        <i data-lucide="ticket" class="w-4 h-4"></i>
-                        <span data-i18n="btnGetToken">Get Token</span>
+                    <!-- Priority WhatsApp Desk CTA -->
+                    <a href="https://wa.me/918805024010?text=Namaste%20Shivansh%20Digital%20Setu%20Kendra,%20mala%20service%20baddal%20mahiti%20havi%20aahe." target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-saffron to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 transition">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        <span data-i18n="btnWhatsAppNav">WhatsApp Desk</span>
                     </a>
 
                     <!-- Mobile Menu Toggle -->
-                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Open Navigation Menu" class="lg:hidden p-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 transition cursor-pointer">
                         <i data-lucide="menu" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Dropdown Drawer -->
-        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 pt-3 pb-5 space-y-2 shadow-xl">
-            <a href="#services" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navServices">Services</a>
-            <a href="#tracker" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navTracker">Track Status</a>
-            <a href="#calculator" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navRates">Print &amp; Photo Rates</a>
-            <a href="#booking" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navBooking">Book Token</a>
-            <a href="#contact" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navContact">Contact</a>
+        <!-- Mobile Responsive Drawer -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 pt-3 pb-5 space-y-1.5 shadow-xl">
+            <a href="#services" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navServices">Services</a>
+            <a href="#process" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navProcess">How It Works</a>
+            <a href="#calculator" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navRates">Print &amp; Photo Rates</a>
+            <a href="#booking" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navBooking">Book Visit</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-orange-50 hover:text-brand-saffron" data-i18n="navContact">Contact</a>
         </div>
     </header>
 
     <!-- HERO SECTION -->
-    <section class="hero-grid-bg text-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24 relative z-10">
+    <section class="hero-surface text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-18 lg:py-24 relative z-10">
             <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-                <!-- Left Content Column -->
+                
+                <!-- Left Column: Value Proposition & Instant Search -->
                 <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm text-xs font-semibold text-orange-300">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs font-bold tracking-wider text-orange-300">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-orange-400"></i>
-                        <span>ONE PLACE &nbsp;|&nbsp; MANY SERVICES &nbsp;|&nbsp; FOR YOU</span>
+                        <span>ONE PLACE &nbsp;•&nbsp; MANY SERVICES &nbsp;•&nbsp; FOR YOU</span>
                     </div>
 
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                        <span class="text-orange-400 font-devanagari block mb-1">शिवांश डिजिटल सेतू केंद्र</span>
+                    <h1 class="text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight leading-[1.15]">
+                        <span class="text-orange-400 font-devanagari block mb-1.5">शिवांश डिजिटल सेतू केंद्र</span>
                         <span class="bg-gradient-to-r from-white via-sky-100 to-slate-300 bg-clip-text text-transparent" data-i18n="heroTitle">
                             Digital Services For A Better Tomorrow
                         </span>
                     </h1>
 
-                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed" data-i18n="heroDesc">
-                        Fast, reliable &amp; transparent e-Governance, Maha e-Seva Certificates, PAN &amp; Aadhaar Services, Online Exam Forms, AEPS Banking, and High-Speed Cyber Cafe solutions under one roof.
+                    <p class="text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed" data-i18n="heroDesc">
+                        Fast, accurate &amp; transparent Maha e-Seva Certificates, PAN &amp; Aadhaar Services, Digital 7/12, Online Exam Forms, AEPS Banking, and High-Speed Cyber Cafe printing under one roof.
                     </p>
 
-                    <!-- Hero Search Bar (Instant Service Finder) -->
+                    <!-- Instant Service Search Bar -->
                     <div class="max-w-xl mx-auto lg:mx-0">
-                        <div class="relative flex items-center bg-white rounded-2xl p-1.5 shadow-2xl">
+                        <div class="relative flex items-center bg-white rounded-2xl p-1.5 shadow-2xl ring-4 ring-white/10">
                             <i data-lucide="search" class="w-5 h-5 text-slate-400 ml-3 shrink-0"></i>
                             <input 
                                 type="text" 
                                 id="heroSearchInput"
                                 onkeyup="handleHeroSearch(event)"
-                                placeholder="Search PAN Card, Income Certificate, 7/12, MPSC Form..." 
+                                placeholder="Search PAN Card, Income Certificate, 7/12, MPSC..." 
                                 class="w-full px-3 py-2.5 text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none bg-transparent"
                             >
                             <button onclick="scrollToServices()" class="px-5 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-blue text-white text-sm font-bold transition shrink-0 cursor-pointer" data-i18n="searchBtn">
                                 Find
                             </button>
                         </div>
+
                         <!-- Quick Popular Tags -->
-                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-3 text-xs text-slate-300">
-                            <span class="text-slate-400">Popular:</span>
-                            <button onclick="quickFilter('PAN')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer">PAN Card</button>
-                            <button onclick="quickFilter('Income')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer">उत्पन्नाचा दाखला</button>
-                            <button onclick="quickFilter('7/12')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer">7/12 उतारा</button>
-                            <button onclick="quickFilter('Exam')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer">Online Exam Form</button>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-3.5 text-xs text-slate-300">
+                            <span class="text-slate-400 font-medium">Popular:</span>
+                            <button onclick="quickFilter('PAN')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer">PAN Card</button>
+                            <button onclick="quickFilter('Income')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer font-devanagari">उत्पन्नाचा दाखला</button>
+                            <button onclick="quickFilter('7/12')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer font-devanagari">7/12 उतारा</button>
+                            <button onclick="quickFilter('Exam')" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-orange-500/30 border border-white/10 transition cursor-pointer">Exam Forms</button>
                         </div>
                     </div>
 
                     <!-- Primary Action Buttons -->
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
-                        <a href="https://wa.me/918805024010?text=Namaste%20Shivansh%20Digital%20Setu%20Kendra,%20mal%20ek%20service%20baddal%20mahiti%20havi%20aahe." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/25 transition">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 pt-2">
+                        <a href="https://wa.me/918805024010?text=Namaste%20Shivansh%20Digital%20Setu%20Kendra,%20mala%20ek%20service%20baddal%20mahiti%20havi%20aahe." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/25 transition">
                             <i data-lucide="message-circle" class="w-5 h-5"></i>
-                            <span data-i18n="whatsappCta">WhatsApp Documents</span>
+                            <span data-i18n="whatsappCta">Send Documents on WhatsApp</span>
                         </a>
-                        <a href="tel:8805024010" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm backdrop-blur-sm transition">
+                        <a href="tel:8805024010" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm backdrop-blur-sm transition">
                             <i data-lucide="phone" class="w-4 h-4 text-orange-400"></i>
-                            <span>Call: 8805024010</span>
+                            <span>Call Desk: 8805024010</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Right Column: Interactive Digital Brand Card (Mirrors Logo Elements) -->
+                <!-- Right Column: Signature Brand Identity Hub Card -->
                 <div class="lg:col-span-5">
-                    <div class="relative bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl">
-                        <!-- Floating Badge -->
-                        <div class="absolute -top-4 right-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-extrabold px-4 py-1.5 rounded-full shadow-lg font-devanagari">
+                    <div class="relative bg-white/[0.08] backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 shadow-premium">
+                        <!-- Floating Marathi Tagline Pill -->
+                        <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-extrabold px-4 py-1.5 rounded-full shadow-lg font-devanagari">
                             आपली सोय... आमची सेवा...
                         </div>
 
-                        <!-- Visual Hub Diagram representing the 4 icons in their logo -->
+                        <!-- Center Emblem -->
                         <div class="flex flex-col items-center text-center mb-6">
-                            <div class="w-24 h-24 rounded-full bg-white p-2 shadow-xl mb-4 flex items-center justify-center">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white p-2 shadow-xl mb-4 flex items-center justify-center ring-4 ring-white/15">
                                 <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="50" cy="50" r="46" fill="none" stroke="#F97316" stroke-width="5" stroke-dasharray="155 140" stroke-dashoffset="25" stroke-linecap="round"/>
                                     <circle cx="50" cy="50" r="46" fill="none" stroke="#0284C7" stroke-width="5" stroke-dasharray="130 165" stroke-dashoffset="-135" stroke-linecap="round"/>
                                     <circle cx="50" cy="50" r="41" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-dasharray="60 220" stroke-dashoffset="-110" stroke-linecap="round"/>
-                                    <path d="M62 24 C42 20, 32 32, 42 44 C52 55, 68 56, 62 72 C56 84, 34 80, 28 70" fill="none" stroke="url(#sGrad2)" stroke-width="11" stroke-linecap="round"/>
+                                    <path d="M62 24 C42 20, 32 32, 42 44 C52 55, 68 56, 62 72 C56 84, 34 80, 28 70" fill="none" stroke="url(#heroSGrad)" stroke-width="11" stroke-linecap="round"/>
                                     <rect x="66" y="18" width="6" height="6" rx="1" fill="#0284C7"/>
                                     <rect x="74" y="24" width="5" height="5" rx="1" fill="#F97316"/>
                                     <rect x="67" y="28" width="5" height="5" rx="1" fill="#16A34A"/>
                                     <defs>
-                                        <linearGradient id="sGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <linearGradient id="heroSGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                             <stop offset="0%" stop-color="#0284C7"/>
-                                            <stop offset="55%" stop-color="#0B1D3A"/>
+                                            <stop offset="55%" stop-color="#09172E"/>
                                             <stop offset="100%" stop-color="#F97316"/>
                                         </linearGradient>
                                     </defs>
                                 </svg>
                             </div>
-                            <h2 class="text-2xl font-extrabold text-white font-devanagari">शिवांश DIGITAL सेतू केंद्र</h2>
-                            <p class="text-xs text-sky-300 font-semibold tracking-wider uppercase mt-1">All Online &amp; Government Citizen Services</p>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-white font-devanagari">शिवांश DIGITAL सेतू केंद्र</h2>
+                            <p class="text-[11px] sm:text-xs text-sky-300 font-bold tracking-widest uppercase mt-1">All Citizen &amp; Cyber Services</p>
                         </div>
 
-                        <!-- 4 Core Pillars matching the 4 circular icons in the uploaded logo -->
-                        <div class="grid grid-cols-2 gap-3">
+                        <!-- 4 Core Pillars from Logo -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="bg-white/10 border border-white/10 rounded-2xl p-3.5 flex items-center gap-3 hover:bg-white/15 transition">
                                 <div class="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
                                     <i data-lucide="file-check-2" class="w-5 h-5"></i>
@@ -310,9 +320,9 @@
                             </div>
                         </div>
 
-                        <!-- Bottom Quick Helpline Strip inside Card -->
+                        <!-- Bottom Direct Desk Number -->
                         <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
-                            <span class="text-slate-300">Direct Desk Helpline:</span>
+                            <span class="text-slate-300 font-medium">Direct Center Helpline:</span>
                             <a href="tel:8805024010" class="font-extrabold text-base text-orange-400 hover:underline tracking-wide">8805024010</a>
                         </div>
                     </div>
@@ -321,47 +331,46 @@
         </div>
     </section>
 
-    <!-- TRUST & STATS BAR -->
+    <!-- TRUST & CREDIBILITY METRICS BAR -->
     <section class="bg-white border-b border-slate-200/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="p-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+                <div class="pt-2 sm:pt-0">
                     <p class="text-2xl sm:text-3xl font-extrabold text-brand-navy">50+</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-0.5" data-i18n="stat1">Digital &amp; Setu Services</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1" data-i18n="stat1">Digital &amp; Setu Services</p>
                 </div>
-                <div class="p-2">
+                <div class="pt-4 sm:pt-0">
                     <p class="text-2xl sm:text-3xl font-extrabold text-brand-saffron">100%</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-0.5" data-i18n="stat2">Accurate Form Filling</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1" data-i18n="stat2">Accurate Form Filling</p>
                 </div>
-                <div class="p-2">
+                <div class="pt-4 lg:pt-0">
                     <p class="text-2xl sm:text-3xl font-extrabold text-brand-blue">10,000+</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-0.5" data-i18n="stat3">Happy Citizens Served</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1" data-i18n="stat3">Happy Citizens Served</p>
                 </div>
-                <div class="p-2">
+                <div class="pt-4 lg:pt-0">
                     <p class="text-2xl sm:text-3xl font-extrabold text-brand-emerald">Express</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-0.5" data-i18n="stat4">PVC Card &amp; Photo Print</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1" data-i18n="stat4">PVC Card &amp; Photo Print</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MAIN INTERACTIVE SERVICES CATALOG -->
-    <section id="services" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-10">
-            <span class="inline-block px-3.5 py-1 rounded-full bg-orange-100 text-brand-saffron text-xs font-extrabold uppercase tracking-wider mb-3">
-                Complete Digital Solutions
+    <!-- INTERACTIVE SERVICES CATALOG & DOCUMENT CHECKLIST DIRECTORY -->
+    <section id="services" class="py-16 sm:py-22 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-orange-100 text-brand-saffron text-xs font-extrabold uppercase tracking-wider mb-3">
+                <i data-lucide="layers" class="w-3.5 h-3.5"></i> Complete Digital Solutions
             </span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy" data-i18n="servicesHeading">
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-brand-navy tracking-tight" data-i18n="servicesHeading">
                 Our Setu Kendra &amp; Cyber Cafe Services
             </h2>
-            <p class="text-slate-600 text-sm sm:text-base mt-3" data-i18n="servicesSub">
-                Click on any service card to check the <strong>Required Documents List (आवश्यक कागदपत्रे)</strong> and book an express slot or send documents directly on WhatsApp.
+            <p class="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed" data-i18n="servicesSub">
+                Select any service card below to view the interactive <strong>Required Documents Checklist (आवश्यक कागदपत्रे)</strong> and share documents directly on WhatsApp.
             </p>
         </div>
 
-        <!-- Category Filter Tabs + Search Input -->
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-8">
-            <!-- Scrollable Category Pills -->
+        <!-- Filter Pills + Live Search Input -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-8">
             <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button onclick="setCategory('all')" data-cat="all" class="cat-btn active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-navy text-white shadow-sm whitespace-nowrap cursor-pointer transition">
                     All Services (सर्व सेवा)
@@ -384,158 +393,176 @@
             </div>
 
             <!-- Inline Filter Box -->
-            <div class="relative w-full md:w-72 shrink-0">
-                <i data-lucide="filter" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <div class="relative w-full lg:w-72 shrink-0">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
                 <input 
                     type="text" 
                     id="serviceFilterInput" 
                     onkeyup="renderServices()" 
                     placeholder="Filter service name..." 
-                    class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-brand-sky"
+                    class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-brand-sky focus:ring-2 focus:ring-sky-500/15 transition"
                 >
             </div>
         </div>
 
-        <!-- Services Dynamic Grid -->
-        <div id="servicesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Services Responsive Grid -->
+        <div id="servicesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             <!-- Populated dynamically via JS -->
         </div>
 
-        <!-- Empty Search State -->
-        <div id="emptyServicesState" class="hidden text-center py-14 bg-white rounded-3xl border border-slate-200">
+        <!-- Empty Search Fallback -->
+        <div id="emptyServicesState" class="hidden text-center py-14 px-4 bg-white rounded-3xl border border-slate-200 shadow-card">
             <i data-lucide="search-x" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
-            <h3 class="text-lg font-bold text-slate-700">No matching service found</h3>
-            <p class="text-sm text-slate-500 mt-1">Try another keyword or call us directly at <a href="tel:8805024010" class="text-brand-saffron font-bold">8805024010</a>.</p>
-            <button onclick="resetServiceFilters()" class="mt-4 px-5 py-2 rounded-xl bg-brand-navy text-white text-xs font-bold cursor-pointer">Show All Services</button>
+            <h3 class="text-lg font-bold text-slate-800">No matching service found</h3>
+            <p class="text-sm text-slate-500 mt-1">Try another keyword or call us directly at <a href="tel:8805024010" class="text-brand-saffron font-bold underline">8805024010</a>.</p>
+            <button onclick="resetServiceFilters()" class="mt-4 px-5 py-2.5 rounded-xl bg-brand-navy text-white text-xs font-bold cursor-pointer hover:bg-brand-blue transition">Show All Services</button>
         </div>
     </section>
 
-    <!-- LIVE APPLICATION / TOKEN TRACKER & PRINT RATE CALCULATOR SECTION -->
-    <section class="bg-slate-100/80 border-y border-slate-200 py-16 sm:py-20">
+    <!-- HOW IT WORKS + CYBER PRINT & PHOTO RATE ESTIMATOR -->
+    <section id="process" class="bg-slate-100/80 border-y border-slate-200/90 py-16 sm:py-22">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-12 gap-8 items-start">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
                 
-                <!-- LEFT: Live Application / Certificate Status Tracker -->
-                <div id="tracker" class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 shadow-soft border border-slate-200/80">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-11 h-11 rounded-2xl bg-sky-100 text-brand-blue flex items-center justify-center">
-                            <i data-lucide="radar" class="w-6 h-6"></i>
+                <!-- LEFT COLUMN: 3-Step Seamless Process & Why Choose Us -->
+                <div class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-11 h-11 rounded-2xl bg-sky-100 text-brand-blue flex items-center justify-center shrink-0">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-brand-navy" data-i18n="processTitle">How Our Fast Digital Desk Works</h3>
+                                <p class="text-xs text-slate-500 font-devanagari">जलद, पारदर्शक आणि विश्वासार्ह कामकाज पद्धत</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-xl font-extrabold text-brand-navy" data-i18n="trackerTitle">Track Application / Token Status</h3>
-                            <p class="text-xs text-slate-500 font-devanagari">तुमच्या अर्जाची किंवा दाखल्याची सद्यस्थिती तपासा</p>
+
+                        <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                            No more standing in long lines without knowing which documents are needed. Follow 3 simple steps for stress-free digital service:
+                        </p>
+
+                        <!-- 3-Step Timeline -->
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="w-8 h-8 rounded-xl bg-brand-navy text-white font-extrabold text-sm flex items-center justify-center shrink-0 mt-0.5">1</div>
+                                <div>
+                                    <h4 class="text-sm font-extrabold text-brand-navy">Check Required Documents Online</h4>
+                                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Click any service card above to see the exact list of documents required before leaving home.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="w-8 h-8 rounded-xl bg-brand-saffron text-white font-extrabold text-sm flex items-center justify-center shrink-0 mt-0.5">2</div>
+                                <div>
+                                    <h4 class="text-sm font-extrabold text-brand-navy">Pre-Verify on WhatsApp or Visit Desk</h4>
+                                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Send clear photos/PDFs to <strong class="text-slate-800">8805024010</strong> on WhatsApp so our operator starts your application early.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="w-8 h-8 rounded-xl bg-brand-emerald text-white font-extrabold text-sm flex items-center justify-center shrink-0 mt-0.5">3</div>
+                                <div>
+                                    <h4 class="text-sm font-extrabold text-brand-navy">Official Submission &amp; HD Printout</h4>
+                                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Get official government portal acknowledgment receipt, laminated certificate, or smart PVC card.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <p class="text-sm text-slate-600 mb-5">
-                        Enter your Shivansh Digital Token ID (e.g., <span class="font-mono font-bold text-brand-blue">SHV-101</span>) to check live processing status before visiting the center.
-                    </p>
-
-                    <div class="flex gap-2 mb-3">
-                        <input 
-                            type="text" 
-                            id="tokenSearchInput" 
-                            placeholder="Enter Token ID (e.g. SHV-101)" 
-                            class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm font-mono uppercase focus:outline-none focus:border-brand-blue"
-                        >
-                        <button onclick="trackToken()" class="px-5 py-3 rounded-xl bg-brand-blue hover:bg-brand-navy text-white text-sm font-bold transition shrink-0 cursor-pointer">
-                            Track
-                        </button>
-                    </div>
-
-                    <!-- Demo Sample Chips -->
-                    <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-6">
-                        <span>Try Demo IDs:</span>
-                        <button onclick="fillAndTrack('SHV-101')" class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-mono font-bold border border-emerald-200 hover:bg-emerald-100 cursor-pointer">SHV-101 (Ready)</button>
-                        <button onclick="fillAndTrack('SHV-102')" class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 font-mono font-bold border border-amber-200 hover:bg-amber-100 cursor-pointer">SHV-102 (In Process)</button>
-                        <button onclick="fillAndTrack('SHV-103')" class="px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 font-mono font-bold border border-sky-200 hover:bg-sky-100 cursor-pointer">SHV-103 (Verified)</button>
-                    </div>
-
-                    <!-- Result Card -->
-                    <div id="trackerResultBox" class="bg-slate-50 rounded-2xl p-5 border border-slate-200/90">
-                        <!-- Rendered by JS -->
+                    <!-- Trust Badges Footer inside Card -->
+                    <div class="mt-6 pt-5 border-t border-slate-100 grid grid-cols-2 gap-3 text-xs font-bold text-slate-700">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="lock" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                            <span>100% Document Privacy</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="badge-check" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                            <span>Zero Form Errors</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- RIGHT: Instant Cyber Cafe Print, PVC & Photo Estimator -->
-                <div id="calculator" class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 shadow-soft border border-slate-200/80">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-11 h-11 rounded-2xl bg-orange-100 text-brand-saffron flex items-center justify-center">
-                            <i data-lucide="printer" class="w-6 h-6"></i>
+                <!-- RIGHT COLUMN: Smart Cyber Print, PVC Card & Photo Estimator -->
+                <div id="calculator" class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-11 h-11 rounded-2xl bg-orange-100 text-brand-saffron flex items-center justify-center shrink-0">
+                                <i data-lucide="printer" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-brand-navy" data-i18n="calcTitle">Cyber Print &amp; Photo Rate Estimator</h3>
+                                <p class="text-xs text-slate-500 font-devanagari">प्रिंटिंग, लॅमिनेशन, PVC कार्ड आणि फोटो दर अंदाज</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-xl font-extrabold text-brand-navy" data-i18n="calcTitle">Cyber Print &amp; Photo Estimator</h3>
-                            <p class="text-xs text-slate-500 font-devanagari">प्रिंटिंग, लॅमिनेशन, PVC कार्ड आणि फोटो दर अंदाज</p>
+
+                        <div class="space-y-3 text-sm">
+                            <!-- Item 1 -->
+                            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="pr-2">
+                                    <p class="font-bold text-slate-800">B/W Laser Printout / Xerox</p>
+                                    <p class="text-xs text-slate-500">₹3 per page</p>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <button onclick="updateCalc('bw', -1)" aria-label="Decrease B/W prints" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">-</button>
+                                    <span id="qty-bw" class="w-8 text-center font-extrabold text-brand-navy">0</span>
+                                    <button onclick="updateCalc('bw', 1)" aria-label="Increase B/W prints" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Item 2 -->
+                            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="pr-2">
+                                    <p class="font-bold text-slate-800">HD Color Printout (A4 Glossy/Bond)</p>
+                                    <p class="text-xs text-slate-500">₹10 per page</p>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <button onclick="updateCalc('color', -1)" aria-label="Decrease color prints" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">-</button>
+                                    <span id="qty-color" class="w-8 text-center font-extrabold text-brand-navy">0</span>
+                                    <button onclick="updateCalc('color', 1)" aria-label="Increase color prints" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Item 3 -->
+                            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="pr-2">
+                                    <p class="font-bold text-slate-800">Smart PVC Card (Aadhaar / PAN / Voter)</p>
+                                    <p class="text-xs text-slate-500">₹50 per waterproof card</p>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <button onclick="updateCalc('pvc', -1)" aria-label="Decrease PVC cards" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">-</button>
+                                    <span id="qty-pvc" class="w-8 text-center font-extrabold text-brand-navy">0</span>
+                                    <button onclick="updateCalc('pvc', 1)" aria-label="Increase PVC cards" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Item 4 -->
+                            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div class="pr-2">
+                                    <p class="font-bold text-slate-800">Urgent Passport Photos (8 Copies) / Lamination</p>
+                                    <p class="text-xs text-slate-500">₹40 per pack / sheet</p>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <button onclick="updateCalc('photo', -1)" aria-label="Decrease photo packs" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">-</button>
+                                    <span id="qty-photo" class="w-8 text-center font-extrabold text-brand-navy">0</span>
+                                    <button onclick="updateCalc('photo', 1)" aria-label="Increase photo packs" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100 active:scale-95 transition cursor-pointer">+</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="space-y-3.5 text-sm">
-                        <!-- Item 1 -->
-                        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <div>
-                                <p class="font-bold text-slate-800">B/W Laser Printout / Xerox</p>
-                                <p class="text-xs text-slate-500">₹3 per page</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateCalc('bw', -1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">-</button>
-                                <span id="qty-bw" class="w-8 text-center font-bold">0</span>
-                                <button onclick="updateCalc('bw', 1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">+</button>
-                            </div>
-                        </div>
-
-                        <!-- Item 2 -->
-                        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <div>
-                                <p class="font-bold text-slate-800">HD Color Printout (A4)</p>
-                                <p class="text-xs text-slate-500">₹10 per page</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateCalc('color', -1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">-</button>
-                                <span id="qty-color" class="w-8 text-center font-bold">0</span>
-                                <button onclick="updateCalc('color', 1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">+</button>
-                            </div>
-                        </div>
-
-                        <!-- Item 3 -->
-                        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <div>
-                                <p class="font-bold text-slate-800">Smart PVC Card Print (Aadhaar / PAN / Voter)</p>
-                                <p class="text-xs text-slate-500">₹50 per card</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateCalc('pvc', -1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">-</button>
-                                <span id="qty-pvc" class="w-8 text-center font-bold">0</span>
-                                <button onclick="updateCalc('pvc', 1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">+</button>
-                            </div>
-                        </div>
-
-                        <!-- Item 4 -->
-                        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <div>
-                                <p class="font-bold text-slate-800">Urgent Passport Photos (8 Copies) + Lamination</p>
-                                <p class="text-xs text-slate-500">₹40 per pack / sheet</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateCalc('photo', -1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">-</button>
-                                <span id="qty-photo" class="w-8 text-center font-bold">0</span>
-                                <button onclick="updateCalc('photo', 1)" class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold hover:bg-slate-100 cursor-pointer">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total & Action Bar -->
-                    <div class="mt-5 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                    <!-- Estimator Total & WhatsApp Order CTA -->
+                    <div class="mt-6 pt-5 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
                         <div>
-                            <span class="text-xs text-slate-500 block">Estimated Total:</span>
-                            <span class="text-2xl font-extrabold text-brand-navy">₹<span id="calcTotal">0</span></span>
+                            <span class="text-xs font-semibold text-slate-500 block">Estimated Total:</span>
+                            <span class="text-2xl sm:text-3xl font-extrabold text-brand-navy">₹<span id="calcTotal">0</span></span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="resetCalc()" class="px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer">
+                        <div class="flex items-center gap-2.5">
+                            <button onclick="resetCalc()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-100 transition cursor-pointer">
                                 Reset
                             </button>
-                            <button onclick="sendPrintOrderWhatsApp()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm cursor-pointer">
-                                <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                                Send Print Order
+                            <button onclick="sendPrintOrderWhatsApp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-emerald-600/20 transition cursor-pointer">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                Order on WhatsApp
                             </button>
                         </div>
                     </div>
@@ -545,64 +572,66 @@
         </div>
     </section>
 
-    <!-- EXPRESS QUEUE TOKEN BOOKING & WHATSAPP DESK -->
-    <section id="booking" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-br from-brand-navy via-[#0F294A] to-brand-blue rounded-3xl p-6 sm:p-10 lg:p-12 text-white shadow-2xl relative overflow-hidden">
-            <div class="grid lg:grid-cols-12 gap-10 items-center relative z-10">
+    <!-- PRIORITY APPOINTMENT & WHATSAPP INQUIRY DESK -->
+    <section id="booking" class="py-16 sm:py-22 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-br from-brand-navy via-brand-slate to-brand-blue rounded-3xl p-6 sm:p-10 lg:p-12 text-white shadow-premium relative overflow-hidden">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+                
+                <!-- Left Info -->
                 <div class="lg:col-span-5 space-y-5">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-bold">
-                        <i data-lucide="zap" class="w-3.5 h-3.5"></i> Zero Waiting Time
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-bold">
+                        <i data-lucide="zap" class="w-3.5 h-3.5"></i> Priority Counter Assistance
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
-                        Book Your Express Counter Token Online
+                    <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight" data-i18n="bookingTitle">
+                        Book Your Visit or Send Docs on WhatsApp
                     </h2>
                     <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                        Save time at the center! Reserve your priority slot or send your documents directly to <strong class="text-white">Shivansh Digital Setu Kendra</strong> via WhatsApp so your form is ready when you arrive.
+                        Save valuable time! Tell us which service you need or schedule your visit at <strong class="text-white">Shivansh Digital Setu Kendra</strong> so our team keeps your application ready.
                     </p>
 
-                    <div class="space-y-3 pt-2 text-sm">
+                    <div class="space-y-3.5 pt-2 text-sm">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                            <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                                 <i data-lucide="check" class="w-4 h-4"></i>
                             </div>
-                            <span>Pre-verification of documents on WhatsApp</span>
+                            <span>Instant document checklist guidance on WhatsApp</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                            <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                                 <i data-lucide="check" class="w-4 h-4"></i>
                             </div>
-                            <span>Instant digital receipt &amp; tracking token</span>
+                            <span>Dedicated support for Students, Farmers &amp; Senior Citizens</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                            <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
                                 <i data-lucide="check" class="w-4 h-4"></i>
                             </div>
-                            <span>Dedicated assistance for Students &amp; Senior Citizens</span>
+                            <span>Direct Desk Support: <strong>8805024010</strong></span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Interactive Booking Form -->
-                <div class="lg:col-span-7 bg-white text-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-                    <form id="tokenBookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-4">
-                        <div class="grid sm:grid-cols-2 gap-4">
+                <!-- Right Interactive Booking Form -->
+                <div class="lg:col-span-7 bg-white text-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl">
+                    <form id="priorityBookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Full Name (पूर्ण नाव) *</label>
-                                <input type="text" id="custName" required placeholder="e.g. Rahul Patil" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Full Name (पूर्ण नाव) *</label>
+                                <input type="text" id="custName" required placeholder="e.g. Rahul Patil" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron focus:bg-white transition">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Mobile / WhatsApp No. *</label>
-                                <input type="tel" id="custPhone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Mobile / WhatsApp No. *</label>
+                                <input type="tel" id="custPhone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron focus:bg-white transition">
                             </div>
                         </div>
 
-                        <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Select Service *</label>
-                                <select id="custService" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Select Service *</label>
+                                <select id="custService" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron focus:bg-white transition">
                                     <option value="Income / Caste / Domicile Certificate">Income / Caste / Domicile Certificate</option>
                                     <option value="New PAN Card / Correction">New PAN Card / Correction</option>
-                                    <option value="7/12 Utara & Land Records">7/12 Utara &amp; Land Records</option>
+                                    <option value="Digital 7/12 Utara & Land Records">Digital 7/12 Utara &amp; Land Records</option>
                                     <option value="Online Exam / Scholarship Form">Online Exam / Scholarship Form</option>
                                     <option value="Ayushman / E-Shram / Udyam Card">Ayushman / E-Shram / Udyam Card</option>
                                     <option value="AEPS Cash Withdrawal / Money Transfer">AEPS Banking / Money Transfer</option>
@@ -610,56 +639,57 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Preferred Mode</label>
-                                <select id="custMode" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Preferred Mode</label>
+                                <select id="custMode" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron focus:bg-white transition">
+                                    <option value="Send Documents on WhatsApp First">Send Documents on WhatsApp First</option>
                                     <option value="Visit Center Today">Visit Center Today</option>
-                                    <option value="Send Docs on WhatsApp First">Send Docs on WhatsApp First</option>
-                                    <option value="Urgent / Priority Slot">Urgent / Priority Slot</option>
+                                    <option value="Urgent / Same-Day Assistance">Urgent / Same-Day Assistance</option>
                                 </select>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Additional Note (Optional)</label>
-                            <input type="text" id="custNote" placeholder="e.g. Need urgent printout or document guidance..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Additional Note (Optional)</label>
+                            <input type="text" id="custNote" placeholder="e.g. Need urgent printout or document verification..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-brand-saffron focus:bg-white transition">
                         </div>
 
-                        <div class="pt-2 flex flex-col sm:flex-row gap-3">
-                            <button type="submit" class="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-saffron to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm shadow-lg shadow-orange-500/25 transition cursor-pointer">
-                                <i data-lucide="ticket" class="w-4 h-4"></i>
-                                Generate Instant Token &amp; Send WhatsApp
+                        <div class="pt-2">
+                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-gradient-to-r from-brand-saffron to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm shadow-lg shadow-orange-500/25 transition cursor-pointer">
+                                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                <span>Connect &amp; Send Request on WhatsApp</span>
                             </button>
                         </div>
                     </form>
 
-                    <!-- Generated Token Confirmation Box (Hidden initially) -->
-                    <div id="generatedTokenCard" class="hidden mt-6 p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-700">Token Confirmed!</span>
-                            <span id="genTokenNumber" class="px-3 py-1 rounded-lg bg-emerald-600 text-white font-mono text-sm font-extrabold">SHV-204</span>
+                    <!-- Clean Confirmation Banner (Shown on Submit) -->
+                    <div id="bookingConfirmationCard" class="hidden mt-5 p-4 sm:p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-700">Request Prepared!</span>
                         </div>
-                        <p id="genTokenSummary" class="text-sm text-emerald-900 mb-3"></p>
-                        <a id="genWhatsAppLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition">
-                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        <p id="bookingSummaryText" class="text-xs sm:text-sm text-emerald-900 mb-3"></p>
+                        <a id="bookingWhatsAppLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                             Open WhatsApp Chat (8805024010)
                         </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- WHY CHOOSE US & CONTACT FOOTER -->
+    <!-- EXECUTIVE FOOTER & CONTACT DESK -->
     <footer id="contact" class="bg-brand-navy text-slate-300 pt-16 pb-12 border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
-                <!-- Col 1: Brand -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+                <!-- Brand Col -->
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-11 h-11 rounded-2xl bg-white p-1.5 flex items-center justify-center">
+                        <div class="w-11 h-11 rounded-2xl bg-white p-1.5 flex items-center justify-center shrink-0">
                             <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="50" cy="50" r="46" fill="none" stroke="#F97316" stroke-width="6"/>
-                                <path d="M62 24 C42 20, 32 32, 42 44 C52 55, 68 56, 62 72 C56 84, 34 80, 28 70" fill="none" stroke="#0B1D3A" stroke-width="11" stroke-linecap="round"/>
+                                <path d="M62 24 C42 20, 32 32, 42 44 C52 55, 68 56, 62 72 C56 84, 34 80, 28 70" fill="none" stroke="#09172E" stroke-width="11" stroke-linecap="round"/>
                             </svg>
                         </div>
                         <div>
@@ -668,47 +698,47 @@
                         </div>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        "Digital Services For A Better Tomorrow" — Trusted citizen service center providing fast online applications, government certificates, banking, and high-speed cyber solutions.
+                        "Digital Services For A Better Tomorrow" — Trusted citizen service center offering fast e-Governance certificates, PAN/Aadhaar services, exam forms, banking, and high-speed cyber solutions.
                     </p>
                     <p class="text-sm font-bold text-orange-400 font-devanagari">आपली सोय... आमची सेवा...</p>
                 </div>
 
-                <!-- Col 2: Quick Links -->
+                <!-- Services Col -->
                 <div>
-                    <h5 class="text-sm font-extrabold text-white uppercase tracking-wider mb-4">Popular Services</h5>
+                    <h5 class="text-sm font-extrabold text-white uppercase tracking-wider mb-4">Key Services</h5>
                     <ul class="space-y-2.5 text-xs text-slate-400">
                         <li><a href="#services" onclick="quickFilter('Income')" class="hover:text-orange-400 transition">Income, Caste &amp; Domicile Certificates</a></li>
                         <li><a href="#services" onclick="quickFilter('PAN')" class="hover:text-orange-400 transition">New PAN Card &amp; Correction (NSDL/UTI)</a></li>
-                        <li><a href="#services" onclick="quickFilter('7/12')" class="hover:text-orange-400 transition">Digital 7/12 Utara &amp; Ferfar</a></li>
-                        <li><a href="#services" onclick="quickFilter('Exam')" class="hover:text-orange-400 transition">MPSC, UPSC, Police &amp; CET Forms</a></li>
+                        <li><a href="#services" onclick="quickFilter('7/12')" class="hover:text-orange-400 transition">Digital 7/12 Utara &amp; 8A Extract</a></li>
+                        <li><a href="#services" onclick="quickFilter('Exam')" class="hover:text-orange-400 transition">MPSC, UPSC, Police &amp; CET Exam Forms</a></li>
                         <li><a href="#services" onclick="quickFilter('AEPS')" class="hover:text-orange-400 transition">AEPS Aadhaar Cash Withdrawal</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 3: Working Hours -->
+                <!-- Hours Col -->
                 <div>
-                    <h5 class="text-sm font-extrabold text-white uppercase tracking-wider mb-4">Center Timings</h5>
+                    <h5 class="text-sm font-extrabold text-white uppercase tracking-wider mb-4">Working Hours</h5>
                     <ul class="space-y-2.5 text-xs text-slate-400">
-                        <li class="flex justify-between"><span>Monday – Saturday:</span> <span class="text-white font-semibold">9:00 AM – 9:30 PM</span></li>
-                        <li class="flex justify-between"><span>Sunday (Exam Special):</span> <span class="text-white font-semibold">10:00 AM – 6:00 PM</span></li>
+                        <li class="flex justify-between gap-2"><span>Monday – Saturday:</span> <span class="text-white font-semibold">9:00 AM – 9:30 PM</span></li>
+                        <li class="flex justify-between gap-2"><span>Sunday (Exam Special):</span> <span class="text-white font-semibold">10:00 AM – 6:00 PM</span></li>
                         <li class="pt-2 text-emerald-400 font-semibold flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Open Today for Online Services
                         </li>
                     </ul>
                 </div>
 
-                <!-- Col 4: Contact & Direct Actions -->
+                <!-- Direct Contact Col -->
                 <div>
                     <h5 class="text-sm font-extrabold text-white uppercase tracking-wider mb-4">Contact Desk</h5>
                     <div class="space-y-3 text-xs">
-                        <a href="tel:8805024010" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
+                        <a href="tel:8805024010" class="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition">
                             <i data-lucide="phone-call" class="w-5 h-5 text-orange-400 shrink-0"></i>
                             <div>
                                 <span class="block text-slate-400">Call / Inquiry</span>
                                 <span class="text-base font-extrabold text-white">8805024010</span>
                             </div>
                         </a>
-                        <a href="https://wa.me/918805024010" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 transition">
+                        <a href="https://wa.me/918805024010" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-3.5 rounded-2xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 transition">
                             <i data-lucide="message-circle" class="w-5 h-5 text-emerald-400 shrink-0"></i>
                             <div>
                                 <span class="block text-emerald-300">WhatsApp Document Desk</span>
@@ -719,57 +749,60 @@
                 </div>
             </div>
 
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
                 <p>&copy; 2026 <strong class="text-slate-300">Shivansh Digital Setu Kendra (शिवांश डिजिटल सेतू केंद्र)</strong>. All Rights Reserved.</p>
-                <p>One Place | Many Services | For You</p>
+                <p>One Place &nbsp;|&nbsp; Many Services &nbsp;|&nbsp; For You</p>
             </div>
         </div>
     </footer>
 
-    <!-- SERVICE DETAILS & REQUIRED DOCUMENTS MODAL -->
-    <div id="serviceModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 animate-[fadeIn_0.2s_ease-out]">
-            <div class="bg-brand-navy p-6 text-white flex items-start justify-between gap-4">
+    <!-- INTERACTIVE SERVICE DETAILS & REQUIRED DOCUMENTS MODAL (Responsive Bottom-Sheet on Mobile, Centered Card on Desktop) -->
+    <div id="serviceModal" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center bg-slate-950/70 backdrop-blur-sm p-0 sm:p-4">
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 animate-modal">
+            <div class="bg-brand-navy p-5 sm:p-6 text-white flex items-start justify-between gap-4 sticky top-0 z-10">
                 <div>
-                    <span id="modalCategoryBadge" class="inline-block px-2.5 py-0.5 rounded-md bg-orange-500 text-white text-[11px] font-bold uppercase mb-2">Category</span>
-                    <h3 id="modalTitle" class="text-xl font-extrabold leading-snug">Service Title</h3>
-                    <p id="modalMarathiTitle" class="text-sm text-orange-300 font-devanagari mt-0.5">मराठी नाव</p>
+                    <span id="modalCategoryBadge" class="inline-block px-2.5 py-0.5 rounded-md bg-orange-500 text-white text-[11px] font-bold uppercase mb-1.5">Category</span>
+                    <h3 id="modalTitle" class="text-lg sm:text-xl font-extrabold leading-snug">Service Title</h3>
+                    <p id="modalMarathiTitle" class="text-xs sm:text-sm text-orange-300 font-devanagari mt-0.5">मराठी नाव</p>
                 </div>
-                <button onclick="closeServiceModal()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition cursor-pointer">
+                <button onclick="closeServiceModal()" aria-label="Close Modal" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition cursor-pointer shrink-0">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <div class="p-6 space-y-5">
-                <p id="modalDesc" class="text-sm text-slate-600 leading-relaxed"></p>
+            <div class="p-5 sm:p-6 space-y-5">
+                <p id="modalDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed"></p>
 
-                <!-- Required Documents Box -->
+                <!-- Interactive Required Documents Checklist -->
                 <div class="bg-orange-50/70 border border-orange-200/80 rounded-2xl p-4">
-                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-brand-saffron flex items-center gap-1.5 mb-3">
-                        <i data-lucide="clipboard-check" class="w-4 h-4"></i>
-                        Required Documents (आवश्यक कागदपत्रे)
-                    </h4>
-                    <ul id="modalDocsList" class="space-y-2 text-sm text-slate-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-xs font-extrabold uppercase tracking-wider text-brand-saffron flex items-center gap-1.5">
+                            <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+                            Required Documents (आवश्यक कागदपत्रे)
+                        </h4>
+                        <span class="text-[11px] text-slate-500 font-medium">Tap to check</span>
+                    </div>
+                    <ul id="modalDocsList" class="space-y-2.5 text-xs sm:text-sm text-slate-700">
                         <!-- Injected via JS -->
                     </ul>
                 </div>
 
                 <div class="flex items-center justify-between text-xs text-slate-500 bg-slate-50 px-4 py-3 rounded-xl border border-slate-200/70">
-                    <span>Estimated Processing: <strong id="modalTime" class="text-slate-800">Same Day / 3-7 Days</strong></span>
-                    <button onclick="copyDocumentsList()" class="inline-flex items-center gap-1 text-brand-blue font-bold hover:underline cursor-pointer">
+                    <span>Processing Time: <strong id="modalTime" class="text-slate-800">Same Day</strong></span>
+                    <button onclick="copyDocumentsList()" class="inline-flex items-center gap-1.5 text-brand-blue font-bold hover:underline cursor-pointer">
                         <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy List
                     </button>
                 </div>
 
-                <!-- Modal CTA Buttons -->
-                <div class="grid grid-cols-2 gap-3 pt-1">
-                    <a id="modalWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition">
+                <!-- Modal Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <a id="modalWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition">
                         <i data-lucide="message-circle" class="w-4 h-4"></i>
                         Send Docs on WhatsApp
                     </a>
-                    <button onclick="bookFromModal()" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-navy hover:bg-brand-blue text-white text-xs sm:text-sm font-bold transition cursor-pointer">
-                        <i data-lucide="ticket" class="w-4 h-4"></i>
-                        Book Counter Token
+                    <button onclick="bookFromModal()" class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-brand-navy hover:bg-brand-blue text-white text-xs sm:text-sm font-bold transition cursor-pointer">
+                        <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                        Schedule Visit
                     </button>
                 </div>
             </div>
@@ -782,13 +815,13 @@
         <p id="toastMessage" class="text-xs sm:text-sm font-medium"></p>
     </div>
 
-    <!-- STICKY MOBILE QUICK ACTION BAR (Call + WhatsApp) -->
+    <!-- STICKY MOBILE BOTTOM ACTION BAR -->
     <div class="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-2.5 grid grid-cols-2 gap-3 shadow-lg">
-        <a href="tel:8805024010" class="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-brand-navy text-white text-xs font-bold">
+        <a href="tel:8805024010" class="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-brand-navy text-white text-xs font-bold active:scale-95 transition">
             <i data-lucide="phone" class="w-4 h-4 text-orange-400"></i>
             Call 8805024010
         </a>
-        <a href="https://wa.me/918805024010?text=Namaste%20Shivansh%20Digital%20Setu%20Kendra!" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold">
+        <a href="https://wa.me/918805024010?text=Namaste%20Shivansh%20Digital%20Setu%20Kendra!" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold active:scale-95 transition">
             <i data-lucide="message-circle" class="w-4 h-4"></i>
             WhatsApp Desk
         </a>
@@ -796,14 +829,14 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // 1. Comprehensive Services Dataset (English + Marathi + Document Checklists)
+        // 1. Complete Services Dataset (English + Marathi + Document Checklists)
         const servicesData = [
             {
                 id: 1,
                 category: 'govt',
                 categoryLabel: 'Setu & Govt',
                 title: 'Income Certificate (उत्पन्नाचा दाखला)',
-                marathi: 'तहसीलदार उत्पन्नाचा दाखला (1 व 3 वर्षे)',
+                marathi: 'तहसीलदार उत्पन्नाचा दाखला (१ व ३ वर्षे)',
                 desc: 'Official Maharashtra Revenue Department Income Certificate required for MahaDBT scholarships, admissions, and government schemes.',
                 time: '3 – 5 Working Days',
                 icon: 'file-badge',
@@ -995,70 +1028,43 @@
             }
         ];
 
-        // 2. Demo Token Tracking Database
-        const demoTokens = {
-            'SHV-101': {
-                name: 'Suresh Jadhav',
-                service: 'Income Certificate (उत्पन्नाचा दाखला)',
-                status: 'Ready for Pickup',
-                badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                step: 4,
-                note: 'Your digitally signed certificate is printed and ready at Shivansh Digital Setu Kendra counter.'
-            },
-            'SHV-102': {
-                name: 'Priya Deshmukh',
-                service: 'New PAN Card (NSDL)',
-                status: 'Govt Portal Processing',
-                badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
-                step: 3,
-                note: 'Application verified & submitted to NSDL. e-PAN expected within 24 hours.'
-            },
-            'SHV-103': {
-                name: 'Amit Kulkarni',
-                service: 'Non-Creamy Layer Certificate',
-                status: 'Documents Verified',
-                badgeColor: 'bg-sky-100 text-sky-800 border-sky-200',
-                step: 2,
-                note: 'All uploaded documents verified at Setu Desk. Forwarded to Tehsil office.'
-            }
-        };
-
-        // 3. Bilingual Dictionary (English <-> Marathi)
+        // 2. Bilingual Dictionary (English <-> Marathi)
         let currentLang = 'en';
         const translations = {
             en: {
                 topBadge: 'Authorized Maha e-Seva & Digital Cyber Hub',
                 timingText: 'Mon – Sun: 9:00 AM – 9:30 PM',
                 navServices: 'Services',
-                navTracker: 'Track Status',
+                navProcess: 'How It Works',
                 navRates: 'Print & Photo Rates',
-                navBooking: 'Book Token',
+                navBooking: 'Book Visit',
                 navContact: 'Contact',
-                btnGetToken: 'Get Token',
+                btnWhatsAppNav: 'WhatsApp Desk',
                 heroTitle: 'Digital Services For A Better Tomorrow',
-                heroDesc: 'Fast, reliable & transparent e-Governance, Maha e-Seva Certificates, PAN & Aadhaar Services, Online Exam Forms, AEPS Banking, and High-Speed Cyber Cafe solutions under one roof.',
+                heroDesc: 'Fast, accurate & transparent Maha e-Seva Certificates, PAN & Aadhaar Services, Digital 7/12, Online Exam Forms, AEPS Banking, and High-Speed Cyber Cafe printing under one roof.',
                 searchBtn: 'Find',
-                whatsappCta: 'WhatsApp Documents',
+                whatsappCta: 'Send Documents on WhatsApp',
                 stat1: 'Digital & Setu Services',
                 stat2: 'Accurate Form Filling',
                 stat3: 'Happy Citizens Served',
                 stat4: 'PVC Card & Photo Print',
                 servicesHeading: 'Our Setu Kendra & Cyber Cafe Services',
-                servicesSub: 'Click on any service card to check the Required Documents List (आवश्यक कागदपत्रे) and book an express slot or send documents directly on WhatsApp.',
-                trackerTitle: 'Track Application / Token Status',
-                calcTitle: 'Cyber Print & Photo Estimator'
+                servicesSub: 'Select any service card below to view the interactive Required Documents Checklist (आवश्यक कागदपत्रे) and share documents directly on WhatsApp.',
+                processTitle: 'How Our Fast Digital Desk Works',
+                calcTitle: 'Cyber Print & Photo Rate Estimator',
+                bookingTitle: 'Book Your Visit or Send Docs on WhatsApp'
             },
             mr: {
                 topBadge: 'अधिकृत महा ई-सेवा व डिजिटल सायबर हब',
                 timingText: 'सोम – रवि: सकाळी ९:०० ते रात्री ९:३०',
                 navServices: 'सर्व सेवा',
-                navTracker: 'अर्ज स्थिती पहा',
+                navProcess: 'कार्यपद्धती',
                 navRates: 'प्रिंट व फोटो दर',
-                navBooking: 'टोकन बुक करा',
+                navBooking: 'वेळ बुक करा',
                 navContact: 'संपर्क',
-                btnGetToken: 'टोकन घ्या',
+                btnWhatsAppNav: 'व्हॉट्सॲप डेस्क',
                 heroTitle: 'उज्ज्वल उद्यासाठी आधुनिक डिजिटल सेवा',
-                heroDesc: 'सर्व प्रकारचे शासकीय दाखले, पॅन व आधार सेवा, स्पर्धा परीक्षा व शिष्यवृत्ती अर्ज, आधार बँकिंग आणि हाय-स्पीड सायबर कॅफे सुविधा एकाच छताखाली.',
+                heroDesc: 'सर्व प्रकारचे शासकीय दाखले, पॅन व आधार सेवा, डिजिटल ७/१२ उतारा, स्पर्धा परीक्षा अर्ज, आधार बँकिंग आणि हाय-स्पीड सायबर कॅफे सुविधा एकाच छताखाली.',
                 searchBtn: 'शोधा',
                 whatsappCta: 'व्हॉट्सॲपवर कागदपत्रे पाठवा',
                 stat1: 'डिजिटल व सेतू सेवा',
@@ -1066,16 +1072,17 @@
                 stat3: 'समाधानी नागरिक',
                 stat4: 'PVC कार्ड व अर्जंट फोटो',
                 servicesHeading: 'आमच्या सेतू केंद्र व सायबर कॅफे सेवा',
-                servicesSub: 'कोणत्याही सेवेवर क्लिक करून आवश्यक कागदपत्रांची यादी पहा आणि थेट व्हॉट्सॲपद्वारे अर्ज करा.',
-                trackerTitle: 'अर्जाची / टोकनची सद्यस्थिती तपासा',
-                calcTitle: 'प्रिंटिंग, PVC कार्ड आणि फोटो दर अंदाज'
+                servicesSub: 'कोणत्याही सेवेवर क्लिक करून आवश्यक कागदपत्रांची यादी पहा आणि थेट व्हॉट्सॲपद्वारे कागदपत्रे पाठवा.',
+                processTitle: 'आमची जलद आणि पारदर्शक कार्यपद्धती',
+                calcTitle: 'प्रिंटिंग, PVC कार्ड आणि फोटो दर अंदाज',
+                bookingTitle: 'केंद्राला भेट बुक करा किंवा व्हॉट्सॲपवर कागदपत्रे पाठवा'
             }
         };
 
         let activeCategory = 'all';
         let activeModalService = null;
 
-        // Toggle Language
+        // Toggle Bilingual Language
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'mr' : 'en';
             document.getElementById('langLabel').textContent = currentLang === 'en' ? 'मराठी' : 'English';
@@ -1088,13 +1095,13 @@
             showToast(currentLang === 'mr' ? 'भाषा मराठीमध्ये बदलली आहे' : 'Language switched to English');
         }
 
-        // Toggle Mobile Menu
+        // Toggle Mobile Drawer
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             menu.classList.toggle('hidden');
         }
 
-        // Set Category Filter
+        // Category Selection
         function setCategory(cat) {
             activeCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -1107,7 +1114,7 @@
             renderServices();
         }
 
-        // Hero Search Bridge
+        // Hero Search Synchronization
         function handleHeroSearch(e) {
             const val = e.target.value;
             document.getElementById('serviceFilterInput').value = val;
@@ -1118,7 +1125,6 @@
         }
 
         function quickFilter(keyword) {
-            activeCategory = 'all';
             setCategory('all');
             document.getElementById('serviceFilterInput').value = keyword;
             document.getElementById('heroSearchInput').value = keyword;
@@ -1136,7 +1142,7 @@
             document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Render Service Cards
+        // Render Dynamic Service Cards
         function renderServices() {
             const grid = document.getElementById('servicesGrid');
             const emptyState = document.getElementById('emptyServicesState');
@@ -1168,10 +1174,10 @@
             };
 
             grid.innerHTML = filtered.map(service => `
-                <div onclick="openServiceModal(${service.id})" class="group bg-white rounded-3xl p-6 border border-slate-200/80 hover:border-orange-300 shadow-soft hover:shadow-xl transition-all duration-200 flex flex-col justify-between cursor-pointer">
+                <article onclick="openServiceModal(${service.id})" class="group bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 hover:border-orange-300 shadow-card hover:shadow-card-hover transition-all duration-200 flex flex-col justify-between cursor-pointer active:scale-[0.99]">
                     <div>
                         <div class="flex items-start justify-between gap-3 mb-4">
-                            <div class="w-12 h-12 rounded-2xl border ${accentMap[service.accent] || accentMap.orange} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                            <div class="w-12 h-12 rounded-2xl border ${accentMap[service.accent] || accentMap.orange} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                                 <i data-lucide="${service.icon}" class="w-6 h-6"></i>
                             </div>
                             <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[11px] font-bold">
@@ -1179,7 +1185,7 @@
                             </span>
                         </div>
 
-                        <h3 class="text-lg font-extrabold text-brand-navy group-hover:text-brand-saffron transition leading-snug">
+                        <h3 class="text-base sm:text-lg font-extrabold text-brand-navy group-hover:text-brand-saffron transition leading-snug">
                             ${service.title}
                         </h3>
                         <p class="text-xs font-bold text-brand-blue font-devanagari mt-1">
@@ -1191,21 +1197,21 @@
                     </div>
 
                     <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                        <span class="text-slate-500 font-medium flex items-center gap-1">
+                        <span class="text-slate-500 font-semibold flex items-center gap-1.5">
                             <i data-lucide="file-text" class="w-3.5 h-3.5 text-brand-saffron"></i>
                             ${service.docs.length} Docs Required
                         </span>
                         <span class="inline-flex items-center gap-1 font-extrabold text-brand-navy group-hover:text-brand-saffron transition">
-                            View Checklist <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            View Docs <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                         </span>
                     </div>
-                </div>
+                </article>
             `).join('');
 
             lucide.createIcons();
         }
 
-        // Open Service Modal
+        // Interactive Service Modal with Checkable Documents
         function openServiceModal(id) {
             const service = servicesData.find(s => s.id === id);
             if (!service) return;
@@ -1218,10 +1224,12 @@
             document.getElementById('modalTime').textContent = service.time;
 
             const docsList = document.getElementById('modalDocsList');
-            docsList.innerHTML = service.docs.map(doc => `
-                <li class="flex items-start gap-2.5">
-                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
-                    <span>${doc}</span>
+            docsList.innerHTML = service.docs.map((doc, idx) => `
+                <li>
+                    <label for="doc-check-${idx}" class="flex items-start gap-3 p-2 rounded-xl hover:bg-orange-100/60 transition cursor-pointer select-none">
+                        <input id="doc-check-${idx}" type="checkbox" class="mt-0.5 w-4 h-4 rounded border-orange-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer shrink-0">
+                        <span class="leading-snug">${doc}</span>
+                    </label>
                 </li>
             `).join('');
 
@@ -1231,6 +1239,7 @@
             const modal = document.getElementById('serviceModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
             lucide.createIcons();
         }
 
@@ -1238,6 +1247,7 @@
             const modal = document.getElementById('serviceModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+            document.body.style.overflow = '';
         }
 
         function bookFromModal() {
@@ -1245,9 +1255,9 @@
             closeServiceModal();
             const bookingSection = document.getElementById('booking');
             const noteInput = document.getElementById('custNote');
-            noteInput.value = `Service: ${activeModalService.title}`;
+            noteInput.value = `Service Inquiry: ${activeModalService.title}`;
             bookingSection.scrollIntoView({ behavior: 'smooth' });
-            document.getElementById('custName').focus();
+            setTimeout(() => document.getElementById('custName').focus(), 400);
         }
 
         function copyDocumentsList() {
@@ -1260,56 +1270,6 @@
             document.execCommand('copy');
             document.body.removeChild(tempInput);
             showToast('Documents checklist copied to clipboard!');
-        }
-
-        // Token Status Tracker Logic
-        function fillAndTrack(id) {
-            document.getElementById('tokenSearchInput').value = id;
-            trackToken();
-        }
-
-        function trackToken() {
-            const raw = document.getElementById('tokenSearchInput').value.trim().toUpperCase();
-            const box = document.getElementById('trackerResultBox');
-            const record = demoTokens[raw] || demoTokens['SHV-101'];
-
-            if (raw && !demoTokens[raw]) {
-                box.innerHTML = `
-                    <div class="text-center py-3">
-                        <p class="text-sm font-bold text-slate-800">Token <span class="font-mono text-brand-saffron">${raw}</span> not found in online demo list.</p>
-                        <p class="text-xs text-slate-500 mt-1">Please WhatsApp or call <a href="tel:8805024010" class="font-bold text-brand-blue underline">8805024010</a> for live counter status.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const steps = ['Submitted', 'Verified', 'Processing', 'Ready'];
-            const progressHtml = steps.map((label, idx) => {
-                const active = idx + 1 <= record.step;
-                return `
-                    <div class="flex-1 text-center">
-                        <div class="h-2 rounded-full mb-1.5 ${active ? 'bg-emerald-500' : 'bg-slate-200'}"></div>
-                        <span class="text-[11px] font-bold ${active ? 'text-emerald-700' : 'text-slate-400'}">${label}</span>
-                    </div>
-                `;
-            }).join('');
-
-            box.innerHTML = `
-                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <div>
-                        <span class="text-xs text-slate-400 font-mono">ID: ${raw || 'SHV-101'}</span>
-                        <h4 class="text-base font-extrabold text-brand-navy">${record.name}</h4>
-                        <p class="text-xs font-semibold text-slate-600">${record.service}</p>
-                    </div>
-                    <span class="px-3 py-1 rounded-full text-xs font-extrabold border ${record.badgeColor}">
-                        ${record.status}
-                    </span>
-                </div>
-                <div class="flex gap-2 my-4">${progressHtml}</div>
-                <p class="text-xs text-slate-600 bg-white p-3 rounded-xl border border-slate-200/70">
-                    ${record.note}
-                </p>
-            `;
         }
 
         // Cyber Print & Photo Calculator Logic
@@ -1344,12 +1304,12 @@
                 `- B/W Prints: ${calcState.bw}\n` +
                 `- Color Prints: ${calcState.color}\n` +
                 `- PVC Smart Card: ${calcState.pvc}\n` +
-                `- Passport Photo/Lamination: ${calcState.photo}\n` +
+                `- Passport Photo / Lamination: ${calcState.photo}\n` +
                 `Estimated Total: ₹${total}`;
             window.open(`https://wa.me/918805024010?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Express Token Booking Form Submit
+        // Priority Appointment / WhatsApp Request Form Submit
         function handleBookingSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('custName').value.trim();
@@ -1358,29 +1318,15 @@
             const mode = document.getElementById('custMode').value;
             const note = document.getElementById('custNote').value.trim();
 
-            const randomNum = Math.floor(200 + Math.random() * 799);
-            const tokenId = `SHV-${randomNum}`;
+            const banner = document.getElementById('bookingConfirmationCard');
+            document.getElementById('bookingSummaryText').textContent = `Thank you ${name}! Your request for "${service}" (${mode}) is ready to send on WhatsApp.`;
 
-            // Save into demoTokens so user can immediately track it!
-            demoTokens[tokenId] = {
-                name: name,
-                service: service,
-                status: 'Token Generated',
-                badgeColor: 'bg-sky-100 text-sky-800 border-sky-200',
-                step: 1,
-                note: `Token booked via website (${mode}). Please visit counter or share documents on WhatsApp.`
-            };
-
-            const card = document.getElementById('generatedTokenCard');
-            document.getElementById('genTokenNumber').textContent = tokenId;
-            document.getElementById('genTokenSummary').textContent = `Thank you ${name}! Your priority token for "${service}" (${mode}) is generated.`;
-
-            const waMessage = `Namaste Shivansh Digital Setu Kendra!\n*New Token Booking*\nToken ID: *${tokenId}*\nName: ${name}\nMobile: ${phone}\nService: ${service}\nMode: ${mode}${note ? `\nNote: ${note}` : ''}`;
+            const waMessage = `Namaste Shivansh Digital Setu Kendra!\n*Service Inquiry / Visit Booking*\nName: ${name}\nMobile: ${phone}\nService: ${service}\nMode: ${mode}${note ? `\nNote: ${note}` : ''}`;
             const waUrl = `https://wa.me/918805024010?text=${encodeURIComponent(waMessage)}`;
-            document.getElementById('genWhatsAppLink').href = waUrl;
+            document.getElementById('bookingWhatsAppLink').href = waUrl;
 
-            card.classList.remove('hidden');
-            showToast(`Token ${tokenId} generated! Opening WhatsApp...`);
+            banner.classList.remove('hidden');
+            showToast('Opening WhatsApp Desk (8805024010)...');
             window.open(waUrl, '_blank');
         }
 
@@ -1397,15 +1343,17 @@
             }, 3500);
         }
 
-        // Close modal on outside click
+        // Close modal on outside click or Escape key
         document.getElementById('serviceModal').addEventListener('click', function(e) {
             if (e.target === this) closeServiceModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeServiceModal();
         });
 
         // Initialize Page
         window.addEventListener('DOMContentLoaded', () => {
             renderServices();
-            trackToken();
             lucide.createIcons();
         });
     </script>
