@@ -6,7 +6,7 @@
     <title>DecoderX Pro Suite - Advanced Security Tools</title>
     
     <!-- Premium Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>" type="image/svg+xml">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>" type="image/svg+xml">
     
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>   
@@ -43,34 +43,31 @@
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        surface: {
-                            50: '#fafafa',
-                            100: '#f4f4f5',
-                            200: '#e4e4e7',
-                            300: '#d4d4d8',
-                            400: '#a1a1aa',
-                            500: '#71717a',
-                            600: '#52525b',
-                            700: '#3f3f46',
-                            800: '#27272a',
-                            900: '#18181b',
-                            950: '#09090b',
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
                         }
                     },
                     boxShadow: {
-                        'neon-emerald': '0 0 15px rgba(16, 185, 129, 0.2)',
-                        'neon-indigo': '0 0 15px rgba(99, 102, 241, 0.2)',
-                        'panel': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'panel': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'dropdown': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.2s ease-out forwards',
-                        'slide-up': 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.15s ease-out forwards',
+                        'slide-up': 'slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-                        slideUp: { '0%': { opacity: '0', transform: 'translateY(5px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        pulseGlow: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '.7' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(4px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
                     }
                 }
             }
@@ -79,18 +76,26 @@
     
     <style>
         :root {
-            --app-bg: #f4f4f5;
+            /* Light Theme Variables */
+            --app-bg: #f8fafc;
             --panel-bg: #ffffff;
-            --border-color: #e4e4e7;
-            --text-primary: #18181b;
-            --text-secondary: #52525b;
+            --border-color: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --editor-bg: #ffffff;
         }
         html.dark {
-            --app-bg: #09090b;
-            --panel-bg: #18181b;
-            --border-color: #27272a;
-            --text-primary: #f4f4f5;
-            --text-secondary: #a1a1aa;
+            /* Dark Theme Variables (Enterprise IDE style) */
+            --app-bg: #020617;
+            --panel-bg: #0f172a;
+            --border-color: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --editor-bg: #0f172a;
             color-scheme: dark; 
         }
 
@@ -102,33 +107,24 @@
             overflow: hidden;
             background-color: var(--app-bg);
             color: var(--text-primary);
-            transition: background-color 0.25s, color 0.25s;
+            transition: background-color 0.15s, color 0.15s;
             -webkit-font-smoothing: antialiased;
-        }
-
-        .text-gradient-primary {
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-image: linear-gradient(135deg, #34d399 0%, #3b82f6 100%);
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* IDE Style Scrollbars */
-        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(161, 161, 170, 0.35); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(161, 161, 170, 0.6); }
-        .dark ::-webkit-scrollbar-thumb { background: rgba(82, 82, 91, 0.5); }
-        .dark ::-webkit-scrollbar-thumb:hover { background: rgba(113, 113, 122, 0.75); }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 4px; border: 2px solid var(--panel-bg); }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
+        .dark ::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.6); border: 2px solid var(--panel-bg); }
+        .dark ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.9); }
 
         .app-panel {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-            border-radius: 0.75rem;
-        }
-        .dark .app-panel {
-            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35);
+            border-radius: 0.5rem; /* sharper, more professional radius */
+            box-shadow: var(--shadow-panel);
         }
 
         /* High-Precision Synchronized Syntax Highlighting Overlay */
@@ -138,16 +134,17 @@
             flex-direction: column;
             flex-grow: 1;
             min-height: 0;
+            background-color: var(--editor-bg);
         }
         .editor-textarea, .editor-pre {
             font-family: 'JetBrains Mono', monospace !important;
             font-size: 13px !important;
             font-weight: 400 !important;
             font-variant-ligatures: none !important;
-            line-height: 1.6 !important;
+            line-height: 1.5 !important;
             letter-spacing: 0px !important;
             tab-size: 4 !important;
-            padding: 0.875rem 1rem 0.875rem 1.15rem !important;
+            padding: 1rem !important;
             margin: 0 !important;
             border: none !important;
             width: 100% !important;
@@ -173,19 +170,18 @@
             top: 0; left: 0; right: 0; bottom: 0;
             color: transparent !important;
             background: transparent !important;
-            caret-color: #10b981 !important;
+            caret-color: var(--accent) !important;
             resize: none;
             z-index: 10;
         }
         .editor-textarea.plain-mode {
             color: var(--text-primary) !important;
-            caret-color: #10b981 !important;
         }
         
-        .editor-textarea::selection { background: rgba(16, 185, 129, 0.25); color: transparent; }
-        .dark .editor-textarea::selection { background: rgba(16, 185, 129, 0.32); color: transparent; }
-        .editor-textarea.plain-mode::selection { background: rgba(16, 185, 129, 0.25); color: inherit; }
-        .dark .editor-textarea.plain-mode::selection { background: rgba(16, 185, 129, 0.32); color: inherit; }
+        .editor-textarea::selection { background: rgba(59, 130, 246, 0.2); color: transparent; }
+        .dark .editor-textarea::selection { background: rgba(59, 130, 246, 0.3); color: transparent; }
+        .editor-textarea.plain-mode::selection { background: rgba(59, 130, 246, 0.2); color: inherit; }
+        .dark .editor-textarea.plain-mode::selection { background: rgba(59, 130, 246, 0.3); color: inherit; }
 
         .editor-pre {
             position: absolute;
@@ -195,19 +191,25 @@
             color: var(--text-primary);
         }
 
-        /* Syntax Highlight Colors (Strict normal font-weight to preserve 1:1 caret alignment) */
-        .json-key { color: #0284c7; } .dark .json-key { color: #38bdf8; }
-        .json-string { color: #059669; } .dark .json-string { color: #34d399; }
-        .json-number { color: #7c3aed; } .dark .json-number { color: #a78bfa; }
-        .json-boolean { color: #e11d48; } .dark .json-boolean { color: #fb7185; }
-        .json-bracket { color: #94a3b8; } .dark .json-bracket { color: #64748b; }
+        /* IDE Style Syntax Highlighting */
+        .json-key { color: #005cc5; } .dark .json-key { color: #79c0ff; }
+        .json-string { color: #22863a; } .dark .json-string { color: #7ee787; }
+        .json-number { color: #005cc5; } .dark .json-number { color: #79c0ff; }
+        .json-boolean { color: #d73a49; } .dark .json-boolean { color: #ff7b72; }
+        .json-bracket { color: #6a737d; } .dark .json-bracket { color: #8b949e; }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .tab-scroll::-webkit-scrollbar { height: 2px; }
+        .tab-scroll::-webkit-scrollbar { height: 3px; }
 
-        *:focus-visible { outline: 2px solid #10b981; outline-offset: 2px; }
+        *:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; }
         textarea:focus, input:focus, select:focus { outline: none; }
+        
+        /* Modern segmented control style for toggles */
+        .segmented-btn {
+            position: relative;
+            transition: all 0.2s ease;
+        }
     </style>
 </head>
 <body>
@@ -239,8 +241,9 @@
     <script type="text/babel" data-presets="react" data-type="module">
         const { useState, useEffect, useRef, useMemo, memo, useCallback } = React;
 
+        // Unified icon set (Lucide style)
         const Icons = {
-            Shield: ({ size = 20, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> ),
+            Shield: ({ size = 20, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> ),
             ArrowRightLeft: ({ size = 20, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg> ),
             Copy: ({ size = 16, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> ),
             Check: ({ size = 16, className }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg> ),
@@ -354,9 +357,8 @@
         };
 
         const algorithms = [
-            { id: 'magic', category: 'encoders', name: '✨ Magic Auto-Decode', icon: <Icons.Wand size={14} />, desc: 'Automatically unwraps nested Base64, URL, Hex, HTML & JSON' },
+            { id: 'magic', category: 'encoders', name: '✨ Auto-Decode', icon: <Icons.Wand size={14} />, desc: 'Automatically unwraps nested Base64, URL, Hex, HTML & JSON' },
             { id: 'base64', category: 'encoders', name: 'Base64', icon: <Icons.Code size={14} />, desc: 'Standard RFC 4648 UTF-8 Base64 encoder & decoder' },
-            { id: 'image', category: 'encoders', name: 'Image Encoder / Decoder', icon: <Icons.FileCode size={14} />, desc: 'Encode local images to Base64 data URLs or decode them back to a preview' },
             { id: 'base64url', category: 'encoders', name: 'Base64 (URL Safe)', icon: <Icons.Lock size={14} />, desc: 'URL & filename safe Base64 variant' },
             { id: 'base32', category: 'encoders', name: 'Base32', icon: <Icons.Code size={14} />, desc: 'RFC 4648 Base32 byte encoding' },
             { id: 'url', category: 'encoders', name: 'URL / URI', icon: <Icons.Globe size={14} />, desc: 'Percent-encoding for URI components' },
@@ -367,31 +369,31 @@
             { id: 'octal', category: 'encoders', name: 'Octal Escaping', icon: <Icons.FileCode size={14} />, desc: 'Octal backslash escape sequence converter' },
             { id: 'html', category: 'encoders', name: 'HTML Entity', icon: <Icons.Terminal size={14} />, desc: 'HTML safe character entity encoding/decoding' },
             { id: 'defang', category: 'network', name: 'Defang IP / URL', icon: <Icons.Wifi size={14} />, desc: 'Safely neutralize malicious URLs & IPs for threat reports' },
-            { id: 'cidr', category: 'network', name: 'CIDR / Subnet Calculator', icon: <Icons.Wifi size={14} />, desc: 'Calculate IPv4 network range, netmask, broadcast & host count' },
-            { id: 'aes_gcm', category: 'ciphers', name: 'AES-256-GCM (WebCrypto)', icon: <Icons.Key size={14} />, desc: 'Authenticated client-side AES-256-GCM encryption & decryption with passphrase' },
+            { id: 'cidr', category: 'network', name: 'CIDR / Subnet', icon: <Icons.Wifi size={14} />, desc: 'Calculate IPv4 network range, netmask, broadcast & host count' },
+            { id: 'aes_gcm', category: 'ciphers', name: 'AES-256-GCM', icon: <Icons.Key size={14} />, desc: 'Authenticated client-side AES-256-GCM encryption & decryption' },
             { id: 'rot47', category: 'ciphers', name: 'ROT47 Cipher', icon: <Icons.Shield size={14} />, desc: 'ASCII printable character rotation cipher' },
-            { id: 'caesar', category: 'ciphers', name: 'Caesar Cipher (ROT-N)', icon: <Icons.Shield size={14} />, desc: 'Shift alphabetic characters by custom offset' },
+            { id: 'caesar', category: 'ciphers', name: 'Caesar Cipher', icon: <Icons.Shield size={14} />, desc: 'Shift alphabetic characters by custom offset' },
             { id: 'vigenere', category: 'ciphers', name: 'Vigenère Cipher', icon: <Icons.Lock size={14} />, desc: 'Polyalphabetic substitution cipher using a secret key' },
             { id: 'atbash', category: 'ciphers', name: 'Atbash Cipher', icon: <Icons.Code size={14} />, desc: 'Reverse alphabet substitution cipher' },
             { id: 'morse', category: 'ciphers', name: 'Morse Code', icon: <Icons.Activity size={14} />, desc: 'International Morse code translator' },
             { id: 'sha256', category: 'hashes', name: 'SHA-256', icon: <Icons.Hash size={14} />, desc: 'Cryptographic 256-bit SHA-2 digest' },
             { id: 'sha512', category: 'hashes', name: 'SHA-512', icon: <Icons.Hash size={14} />, desc: 'Cryptographic 512-bit SHA-2 digest' },
             { id: 'sha1', category: 'hashes', name: 'SHA-1 (Legacy)', icon: <Icons.Hash size={14} />, desc: '160-bit legacy digest (Not for password storage)' },
-            { id: 'hmac_sha256', category: 'hashes', name: 'HMAC-SHA256', icon: <Icons.Key size={14} />, desc: 'Keyed-hash message authentication code (SHA-256) for webhooks & APIs' },
-            { id: 'jwt', category: 'parsers', name: 'JWT Inspector & Verifier', icon: <Icons.Lock size={14} />, desc: 'Decode JWT Header, Payload, check expiration & verify HS256 secret' },
+            { id: 'hmac_sha256', category: 'hashes', name: 'HMAC-SHA256', icon: <Icons.Key size={14} />, desc: 'Keyed-hash message authentication code (SHA-256) for APIs' },
+            { id: 'jwt', category: 'parsers', name: 'JWT Inspector', icon: <Icons.Lock size={14} />, desc: 'Decode JWT Header, Payload, check expiration & verify HS256' },
             { id: 'json', category: 'parsers', name: 'JSON Formatter', icon: <Icons.Database size={14} />, desc: 'Validate, beautify, or minify JSON data' },
             { id: 'urlparse', category: 'parsers', name: 'URL Breakdown', icon: <Icons.Link size={14} />, desc: 'Deconstruct URL into protocol, host, path & query params' },
             { id: 'csv2json', category: 'parsers', name: 'CSV to JSON', icon: <Icons.Database size={14} />, desc: 'Convert tabular CSV rows into structured JSON array' },
             { id: 'hexdump', category: 'parsers', name: 'Hexdump Inspector', icon: <Icons.Hash size={14} />, desc: 'Generate canonical 16-byte offset hex + ASCII dump' },
-            { id: 'extract_ips', category: 'extractors', name: 'Extract IPs (v4/v6)', icon: <Icons.Search size={14} />, desc: 'Scrape and deduplicate IPv4 & IPv6 addresses from logs' },
+            { id: 'extract_ips', category: 'extractors', name: 'Extract IPs', icon: <Icons.Search size={14} />, desc: 'Scrape and deduplicate IPv4 & IPv6 addresses from logs' },
             { id: 'extract_urls', category: 'extractors', name: 'Extract URLs', icon: <Icons.Search size={14} />, desc: 'Extract all HTTP/HTTPS endpoints from raw text/code' },
-            { id: 'extract_secrets', category: 'extractors', name: 'Extract Emails & Tokens', icon: <Icons.Search size={14} />, desc: 'Scrape emails, JWTs, AWS keys & API secrets from JS bundles/logs' },
+            { id: 'extract_secrets', category: 'extractors', name: 'Extract Secrets', icon: <Icons.Search size={14} />, desc: 'Scrape emails, JWTs, AWS keys & API secrets from text' },
             { id: 'epoch', category: 'utilities', name: 'Epoch Converter', icon: <Icons.Clock size={14} />, desc: 'Convert Unix timestamps (sec/ms) to UTC, Local & ISO time' },
             { id: 'uuid', category: 'utilities', name: 'UUID v4 Generator', icon: <Icons.Shield size={14} />, desc: 'Generate cryptographically random RFC 4122 UUIDs' },
-            { id: 'passgen', category: 'utilities', name: 'API Key / Secret Gen', icon: <Icons.Lock size={14} />, desc: 'Generate high-entropy secrets & passwords via Web Crypto' },
-            { id: 'string_utils', category: 'utilities', name: 'String Case Utils', icon: <Icons.Type size={14} />, desc: 'Convert text between UPPERCASE, lowercase, and Title Case' },
+            { id: 'passgen', category: 'utilities', name: 'Key Generator', icon: <Icons.Lock size={14} />, desc: 'Generate high-entropy secrets & passwords via Web Crypto' },
+            { id: 'string_utils', category: 'utilities', name: 'String Utils', icon: <Icons.Type size={14} />, desc: 'Convert text between UPPERCASE, lowercase, and Title Case' },
             { id: 'reverse', category: 'utilities', name: 'Reverse Text', icon: <Icons.AlignLeft size={14} />, desc: 'Unicode-aware string reversal' },
-            { id: 'regex_tester', category: 'utilities', name: 'Regex Match Tester', icon: <Icons.Search size={14} />, desc: 'Test regular expressions and inspect capture groups' },
+            { id: 'regex_tester', category: 'utilities', name: 'Regex Tester', icon: <Icons.Search size={14} />, desc: 'Test regular expressions and inspect capture groups' },
         ];
 
         const toolCategories = [
@@ -510,43 +512,43 @@
             const s = str.trim();
             if (s.length < 4) return null;
             if (/^DX_AES1:[A-Za-z0-9+/=]+:[A-Za-z0-9+/=]+:[A-Za-z0-9+/=]+$/.test(s)) {
-                return { algo: 'aes_gcm', category: 'ciphers', mode: 'decode', label: 'AES-256-GCM Ciphertext Detected' };
+                return { algo: 'aes_gcm', category: 'ciphers', mode: 'decode', label: 'AES-GCM Ciphertext' };
             }
             if (/^eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*$/.test(s)) {
-                return { algo: 'jwt', category: 'parsers', mode: 'decode', label: 'JWT Token Detected' };
+                return { algo: 'jwt', category: 'parsers', mode: 'decode', label: 'JWT Token' };
             }
             if ((s.startsWith('{') && s.endsWith('}')) || (s.startsWith('[') && s.endsWith(']'))) {
-                try { JSON.parse(s); return { algo: 'json', category: 'parsers', mode: 'decode', label: 'Valid JSON Detected' }; } catch(e) {}
+                try { JSON.parse(s); return { algo: 'json', category: 'parsers', mode: 'decode', label: 'JSON Data' }; } catch(e) {}
             }
             if (/^\b(?:25[0-5]|2[0-4]\d|[01]?\d\d?)(?:\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)){3}\/(?:[0-9]|[12][0-9]|3[0-2])\b$/.test(s)) {
-                return { algo: 'cidr', category: 'network', mode: 'decode', label: 'IPv4 CIDR Subnet Detected' };
+                return { algo: 'cidr', category: 'network', mode: 'decode', label: 'IPv4 CIDR' };
             }
             if (/^hxxps?:\/\//i.test(s) || s.includes('[.]')) {
-                return { algo: 'defang', category: 'network', mode: 'decode', label: 'Defanged URL/IP Detected' };
+                return { algo: 'defang', category: 'network', mode: 'decode', label: 'Defanged Data' };
             }
             if (/^https?:\/\/[^\s]+$/i.test(s) && (s.includes('?') || s.includes('&') || s.includes(':'))) {
-                return { algo: 'urlparse', category: 'parsers', mode: 'decode', label: 'URL Detected' };
+                return { algo: 'urlparse', category: 'parsers', mode: 'decode', label: 'URL Format' };
             }
             if (/^\d{10}(\d{3})?$/.test(s)) {
-                return { algo: 'epoch', category: 'utilities', mode: 'decode', label: 'Unix Epoch Detected' };
+                return { algo: 'epoch', category: 'utilities', mode: 'decode', label: 'Unix Epoch' };
             }
             if (/^(?:\\u[0-9a-fA-F]{4}){2,}/.test(s)) {
-                return { algo: 'unicode', category: 'encoders', mode: 'decode', label: 'Unicode Escape Detected' };
+                return { algo: 'unicode', category: 'encoders', mode: 'decode', label: 'Unicode Escape' };
             }
             if (/^[01]{8}(\s+[01]{8})+$/.test(s)) {
-                return { algo: 'binary', category: 'encoders', mode: 'decode', label: 'Binary Stream Detected' };
+                return { algo: 'binary', category: 'encoders', mode: 'decode', label: 'Binary Stream' };
             }
             if (/^([0-9a-fA-F]{2}\s+){3,}[0-9a-fA-F]{2}$/.test(s) || (/^[0-9a-fA-F]{16,}$/.test(s) && s.length % 2 === 0 && !/[g-zG-Z]/.test(s))) {
-                return { algo: 'hex', category: 'encoders', mode: 'decode', label: 'Hexadecimal Detected' };
+                return { algo: 'hex', category: 'encoders', mode: 'decode', label: 'Hexadecimal' };
             }
             if (/%[0-9A-Fa-f]{2}/.test(s)) {
-                return { algo: 'url', category: 'encoders', mode: 'decode', label: 'URL Encoding Detected' };
+                return { algo: 'url', category: 'encoders', mode: 'decode', label: 'URL Encoding' };
             }
             if (/&(?:lt|gt|quot|amp|#0*39|#x0*27);/i.test(s)) {
-                return { algo: 'html', category: 'encoders', mode: 'decode', label: 'HTML Entities Detected' };
+                return { algo: 'html', category: 'encoders', mode: 'decode', label: 'HTML Entities' };
             }
             if (/^[A-Za-z0-9+/]{8,}={0,2}$/.test(s) && s.length % 4 === 0 && !s.includes(' ')) {
-                return { algo: 'base64', category: 'encoders', mode: 'decode', label: 'Base64 Detected' };
+                return { algo: 'base64', category: 'encoders', mode: 'decode', label: 'Base64' };
             }
             return null;
         };
@@ -577,7 +579,7 @@
             textArea.style.opacity = '0';
             document.body.appendChild(textArea);
             textArea.focus(); textArea.select();
-            try { document.execCommand("copy") ? setToast('Copied to clipboard! 📋') : setToast('Failed to copy!'); } 
+            try { document.execCommand("copy") ? setToast('Copied to clipboard!') : setToast('Failed to copy!'); } 
             catch (err) { setToast('Failed to copy!'); }
             document.body.removeChild(textArea);
         };
@@ -586,7 +588,7 @@
             if (!text) return;
             try {
                 if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(text).then(() => setToast('Copied to clipboard! 📋')).catch(() => fallbackCopy(text, setToast));
+                    navigator.clipboard.writeText(text).then(() => setToast('Copied to clipboard!')).catch(() => fallbackCopy(text, setToast));
                 } else {
                     fallbackCopy(text, setToast);
                 }
@@ -697,7 +699,6 @@
                         for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
                         let decoded = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
                         
-                        // Verify printable UTF-8 text
                         if (decoded && decoded !== current && /^[\x09\x0A\x0D\x20-\x7E\u00A0-\uFFFF]+$/.test(decoded)) {
                             current = decoded;
                             b64Count++;
@@ -765,16 +766,16 @@
         }
 
         const CustomSelect = ({ value, onChange, options, icon, isDark, disabled = false }) => (
-            <div className={`relative flex-1 sm:flex-initial sm:w-44 lg:w-52 h-9 min-w-[140px] ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
-                <div className={`absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
+            <div className={`relative flex-1 sm:flex-initial sm:w-44 lg:w-52 h-8 min-w-[140px] ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
+                <div className={`absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-blue-500' : 'text-blue-600'}`}>
                     {icon}
                 </div>
                 <select 
                     value={value} onChange={onChange} disabled={disabled}
-                    className={`w-full h-full appearance-none pl-9 pr-7 rounded-lg text-xs sm:text-[13px] font-semibold outline-none transition-all cursor-pointer border ${
+                    className={`w-full h-full appearance-none pl-8 pr-7 rounded-md text-xs font-medium outline-none transition-all cursor-pointer border ${
                         isDark 
-                        ? 'bg-zinc-800/90 border-zinc-700 text-zinc-100 hover:bg-zinc-800 focus:border-emerald-500/60' 
-                        : 'bg-white border-zinc-200 text-zinc-800 hover:bg-zinc-50 focus:border-emerald-500'
+                        ? 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-800 focus:border-blue-500/60' 
+                        : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 focus:border-blue-500'
                     }`}
                 >
                     {options.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>)}
@@ -805,24 +806,24 @@
             );
 
             return (
-                <div className="fixed inset-0 z-50 flex items-start justify-center pt-12 sm:pt-20 p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={onClose}>
+                <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in" onClick={onClose}>
                     <div 
                         onClick={e => e.stopPropagation()}
-                        className={`w-full max-w-xl rounded-2xl border shadow-2xl overflow-hidden animate-slide-up ${
-                            isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-white border-zinc-200 text-zinc-800'
+                        className={`w-full max-w-xl rounded-xl border shadow-xl overflow-hidden animate-slide-up ${
+                            isDark ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-800'
                         }`}
                     >
-                        <div className={`px-4 py-3.5 border-b flex items-center gap-3 ${isDark ? 'border-zinc-800 bg-zinc-950/60' : 'border-zinc-100 bg-zinc-50'}`}>
-                            <Icons.Search size={18} className="text-emerald-500 shrink-0" />
+                        <div className={`px-4 py-3 border-b flex items-center gap-3 ${isDark ? 'border-slate-800 bg-slate-900/60' : 'border-slate-100 bg-slate-50'}`}>
+                            <Icons.Search size={16} className="text-blue-500 shrink-0" />
                             <input
                                 ref={inputRef}
                                 type="text"
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
-                                placeholder="Search 35+ tools (e.g., JWT, AES, HMAC, CIDR, Base64, Magic)..."
+                                placeholder="Search 35+ tools (e.g., JWT, AES, HMAC, CIDR)..."
                                 className="w-full bg-transparent text-sm outline-none font-medium"
                             />
-                            <button onClick={onClose} className="px-2 py-0.5 text-[10px] font-mono rounded border border-zinc-700 text-zinc-400">ESC</button>
+                            <button onClick={onClose} className="px-1.5 py-0.5 text-[10px] font-mono rounded border border-slate-500/30 text-slate-500">ESC</button>
                         </div>
                         <div className="max-h-80 overflow-y-auto p-2 divide-y divide-transparent custom-scrollbar">
                             {filtered.length === 0 ? (
@@ -832,21 +833,21 @@
                                     <button
                                         key={item.id}
                                         onClick={() => { onSelectTool(item); onClose(); }}
-                                        className={`w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between gap-3 transition-colors ${
-                                            isDark ? 'hover:bg-zinc-800/80' : 'hover:bg-zinc-100'
+                                        className={`w-full text-left px-3 py-2.5 rounded-lg flex items-center justify-between gap-3 transition-colors ${
+                                            isDark ? 'hover:bg-slate-800/80' : 'hover:bg-slate-100'
                                         }`}
                                     >
                                         <div className="flex items-center gap-3 min-w-0">
-                                            <div className={`p-2 rounded-lg shrink-0 ${isDark ? 'bg-zinc-800 text-emerald-400' : 'bg-emerald-50 text-emerald-600'}`}>
+                                            <div className={`p-1.5 rounded-md shrink-0 ${isDark ? 'bg-slate-800 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
                                                 {item.icon}
                                             </div>
                                             <div className="min-w-0">
-                                                <div className="text-xs font-bold truncate">{item.name}</div>
-                                                <div className={`text-[11px] truncate ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>{item.desc}</div>
+                                                <div className="text-sm font-medium truncate">{item.name}</div>
+                                                <div className={`text-xs truncate ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{item.desc}</div>
                                             </div>
                                         </div>
-                                        <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded border shrink-0 ${
-                                            isDark ? 'bg-zinc-950 border-zinc-800 text-zinc-400' : 'bg-zinc-50 border-zinc-200 text-zinc-500'
+                                        <span className={`text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border shrink-0 ${
+                                            isDark ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-500'
                                         }`}>
                                             {item.category}
                                         </span>
@@ -905,22 +906,22 @@
                     onDrop={handleDrop}
                 >
                     {isDragging && (
-                        <div className="absolute inset-2 z-30 rounded-xl border-2 border-dashed border-emerald-500 bg-emerald-500/10 backdrop-blur-xs flex items-center justify-center pointer-events-none animate-fade-in">
-                            <span className="text-xs font-bold text-emerald-400 flex items-center gap-2"><Icons.Upload size={16}/> Drop file to load payload</span>
+                        <div className="absolute inset-2 z-30 rounded-lg border-2 border-dashed border-blue-500 bg-blue-500/5 backdrop-blur-xs flex items-center justify-center pointer-events-none animate-fade-in">
+                            <span className="text-xs font-semibold text-blue-500 flex items-center gap-2"><Icons.Upload size={16}/> Drop file to load</span>
                         </div>
                     )}
                     {isJsonLike && (
-                        <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-r-md z-20 transition-colors ${
+                        <div className={`absolute left-0 top-0 bottom-0 w-1 z-20 transition-colors ${
                             isValidJson
-                                ? (isDark ? 'bg-emerald-500/50 group-focus-within:bg-emerald-500' : 'bg-emerald-500/60 group-focus-within:bg-emerald-600')
+                                ? (isDark ? 'bg-blue-500/50 group-focus-within:bg-blue-500' : 'bg-blue-500/60 group-focus-within:bg-blue-600')
                                 : (isDark ? 'bg-amber-500/50' : 'bg-amber-500/60')
-                        }`} title={isValidJson ? "Valid JSON" : "JSON Structure (Editing)"} />
+                        }`} title={isValidJson ? "Valid JSON" : "JSON Structure"} />
                     )}
                     
                     {isJsonLike && (
                         <pre 
                             ref={preRef} 
-                            className={`editor-pre ${wordWrap ? 'wrap-enabled' : 'wrap-disabled'} ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`} 
+                            className={`editor-pre ${wordWrap ? 'wrap-enabled' : 'wrap-disabled'} ${isDark ? 'text-slate-300' : 'text-slate-700'}`} 
                             dangerouslySetInnerHTML={{ __html: displayHtml }} 
                             aria-hidden="true"
                         />
@@ -933,7 +934,7 @@
                         onScroll={handleScroll} 
                         readOnly={readOnly}
                         placeholder={placeholder}
-                        className={`editor-textarea custom-scrollbar ${wordWrap ? 'wrap-enabled' : 'wrap-disabled'} ${isJsonLike ? '' : 'plain-mode'} ${isDark ? 'placeholder-zinc-600' : 'placeholder-zinc-400'}`} 
+                        className={`editor-textarea custom-scrollbar ${wordWrap ? 'wrap-enabled' : 'wrap-disabled'} ${isJsonLike ? '' : 'plain-mode'} ${isDark ? 'placeholder-slate-600' : 'placeholder-slate-400'}`} 
                         spellCheck="false"
                         autoCapitalize="off"
                         autoComplete="off"
@@ -970,29 +971,29 @@
                 let updated = false;
                 try { setLeftText(JSON.stringify(JSON.parse(leftText), null, 2)); updated = true; } catch(e) {}
                 try { setRightText(JSON.stringify(JSON.parse(rightText), null, 2)); updated = true; } catch(e) {}
-                setToast(updated ? 'JSON Beautified on both sides! ✨' : 'Paste valid JSON to auto-format');
+                setToast(updated ? 'JSON Beautified' : 'Paste valid JSON to format');
             };
 
             return (
                 <div className="flex flex-col gap-4 animate-fade-in w-full h-full pb-6 overflow-y-auto custom-scrollbar">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                            <span className={`px-2.5 py-1 rounded-lg text-xs font-bold border ${
+                            <span className={`px-2 py-1 rounded text-xs font-semibold border ${
                                 diffLines.changedCount === 0
-                                    ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400'
-                                    : 'bg-amber-500/15 border-amber-500/30 text-amber-400'
+                                    ? 'bg-blue-500/10 border-blue-500/30 text-blue-500'
+                                    : 'bg-amber-500/10 border-amber-500/30 text-amber-500'
                             }`}>
-                                {diffLines.changedCount === 0 ? '✓ Identical Payloads' : `${diffLines.changedCount} Line Difference(s) Detected`}
+                                {diffLines.changedCount === 0 ? '✓ Identical' : `${diffLines.changedCount} Changes Detected`}
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <button onClick={beautifyBoth} className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-1.5 ${isDark ? 'bg-zinc-800 border-zinc-700 text-emerald-400 hover:bg-zinc-700' : 'bg-white border-zinc-200 text-emerald-600 shadow-xs'}`}>
-                                <Icons.AlignLeft size={13} /> Format Both JSON
+                            <button onClick={beautifyBoth} className={`px-2.5 py-1.5 rounded-md text-xs font-medium border transition-all flex items-center gap-1.5 ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-600 shadow-sm'}`}>
+                                <Icons.AlignLeft size={13} /> Format Both
                             </button>
-                            <button onClick={() => { setLeftText(rightText); setRightText(leftText); }} className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-1.5 ${isDark ? 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700' : 'bg-white border-zinc-200 text-zinc-700 shadow-xs'}`}>
-                                <Icons.ArrowRightLeft size={13} /> Swap Sides
+                            <button onClick={() => { setLeftText(rightText); setRightText(leftText); }} className={`px-2.5 py-1.5 rounded-md text-xs font-medium border transition-all flex items-center gap-1.5 ${isDark ? 'bg-slate-800 border-slate-700 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-600 shadow-sm'}`}>
+                                <Icons.ArrowRightLeft size={13} /> Swap
                             </button>
-                            <button onClick={() => { setLeftText(''); setRightText(''); }} className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all flex items-center gap-1.5 ${isDark ? 'border-red-900/40 text-red-400 hover:bg-red-900/20' : 'border-red-200 text-red-600 hover:bg-red-50'}`}>
+                            <button onClick={() => { setLeftText(''); setRightText(''); }} className={`px-2.5 py-1.5 rounded-md text-xs font-medium border transition-all flex items-center gap-1.5 ${isDark ? 'border-red-900/30 text-red-400 hover:bg-red-900/20' : 'border-red-200 text-red-600 hover:bg-red-50'}`}>
                                 <Icons.Trash2 size={13} /> Clear
                             </button>
                         </div>
@@ -1000,59 +1001,59 @@
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0">
                         <div className="app-panel flex flex-col h-56 sm:h-64 overflow-hidden">
-                            <div className={`px-4 py-2 border-b flex items-center justify-between text-xs font-bold uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/40' : 'border-zinc-200 bg-zinc-50'}`}>
-                                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-rose-500"></span> Original / Baseline Payload (A)</span>
+                            <div className={`px-3 py-1.5 border-b flex items-center justify-between text-xs font-semibold ${isDark ? 'border-slate-800 bg-slate-800/40 text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
+                                <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> Original</span>
                                 <button onClick={() => copyToClipboard(leftText, setToast)} className="opacity-60 hover:opacity-100"><Icons.Copy size={13}/></button>
                             </div>
                             <textarea
                                 value={leftText}
                                 onChange={e => setLeftText(e.target.value)}
-                                placeholder="Paste first payload, JSON response, or JWT..."
-                                className={`w-full flex-1 p-3.5 font-mono text-xs resize-none bg-transparent custom-scrollbar ${isDark ? 'text-zinc-200' : 'text-zinc-800'}`}
+                                placeholder="Paste original payload..."
+                                className={`w-full flex-1 p-3 font-mono text-[13px] resize-none bg-transparent custom-scrollbar ${isDark ? 'text-slate-200' : 'text-slate-800'}`}
                                 spellCheck="false"
                             />
                         </div>
                         <div className="app-panel flex flex-col h-56 sm:h-64 overflow-hidden">
-                            <div className={`px-4 py-2 border-b flex items-center justify-between text-xs font-bold uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/40' : 'border-zinc-200 bg-zinc-50'}`}>
-                                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Modified / Target Payload (B)</span>
+                            <div className={`px-3 py-1.5 border-b flex items-center justify-between text-xs font-semibold ${isDark ? 'border-slate-800 bg-slate-800/40 text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
+                                <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Modified</span>
                                 <button onClick={() => copyToClipboard(rightText, setToast)} className="opacity-60 hover:opacity-100"><Icons.Copy size={13}/></button>
                             </div>
                             <textarea
                                 value={rightText}
                                 onChange={e => setRightText(e.target.value)}
-                                placeholder="Paste second payload to compare..."
-                                className={`w-full flex-1 p-3.5 font-mono text-xs resize-none bg-transparent custom-scrollbar ${isDark ? 'text-zinc-200' : 'text-zinc-800'}`}
+                                placeholder="Paste modified payload..."
+                                className={`w-full flex-1 p-3 font-mono text-[13px] resize-none bg-transparent custom-scrollbar ${isDark ? 'text-slate-200' : 'text-slate-800'}`}
                                 spellCheck="false"
                             />
                         </div>
                     </div>
 
                     <div className="app-panel flex flex-col flex-1 min-h-[240px] overflow-hidden">
-                        <div className={`px-4 py-2 border-b flex items-center justify-between text-xs font-bold uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/40' : 'border-zinc-200 bg-zinc-50'}`}>
-                            <span className="flex items-center gap-2"><Icons.GitCompare size={14} className="text-emerald-500" /> Line-by-Line Security Diff Inspector</span>
+                        <div className={`px-3 py-1.5 border-b flex items-center justify-between text-xs font-semibold ${isDark ? 'border-slate-800 bg-slate-800/40 text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
+                            <span className="flex items-center gap-2"><Icons.GitCompare size={14} className="text-slate-400" /> Diff Inspector</span>
                             <div className="flex items-center gap-3 text-[10px] font-mono">
-                                <span className="text-rose-400">■ Removed / Baseline</span>
-                                <span className="text-emerald-400">■ Added / Modified</span>
+                                <span className="text-red-400">■ Removed</span>
+                                <span className="text-blue-400">■ Added</span>
                             </div>
                         </div>
-                        <div className="overflow-auto flex-1 font-mono text-xs divide-y divide-zinc-800/40 custom-scrollbar">
+                        <div className="overflow-auto flex-1 font-mono text-[13px] divide-y divide-slate-800/30 custom-scrollbar">
                             {diffLines.rows.map((r) => (
                                 <div key={r.line} className={`grid grid-cols-1 md:grid-cols-2 ${
                                     r.status === 'same' ? '' :
                                     r.status === 'modified' ? (isDark ? 'bg-amber-500/5' : 'bg-amber-50/70') :
-                                    r.status === 'added' ? (isDark ? 'bg-emerald-500/10' : 'bg-emerald-50') :
-                                    (isDark ? 'bg-rose-500/10' : 'bg-rose-50')
+                                    r.status === 'added' ? (isDark ? 'bg-blue-500/10' : 'bg-blue-50') :
+                                    (isDark ? 'bg-red-500/10' : 'bg-red-50')
                                 }`}>
-                                    <div className={`flex items-start gap-2.5 px-3 py-1.5 border-r ${isDark ? 'border-zinc-800/60' : 'border-zinc-200'} ${
-                                        r.status === 'removed' || r.status === 'modified' ? (isDark ? 'bg-rose-500/10 text-rose-300' : 'bg-rose-100/60 text-rose-800') : 'opacity-75'
+                                    <div className={`flex items-start gap-2.5 px-3 py-1.5 border-r ${isDark ? 'border-slate-800/60' : 'border-slate-200'} ${
+                                        r.status === 'removed' || r.status === 'modified' ? (isDark ? 'text-red-300' : 'text-red-800') : 'opacity-75'
                                     }`}>
-                                        <span className="w-6 text-right opacity-40 select-none shrink-0">{r.line}</span>
+                                        <span className="w-6 text-right opacity-30 select-none shrink-0">{r.line}</span>
                                         <span className="break-all whitespace-pre-wrap">{r.left}</span>
                                     </div>
                                     <div className={`flex items-start gap-2.5 px-3 py-1.5 ${
-                                        r.status === 'added' || r.status === 'modified' ? (isDark ? 'bg-emerald-500/10 text-emerald-300' : 'bg-emerald-100/60 text-emerald-800') : 'opacity-75'
+                                        r.status === 'added' || r.status === 'modified' ? (isDark ? 'text-blue-300' : 'text-blue-800') : 'opacity-75'
                                     }`}>
-                                        <span className="w-6 text-right opacity-40 select-none shrink-0">{r.line}</span>
+                                        <span className="w-6 text-right opacity-30 select-none shrink-0">{r.line}</span>
                                         <span className="break-all whitespace-pre-wrap">{r.right}</span>
                                     </div>
                                 </div>
@@ -1189,7 +1190,7 @@
                         } catch (e) {} 
                     }
                     setParsedResults(results);
-                    setToast("Payload Deep-Decoded! 🕵️‍♀️");
+                    setToast("Parsed successfully.");
                 } catch (e) { setToast("Error parsing cURL: " + e.message); }
             };
 
@@ -1220,64 +1221,64 @@
 
                 if (!analysis.isEncoded) {
                     return (
-                        <div className={`flex flex-col md:flex-row border-b last:border-0 ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-                            <div className={`md:w-1/4 p-3 border-b md:border-b-0 md:border-r flex items-center justify-between gap-2 ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-                                <span className={`font-semibold text-xs break-words ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>{itemKey}</span>
+                        <div className={`flex flex-col md:flex-row border-b last:border-0 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                            <div className={`md:w-1/4 p-2.5 border-b md:border-b-0 md:border-r flex items-center justify-between gap-2 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                                <span className={`font-semibold text-xs break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
                                 <button
                                     onClick={() => onSendToEditor(analysis.final, itemKey)}
-                                    className="p-1 rounded hover:bg-zinc-700/40 text-zinc-500 hover:text-emerald-400 transition-colors shrink-0"
+                                    className="p-1 rounded hover:bg-slate-700/40 text-slate-500 hover:text-blue-400 transition-colors shrink-0"
                                     title="Open in Editor Tab"
                                 >
                                     <Icons.CornerUpLeft size={12} />
                                 </button>
                             </div>
-                            <div className="md:w-3/4 p-3 font-mono text-[13px] relative">
+                            <div className="md:w-3/4 p-2.5 font-mono text-[13px] relative">
                                 {analysis.isJson && !redactSecrets
-                                    ? <div className={`p-3 rounded-lg overflow-x-auto relative border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+                                    ? <div className={`p-2.5 rounded-lg overflow-x-auto relative border ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
                                         <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(analysis.final) }} className="whitespace-pre-wrap leading-relaxed m-0" />
                                       </div>
-                                    : <div className={`break-words ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>{displayFinal}</div>
+                                    : <div className={`break-words ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>{displayFinal}</div>
                                 }
                             </div>
                         </div>
                     );
                 }
                 
-                let badge = <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-500 border border-blue-500/30">ENCODED</span>;
-                if (analysis.b64Count >= 3) badge = <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/20 text-red-500 border border-red-500/30 animate-pulse">⚠️ TRIPLE B64</span>;
-                else if (analysis.b64Count === 2) badge = <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-500 border border-orange-500/30">🚨 DOUBLE B64</span>;
-                else if (analysis.urlCount > 0) badge = <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-500 border border-emerald-500/30">URL ENCODED</span>;
+                let badge = <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-500 border border-blue-500/20">ENCODED</span>;
+                if (analysis.b64Count >= 3) badge = <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-500/10 text-red-500 border border-red-500/20">TRIPLE B64</span>;
+                else if (analysis.b64Count === 2) badge = <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-orange-500/10 text-orange-500 border border-orange-500/20">DOUBLE B64</span>;
+                else if (analysis.urlCount > 0) badge = <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-500 border border-blue-500/20">URL ENCODED</span>;
 
                 return (
-                    <div className={`flex flex-col md:flex-row border-b last:border-0 ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-                        <div className={`md:w-1/4 p-3 border-b md:border-b-0 md:border-r flex items-center justify-between gap-2 ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-                            <span className={`font-semibold text-xs break-words ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>{itemKey}</span>
+                    <div className={`flex flex-col md:flex-row border-b last:border-0 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                        <div className={`md:w-1/4 p-2.5 border-b md:border-b-0 md:border-r flex items-center justify-between gap-2 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                            <span className={`font-semibold text-xs break-words ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{itemKey}</span>
                             <button
                                 onClick={() => onSendToEditor(analysis.final, itemKey)}
-                                className="p-1 rounded hover:bg-zinc-700/40 text-zinc-500 hover:text-emerald-400 transition-colors shrink-0"
+                                className="p-1 rounded hover:bg-slate-700/40 text-slate-500 hover:text-blue-400 transition-colors shrink-0"
                                 title="Open Decoded Value in Editor Tab"
                             >
                                 <Icons.CornerUpLeft size={12} />
                             </button>
                         </div>
-                        <div className="md:w-3/4 p-3">
-                            <div className="flex items-center gap-2 mb-3">{badge}</div>
-                            <div className={`p-2 rounded-lg text-xs font-mono break-words mb-4 max-h-32 overflow-y-auto ${isDark ? 'bg-zinc-900 text-zinc-400' : 'bg-zinc-100 text-zinc-500'}`}>{displayOriginal}</div>
+                        <div className="md:w-3/4 p-2.5">
+                            <div className="flex items-center gap-2 mb-2">{badge}</div>
+                            <div className={`p-2 rounded-lg text-xs font-mono break-words mb-3 max-h-32 overflow-y-auto ${isDark ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{displayOriginal}</div>
                             
-                            <div className="space-y-3">
+                            <div className="space-y-2">
                                 {analysis.steps.map((step, i) => {
                                     const isJSONView = (i === analysis.steps.length - 1) && analysis.isJson && !redactSecrets;
                                     return (
-                                        <div key={i} className={`relative pl-4 border-l-2 ${isDark ? 'border-zinc-700' : 'border-zinc-200'}`}>
-                                            <span className={`text-[10px] uppercase font-bold flex items-center gap-1.5 mb-1.5 ${isDark ? 'text-emerald-500' : 'text-emerald-600'}`}>
+                                        <div key={i} className={`relative pl-3 border-l-2 ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
+                                            <span className={`text-[10px] uppercase font-semibold flex items-center gap-1.5 mb-1 ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
                                                 {step.method}
                                             </span>
                                             {isJSONView ? (
-                                                <div className={`p-2 rounded-lg overflow-x-auto max-h-[300px] font-mono text-xs border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+                                                <div className={`p-2 rounded-lg overflow-x-auto max-h-[300px] font-mono text-xs border ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
                                                     <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(step.value) }} className="whitespace-pre-wrap leading-relaxed m-0" />
                                                 </div>
                                             ) : (
-                                                <div className={`p-2 rounded-lg font-mono text-xs break-words ${isDark ? 'bg-zinc-900 text-zinc-300' : 'bg-zinc-50 text-zinc-700'}`}>
+                                                <div className={`p-2 rounded-lg font-mono text-xs break-words ${isDark ? 'bg-slate-900 text-slate-300' : 'bg-slate-50 text-slate-700'}`}>
                                                     {maskValue(itemKey, step.value)}
                                                 </div>
                                             )}
@@ -1293,43 +1294,43 @@
             return (
                 <div className="flex flex-col gap-4 animate-fade-in w-full h-full pb-6 overflow-y-auto custom-scrollbar">
                     <div className="app-panel flex flex-col flex-shrink-0">
-                        <div className={`px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-2 ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}>
+                        <div className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-2 ${isDark ? 'border-slate-800 bg-slate-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
                             <div className="flex items-center gap-2">
-                                <Icons.Terminal size={14} className="text-emerald-500" />
-                                <span className="text-xs font-bold uppercase tracking-wider">Paste cURL Command</span>
+                                <Icons.Terminal size={14} className="text-blue-500" />
+                                <span className="text-xs font-semibold">Paste cURL Command</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => { setCurlInput(SAMPLE_CURL); processRequest(SAMPLE_CURL); }}
-                                    className={`px-2.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1.5 border transition-all ${
-                                        isDark ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20' : 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
+                                    className={`px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1.5 border transition-all ${
+                                        isDark ? 'bg-slate-800 border-slate-700 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                                     }`}
                                 >
-                                    <Icons.Zap size={12} /> Try Sample cURL
+                                    <Icons.Zap size={12} /> Sample
                                 </button>
                                 <button
                                     onClick={() => setRedactSecrets(!redactSecrets)}
-                                    className={`px-2.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1.5 border transition-all ${
+                                    className={`px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1.5 border transition-all ${
                                         redactSecrets
-                                        ? 'bg-rose-500/20 border-rose-500/40 text-rose-400'
-                                        : (isDark ? 'bg-zinc-800 border-zinc-700 text-zinc-400 hover:text-zinc-200' : 'bg-white border-zinc-200 text-zinc-600')
+                                        ? 'bg-red-500/10 border-red-500/30 text-red-500'
+                                        : (isDark ? 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200' : 'bg-white border-slate-200 text-slate-600')
                                     }`}
                                     title="Mask tokens & cookies for safe screen-sharing"
                                 >
                                     {redactSecrets ? <Icons.EyeOff size={12} /> : <Icons.Eye size={12} />}
-                                    {redactSecrets ? 'Secrets Hidden' : 'Redact Secrets'}
+                                    {redactSecrets ? 'Hidden' : 'Redact'}
                                 </button>
                             </div>
                         </div>
                         <textarea 
                             value={curlInput} onChange={(e) => setCurlInput(e.target.value)}
-                            className={`w-full p-4 outline-none resize-y min-h-[110px] font-mono text-[13px] leading-relaxed custom-scrollbar ${isDark ? 'bg-transparent text-zinc-300 placeholder-zinc-600' : 'bg-transparent text-zinc-800 placeholder-zinc-400'}`} 
+                            className={`w-full p-4 outline-none resize-y min-h-[110px] font-mono text-[13px] leading-relaxed custom-scrollbar ${isDark ? 'bg-transparent text-slate-300 placeholder-slate-600' : 'bg-transparent text-slate-800 placeholder-slate-400'}`} 
                             placeholder="curl 'https://api.target.com/data' -H 'Authorization: Bearer eyJhb...' -b 'session=base64_cookie'" spellCheck="false"
                         />
-                        <div className={`px-4 py-2 border-t flex flex-wrap justify-between items-center gap-2 ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-                            <span className="text-[11px] opacity-60">Auto-unpacks nested Base64, URL-encoded params, JSON fields & JWT headers locally.</span>
-                            <button onClick={() => processRequest()} className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs sm:text-sm font-semibold py-1.5 px-4 rounded-lg transition-all active:scale-95 flex items-center gap-2 shadow-sm ml-auto">
-                                <Icons.Cpu size={14} /> Parse & Decode
+                        <div className={`px-4 py-2 border-t flex flex-wrap justify-between items-center gap-2 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                            <span className="text-[11px] opacity-60">Auto-unpacks nested encodings.</span>
+                            <button onClick={() => processRequest()} className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-4 rounded-md transition-all active:scale-95 flex items-center gap-2 ml-auto">
+                                <Icons.Cpu size={14} /> Parse
                             </button>
                         </div>
                     </div>
@@ -1337,68 +1338,68 @@
                     {parsedResults && (
                         <div className="flex flex-col gap-4 animate-slide-up">
                             <div className="app-panel">
-                                <div className={`px-4 py-2 border-b flex items-center gap-2 font-bold text-xs uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}><Icons.Link size={14} className="text-indigo-500"/> Endpoint</div>
-                                <div className="p-4 font-mono text-[13px] break-all flex flex-wrap items-center gap-3">
-                                    <span className={`px-2 py-0.5 rounded font-bold shrink-0 ${isDark ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-100 text-indigo-700'}`}>{parsedResults.method}</span>
+                                <div className={`px-4 py-2 border-b flex items-center gap-2 font-semibold text-xs ${isDark ? 'border-slate-800 bg-slate-800/30 text-slate-300' : 'border-slate-100 bg-slate-50/50 text-slate-600'}`}><Icons.Link size={14} className="text-slate-400"/> Endpoint</div>
+                                <div className="p-3 font-mono text-[13px] break-all flex flex-wrap items-center gap-3">
+                                    <span className={`px-2 py-0.5 rounded font-bold shrink-0 ${isDark ? 'bg-slate-800 text-blue-400' : 'bg-blue-50 text-blue-700'}`}>{parsedResults.method}</span>
                                     <span>{parsedResults.url}</span>
                                 </div>
                             </div>
                             
                             {parsedResults.queryParams.length > 0 && (
                                 <div className="app-panel">
-                                    <div className={`px-4 py-2 border-b flex items-center gap-2 font-bold text-xs uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}><Icons.Code size={14} className="text-emerald-500"/> Query Parameters</div>
+                                    <div className={`px-4 py-2 border-b flex items-center gap-2 font-semibold text-xs ${isDark ? 'border-slate-800 bg-slate-800/30 text-slate-300' : 'border-slate-100 bg-slate-50/50 text-slate-600'}`}><Icons.Code size={14} className="text-slate-400"/> Query Parameters</div>
                                     <div>{parsedResults.queryParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)}</div>
                                 </div>
                             )}
                             
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="app-panel">
-                                    <div className={`px-4 py-2 border-b flex items-center gap-2 font-bold text-xs uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}><Icons.AlignLeft size={14} className="text-rose-500"/> Headers ({parsedResults.headers.length})</div>
-                                    <div>{parsedResults.headers.length > 0 ? parsedResults.headers.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className="p-4 text-center text-xs opacity-50">None</div>}</div>
+                                    <div className={`px-4 py-2 border-b flex items-center gap-2 font-semibold text-xs ${isDark ? 'border-slate-800 bg-slate-800/30 text-slate-300' : 'border-slate-100 bg-slate-50/50 text-slate-600'}`}><Icons.AlignLeft size={14} className="text-slate-400"/> Headers</div>
+                                    <div>{parsedResults.headers.length > 0 ? parsedResults.headers.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className="p-3 text-center text-xs opacity-50">None</div>}</div>
                                 </div>
                                 <div className="app-panel">
-                                    <div className={`px-4 py-2 border-b flex items-center gap-2 font-bold text-xs uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}><Icons.Lock size={14} className="text-amber-500"/> Cookies ({parsedResults.cookies.length})</div>
-                                    <div>{parsedResults.cookies.length > 0 ? parsedResults.cookies.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className="p-4 text-center text-xs opacity-50">None</div>}</div>
+                                    <div className={`px-4 py-2 border-b flex items-center gap-2 font-semibold text-xs ${isDark ? 'border-slate-800 bg-slate-800/30 text-slate-300' : 'border-slate-100 bg-slate-50/50 text-slate-600'}`}><Icons.Lock size={14} className="text-slate-400"/> Cookies</div>
+                                    <div>{parsedResults.cookies.length > 0 ? parsedResults.cookies.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />) : <div className="p-3 text-center text-xs opacity-50">None</div>}</div>
                                 </div>
                             </div>
 
                             <div className="app-panel">
-                                <div className={`px-4 py-2 border-b flex items-center gap-2 font-bold text-xs uppercase tracking-wider ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}><Icons.Database size={14} className="text-blue-500"/> Body Payload</div>
+                                <div className={`px-4 py-2 border-b flex items-center gap-2 font-semibold text-xs ${isDark ? 'border-slate-800 bg-slate-800/30 text-slate-300' : 'border-slate-100 bg-slate-50/50 text-slate-600'}`}><Icons.Database size={14} className="text-slate-400"/> Body Payload</div>
                                 <div>
                                     {parsedResults.bodyDump && <AnalysisRow itemKey="Raw Body" analysis={parsedResults.bodyDump} />}
                                     {parsedResults.bodyParams.length > 0 && parsedResults.bodyParams.map((p, i) => <AnalysisRow key={i} itemKey={p.key} analysis={p.analysis} />)}
                                     {!parsedResults.bodyDump && parsedResults.bodyParams.length === 0 && (
-                                        <div className="p-4 text-center text-xs opacity-50">No body payload</div>
+                                        <div className="p-3 text-center text-xs opacity-50">No body payload</div>
                                     )}
                                 </div>
                             </div>
 
                             <div className="app-panel">
-                                <div className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-2 ${isDark ? 'border-zinc-800 bg-zinc-800/30' : 'border-zinc-100 bg-zinc-50/50'}`}>
-                                    <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider">
-                                        <Icons.FileCode size={14} className="text-emerald-500"/> Ready-to-Use Code Generator
+                                <div className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-2 ${isDark ? 'border-slate-800 bg-slate-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
+                                    <div className="flex items-center gap-2 font-semibold text-xs">
+                                        <Icons.FileCode size={14} className="text-slate-400"/> Code Generator
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <div className={`flex flex-wrap p-0.5 rounded-lg border ${isDark ? 'bg-zinc-900 border-zinc-700' : 'bg-zinc-100 border-zinc-200'}`}>
+                                        <div className={`flex flex-wrap p-0.5 rounded-md border ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
                                             {[
-                                                { id: 'fetch', label: 'JS Fetch' },
-                                                { id: 'axios', label: 'Node Axios' },
+                                                { id: 'fetch', label: 'Fetch' },
+                                                { id: 'axios', label: 'Axios' },
                                                 { id: 'python', label: 'Python' },
                                                 { id: 'go', label: 'Go' }
                                             ].map(lang => (
                                                 <button
                                                     key={lang.id}
                                                     onClick={() => setCodeLang(lang.id)}
-                                                    className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${codeLang === lang.id ? (isDark ? 'bg-zinc-800 text-emerald-400' : 'bg-white text-emerald-600 shadow-sm') : 'text-zinc-500'}`}
+                                                    className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all ${codeLang === lang.id ? (isDark ? 'bg-slate-700 text-white' : 'bg-white text-slate-800 shadow-sm') : 'text-slate-500'}`}
                                                 >
                                                     {lang.label}
                                                 </button>
                                             ))}
                                         </div>
-                                        <button onClick={() => copyToClipboard(generateCodeSnippet(), setToast)} className="p-1.5 rounded-lg border border-zinc-700/50 hover:bg-zinc-800 text-zinc-400 hover:text-white" title="Copy Code"><Icons.Copy size={14}/></button>
+                                        <button onClick={() => copyToClipboard(generateCodeSnippet(), setToast)} className="p-1.5 rounded-md border border-slate-700/50 hover:bg-slate-800 text-slate-400 hover:text-white" title="Copy Code"><Icons.Copy size={14}/></button>
                                     </div>
                                 </div>
-                                <pre className={`p-4 font-mono text-xs overflow-x-auto m-0 ${isDark ? 'text-emerald-300' : 'text-zinc-800'}`}>
+                                <pre className={`p-4 font-mono text-[13px] overflow-x-auto m-0 ${isDark ? 'text-slate-300' : 'text-slate-800'}`}>
                                     {generateCodeSnippet()}
                                 </pre>
                             </div>
@@ -1408,215 +1409,13 @@
             );
         });
 
-        const ImageEncoderDecoder = memo(({ isDark, setToast, ws, updateWorkspace }) => {
-            const { input = '', output = '', mode = 'decode' } = ws;
-            const [previewUrl, setPreviewUrl] = useState('');
-            const [error, setError] = useState('');
-            const [mimeType, setMimeType] = useState('');
-            const [extension, setExtension] = useState('png');
-            const [dimensions, setDimensions] = useState('');
-            const [byteSize, setByteSize] = useState(0);
-            const [fileName, setFileName] = useState('encoded_image');
-            const [outputMode, setOutputMode] = useState('raw');
-            const [encodedFullUri, setEncodedFullUri] = useState('');
-            const [encodedRawBase64, setEncodedRawBase64] = useState('');
-            const fileInputRef = useRef(null);
-            const decodeFileRef = useRef(null);
-            const isEncode = mode === 'encode';
-
-            const setInput = (value) => updateWorkspace(ws.id, { input: value });
-            const setOutput = (value) => updateWorkspace(ws.id, { output: value });
-            const formatBytes = (bytes) => {
-                if (!bytes) return '0 B';
-                const units = ['B', 'KB', 'MB', 'GB'];
-                const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-                return `${(bytes / (1024 ** index)).toFixed(index ? 2 : 0)} ${units[index]}`;
-            };
-            const detectMime = (base64) => {
-                if (base64.startsWith('iVBORw0KGgo')) return { mime: 'image/png', ext: 'png' };
-                if (base64.startsWith('/9j/')) return { mime: 'image/jpeg', ext: 'jpg' };
-                if (base64.startsWith('R0lGOD')) return { mime: 'image/gif', ext: 'gif' };
-                if (base64.startsWith('UklGR')) return { mime: 'image/webp', ext: 'webp' };
-                if (base64.startsWith('PHN2Zy') || base64.startsWith('PD94bW')) return { mime: 'image/svg+xml', ext: 'svg' };
-                if (base64.startsWith('Qk')) return { mime: 'image/bmp', ext: 'bmp' };
-                if (base64.startsWith('AAABAA')) return { mime: 'image/x-icon', ext: 'ico' };
-                return { mime: 'image/png', ext: 'png' };
-            };
-            const normalizeDataUrl = (value) => {
-                const raw = value.trim().replace(/^['"]|['"]$/g, '');
-                if (!raw) return null;
-                if (/^data:image\//i.test(raw)) {
-                    const comma = raw.indexOf(',');
-                    if (comma < 0) throw new Error('Invalid data URL.');
-                    const header = raw.slice(0, comma);
-                    const body = raw.slice(comma + 1).replace(/\s/g, '');
-                    const detectedMime = header.match(/^data:(image\/[a-z0-9+.-]+);/i)?.[1] || 'image/png';
-                    return { dataUrl: `${header},${body}`, base64: body, mime: detectedMime, ext: detectedMime.split('/')[1].replace('+xml', '').replace('jpeg', 'jpg') };
-                }
-                const base64 = raw.replace(/\s/g, '');
-                if (!/^[A-Za-z0-9+/]+={0,2}$/.test(base64) || base64.length < 16) throw new Error('Invalid Base64 image data.');
-                const detected = detectMime(base64);
-                return { dataUrl: `data:${detected.mime};base64,${base64}`, base64, ...detected };
-            };
-            const clearDecode = () => {
-                setInput('');
-                setOutput('');
-                setPreviewUrl('');
-                setError('');
-                setDimensions('');
-                setMimeType('');
-                setByteSize(0);
-            };
-            const decodeValue = (value) => {
-                try {
-                    const parsed = normalizeDataUrl(value);
-                    if (!parsed) {
-                        setPreviewUrl('');
-                        setError('');
-                        setOutput('');
-                        return;
-                    }
-                    const padding = (parsed.base64.match(/=+$/) || [''])[0].length;
-                    setPreviewUrl(parsed.dataUrl);
-                    setOutput(parsed.dataUrl);
-                    setMimeType(parsed.mime);
-                    setExtension(parsed.ext);
-                    setByteSize(Math.max(0, (parsed.base64.length * 3) / 4 - padding));
-                    setError('');
-                } catch (decodeError) {
-                    setPreviewUrl('');
-                    setError(decodeError.message || 'Invalid image data.');
-                }
-            };
-
-            useEffect(() => {
-                if (!isEncode) decodeValue(input);
-                else if (!encodedFullUri) { setPreviewUrl(''); setError(''); }
-            }, [input, isEncode, encodedFullUri]);
-
-            useEffect(() => {
-                if (isEncode && encodedFullUri) setOutput(outputMode === 'raw' ? encodedRawBase64 : encodedFullUri);
-            }, [encodedFullUri, encodedRawBase64, outputMode, isEncode]);
-
-            const processImageFile = (file) => {
-                if (!file || !file.type.startsWith('image/')) {
-                    setToast('Please choose a valid image file.');
-                    return;
-                }
-                setFileName(file.name.replace(/\.[^.]+$/, '') || 'encoded_image');
-                const reader = new FileReader();
-                reader.onload = () => {
-                    const dataUrl = String(reader.result || '');
-                    const comma = dataUrl.indexOf(',');
-                    const rawBase64 = comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl;
-                    setEncodedFullUri(dataUrl);
-                    setEncodedRawBase64(rawBase64);
-                    setPreviewUrl(dataUrl);
-                    setMimeType(file.type);
-                    setExtension(file.type.split('/')[1]?.replace('jpeg', 'jpg') || 'png');
-                    setByteSize(file.size);
-                    setInput(file.name);
-                    setToast('Image encoded successfully.');
-                };
-                reader.onerror = () => setToast('Unable to read the selected image.');
-                reader.readAsDataURL(file);
-            };
-
-            const downloadImage = () => {
-                const parsed = normalizeDataUrl(output || previewUrl);
-                if (!parsed) return setToast('Nothing to download yet.');
-                const link = document.createElement('a');
-                link.href = parsed.dataUrl;
-                link.download = `decoded_image.${parsed.ext}`;
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-            };
-            const copyText = async (value, message) => {
-                if (!value) return;
-                try {
-                    await navigator.clipboard.writeText(value);
-                } catch {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = value;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    textarea.remove();
-                }
-                setToast(message);
-            };
-            const saveText = () => {
-                if (!output) return setToast('Encode an image first.');
-                const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `${fileName}_base64.txt`;
-                link.click();
-                URL.revokeObjectURL(url);
-            };
-
-            useEffect(() => {
-                const onPaste = (event) => {
-                    if (!isEncode) return;
-                    const imageItem = Array.from(event.clipboardData?.items || []).find(item => item.type.startsWith('image/'));
-                    if (imageItem) processImageFile(imageItem.getAsFile());
-                };
-                window.addEventListener('paste', onPaste);
-                return () => window.removeEventListener('paste', onPaste);
-            }, [isEncode]);
-
-            const card = isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200';
-            const muted = isDark ? 'text-zinc-400' : 'text-slate-500';
-            const field = isDark ? 'bg-zinc-950 border-zinc-800 text-zinc-300 placeholder:text-zinc-700' : 'bg-slate-50 border-slate-200 text-slate-700 placeholder:text-slate-400';
-
-            return (
-                <div className="flex flex-col h-full gap-2.5 animate-fade-in w-full">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 flex-1 min-h-0">
-                    <div className={`app-panel flex flex-col min-h-[240px] lg:min-h-0 overflow-hidden ${card}`}>
-                        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                            <div>
-                                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider"><span className="w-2 h-2 rounded-full bg-emerald-500"></span>{isEncode ? 'Image Input' : 'Input Payload'}</h3>
-                                <p className={`text-xs mt-1 ${muted}`}>{isEncode ? 'PNG, JPG, WEBP, GIF, SVG supported. Clipboard image paste bhi karein.' : 'Raw Base64 ya complete data URI dono supported hain.'}</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                {!isEncode && <label className={`cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}><span>.txt Upload</span><input ref={decodeFileRef} type="file" accept=".txt,.b64,.base64,text/plain" className="hidden" onChange={(event) => { const file = event.target.files?.[0]; if (file) { const reader = new FileReader(); reader.onload = () => { setInput(String(reader.result || '')); setToast(`File "${file.name}" loaded.`); }; reader.readAsText(file); } event.target.value = ''; }} /></label>}
-                                <button onClick={isEncode ? () => { setEncodedFullUri(''); setEncodedRawBase64(''); setPreviewUrl(''); setOutput(''); setInput(''); } : clearDecode} className="text-xs font-medium px-3 py-1.5 rounded-lg bg-rose-500/10 text-rose-500 hover:bg-rose-500/20">Clear</button>
-                            </div>
-                        </div>
-                        {isEncode ? (
-                            <div onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); processImageFile(event.dataTransfer.files?.[0]); }} onClick={() => fileInputRef.current?.click()} className={`relative flex-1 min-h-[280px] border-t ${isDark ? 'border-zinc-800 hover:border-indigo-500 bg-zinc-950/50' : 'border-slate-200 hover:border-indigo-500 bg-slate-50/50'} transition flex flex-col items-center justify-center p-6 text-center cursor-pointer overflow-hidden`}>
-                                <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={(event) => { processImageFile(event.target.files?.[0]); event.target.value = ''; }} />
-                                {previewUrl ? <img src={previewUrl} alt="Uploaded preview" className="max-w-full max-h-[300px] object-contain rounded-lg shadow-md" /> : <><div className="w-14 h-14 rounded-2xl bg-indigo-500/10 text-indigo-400 mx-auto mb-3 flex items-center justify-center text-2xl">↥</div><p className="text-sm font-semibold">Click karein ya Image drag karein</p><p className={`text-xs mt-1 ${muted}`}>Clipboard se image paste bhi supported hai.</p></>}
-                            </div>
-                        ) : (
-                            <textarea value={input} onChange={(event) => setInput(event.target.value)} rows="12" placeholder="Paste or drag & drop Base64 image data here..." className={`w-full flex-1 min-h-[280px] p-3.5 border-t focus:ring-2 focus:ring-indigo-500 outline-none font-mono text-xs leading-relaxed resize-none ${field}`} />
-                        )}
-                        {!isEncode && <div className="mt-4 flex flex-col sm:flex-row gap-3"><button onClick={() => decodeValue(input)} className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-5 rounded-xl transition">Decode & Preview Image</button><button onClick={async () => { try { const text = await navigator.clipboard.readText(); setInput(text); } catch { setToast('Clipboard access blocked. Use Ctrl+V.'); } }} className={`sm:w-auto py-3 px-4 rounded-xl font-medium ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}>Paste</button></div>}
-                    </div>
-
-                    <div className={`app-panel flex flex-col min-h-[240px] lg:min-h-0 overflow-hidden ${card}`}>
-                        <div className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-2 ${isDark ? 'border-zinc-800 bg-zinc-800/40' : 'border-zinc-200 bg-zinc-100/50'}`}><span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider"><span className="w-2 h-2 rounded-full bg-indigo-500"></span>{isEncode ? 'Processed Output' : 'Decoded Image Preview'}</span>{mimeType && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-500">{extension.toUpperCase()}</span>}</div>
-                        <div className={`relative flex-1 min-h-[280px] rounded-xl border-2 border-dashed ${isDark ? 'border-zinc-800' : 'border-slate-200'} flex items-center justify-center overflow-hidden p-4`} style={{ backgroundImage: 'linear-gradient(45deg, rgba(148,163,184,.12) 25%, transparent 25%), linear-gradient(-45deg, rgba(148,163,184,.12) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(148,163,184,.12) 75%), linear-gradient(-45deg, transparent 75%, rgba(148,163,184,.12) 75%)', backgroundSize: '20px 20px', backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0' }}>
-                            {previewUrl && !isEncode && !error ? <img src={previewUrl} alt="Decoded preview" onLoad={(event) => setDimensions(`${event.currentTarget.naturalWidth} × ${event.currentTarget.naturalHeight} px`)} onError={() => setError('Invalid or unsupported image data.')} className="max-w-full max-h-[340px] object-contain rounded-lg shadow-md" /> : previewUrl && isEncode ? <img src={previewUrl} alt="Encoded preview" className="max-w-full max-h-[340px] object-contain rounded-lg shadow-md" /> : <div className="text-center max-w-xs"><div className="text-3xl mb-3">▧</div><p className="text-sm font-medium">{error || 'Koi image load nahi hui hai'}</p><p className={`text-xs mt-1 ${muted}`}>{error ? 'Base64 string check karein.' : 'Image yahan preview hogi.'}</p></div>}
-                        </div>
-                        {(dimensions || mimeType || byteSize) && <div className={`mt-4 grid grid-cols-3 gap-2 p-3 rounded-xl ${isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-50 border-slate-200'} border text-center`}><div><p className="text-[11px] uppercase tracking-wider text-slate-400">Dimensions</p><p className="text-xs sm:text-sm font-semibold mt-0.5">{dimensions || '-'}</p></div><div className="border-x border-slate-200 dark:border-zinc-800"><p className="text-[11px] uppercase tracking-wider text-slate-400">Format</p><p className="text-xs sm:text-sm font-semibold mt-0.5">{mimeType || '-'}</p></div><div><p className="text-[11px] uppercase tracking-wider text-slate-400">Est. Size</p><p className="text-xs sm:text-sm font-semibold mt-0.5">{formatBytes(byteSize)}</p></div></div>}
-                        {isEncode && encodedFullUri && <><div className="flex items-center justify-between mt-4 mb-2"><span className="font-semibold text-sm">Base64 Output</span><div className={`flex items-center p-0.5 rounded-lg border ${isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-slate-100 border-slate-200'}`}><button onClick={() => setOutputMode('raw')} className={`px-2.5 py-1 rounded-md text-xs font-semibold ${outputMode === 'raw' ? 'bg-indigo-500 text-white' : muted}`}>Raw Base64</button><button onClick={() => setOutputMode('uri')} className={`px-2.5 py-1 rounded-md text-xs font-semibold ${outputMode === 'uri' ? 'bg-indigo-500 text-white' : muted}`}>Data URI</button></div></div><textarea value={output} readOnly rows="5" className={`w-full p-3 rounded-xl border font-mono text-xs resize-none ${field}`} /></>}
-                        <div className="mt-4 flex flex-col sm:flex-row gap-3"><button onClick={() => isEncode ? copyText(output, 'Base64 copied to clipboard.') : downloadImage()} disabled={!output && !previewUrl} className="flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-semibold py-3 px-5 rounded-xl transition">{isEncode ? 'Copy Base64' : 'Download Image'}</button><button onClick={() => isEncode ? saveText() : copyText(output || previewUrl, 'Data URI copied to clipboard.')} disabled={!output && !previewUrl} className={`sm:w-auto py-3 px-4 rounded-xl font-medium disabled:opacity-40 ${isDark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-slate-100 hover:bg-slate-200'}`}>{isEncode ? 'Save .txt' : 'Copy Data URI'}</button></div>
-                    </div>
-                    </div>
-                </div>
-            );
-        });
-
         const StandardDecoderTab = memo(({ isDark, setToast, AlgorithmsLib, ws, updateWorkspace }) => {
             const { input, output, mode, category, algo, caesarShift, vigenereKey, strUtilMode, expectedHash = '', secretKey = '' } = ws;
             const [errorMsg, setErrorMsg] = useState(null);
             const [showQR, setShowQR] = useState(false);
             const [wordWrap, setWordWrap] = useState(true);
-            const [expandedPane, setExpandedPane] = useState(null); // null | 'input' | 'output'
-            const [mobileView, setMobileView] = useState('both'); // 'both' | 'input' | 'output'
+            const [expandedPane, setExpandedPane] = useState(null); 
+            const [mobileView, setMobileView] = useState('both');
             const qrCanvasRef = useRef(null);
 
             const setInput = (val) => updateWorkspace(ws.id, { input: val });
@@ -1635,7 +1434,7 @@
                         window.QRCode.toCanvas(
                             qrCanvasRef.current,
                             output,
-                            { width: 180, margin: 1, color: { dark: '#000000', light: '#ffffff' } },
+                            { width: 160, margin: 1, color: { dark: '#000000', light: '#ffffff' } },
                             (err) => {
                                 if (err) {
                                     setToast("Payload too large for QR code.");
@@ -1752,9 +1551,9 @@
                     } catch (e) {}
                 }
                 if (formattedAny) {
-                    setToast(`JSON ${type === 'beautify' ? 'Beautified ✨' : 'Minified 🗜️'}`);
+                    setToast(`JSON ${type === 'beautify' ? 'Formatted' : 'Minified'}`);
                 } else {
-                    setToast('No valid JSON found to format!');
+                    setToast('No valid JSON found.');
                 }
             };
 
@@ -1781,7 +1580,7 @@
             const chainOutputToInput = () => {
                 if (!output || errorMsg) return;
                 updateWorkspace(ws.id, { input: output });
-                setToast('Output chained to Input for next stage! ⛓️');
+                setToast('Output chained to Input');
             };
 
             const handleDroppedFile = (file) => {
@@ -1789,7 +1588,7 @@
                 const reader = new FileReader();
                 reader.onload = (ev) => {
                     setInput(ev.target.result);
-                    setToast(`Loaded file: ${file.name}`);
+                    setToast(`Loaded: ${file.name}`);
                 };
                 reader.readAsText(file);
             };
@@ -1806,25 +1605,24 @@
             const getEntropyBadge = (e) => {
                 const val = parseFloat(e);
                 if (val === 0) return null;
-                if (val < 3.5) return <span className="text-emerald-500">Low ({e})</span>;
-                if (val < 5.2) return <span className="text-amber-500">Med ({e})</span>;
-                return <span className="text-rose-500 font-bold">High ({e})</span>;
+                if (val < 3.5) return <span className="text-slate-500">Low</span>;
+                if (val < 5.2) return <span className="text-slate-400">Med</span>;
+                return <span className="text-amber-500">High</span>;
             };
 
             const PaneHeader = ({ title, isOutput, copyVal, paneKey }) => (
-                <div className={`px-3 sm:px-4 py-2 border-b flex items-center justify-between gap-2 shrink-0 ${isDark ? 'border-zinc-800 bg-zinc-800/40' : 'border-zinc-200 bg-zinc-100/50'}`}>
+                <div className={`px-3 py-1.5 border-b flex items-center justify-between gap-2 shrink-0 ${isDark ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-slate-50'}`}>
                     <div className="flex items-center gap-2 min-w-0">
-                        <div className={`w-2 h-2 rounded-full shrink-0 ${isOutput ? (errorMsg ? 'bg-red-500' : 'bg-indigo-500') : 'bg-emerald-500'}`}></div>
-                        <span className="text-xs font-bold uppercase tracking-wider shrink-0">{title}</span>
-                        {isOutput && errorMsg && <span className="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-red-500/20 text-red-500">ERROR</span>}
+                        <span className={`text-[11px] font-semibold tracking-wider shrink-0 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{title}</span>
+                        {isOutput && errorMsg && <span className="ml-1 px-1 py-0.5 rounded-sm text-[9px] bg-red-500/10 text-red-500 border border-red-500/20">ERROR</span>}
                         {!isOutput && detectedHint && (
                             <button
                                 onClick={() => {
                                     updateWorkspace(ws.id, { category: detectedHint.category, algo: detectedHint.algo, mode: detectedHint.mode });
-                                    setToast(`Switched to ${detectedHint.label}! ✨`);
+                                    setToast(`Switched to ${detectedHint.label}`);
                                 }}
-                                className="ml-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500 hover:text-white transition-all flex items-center gap-1 truncate animate-fade-in"
-                                title="Click to automatically switch to the detected tool"
+                                className="ml-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all flex items-center gap-1 truncate"
+                                title="Switch to detected format"
                             >
                                 <Icons.Wand size={10} /> <span className="truncate">{detectedHint.label}</span>
                             </button>
@@ -1838,12 +1636,11 @@
                                         input: SAMPLE_PAYLOADS[algo],
                                         mode: ['hashes'].includes(category) || ['url_all', 'aes_gcm'].includes(algo) ? 'encode' : 'decode'
                                     });
-                                    setToast('Sample payload loaded! ⚡');
+                                    setToast('Sample payload loaded');
                                 }}
-                                className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-all flex items-center gap-1 ${
-                                    isDark ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20' : 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
+                                className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-all flex items-center gap-1 ${
+                                    isDark ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                 }`}
-                                title="Load a realistic sample payload for this tool"
                             >
                                 <Icons.Zap size={10} /> Sample
                             </button>
@@ -1851,43 +1648,43 @@
                         {isOutput && ['uuid', 'passgen'].includes(algo) && (
                             <button
                                 onClick={() => setOutput(algo === 'uuid' ? AlgorithmsLib.uuid() : AlgorithmsLib.passgen())}
-                                className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-all ${
-                                    isDark ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20' : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-all ${
+                                    isDark ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                 }`}
                             >
-                                Regenerate ↻
+                                Regenerate
                             </button>
                         )}
                         {isOutput && !errorMsg && output && (
                             <>
                                 <button
                                     onClick={chainOutputToInput}
-                                    className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-all hidden sm:flex items-center gap-1 ${
-                                        isDark ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/20' : 'bg-indigo-50 border-indigo-200 text-indigo-700'
+                                    className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-all hidden sm:flex items-center gap-1 ${
+                                        isDark ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                                     }`}
-                                    title="Use this Output as the next Input (Chain operation)"
+                                    title="Chain output to input"
                                 >
                                     <Icons.CornerUpLeft size={10} /> Chain
                                 </button>
-                                <button onClick={() => setShowQR(!showQR)} className={`p-1 rounded transition-colors ${showQR ? 'bg-zinc-700 text-white' : 'hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400'}`} title="Client-Side QR Code"><Icons.QrCode size={14}/></button>
-                                <button onClick={downloadFile} className="p-1 rounded transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400" title="Download Output"><Icons.Download size={14}/></button>
+                                <button onClick={() => setShowQR(!showQR)} className="p-1 rounded transition-colors hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400" title="QR Code"><Icons.QrCode size={13}/></button>
+                                <button onClick={downloadFile} className="p-1 rounded transition-colors hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400" title="Download"><Icons.Download size={13}/></button>
                             </>
                         )}
                         <button
                             onClick={() => setWordWrap(!wordWrap)}
-                            className={`p-1 rounded transition-colors ${!wordWrap ? 'text-emerald-500' : 'text-zinc-500 dark:text-zinc-400'} hover:bg-zinc-200 dark:hover:bg-zinc-700`}
-                            title={wordWrap ? "Word Wrap: ON (Click to disable)" : "Word Wrap: OFF (Click to enable)"}
+                            className={`p-1 rounded transition-colors ${!wordWrap ? 'text-blue-500' : 'text-slate-500 dark:text-slate-400'} hover:bg-slate-200 dark:hover:bg-slate-700`}
+                            title="Toggle Word Wrap"
                         >
-                            <Icons.WrapText size={14} />
+                            <Icons.WrapText size={13} />
                         </button>
                         <button
                             onClick={() => setExpandedPane(expandedPane === paneKey ? null : paneKey)}
-                            className="p-1 rounded transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400 hidden lg:inline-flex"
+                            className="p-1 rounded transition-colors hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hidden lg:inline-flex"
                             title={expandedPane === paneKey ? "Restore Split View" : "Maximize Pane"}
                         >
-                            {expandedPane === paneKey ? <Icons.Minimize2 size={14} /> : <Icons.Maximize2 size={14} />}
+                            {expandedPane === paneKey ? <Icons.Minimize2 size={13} /> : <Icons.Maximize2 size={13} />}
                         </button>
-                        <button onClick={() => copyToClipboard(copyVal, setToast)} disabled={!copyVal} className="p-1 rounded transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400 disabled:opacity-30" title="Copy to Clipboard"><Icons.Copy size={14}/></button>
+                        <button onClick={() => copyToClipboard(copyVal, setToast)} disabled={!copyVal} className="p-1 rounded transition-colors hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 disabled:opacity-30"><Icons.Copy size={13}/></button>
                     </div>
                 </div>
             );
@@ -1896,123 +1693,107 @@
             const showOutputPane = expandedPane !== 'input' && (mobileView === 'both' || mobileView === 'output');
 
             return (
-                <div className="flex flex-col h-full gap-2.5 animate-fade-in w-full">
-                    {/* MOBILE QUICK VIEW SWITCHER (For ergonomic small screen usage) */}
+                <div className="flex flex-col h-full gap-3 animate-fade-in w-full">
+                    {/* MOBILE QUICK VIEW SWITCHER */}
                     <div className="flex lg:hidden items-center justify-between gap-2 shrink-0">
-                        <div className={`flex p-0.5 rounded-lg border text-[11px] font-bold ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}>
+                        <div className={`flex p-0.5 rounded-md border text-[11px] font-medium ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
                             {[
                                 { id: 'both', label: 'Split View' },
-                                { id: 'input', label: `Input (${inStats.chars})` },
-                                { id: 'output', label: `Output (${outStats.chars})` }
+                                { id: 'input', label: `Input` },
+                                { id: 'output', label: `Output` }
                             ].map(v => (
                                 <button
                                     key={v.id}
                                     onClick={() => setMobileView(v.id)}
-                                    className={`px-2.5 py-1 rounded-md transition-all ${mobileView === v.id ? (isDark ? 'bg-zinc-800 text-emerald-400' : 'bg-zinc-100 text-emerald-600') : 'text-zinc-500'}`}
+                                    className={`px-2 py-1 rounded transition-all ${mobileView === v.id ? (isDark ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-800') : 'text-slate-500'}`}
                                 >
                                     {v.label}
                                 </button>
                             ))}
                         </div>
-                        {output && !errorMsg && (
-                            <button
-                                onClick={chainOutputToInput}
-                                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border flex items-center gap-1 ${
-                                    isDark ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400' : 'bg-indigo-50 border-indigo-200 text-indigo-700'
-                                }`}
-                            >
-                                <Icons.CornerUpLeft size={12} /> Chain Output
-                            </button>
-                        )}
                     </div>
 
-                    <div className="flex flex-col lg:flex-row flex-1 min-h-0 gap-3 lg:gap-4">
+                    <div className="flex flex-col lg:flex-row flex-1 min-h-0 gap-3">
                         {/* INPUT PANE */}
                         {showInputPane && (
                             <div className="app-panel flex flex-col flex-1 min-h-[210px] sm:min-h-[240px] lg:min-h-0 overflow-hidden">
-                                <PaneHeader title="Input Payload" isOutput={false} copyVal={input} paneKey="input" />
+                                <PaneHeader title="INPUT" isOutput={false} copyVal={input} paneKey="input" />
                                 <HighlightedInput
                                     value={input}
                                     onChange={e => setInput(e.target.value)}
                                     isDark={isDark}
                                     wordWrap={wordWrap}
                                     onFileDrop={handleDroppedFile}
-                                    placeholder={algo === 'regex_tester' ? "/pattern/gi\n---\ntest string" : "Paste or drag & drop any file/payload here, or click '⚡ Sample'..."}
+                                    placeholder={algo === 'regex_tester' ? "/pattern/gi\n---\ntest string" : "Paste or drop data here..."}
                                 />
-                                <div className={`px-3 sm:px-4 py-1.5 text-[10px] font-mono border-t flex flex-wrap justify-between items-center gap-2 shrink-0 ${isDark ? 'border-zinc-800 text-zinc-500' : 'border-zinc-200 text-zinc-400'}`}>
-                                    <span>Ln: {inStats.lines} | Wd: {inStats.words} | Ch: {inStats.chars}</span>
-                                    <span className="flex items-center gap-2.5">
-                                        {inStats.chars > 0 && <span>Entropy: {getEntropyBadge(inStats.entropy)}</span>}
-                                        <span>{inStats.bytes} B</span>
-                                    </span>
+                                <div className={`px-3 py-1.5 text-[10px] font-mono border-t flex flex-wrap justify-between items-center gap-2 shrink-0 ${isDark ? 'border-slate-800 text-slate-500' : 'border-slate-200 text-slate-400'}`}>
+                                    <span>Ln: {inStats.lines}  Ch: {inStats.chars}</span>
+                                    <span>{inStats.bytes} B</span>
                                 </div>
                             </div>
                         )}
 
-                        {/* ACTION TOOLBAR */}
+                        {/* ACTION TOOLBAR (Vertical on desktop) */}
                         {expandedPane === null && mobileView === 'both' && (
                             <div className="flex flex-row lg:flex-col items-center justify-center gap-2 shrink-0 py-0.5 lg:py-1">
-                                <button onClick={() => applyJsonFormat('beautify')} className={`p-2 rounded-lg transition-all ${isDark ? 'bg-zinc-800 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-700' : 'bg-white text-zinc-500 hover:text-emerald-600 shadow-sm border border-zinc-200'}`} title="Format / Beautify JSON"><Icons.AlignLeft size={16} /></button>
+                                <button onClick={() => applyJsonFormat('beautify')} className={`p-1.5 rounded-md transition-all ${isDark ? 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700' : 'bg-white text-slate-500 hover:text-slate-800 shadow-sm border border-slate-200'}`} title="Format JSON"><Icons.AlignLeft size={14} /></button>
                                 
-                                <button onClick={swap} disabled={isLockMode} className={`p-2.5 sm:p-3 rounded-full transition-all shadow-md group ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700 hover:border-emerald-500' : 'bg-zinc-800 text-white hover:bg-zinc-900 border border-zinc-700'}`} title="Swap Input & Output">
-                                    <Icons.ArrowRightLeft size={15} className="transition-transform group-hover:scale-110" />
+                                <button onClick={swap} disabled={isLockMode} className={`p-2 rounded-full transition-all group ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-slate-800 text-slate-300 hover:text-white border border-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300'}`} title="Swap">
+                                    <Icons.ArrowRightLeft size={14} className="transition-transform group-hover:scale-110" />
                                 </button>
                                 
-                                <button onClick={() => applyJsonFormat('minify')} className={`p-2 rounded-lg transition-all ${isDark ? 'bg-zinc-800 text-zinc-400 hover:text-indigo-400 hover:bg-zinc-700' : 'bg-white text-zinc-500 hover:text-indigo-600 shadow-sm border border-zinc-200'}`} title="Minify JSON"><Icons.FileCode size={16} /></button>
+                                <button onClick={() => applyJsonFormat('minify')} className={`p-1.5 rounded-md transition-all ${isDark ? 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700' : 'bg-white text-slate-500 hover:text-slate-800 shadow-sm border border-slate-200'}`} title="Minify JSON"><Icons.FileCode size={14} /></button>
                             </div>
                         )}
 
                         {/* OUTPUT PANE */}
                         {showOutputPane && (
                             <div className={`app-panel flex flex-col flex-1 min-h-[210px] sm:min-h-[240px] lg:min-h-0 overflow-hidden ${errorMsg ? (isDark ? 'border-red-900/50' : 'border-red-300') : ''}`}>
-                                <PaneHeader title="Processed Output" isOutput={true} copyVal={output} paneKey="output" />
+                                <PaneHeader title="OUTPUT" isOutput={true} copyVal={output} paneKey="output" />
                                 {category === 'hashes' && output && (
-                                    <div className={`px-3 sm:px-4 py-1.5 border-b flex items-center gap-2 text-xs ${isDark ? 'bg-zinc-900/90 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
-                                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60 shrink-0">Verify:</span>
+                                    <div className={`px-3 py-1.5 border-b flex items-center gap-2 text-xs ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+                                        <span className="text-[10px] font-semibold opacity-60 shrink-0">Verify Hash:</span>
                                         <input
                                             type="text"
                                             value={expectedHash}
                                             onChange={e => updateWorkspace(ws.id, { expectedHash: e.target.value })}
-                                            placeholder="Paste expected hash to compare..."
+                                            placeholder="Paste expected hash..."
                                             className="bg-transparent font-mono text-xs outline-none flex-grow min-w-0"
                                         />
                                         {expectedHash.trim() && (
                                             expectedHash.trim().toLowerCase() === output.trim().toLowerCase()
-                                                ? <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0">✓ MATCH</span>
-                                                : <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 shrink-0">✗ MISMATCH</span>
+                                                ? <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 shrink-0">MATCH</span>
+                                                : <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-500/10 text-red-500 border border-red-500/20 shrink-0">MISMATCH</span>
                                         )}
                                     </div>
                                 )}
                                 <div className="editor-container relative">
                                     {isJsonOutput ? (
                                         <div className="absolute inset-0 overflow-auto custom-scrollbar">
-                                            <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className={`m-0 p-3.5 sm:p-4 font-mono text-[13px] leading-[1.6] ${wordWrap ? 'whitespace-pre-wrap break-all' : 'whitespace-pre'} select-text ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}></pre>
+                                            <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(formattedJsonOutput) }} className={`m-0 p-3.5 sm:p-4 font-mono text-[13px] leading-[1.5] ${wordWrap ? 'whitespace-pre-wrap break-all' : 'whitespace-pre'} select-text ${isDark ? 'text-slate-300' : 'text-slate-700'}`}></pre>
                                         </div>
                                     ) : (
                                         <textarea
                                             value={errorMsg || output}
                                             readOnly
                                             placeholder="Processed result will appear here..."
-                                            className={`absolute inset-0 w-full h-full p-3.5 sm:p-4 resize-none outline-none font-mono text-[13px] leading-[1.6] custom-scrollbar bg-transparent ${wordWrap ? 'whitespace-pre-wrap break-all' : 'whitespace-pre overflow-x-auto'} ${errorMsg ? 'text-red-500' : (isDark ? 'text-zinc-300' : 'text-zinc-800')}`}
+                                            className={`absolute inset-0 w-full h-full p-3.5 sm:p-4 resize-none outline-none font-mono text-[13px] leading-[1.5] custom-scrollbar bg-transparent ${wordWrap ? 'whitespace-pre-wrap break-all' : 'whitespace-pre overflow-x-auto'} ${errorMsg ? 'text-red-500' : (isDark ? 'text-slate-300' : 'text-slate-800')}`}
                                             spellCheck="false"
                                         />
                                     )}
                                     
                                     {showQR && (
-                                        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
-                                            <div className="bg-white p-3 rounded-xl shadow-2xl relative">
-                                                <button onClick={() => setShowQR(false)} className="absolute -top-2 -right-2 p-1 bg-zinc-800 text-white rounded-full shadow hover:bg-red-500"><Icons.X size={12}/></button>
+                                        <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+                                            <div className="bg-white p-2 rounded-lg shadow-xl relative">
+                                                <button onClick={() => setShowQR(false)} className="absolute -top-2 -right-2 p-1 bg-slate-800 text-white rounded-full shadow hover:bg-red-500"><Icons.X size={10}/></button>
                                                 <canvas ref={qrCanvasRef}></canvas>
                                             </div>
                                         </div>
                                     )}
                                 </div>
-                                <div className={`px-3 sm:px-4 py-1.5 text-[10px] font-mono border-t flex flex-wrap justify-between items-center gap-2 shrink-0 ${isDark ? 'border-zinc-800 text-zinc-500' : 'border-zinc-200 text-zinc-400'}`}>
-                                    <span>Ln: {outStats.lines} | Wd: {outStats.words} | Ch: {outStats.chars}</span>
-                                    <span className="flex items-center gap-2.5">
-                                        {outStats.chars > 0 && <span>Entropy: {getEntropyBadge(outStats.entropy)}</span>}
-                                        <span>{outStats.bytes} B</span>
-                                    </span>
+                                <div className={`px-3 py-1.5 text-[10px] font-mono border-t flex flex-wrap justify-between items-center gap-2 shrink-0 ${isDark ? 'border-slate-800 text-slate-500' : 'border-slate-200 text-slate-400'}`}>
+                                    <span>Ln: {outStats.lines}  Ch: {outStats.chars}</span>
+                                    <span>{outStats.bytes} B</span>
                                 </div>
                             </div>
                         )}
@@ -2038,21 +1819,20 @@
             return (
                 <div 
                     onClick={() => !isEditing && onSelect(ws.id)} onDoubleClick={() => setIsEditing(true)}
-                    className={`group flex items-center gap-2 px-3 py-1.5 min-w-[115px] max-w-[190px] cursor-pointer rounded-t-lg transition-all border-t border-x shrink-0 relative ${
+                    className={`group flex items-center gap-2 px-3 py-1.5 min-w-[110px] max-w-[160px] cursor-pointer transition-all border-r shrink-0 relative ${
                         isActive 
-                            ? (isDark ? 'bg-zinc-900 border-zinc-700 text-emerald-400 z-10' : 'bg-white border-zinc-300 text-emerald-600 z-10') 
-                            : (isDark ? 'bg-zinc-800/50 border-transparent text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300' : 'bg-zinc-100 border-transparent text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700')
+                            ? (isDark ? 'bg-slate-900 border-t border-t-blue-500 text-blue-400 z-10 border-r-slate-800' : 'bg-white border-t border-t-blue-600 text-blue-600 z-10 border-r-slate-200') 
+                            : (isDark ? 'bg-slate-800/40 border-t border-t-transparent text-slate-500 hover:bg-slate-800 hover:text-slate-300 border-r-slate-800/50' : 'bg-slate-100 border-t border-t-transparent text-slate-500 hover:bg-slate-200 hover:text-slate-700 border-r-slate-200')
                     }`}
-                    style={{ marginBottom: isActive ? '-1px' : '0', borderBottomColor: isActive ? (isDark ? '#18181b' : '#ffffff') : 'transparent' }}
                 >
-                    <Icons.FileCode size={12} className={`shrink-0 ${isActive ? '' : 'opacity-60'}`} />
+                    <Icons.FileCode size={12} className={`shrink-0 ${isActive ? '' : 'opacity-50'}`} />
                     {isEditing ? (
-                        <input ref={inputRef} type="text" value={editName} onChange={(e) => setEditName(e.target.value)} onBlur={handleRenameSubmit} onKeyDown={handleKeyDown} className="text-[11px] font-semibold w-full bg-transparent outline-none flex-grow text-emerald-500" />
+                        <input ref={inputRef} type="text" value={editName} onChange={(e) => setEditName(e.target.value)} onBlur={handleRenameSubmit} onKeyDown={handleKeyDown} className="text-[11px] font-medium w-full bg-transparent outline-none flex-grow text-blue-500" />
                     ) : (
-                        <span className="text-[11px] font-semibold truncate flex-grow select-none" title="Double-click to rename tab">{ws.name}</span>
+                        <span className="text-[11px] font-medium truncate flex-grow select-none" title="Double-click to rename">{ws.name}</span>
                     )}
                     {!isOnlyTab && !isEditing && (
-                        <button onClick={(e) => { e.stopPropagation(); onClose(ws.id); }} className="p-0.5 rounded opacity-60 sm:opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white transition-all"><Icons.X size={10} /></button>
+                        <button onClick={(e) => { e.stopPropagation(); onClose(ws.id); }} className="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all"><Icons.X size={10} /></button>
                     )}
                 </div>
             );
@@ -2065,7 +1845,7 @@
             toHex: s => Array.from(utf8Encoder.encode(s)).map(b => b.toString(16).padStart(2, '0')).join(' '),
             fromHex: h => { 
                 let clean = h.replace(/\s|0x|\\x|,|;|:/gi, '');
-                if (clean.length % 2 !== 0) throw new Error("Invalid Hex String (Odd length)");
+                if (clean.length % 2 !== 0) throw new Error("Invalid Hex (Odd length)");
                 if (!/^[0-9a-fA-F]*$/.test(clean)) throw new Error("Invalid Hex Characters");
                 let bytes = new Uint8Array(clean.length / 2);
                 for (let i = 0; i < clean.length; i += 2) bytes[i / 2] = parseInt(clean.substr(i, 2), 16);
@@ -2074,20 +1854,18 @@
             toBin: s => Array.from(utf8Encoder.encode(s)).map(b => b.toString(2).padStart(8, '0')).join(' '),
             fromBin: b => { 
                 let clean = b.replace(/[^01]/g, ''); 
-                if (clean.length === 0 || clean.length % 8 !== 0) throw new Error("Invalid Binary String (Must be a multiple of 8 bits)");
+                if (clean.length === 0 || clean.length % 8 !== 0) throw new Error("Invalid Binary (Must be a multiple of 8 bits)");
                 let bytes = new Uint8Array(clean.length / 8);
                 for (let i = 0; i < clean.length; i += 8) bytes[i / 8] = parseInt(clean.substr(i, 8), 2);
                 return utf8Decoder.decode(bytes);
             },
             toOctal: s => Array.from(utf8Encoder.encode(s)).map(b => '\\' + b.toString(8).padStart(3, '0')).join(''),
             fromOctal: s => {
-                const parts = s.includes('\\')
-                    ? s.split('\\').map(p => p.trim()).filter(Boolean)
-                    : s.trim().split(/\s+/).filter(Boolean);
+                const parts = s.includes('\\') ? s.split('\\').map(p => p.trim()).filter(Boolean) : s.trim().split(/\s+/).filter(Boolean);
                 let bytes = new Uint8Array(parts.length);
                 for (let i = 0; i < parts.length; i++) {
                     let p = parts[i];
-                    if (!/^[0-7]{1,3}$/.test(p)) throw new Error("Invalid Octal formatting (Use \\nnn or space-separated octal)");
+                    if (!/^[0-7]{1,3}$/.test(p)) throw new Error("Invalid Octal formatting");
                     bytes[i] = parseInt(p, 8);
                 }
                 return utf8Decoder.decode(bytes);
@@ -2159,7 +1937,7 @@
             aesDecrypt: async (bundle, passphrase) => {
                 const parts = bundle.trim().split(':');
                 if (parts.length !== 4 || parts[0] !== 'DX_AES1') {
-                    throw new Error("Invalid AES-GCM bundle format. Expected DX_AES1:salt:iv:ciphertext");
+                    throw new Error("Invalid AES-GCM bundle format.");
                 }
                 const fromB64 = (b64) => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
                 const salt = fromB64(parts[1]);
@@ -2177,7 +1955,7 @@
                     const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
                     return utf8Decoder.decode(decrypted);
                 } catch (e) {
-                    throw new Error("Decryption failed: Incorrect passphrase or tampered ciphertext.");
+                    throw new Error("Decryption failed.");
                 }
             },
             toMorse: s => s.toUpperCase().split('').map(c => ({'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----',' ':'/','.':'.-.-.-',',':'--..--','?':'..--..',"'":'.----.','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',':':'---...',';':'-.-.-.','=':'-...-','+':'.-.-.','-':'-....-','_':'..--.-','"':'.-..-.','$':'...-..-','@':'.--.-.'}[c] || c)).join(' '),
@@ -2204,7 +1982,7 @@
                     }; 
                     const header = JSON.parse(dec(p[0]));
                     const payload = JSON.parse(dec(p[1]));
-                    let sigStatus = p.length >= 3 && p[2] ? `${p[2]} (Enter HS256 secret in toolbar to verify)` : "None (Unsigned Token)";
+                    let sigStatus = p.length >= 3 && p[2] ? `${p[2]} (Enter secret to verify)` : "None (Unsigned Token)";
                     
                     if (secret && p.length >= 3 && p[2] && header.alg === 'HS256') {
                         const signingInput = `${p[0]}.${p[1]}`;
@@ -2212,8 +1990,8 @@
                         const sigBuf = await crypto.subtle.sign('HMAC', key, utf8Encoder.encode(signingInput));
                         const computedB64Url = btoa(String.fromCharCode(...new Uint8Array(sigBuf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                         sigStatus = computedB64Url === p[2]
-                            ? `✓ VALID HS256 SIGNATURE (Verified with secret '${secret}')`
-                            : `✗ INVALID SIGNATURE (Expected: ${computedB64Url})`;
+                            ? `✓ VALID HS256 SIGNATURE`
+                            : `✗ INVALID SIGNATURE`;
                     }
 
                     let notes = [];
@@ -2222,8 +2000,8 @@
                     if (payload.exp) notes.push(`Expires: ${new Date(payload.exp * 1000).toISOString()} (${payload.exp < now ? 'EXPIRED' : 'Valid'})`);
                     if (payload.nbf) notes.push(`Not Before: ${new Date(payload.nbf * 1000).toISOString()} (${payload.nbf > now ? 'NOT YET ACTIVE' : 'Active'})`);
 
-                    return JSON.stringify({ Header: header, Payload: payload, Signature_Verification: sigStatus, Security_Notes: notes.length ? notes : "None" }, null, 4); 
-                } catch (e) { throw new Error("Invalid or Corrupted JWT: " + e.message); } 
+                    return JSON.stringify({ Header: header, Payload: payload, Signature_Verification: sigStatus, Notes: notes.length ? notes : "None" }, null, 4); 
+                } catch (e) { throw new Error("Invalid JWT: " + e.message); } 
             },
             b64Encode: (str) => {
                 const bytes = utf8Encoder.encode(str);
@@ -2234,7 +2012,7 @@
             b64Decode: (b64) => {
                 let clean = b64.trim().replace(/\s+/g, '').replace(/-/g, '+').replace(/_/g, '/');
                 while (clean.length % 4 !== 0) clean += '=';
-                if (!/^[A-Za-z0-9+/]*={0,2}$/.test(clean)) throw new Error("Invalid Base64 characters detected");
+                if (!/^[A-Za-z0-9+/]*={0,2}$/.test(clean)) throw new Error("Invalid Base64 characters");
                 const binStr = atob(clean);
                 const bytes = new Uint8Array(binStr.length);
                 for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
@@ -2289,10 +2067,10 @@
                 const awsKeys = [...new Set(s.match(/\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g) || [])];
                 const bearerTokens = [...new Set(s.match(/Bearer\s+[A-Za-z0-9\-._~+/]+=*/gi) || [])];
                 return JSON.stringify({
-                    Emails_Found: emails,
-                    JWT_Tokens: jwts,
-                    AWS_Access_Keys: awsKeys,
-                    Bearer_Headers: bearerTokens
+                    Emails: emails,
+                    JWTs: jwts,
+                    AWS_Keys: awsKeys,
+                    Bearer_Tokens: bearerTokens
                 }, null, 4);
             },
             hexdump: (s) => { 
@@ -2308,7 +2086,7 @@
             },
             epochConvert: (s) => { 
                 s = s.trim(); 
-                if (!/^-?\d+(\.\d+)?$/.test(s)) throw new Error("Invalid Unix Timestamp format"); 
+                if (!/^-?\d+(\.\d+)?$/.test(s)) throw new Error("Invalid Timestamp format"); 
                 let num = parseFloat(s);
                 let ms = Math.abs(num) < 10000000000 ? num * 1000 : num;
                 let d = new Date(ms);
@@ -2358,8 +2136,8 @@
                 const pass24 = Array.from(rand.slice(0, 24)).map(n => chars[n % chars.length]).join('');
                 const apiKey32 = 'dx_live_' + Array.from(rand.slice(24, 56)).map(n => hexChars[n % 16]).join('');
                 return JSON.stringify({
-                    Strong_Password_24_Chars: pass24,
-                    API_Secret_Token: apiKey32,
+                    Password_24: pass24,
+                    API_Token: apiKey32,
                     UUID_v4: algosLib.uuid()
                 }, null, 4);
             },
@@ -2417,7 +2195,7 @@
                     return res;
                 };
                 let lines = s.trim().split(/\r?\n/).filter(l => l.trim().length > 0);
-                if (lines.length < 2) throw new Error("CSV must have a header row and at least one data row.");
+                if (lines.length < 2) throw new Error("CSV requires a header and data row.");
                 let headers = parseCSVLine(lines[0]);
                 let res = [];
                 for (let i = 1; i < lines.length; i++) {
@@ -2442,40 +2220,39 @@
             const handleSubmit = (e) => {
                 e.preventDefault();
                 if (!name.trim() || !message.trim()) {
-                    setToast('Please enter your name and message!');
+                    setToast('Name and message required.');
                     return;
                 }
 
-                const formattedText = `*DecoderX Pro Suite — Feedback / Contact* 🛡️\n\n*Name:* ${name.trim()}\n*Topic:* ${topic}\n*Message:*\n${message.trim()}`;
+                const formattedText = `*DecoderX Pro Suite — Contact* 🛡️\n\n*Name:* ${name.trim()}\n*Topic:* ${topic}\n*Message:*\n${message.trim()}`;
                 const whatsappUrl = `https://wa.me/917058789475?text=${encodeURIComponent(formattedText)}`;
                 
                 window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-                setToast('Opening WhatsApp to send your message! 💬');
+                setToast('Opening WhatsApp...');
                 setName('');
                 setMessage('');
                 onClose();
             };
 
             return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
                     <div 
-                        className={`w-full max-w-md rounded-2xl border shadow-2xl overflow-hidden animate-slide-up ${
-                            isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-white border-zinc-200 text-zinc-800'
+                        className={`w-full max-w-md rounded-xl border shadow-xl overflow-hidden animate-slide-up ${
+                            isDark ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-800'
                         }`}
                     >
-                        <div className={`px-5 py-4 border-b flex items-center justify-between ${isDark ? 'border-zinc-800 bg-zinc-950/50' : 'border-zinc-100 bg-zinc-50'}`}>
-                            <div className="flex items-center gap-2.5">
-                                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500">
+                        <div className={`px-5 py-4 border-b flex items-center justify-between ${isDark ? 'border-slate-800 bg-slate-900/50' : 'border-slate-100 bg-slate-50'}`}>
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-500">
                                     <Icons.MessageSquare size={16} />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-bold leading-tight">Suggestion & Contact</h3>
-                                    <p className={`text-[11px] ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Connect directly with Mr Shiva on WhatsApp</p>
+                                    <h3 className="text-sm font-semibold leading-tight">Contact / Suggestion</h3>
                                 </div>
                             </div>
                             <button 
                                 onClick={onClose} 
-                                className={`p-1.5 rounded-lg transition-colors ${isDark ? 'text-zinc-400 hover:text-white hover:bg-zinc-800' : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-200'}`}
+                                className={`p-1.5 rounded-md transition-colors ${isDark ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'}`}
                             >
                                 <Icons.X size={16} />
                             </button>
@@ -2483,40 +2260,40 @@
 
                         <form onSubmit={handleSubmit} className="p-5 space-y-4">
                             <div>
-                                <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                                    Your Name *
+                                <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                                    Name
                                 </label>
                                 <input 
                                     type="text" 
                                     required
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="e.g. Rahul Sharma"
-                                    className={`w-full px-3.5 py-2.5 rounded-xl text-sm border transition-all ${
+                                    placeholder="e.g. John Doe"
+                                    className={`w-full px-3 py-2 rounded-md text-sm border transition-all ${
                                         isDark 
-                                        ? 'bg-zinc-950 border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:border-emerald-500' 
-                                        : 'bg-zinc-50 border-zinc-200 text-zinc-800 placeholder-zinc-400 focus:border-emerald-500 focus:bg-white'
+                                        ? 'bg-slate-950 border-slate-800 text-slate-100 placeholder-slate-600 focus:border-blue-500' 
+                                        : 'bg-slate-50 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:bg-white'
                                     }`}
                                 />
                             </div>
 
                             <div>
-                                <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                                <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                                     Category
                                 </label>
                                 <div className="relative">
                                     <select 
                                         value={topic}
                                         onChange={(e) => setTopic(e.target.value)}
-                                        className={`w-full appearance-none px-3.5 py-2.5 pr-8 rounded-xl text-sm font-medium border cursor-pointer transition-all ${
+                                        className={`w-full appearance-none px-3 py-2 pr-8 rounded-md text-sm font-medium border cursor-pointer transition-all ${
                                             isDark 
-                                            ? 'bg-zinc-950 border-zinc-800 text-zinc-200 focus:border-emerald-500' 
-                                            : 'bg-zinc-50 border-zinc-200 text-zinc-700 focus:border-emerald-500 focus:bg-white'
+                                            ? 'bg-slate-950 border-slate-800 text-slate-200 focus:border-blue-500' 
+                                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:border-blue-500 focus:bg-white'
                                         }`}
                                     >
-                                        <option value="Suggestion / Feature Idea">💡 Suggestion / Feature Idea</option>
-                                        <option value="Bug Report">🐛 Report a Bug / Issue</option>
-                                        <option value="General Contact">🤝 General Contact / Feedback</option>
+                                        <option value="Suggestion / Feature Idea">Suggestion / Feature Idea</option>
+                                        <option value="Bug Report">Report a Bug / Issue</option>
+                                        <option value="General Contact">General Contact</option>
                                     </select>
                                     <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
                                         <Icons.ChevronDown size={14} />
@@ -2525,19 +2302,19 @@
                             </div>
 
                             <div>
-                                <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                                    Your Message / Suggestion *
+                                <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                                    Message
                                 </label>
                                 <textarea 
                                     rows="4"
                                     required
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
-                                    placeholder="Write your suggestion, feedback, or message here..."
-                                    className={`w-full p-3.5 rounded-xl text-sm border resize-none transition-all custom-scrollbar ${
+                                    placeholder="Write your message here..."
+                                    className={`w-full p-3 rounded-md text-sm border resize-none transition-all custom-scrollbar ${
                                         isDark 
-                                        ? 'bg-zinc-950 border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:border-emerald-500' 
-                                        : 'bg-zinc-50 border-zinc-200 text-zinc-800 placeholder-zinc-400 focus:border-emerald-500 focus:bg-white'
+                                        ? 'bg-slate-950 border-slate-800 text-slate-100 placeholder-slate-600 focus:border-blue-500' 
+                                        : 'bg-slate-50 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:bg-white'
                                     }`}
                                 ></textarea>
                             </div>
@@ -2546,17 +2323,17 @@
                                 <button 
                                     type="button" 
                                     onClick={onClose}
-                                    className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all ${
-                                        isDark ? 'border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200' : 'border-zinc-200 text-zinc-600 hover:bg-zinc-100'
+                                    className={`px-4 py-2 rounded-md text-xs font-semibold transition-all ${
+                                        isDark ? 'text-slate-400 hover:bg-slate-800 hover:text-slate-200' : 'text-slate-600 hover:bg-slate-100'
                                     }`}
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     type="submit"
-                                    className="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 transition-all active:scale-95 flex items-center gap-2"
+                                    className="px-4 py-2 rounded-md text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all active:scale-95 flex items-center gap-2"
                                 >
-                                    <Icons.Send size={14} /> Send via WhatsApp
+                                    <Icons.Send size={14} /> Send message
                                 </button>
                             </div>
                         </form>
@@ -2569,7 +2346,7 @@
 
         function App() {
             const [theme, setTheme] = useState(() => {
-                try { return localStorage.getItem('dx_theme') || 'dark'; } catch (e) { return 'dark'; }
+                try { return localStorage.getItem('dx_theme_v3') || 'dark'; } catch (e) { return 'dark'; }
             });
             const [activeTab, setActiveTab] = useState('decoderx');
             const [toast, setToast] = useState(null);
@@ -2583,14 +2360,11 @@
             const activeRecordsRef = useRef([]);
             const shieldClickTrackerRef = useRef({ count: 0, timer: null });
 
-            // Secret 3-click back-to-back handler on the Shield icon
             const handleShieldClick = () => {
                 const tracker = shieldClickTrackerRef.current;
                 tracker.count += 1;
 
-                if (tracker.timer) {
-                    clearTimeout(tracker.timer);
-                }
+                if (tracker.timer) clearTimeout(tracker.timer);
 
                 if (tracker.count >= 3) {
                     tracker.count = 0;
@@ -2606,7 +2380,7 @@
 
             const [workspaces, setWorkspaces] = useState(() => {
                 try {
-                    const saved = JSON.parse(localStorage.getItem('dx_workspaces_v2'));
+                    const saved = JSON.parse(localStorage.getItem('dx_workspaces_v3'));
                     if (Array.isArray(saved) && saved.length > 0) return saved;
                 } catch (e) {}
                 return [DEFAULT_WORKSPACE];
@@ -2621,11 +2395,11 @@
             const fileInputRef = useRef(null);
 
             useEffect(() => {
-                try { localStorage.setItem('dx_workspaces_v2', JSON.stringify(workspaces)); } catch (e) {}
+                try { localStorage.setItem('dx_workspaces_v3', JSON.stringify(workspaces)); } catch (e) {}
             }, [workspaces]);
 
             useEffect(() => {
-                try { localStorage.setItem('dx_theme', theme); } catch (e) {}
+                try { localStorage.setItem('dx_theme_v3', theme); } catch (e) {}
             }, [theme]);
 
             useEffect(() => {
@@ -2717,9 +2491,7 @@
                         if (!isMounted) return;
                         try {
                             globalWs = new WebSocket(`wss://ntfy.sh/${GLOBAL_TOPIC}/ws?since=60s`);
-                            globalWs.onopen = () => {
-                                publishGlobalSignal('join');
-                            };
+                            globalWs.onopen = () => { publishGlobalSignal('join'); };
                             globalWs.onmessage = (ev) => {
                                 try {
                                     const outer = JSON.parse(ev.data);
@@ -2757,9 +2529,7 @@
                                 } catch (err) {}
                             };
                             globalWs.onclose = () => {
-                                if (isMounted) {
-                                    wsReconnectTimer = setTimeout(connectGlobalWebSocket, 5000);
-                                }
+                                if (isMounted) wsReconnectTimer = setTimeout(connectGlobalWebSocket, 5000);
                             };
                         } catch (e) {}
                     };
@@ -2922,7 +2692,7 @@
             const isDark = theme === 'dark';
 
             const addWorkspace = () => {
-                if (workspaces.length >= 10) return setToast("Max 10 tabs allowed");
+                if (workspaces.length >= 10) return setToast("Max 10 tabs");
                 const newId = nextWorkspaceId;
                 setWorkspaces([...workspaces, { ...DEFAULT_WORKSPACE, id: newId, name: `Tab ${newId}` }]);
                 setActiveWorkspaceId(newId);
@@ -2959,7 +2729,7 @@
             const handleGlobalClear = () => {
                 if (activeTab === 'decoderx') updateWorkspace(activeWorkspaceId, { input: '', output: '', expectedHash: '' });
                 else if (activeTab === 'curl') { setCurlInput(''); setCurlParsed(null); }
-                setToast("Workspace Cleared");
+                setToast("Cleared");
             };
 
             const handleSelectToolFromPalette = (tool) => {
@@ -2990,83 +2760,77 @@
                 setActiveWorkspaceId(newId);
                 setNextWorkspaceId(newId + 1);
                 setActiveTab('decoderx');
-                setToast(`Opened '${label}' in Editor Tab! 🚀`);
+                setToast(`Opened in Editor`);
             };
 
             return (
                 <div className="flex flex-col h-full w-full overflow-hidden select-none">
                     
                     {/* TOP APPLICATION BAR */}
-                    <header className={`h-14 border-b px-2.5 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 shrink-0 z-20 ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}>
+                    <header className={`h-12 sm:h-14 border-b px-3 sm:px-4 flex items-center justify-between gap-2 shrink-0 z-20 ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
                         
-                        {/* LEFT BRANDING + STEALTH SHIELD (3-CLICK LIVE USERS) + ENGINEERED BY MR SHIVA */}
-                        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                            <div className="relative flex items-center gap-2 shrink-0">
+                        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+                            <div className="relative flex items-center gap-2.5 shrink-0">
                                 <div 
                                     onClick={handleShieldClick}
-                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 cursor-pointer active:scale-95 transition-transform select-none"
+                                    className="flex items-center justify-center cursor-pointer active:scale-95 transition-transform select-none"
                                 >
-                                    <Icons.Shield size={18} />
+                                    <Icons.Shield size={18} className="text-blue-500" />
                                 </div>
-                                <div className="hidden xs:block">
-                                    <h1 className="text-sm font-bold tracking-tight leading-none flex items-center gap-1">
-                                        DecoderX <span className="text-emerald-500">Pro</span>
+                                <div className="hidden xs:block leading-tight">
+                                    <h1 className="text-[13px] sm:text-sm font-semibold tracking-tight">
+                                        DecoderX <span className="text-blue-500 font-bold">Pro</span>
                                     </h1>
-                                    <span className="text-[9px] font-mono uppercase tracking-widest opacity-50 block mt-0.5">Cyber Suite</span>
                                 </div>
 
-                                {/* STEALTH LIVE USERS POPUP (Revealed only on 3 back-to-back clicks on Shield) */}
+                                {/* STEALTH LIVE USERS POPUP */}
                                 {showPresenceInfo && (
                                     <div 
                                         onClick={() => setShowPresenceInfo(false)}
-                                        className={`absolute left-0 top-full mt-2.5 z-50 p-3 rounded-xl border shadow-2xl text-[11px] w-72 animate-fade-in ${
-                                            isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-white border-zinc-200 text-zinc-700'
+                                        className={`absolute left-0 top-full mt-2.5 z-50 p-3 rounded-lg border shadow-xl text-[11px] w-64 animate-fade-in ${
+                                            isDark ? 'bg-slate-900 border-slate-700 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
                                         }`}
                                     >
-                                        <div className="flex items-center justify-between font-bold mb-2 text-emerald-500">
-                                            <span className="flex items-center gap-1.5">
-                                                <Icons.Users size={13} className="text-emerald-500" />
-                                                <span>● Live Active Users: {liveUsersCount}</span>
+                                        <div className="flex items-center justify-between font-semibold mb-2">
+                                            <span className="flex items-center gap-1.5 text-blue-500">
+                                                <Icons.Users size={13} />
+                                                <span>Live Nodes: {liveUsersCount}</span>
                                             </span>
                                             <Icons.X size={12} className="cursor-pointer opacity-60 hover:opacity-100" />
                                         </div>
                                         <div className="space-y-1 max-h-32 overflow-y-auto mb-2 pr-1">
                                             {liveNodesList.map((node, idx) => (
-                                                <div key={node.deviceId || idx} className={`flex items-center justify-between px-2 py-1 rounded text-[10px] font-mono ${isDark ? 'bg-zinc-950/70' : 'bg-zinc-100'}`}>
-                                                    <span className="truncate">{node.deviceType || 'Device'} • {node.ipMasked}</span>
-                                                    <span className="text-emerald-500 ml-2 shrink-0">● Online</span>
+                                                <div key={node.deviceId || idx} className={`flex items-center justify-between px-2 py-1 rounded text-[10px] font-mono ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                                                    <span className="truncate">{node.deviceType || 'Node'} • {node.ipMasked}</span>
+                                                    <span className="text-blue-500 ml-2 shrink-0">●</span>
                                                 </div>
                                             ))}
                                         </div>
-                                        <div className="text-[9px] opacity-60 font-mono break-all border-t pt-1.5 border-zinc-700/40">
-                                            Node ID: {currentUserId || 'Initializing...'}
+                                        <div className="text-[9px] opacity-50 font-mono break-all border-t pt-1.5 border-slate-700/40">
+                                            ID: {currentUserId || 'Initializing...'}
                                         </div>
                                     </div>
                                 )}
                             </div>
 
-                            <div className={`hidden sm:block h-5 w-px shrink-0 ${isDark ? 'bg-zinc-800' : 'bg-zinc-200'}`}></div>
-                            <div className="relative flex items-center gap-1.5 shrink-0">
-                                <div className={`inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full border shrink-0 ${isDark ? 'bg-zinc-900/90 border-zinc-800/90' : 'bg-zinc-100 border-zinc-200'}`}>
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)]"></span>
-                                    <span className={`text-[9px] sm:text-[10px] font-semibold tracking-wider uppercase ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                                        <span className="hidden xl:inline">Engineered by </span>
-                                        <span className="font-bold text-gradient-primary">Mr Shiva</span>
-                                    </span>
-                                </div>
-
+                            <div className={`hidden sm:block h-4 w-px shrink-0 ${isDark ? 'bg-slate-700' : 'bg-slate-300'}`}></div>
+                            
+                            <div className="hidden lg:flex items-center gap-1.5 shrink-0">
+                                <span className={`text-[10px] font-mono tracking-wide ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+                                    [ By Mr Shiva ]
+                                </span>
                                 {showPresenceInfo && (
                                     <button
                                         type="button"
                                         onClick={() => setShowPresenceInfo(false)}
-                                        className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full border font-mono text-[10px] font-bold transition-all shrink-0 animate-fade-in ${
+                                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono transition-all shrink-0 animate-fade-in ${
                                             isDark 
-                                            ? 'bg-zinc-900/90 border-emerald-500/40 text-emerald-400' 
-                                            : 'bg-zinc-100 border-emerald-500/40 text-emerald-600'
+                                            ? 'bg-slate-800 text-blue-400 hover:bg-slate-700' 
+                                            : 'bg-slate-100 text-blue-600 hover:bg-slate-200'
                                         }`}
                                         title="Click to hide Live Users"
                                     >
-                                        <Icons.Users size={12} className="text-emerald-500 shrink-0" />
+                                        <Icons.Users size={10} />
                                         <span>{liveUsersCount}</span>
                                     </button>
                                 )}
@@ -3074,46 +2838,46 @@
                         </div>
 
                         {/* TOP MODULE TABS */}
-                        <div className={`flex p-1 rounded-lg border shrink-0 ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-zinc-100 border-zinc-200'}`}>
-                            <button onClick={() => setActiveTab('decoderx')} className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${activeTab === 'decoderx' ? (isDark ? 'bg-zinc-800 text-emerald-400 shadow-sm' : 'bg-white text-emerald-600 shadow-sm') : 'text-zinc-500 hover:text-zinc-300'}`}>
+                        <div className="flex shrink-0">
+                            <button onClick={() => setActiveTab('decoderx')} className={`px-3 py-1.5 text-xs font-medium border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'decoderx' ? (isDark ? 'border-blue-500 text-blue-400' : 'border-blue-600 text-blue-600') : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}>
                                 <Icons.Terminal size={13}/> <span>Editor</span>
                             </button>
-                            <button onClick={() => setActiveTab('curl')} className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${activeTab === 'curl' ? (isDark ? 'bg-zinc-800 text-indigo-400 shadow-sm' : 'bg-white text-indigo-600 shadow-sm') : 'text-zinc-500 hover:text-zinc-300'}`}>
+                            <button onClick={() => setActiveTab('curl')} className={`px-3 py-1.5 text-xs font-medium border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'curl' ? (isDark ? 'border-blue-500 text-blue-400' : 'border-blue-600 text-blue-600') : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}>
                                 <Icons.Layers size={13}/> <span>cURL</span>
                             </button>
-                            <button onClick={() => setActiveTab('diff')} className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${activeTab === 'diff' ? (isDark ? 'bg-zinc-800 text-amber-400 shadow-sm' : 'bg-white text-amber-600 shadow-sm') : 'text-zinc-500 hover:text-zinc-300'}`}>
+                            <button onClick={() => setActiveTab('diff')} className={`px-3 py-1.5 text-xs font-medium border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'diff' ? (isDark ? 'border-blue-500 text-blue-400' : 'border-blue-600 text-blue-600') : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}>
                                 <Icons.GitCompare size={13}/> <span className="hidden md:inline">Diff</span>
                             </button>
                         </div>
 
                         {/* RIGHT ACTIONS */}
-                        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
                             <button
                                 onClick={() => setIsCmdOpen(true)}
-                                className={`px-2 sm:px-2.5 py-1.5 rounded-lg border text-xs font-medium flex items-center gap-2 transition-all ${
-                                    isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' : 'bg-zinc-50 border-zinc-200 text-zinc-600 hover:bg-zinc-100'
+                                className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-2 transition-colors ${
+                                    isDark ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 }`}
-                                title="Quick Tool Search (Ctrl + K)"
+                                title="Command Palette (Ctrl + K)"
                             >
                                 <Icons.Search size={13} />
-                                <span className="hidden lg:inline text-[11px]">Search Tools...</span>
-                                <kbd className={`hidden sm:inline-block px-1.5 py-0.5 text-[9px] font-mono rounded border ${isDark ? 'bg-zinc-950 border-zinc-800 text-zinc-400' : 'bg-white border-zinc-200 text-zinc-500'}`}>Ctrl K</kbd>
+                                <span className="hidden lg:inline text-[11px]">Search...</span>
+                                <kbd className={`hidden sm:inline-block px-1 rounded text-[9px] font-mono ${isDark ? 'bg-slate-700 text-slate-400' : 'bg-white text-slate-500'}`}>Ctrl K</kbd>
                             </button>
 
                             <button 
                                 onClick={() => setIsContactOpen(true)}
-                                className={`px-2 sm:px-3 py-1.5 rounded-lg border text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95 ${
+                                className={`px-2 sm:px-3 py-1.5 rounded-md text-[11px] font-semibold flex items-center gap-1.5 transition-all ${
                                     isDark 
-                                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50' 
-                                    : 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                                    : 'bg-blue-600 text-white hover:bg-blue-700'
                                 }`}
-                                title="Send Suggestion or Contact Mr Shiva"
+                                title="Contact Mr Shiva"
                             >
-                                <Icons.MessageSquare size={14} />
-                                <span className="hidden md:inline">Suggestion / Contact</span>
+                                <Icons.MessageSquare size={13} />
+                                <span className="hidden md:inline">Feedback</span>
                             </button>
 
-                            <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} className={`p-1.5 rounded-lg border transition-all ${isDark ? 'border-zinc-800 text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800' : 'border-zinc-200 text-zinc-500 hover:text-blue-500 hover:bg-zinc-50'}`} title="Toggle Theme">
+                            <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} className={`p-1.5 rounded-md transition-colors ${isDark ? 'text-slate-400 hover:bg-slate-800 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`} title="Toggle Theme">
                                 {isDark ? <Icons.Sun size={15} /> : <Icons.Moon size={15} />}
                             </button>
                         </div>
@@ -3127,10 +2891,10 @@
                     <div className="flex-1 flex flex-col min-h-0 relative">
                         
                         {/* SECONDARY TOOLBAR */}
-                        <div className={`shrink-0 flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-2 border-b z-10 ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+                        <div className={`shrink-0 flex flex-wrap items-center justify-between gap-3 px-3 sm:px-4 py-2 border-b z-10 ${isDark ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-50/50 border-slate-200'}`}>
                             
                             {activeTab === 'decoderx' && activeWs ? (
-                                <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1 min-w-0">
                                     <CustomSelect 
                                         isDark={isDark} icon={toolCategories.find(c => c.id === activeWs.category)?.icon}
                                         value={activeWs.category} options={toolCategories}
@@ -3159,85 +2923,79 @@
                                     />
                                     
                                     {!['uuid', 'passgen'].includes(activeWs.algo) && (
-                                        <div className={`flex p-0.5 rounded-lg border h-9 items-center ${['magic', 'jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'extract_secrets', 'uuid', 'passgen', 'epoch', 'string_utils', 'regex_tester', 'csv2json', 'cidr'].includes(activeWs.algo) || activeWs.category === 'hashes' ? 'opacity-40 pointer-events-none' : ''} ${isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-zinc-200/60 border-zinc-300'}`}>
+                                        <div className={`flex p-0.5 rounded-md border h-8 items-center ${['magic', 'jwt', 'urlparse', 'hexdump', 'extract_ips', 'extract_urls', 'extract_secrets', 'uuid', 'passgen', 'epoch', 'string_utils', 'regex_tester', 'csv2json', 'cidr'].includes(activeWs.algo) || activeWs.category === 'hashes' ? 'opacity-40 pointer-events-none' : ''} ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
                                             {['encode', 'decode'].map(m => (
-                                                <button key={m} onClick={() => updateWorkspace(activeWorkspaceId, { mode: m })} className={`px-3 h-full text-[11px] font-bold uppercase rounded-md transition-all ${activeWs.mode === m ? (isDark ? 'bg-zinc-700 text-white' : 'bg-white text-zinc-800 shadow-sm') : 'text-zinc-500'}`}>{m}</button>
+                                                <button key={m} onClick={() => updateWorkspace(activeWorkspaceId, { mode: m })} className={`px-3 h-full text-[11px] font-semibold uppercase rounded transition-colors ${activeWs.mode === m ? (isDark ? 'bg-slate-700 text-white' : 'bg-white text-slate-800 shadow-sm') : 'text-slate-500'}`}>{m}</button>
                                             ))}
                                         </div>
                                     )}
 
                                     {activeWs.algo === 'caesar' && (
-                                        <div className={`flex items-center gap-2 px-3 h-9 rounded-lg border text-xs ${isDark ? 'bg-zinc-800/80 border-zinc-700' : 'bg-white border-zinc-200'}`}>
-                                            <span className="text-[10px] font-bold uppercase opacity-60">Shift:</span>
-                                            <input type="range" min="1" max="25" value={activeWs.caesarShift} onChange={e => updateWorkspace(activeWorkspaceId, { caesarShift: e.target.value })} className="w-20 cursor-pointer accent-emerald-500" />
-                                            <span className="font-mono font-bold text-emerald-500 w-5 text-center">{activeWs.caesarShift}</span>
+                                        <div className={`flex items-center gap-2 px-3 h-8 rounded-md border text-xs ${isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-slate-200'}`}>
+                                            <span className="text-[10px] font-medium uppercase opacity-60">Shift:</span>
+                                            <input type="range" min="1" max="25" value={activeWs.caesarShift} onChange={e => updateWorkspace(activeWorkspaceId, { caesarShift: e.target.value })} className="w-20 cursor-pointer accent-blue-500" />
+                                            <span className="font-mono font-medium text-blue-500 w-5 text-center">{activeWs.caesarShift}</span>
                                         </div>
                                     )}
 
                                     {activeWs.algo === 'vigenere' && (
-                                        <div className={`flex items-center gap-2 px-3 h-9 rounded-lg border text-xs ${isDark ? 'bg-zinc-800/80 border-zinc-700' : 'bg-white border-zinc-200'}`}>
-                                            <span className="text-[10px] font-bold uppercase opacity-60">Key:</span>
-                                            <input type="text" value={activeWs.vigenereKey} onChange={e => updateWorkspace(activeWorkspaceId, { vigenereKey: e.target.value.toUpperCase().replace(/[^A-Z]/g, '') })} placeholder="SECRET" className="w-20 bg-transparent font-mono font-bold text-emerald-500 uppercase outline-none" />
+                                        <div className={`flex items-center gap-2 px-3 h-8 rounded-md border text-xs ${isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-slate-200'}`}>
+                                            <span className="text-[10px] font-medium uppercase opacity-60">Key:</span>
+                                            <input type="text" value={activeWs.vigenereKey} onChange={e => updateWorkspace(activeWorkspaceId, { vigenereKey: e.target.value.toUpperCase().replace(/[^A-Z]/g, '') })} placeholder="SECRET" className="w-20 bg-transparent font-mono font-medium text-blue-500 uppercase outline-none" />
                                         </div>
                                     )}
 
                                     {['hmac_sha256', 'aes_gcm', 'jwt'].includes(activeWs.algo) && (
-                                        <div className={`flex items-center gap-2 px-3 h-9 rounded-lg border text-xs ${isDark ? 'bg-zinc-800/80 border-zinc-700' : 'bg-white border-zinc-200'}`}>
-                                            <Icons.Key size={12} className="text-emerald-500 shrink-0" />
-                                            <span className="text-[10px] font-bold uppercase opacity-60 shrink-0">
+                                        <div className={`flex items-center gap-2 px-3 h-8 rounded-md border text-xs ${isDark ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-slate-200'}`}>
+                                            <Icons.Key size={12} className="text-blue-500 shrink-0" />
+                                            <span className="text-[10px] font-medium uppercase opacity-60 shrink-0">
                                                 {activeWs.algo === 'jwt' ? 'HS256 Secret:' : 'Secret Key:'}
                                             </span>
                                             <input
                                                 type="text"
                                                 value={activeWs.secretKey || ''}
                                                 onChange={e => updateWorkspace(activeWorkspaceId, { secretKey: e.target.value })}
-                                                placeholder={activeWs.algo === 'jwt' ? 'Optional verify key...' : 'Enter passphrase...'}
-                                                className="w-28 sm:w-36 bg-transparent font-mono font-bold text-emerald-400 outline-none"
+                                                placeholder={activeWs.algo === 'jwt' ? 'Verify key...' : 'Passphrase...'}
+                                                className="w-28 sm:w-36 bg-transparent font-mono font-medium text-blue-500 outline-none"
                                             />
                                         </div>
                                     )}
 
                                     {activeWs.algo === 'string_utils' && (
-                                        <div className={`flex p-0.5 rounded-lg border h-9 items-center ${isDark ? 'bg-zinc-800 border-zinc-700' : 'bg-zinc-200/60 border-zinc-300'}`}>
+                                        <div className={`flex p-0.5 rounded-md border h-8 items-center ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
                                             {['upper', 'lower', 'title'].map(m => (
-                                                <button key={m} onClick={() => updateWorkspace(activeWorkspaceId, { strUtilMode: m })} className={`px-2.5 h-full text-[11px] font-bold uppercase rounded-md transition-all ${activeWs.strUtilMode === m ? (isDark ? 'bg-zinc-700 text-emerald-400' : 'bg-white text-emerald-600 shadow-sm') : 'text-zinc-500'}`}>{m}</button>
+                                                <button key={m} onClick={() => updateWorkspace(activeWorkspaceId, { strUtilMode: m })} className={`px-2.5 h-full text-[11px] font-semibold uppercase rounded transition-colors ${activeWs.strUtilMode === m ? (isDark ? 'bg-slate-700 text-blue-400' : 'bg-white text-blue-600 shadow-sm') : 'text-slate-500'}`}>{m}</button>
                                             ))}
                                         </div>
                                     )}
-
-                                    {activeAlgoObj?.desc && (
-                                        <span className={`hidden 2xl:inline-flex items-center gap-1.5 text-[11px] ml-1 truncate ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                                            • {activeAlgoObj.desc}
-                                        </span>
-                                    )}
                                 </div>
                             ) : activeTab === 'curl' ? (
-                                <div className="text-xs font-semibold text-indigo-500 uppercase tracking-widest flex items-center gap-2"><Icons.Layers size={14}/> Deep cURL Request Inspector & Code Generator</div>
+                                <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Icons.Layers size={13}/> cURL Inspector</div>
                             ) : (
-                                <div className="text-xs font-semibold text-amber-500 uppercase tracking-widest flex items-center gap-2"><Icons.GitCompare size={14}/> Side-by-Side Payload & JSON Diff Inspector</div>
+                                <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Icons.GitCompare size={13}/> Payload Diff</div>
                             )}
 
                             {activeTab !== 'diff' && (
-                                <div className="flex items-center gap-1.5 sm:gap-2 ml-auto shrink-0">
+                                <div className="flex items-center gap-1.5 ml-auto shrink-0">
                                     <input type="file" ref={fileInputRef} onChange={handleGlobalFileLoad} className="hidden" accept=".txt,.json,.xml,.csv,.log,.md,.bin,.key,.pem" />
-                                    <button onClick={() => fileInputRef.current.click()} className={`flex items-center gap-1.5 h-8 px-2.5 sm:px-3 text-[11px] font-bold rounded-lg border transition-all ${isDark ? 'border-zinc-700 text-zinc-300 hover:bg-zinc-800' : 'border-zinc-300 text-zinc-600 hover:bg-zinc-100'}`}><Icons.Upload size={12} /> <span className="hidden xs:inline">LOAD</span></button>
-                                    <button onClick={handleGlobalClear} className={`flex items-center gap-1.5 h-8 px-2.5 sm:px-3 text-[11px] font-bold rounded-lg border transition-all ${isDark ? 'border-red-900/30 text-red-400 hover:bg-red-900/20' : 'border-red-200 text-red-600 hover:bg-red-50'}`}><Icons.Trash2 size={12} /> <span className="hidden xs:inline">CLEAR</span></button>
+                                    <button onClick={() => fileInputRef.current.click()} className={`flex items-center gap-1.5 h-7 px-2.5 text-[11px] font-medium rounded border transition-colors ${isDark ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-600 hover:bg-slate-100'}`}><Icons.Upload size={12} /> <span className="hidden xs:inline">Import</span></button>
+                                    <button onClick={handleGlobalClear} className={`flex items-center gap-1.5 h-7 px-2.5 text-[11px] font-medium rounded border transition-colors ${isDark ? 'border-red-900/40 text-red-400 hover:bg-red-900/30' : 'border-red-200 text-red-600 hover:bg-red-50'}`}><Icons.Trash2 size={12} /> <span className="hidden xs:inline">Clear</span></button>
                                 </div>
                             )}
                         </div>
 
                         {/* WORKSPACE TAB STRIP */}
-                        <div className={activeTab === 'decoderx' ? `shrink-0 flex items-end px-3 pt-2 border-b overflow-x-auto tab-scroll ${isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-zinc-100 border-zinc-300'}` : "hidden"}>
+                        <div className={activeTab === 'decoderx' ? `shrink-0 flex items-end pt-1.5 overflow-x-auto tab-scroll ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}` : "hidden"}>
                             {workspaces.map(ws => <WorkspaceTab key={ws.id} ws={ws} isActive={activeWorkspaceId === ws.id} onSelect={setActiveWorkspaceId} onClose={removeWorkspace} onRename={renameWorkspace} isDark={isDark} isOnlyTab={workspaces.length === 1} />)}
-                            <button onClick={addWorkspace} className={`ml-2 mb-1.5 p-1 rounded transition-colors shrink-0 ${isDark ? 'text-zinc-500 hover:text-white hover:bg-zinc-800' : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-200'}`} title="New Workspace Tab"><Icons.Plus size={14} /></button>
+                            <button onClick={addWorkspace} className={`ml-1 mb-1 p-1 rounded transition-colors shrink-0 ${isDark ? 'text-slate-500 hover:text-white hover:bg-slate-800' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'}`} title="New Tab"><Icons.Plus size={14} /></button>
                         </div>
 
                         {/* CONTENT SCROLL AREA */}
-                        <div className={`flex-1 overflow-y-auto p-3 sm:p-4 lg:p-5 ${isDark ? 'bg-zinc-950' : 'bg-zinc-100'}`}>
+                        <div className={`flex-1 overflow-y-auto p-3 sm:p-4 lg:p-5 ${isDark ? 'bg-slate-950' : 'bg-slate-100'}`}>
                             <div className={activeTab === 'decoderx' ? "block h-full" : "hidden"}>
                                 {workspaces.map(ws => (
                                     <div key={ws.id} className={activeWorkspaceId === ws.id ? 'block h-full animate-fade-in' : 'hidden'}>
-                                        {ws.algo === 'image' ? <ImageEncoderDecoder isDark={isDark} setToast={setToast} ws={ws} updateWorkspace={updateWorkspace} /> : <StandardDecoderTab isDark={isDark} setToast={setToast} AlgorithmsLib={algosLib} ws={ws} updateWorkspace={updateWorkspace} />}
+                                        <StandardDecoderTab isDark={isDark} setToast={setToast} AlgorithmsLib={algosLib} ws={ws} updateWorkspace={updateWorkspace} />
                                     </div>
                                 ))}
                             </div>
@@ -3262,8 +3020,8 @@
                     {/* GLOBAL TOAST NOTIFICATION */}
                     {toast && (
                         <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 animate-slide-up max-w-[90vw]">
-                            <div className={`flex items-center gap-2 px-4 py-2 rounded-full shadow-lg border text-xs font-bold tracking-wide truncate ${isDark ? 'border-emerald-500/50 text-emerald-400 bg-zinc-900' : 'border-emerald-200 text-emerald-700 bg-white'}`}>
-                                <div className={`p-1 rounded-full shrink-0 ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'}`}><Icons.Check size={12} /></div>
+                            <div className={`flex items-center gap-2 px-3 py-2 rounded shadow-md border text-[11px] font-medium tracking-wide truncate ${isDark ? 'border-slate-700 text-slate-200 bg-slate-800' : 'border-slate-200 text-slate-700 bg-white'}`}>
+                                <div className={`p-1 rounded shrink-0 ${isDark ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100 text-blue-600'}`}><Icons.Check size={10} /></div>
                                 <span className="truncate">{toast}</span>
                             </div>
                         </div>
