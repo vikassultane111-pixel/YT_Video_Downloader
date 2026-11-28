@@ -1745,14 +1745,33 @@
 
                         {/* ACTION TOOLBAR (Vertical on desktop) */}
                         {expandedPane === null && mobileView === 'both' && (
-                            <div className="flex flex-row lg:flex-col items-center justify-center gap-2 shrink-0 py-0.5 lg:py-1">
-                                <button onClick={() => applyJsonFormat('beautify')} className={`p-1.5 rounded-md transition-all ${isDark ? 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700' : 'bg-white text-slate-500 hover:text-slate-800 shadow-sm border border-slate-200'}`} title="Format JSON"><Icons.AlignLeft size={14} /></button>
-                                
-                                <button onClick={swap} disabled={isLockMode} className={`p-2 rounded-full transition-all group ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-slate-800 text-slate-300 hover:text-white border border-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300'}`} title="Swap">
-                                    <Icons.ArrowRightLeft size={14} className="transition-transform group-hover:scale-110" />
+                            <div className={`flex flex-row lg:flex-col items-center justify-center gap-3 shrink-0 py-2 lg:py-0 lg:px-2`}>
+                                <button 
+                                    onClick={() => applyJsonFormat('beautify')} 
+                                    className={`flex flex-col lg:flex-row items-center gap-1.5 p-2 lg:px-3 lg:py-2 rounded-lg transition-all shadow-sm ${isDark ? 'bg-slate-800 text-slate-300 hover:text-white hover:bg-blue-600/20 border border-slate-700 hover:border-blue-500/50' : 'bg-white text-slate-600 hover:text-blue-700 hover:bg-blue-50 border border-slate-200 hover:border-blue-300'}`} 
+                                    title="Beautify JSON"
+                                >
+                                    <Icons.AlignLeft size={16} />
+                                    <span className="text-[10px] font-bold uppercase tracking-wider hidden lg:block">Beautify</span>
                                 </button>
                                 
-                                <button onClick={() => applyJsonFormat('minify')} className={`p-1.5 rounded-md transition-all ${isDark ? 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700' : 'bg-white text-slate-500 hover:text-slate-800 shadow-sm border border-slate-200'}`} title="Minify JSON"><Icons.FileCode size={14} /></button>
+                                <button 
+                                    onClick={swap} 
+                                    disabled={isLockMode} 
+                                    className={`flex items-center justify-center p-3 rounded-full transition-all group shadow-md ${isLockMode ? 'opacity-30 cursor-not-allowed' : ''} ${isDark ? 'bg-blue-600 text-white hover:bg-blue-500 border border-blue-500' : 'bg-blue-600 text-white hover:bg-blue-700 border border-blue-700'}`} 
+                                    title="Swap Input & Output"
+                                >
+                                    <Icons.ArrowRightLeft size={16} className="transition-transform group-hover:rotate-180 duration-300" />
+                                </button>
+                                
+                                <button 
+                                    onClick={() => applyJsonFormat('minify')} 
+                                    className={`flex flex-col lg:flex-row items-center gap-1.5 p-2 lg:px-3 lg:py-2 rounded-lg transition-all shadow-sm ${isDark ? 'bg-slate-800 text-slate-300 hover:text-white hover:bg-blue-600/20 border border-slate-700 hover:border-blue-500/50' : 'bg-white text-slate-600 hover:text-blue-700 hover:bg-blue-50 border border-slate-200 hover:border-blue-300'}`} 
+                                    title="Minify JSON"
+                                >
+                                    <Icons.FileCode size={16} />
+                                    <span className="text-[10px] font-bold uppercase tracking-wider hidden lg:block">Minify</span>
+                                </button>
                             </div>
                         )}
 
@@ -1812,7 +1831,7 @@
             );
         });
 
-        const WorkspaceTab = memo(({ ws, isActive, onSelect, onClose, onRename, isDark, isOnlyTab }) => {
+        const WorkspaceTab = memo(({ ws, isActive, onSelect, onClose, onRename, isDark, isMainTab }) => {
             const [isEditing, setIsEditing] = useState(false);
             const [editName, setEditName] = useState(ws.name);
             const inputRef = useRef(null);
@@ -1841,8 +1860,8 @@
                     ) : (
                         <span className="text-[11px] font-medium truncate flex-grow select-none" title="Double-click to rename">{ws.name}</span>
                     )}
-                    {!isOnlyTab && !isEditing && (
-                        <button onClick={(e) => { e.stopPropagation(); onClose(ws.id); }} className="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all"><Icons.X size={10} /></button>
+                    {!isMainTab && !isEditing && (
+                        <button onClick={(e) => { e.stopPropagation(); onClose(ws.id); }} className="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white dark:hover:bg-red-500 dark:hover:text-white transition-all"><Icons.X size={10} /></button>
                     )}
                 </div>
             );
@@ -3064,7 +3083,7 @@
 
                         {/* WORKSPACE TAB STRIP */}
                         <div className={activeTab === 'decoderx' ? `shrink-0 flex items-end pt-1.5 overflow-x-auto tab-scroll ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'}` : "hidden"}>
-                            {workspaces.map(ws => <WorkspaceTab key={ws.id} ws={ws} isActive={activeWorkspaceId === ws.id} onSelect={setActiveWorkspaceId} onClose={removeWorkspace} onRename={renameWorkspace} isDark={isDark} isOnlyTab={workspaces.length === 1} />)}
+                            {workspaces.map((ws, index) => <WorkspaceTab key={ws.id} ws={ws} isActive={activeWorkspaceId === ws.id} onSelect={setActiveWorkspaceId} onClose={removeWorkspace} onRename={renameWorkspace} isDark={isDark} isMainTab={index === 0} />)}
                             <button onClick={addWorkspace} className={`ml-1 mb-1 p-1 rounded transition-colors shrink-0 ${isDark ? 'text-slate-500 hover:text-white hover:bg-slate-800' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'}`} title="New Tab"><Icons.Plus size={14} /></button>
                         </div>
 
